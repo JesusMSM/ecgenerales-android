@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Color gris sliding tab #c7c7c7-->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000</color>
+    <color name="actionBar_color">#000</color>
+    <color name="tabsScrollColor">#D8D8D8</color>
+    <color name="ColorPrimary">#0D3749</color>
+    <color name="ColorPrimaryDark">#0c3140</color>
+    <color name="ColorPreferencias">#165875</color>
+    <color name="ColorAccent">#165875</color>
+</resources>
