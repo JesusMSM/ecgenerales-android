@@ -61,6 +61,7 @@ public class NoticiasTab extends Fragment {
 
         protected Boolean doInBackground(String... params) {
             try {
+                Log.i("MyTag", "He pasado add noticias");
                 if(globalMethod.haveNetworkConnection()) {
                     RssNoticiasParser saxparser =
                             new RssNoticiasParser(params[0]);
@@ -78,11 +79,13 @@ public class NoticiasTab extends Fragment {
                 if(globalMethod.haveNetworkConnection()) {
                     for (Noticia noticia : noticias){
                         items.add(noticia);
+                        Log.i("MyTag", "He pasado add noticias");
                     }
                 } else{
                     //Mensaje de error
                     Log.i("MyTag", "He pasado por el mensaje de error");
                 }
+
 
                 mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
                 mRecyclerView.setAdapter(mAdapter);

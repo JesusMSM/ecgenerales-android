@@ -82,21 +82,21 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     /**
      * Funciones de configuracion de los ViewHolders **
      */
-    private void configureNoticiaViewHolder(final NoticiaViewHolder vh1, int position) {
+    private void configureNoticiaViewHolder(final NoticiaViewHolder vh, int position) {
         final Noticia noticia = (Noticia) items.get(position);
         if (noticia != null) {
-            vh1.titulo.setText(Html.fromHtml(noticia.getTitulo()));
-            vh1.autor.setText(noticia.getAutor());
+            vh.titulo.setText(Html.fromHtml(noticia.getTitulo()));
+            vh.autor.setText(noticia.getAutor());
             try {
                 System.gc();
-                Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh1.imagen);
+                Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh.imagen);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        vh1.autor.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh1.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Heavy-Italic.ttf"));
+        vh.autor.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        vh.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Heavy-Italic.ttf"));
 
         //onClickListenerNoticia
        /** vh1.itemView.setOnClickListener(new View.OnClickListener() {
