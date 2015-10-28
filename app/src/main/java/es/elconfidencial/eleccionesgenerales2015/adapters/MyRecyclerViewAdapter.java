@@ -16,7 +16,9 @@ import java.util.List;
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.NoticiaContentActivity;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
+import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
+import es.elconfidencial.eleccionesgenerales2015.viewholders.PresinderViewHolder;
 
 /**
  * Created by Moonfish on 28/10/15.
@@ -27,7 +29,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Object> items;
     Context context;
 
-    private final int NOTICIA = 0;
+    private final int NOTICIA = 0,PRESINDER = 1;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -48,6 +50,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Noticia) {
             return NOTICIA;
         }
+        else if (items.get(position) instanceof Quote) {
+            return PRESINDER;
+        }
         return -1;
     }
 
@@ -61,6 +66,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case NOTICIA:
                 View v1 = inflater.inflate(R.layout.recyclerview_item_noticia, viewGroup, false);
                 viewHolder = new NoticiaViewHolder(v1);
+                break;
+            case PRESINDER:
+                View v2 = inflater.inflate(R.layout.recyclerview_item_presinder, viewGroup, false);
+                viewHolder = new PresinderViewHolder(v2);
                 break;
             default:
                 viewHolder = null;
@@ -76,6 +85,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case NOTICIA:
                 NoticiaViewHolder vh1 = (NoticiaViewHolder) viewHolder;
                 configureNoticiaViewHolder(vh1, position);
+                break;
+            case PRESINDER:
+                PresinderViewHolder vh2 = (PresinderViewHolder) viewHolder;
+                configurePresinderViewHolder(vh2, position);
                 break;
             default:
         }
@@ -118,5 +131,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         });
     }
+    private void configurePresinderViewHolder(final PresinderViewHolder vh2, int position) {
+        final Quote quote = (Quote) items.get(position);
 
- }
+        vh2.question.setText(quote.getText());
+        vh2.group.setText(quote.getGrupo());
+
+    }
+
+
+    }
