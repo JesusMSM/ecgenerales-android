@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
+import es.elconfidencial.eleccionesgenerales2015.activities.NoticiaContentActivity;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
 
