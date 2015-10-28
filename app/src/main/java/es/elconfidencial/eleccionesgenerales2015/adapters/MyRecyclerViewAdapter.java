@@ -1,6 +1,7 @@
 package es.elconfidencial.eleccionesgenerales2015.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -99,7 +100,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Heavy-Italic.ttf"));
 
         //onClickListenerNoticia
-       /** vh1.itemView.setOnClickListener(new View.OnClickListener() {
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Creamos un intent para llamar a NoticiasContentActivity con los extras de la noticia correspondiente
@@ -114,7 +115,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
-        });**/
+        });
     }
 
  }
