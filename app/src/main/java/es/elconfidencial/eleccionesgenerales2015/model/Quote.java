@@ -1,9 +1,12 @@
 package es.elconfidencial.eleccionesgenerales2015.model;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 /**
  * Created by Afll on 28/10/2015.
  */
-public class Quote {
+public class Quote{
     String text;
     String persona;
     String grupo;
