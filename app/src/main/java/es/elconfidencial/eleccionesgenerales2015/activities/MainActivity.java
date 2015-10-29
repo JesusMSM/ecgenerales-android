@@ -7,14 +7,22 @@ import android.net.NetworkInfo;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.ViewPagerAdapter;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
+import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.slidingtabfiles.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     SlidingTabLayout tabs;
     int numbOfTabs =4;
     CharSequence[] Titles = new CharSequence[numbOfTabs];
+    GlobalMethod globalMethod = new GlobalMethod(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Titles[3] = "PRESINDER";
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,numbOfTabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, numbOfTabs);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -69,12 +78,39 @@ public class MainActivity extends AppCompatActivity {
 
         //Parse
         // Enable Local Datastore.
+
         Parse.enableLocalDatastore(this);
 
+        ParseObject.registerSubclass(Quote.class);
         Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
+
+        ParseQuery<Quote> query = ParseQuery.getQuery(Quote.class);
+        query.fromLocalDatastore();
+        try {
+            List<Quote> parseQuotes = query.find();
+            if(parseQuotes.isEmpty()){
+                Log.i("ParsePrueba", "Entramos en el null");
+                //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
+                parseQuotes = getQuotesFromParse();
+                Quote.pinAll(parseQuotes);
+
+                GlobalMethod.quotes = parseQuotes;
+                Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
+                Log.i("ParsePrueba", "Ejemplo quote" + parseQuotes.get(0).getPersona());
+
+            } else {
+                Log.i("ParsePrueba", "Entramos en el else");
+                GlobalMethod.quotes = parseQuotes;
+                Log.i("ParsePrueba", "Ejemplo quote persona 0 " + parseQuotes.get(0).getPersona());
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -102,6 +138,18 @@ public class MainActivity extends AppCompatActivity {
         finish();
         super.onBackPressed();
         System.exit(0);
+    }
+
+
+    private List<Quote> getQuotesFromParse() throws ParseException {
+        //Parse
+        final List<Quote> mList = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
+        List <ParseObject> parseQuotes = query.find();
+        for (ParseObject q : parseQuotes) {
+            mList.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
+        }
+        return mList;
     }
 
 

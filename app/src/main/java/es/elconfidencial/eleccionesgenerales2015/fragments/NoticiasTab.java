@@ -19,6 +19,7 @@ import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
+import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
 
 /**
@@ -27,6 +28,7 @@ import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
 public class NoticiasTab extends Fragment {
 
     private String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-cataluna-2015-6160/";
+    GlobalMethod globalMethod = new GlobalMethod(getContext());
 
     //RecyclerView atributtes
     private RecyclerView mRecyclerView;
@@ -57,11 +59,10 @@ public class NoticiasTab extends Fragment {
 
         List<Object> items = new ArrayList<>();
         List<Noticia> noticias = new ArrayList<>();
-        GlobalMethod globalMethod = new GlobalMethod(getContext());
+
 
         protected Boolean doInBackground(String... params) {
             try {
-                Log.i("MyTag", "He pasado add noticias");
                 if(globalMethod.haveNetworkConnection()) {
                     RssNoticiasParser saxparser =
                             new RssNoticiasParser(params[0]);
@@ -76,19 +77,26 @@ public class NoticiasTab extends Fragment {
         }
         protected void onPostExecute(Boolean result) {
 
-                if(globalMethod.haveNetworkConnection()) {
-                    for (Noticia noticia : noticias){
-                        items.add(noticia);
-                        Log.i("MyTag", "He pasado add noticias");
-                    }
-                } else{
-                    //Mensaje de error
-                    Log.i("MyTag", "He pasado por el mensaje de error");
-                }
+            addItems();
 
-
-                mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
-                mRecyclerView.setAdapter(mAdapter);
             }
+
+        public void addItems() {
+
+//            if(globalMethod.haveNetworkConnection()) {
+                for (Noticia noticia : noticias){
+                    items.add(noticia);
+                }
+        /**    } else{
+                //Mensaje de error
+                Log.i("MyTag", "He pasado por el mensaje de error");
+            }**/
+
+
+            mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
+            mRecyclerView.setAdapter(mAdapter);
         }
+
+        }
+
 }

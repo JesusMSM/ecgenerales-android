@@ -20,6 +20,7 @@ import java.util.List;
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
+import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 
 /**
@@ -32,7 +33,6 @@ public class HomeTab extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Quote> quotes = new ArrayList();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,30 +47,12 @@ public class HomeTab extends Fragment {
         mLayoutManager = new LinearLayoutManager(MainActivity.context);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        try {
-            quotes = getQuotesFromParse();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         addItems();
 
-        //Testing parse result
-        for(int i = 0;i<quotes.size();i++){
-            System.out.println(quotes.get(i).getPersona());
-        }
         return v;
     }
 
-    private List<Quote> getQuotesFromParse() throws ParseException {
-        //Parse
-        final List<Quote> mList = new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
-        List <ParseObject> parseQuotes = query.find();
-        for (ParseObject q : parseQuotes) {
-            mList.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
-        }
-        return mList;
-    }
+
 
     private void addItems() {
 

@@ -4,11 +4,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Moonfish on 28/10/15.
  */
 public class GlobalMethod {
     Context mContext;
+    public static List<Quote> quotes = new ArrayList();
 
     // constructor
     public GlobalMethod(Context context){

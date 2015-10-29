@@ -6,10 +6,22 @@ import com.parse.ParseObject;
 /**
  * Created by Afll on 28/10/2015.
  */
-public class Quote{
+@ParseClassName("Quote")
+public class Quote extends ParseObject{
     String text;
     String persona;
     String grupo;
+
+    public Quote(){
+
+    }
+
+    public Quote(String text,String persona,String grupo){
+        this.text = text;
+        this.persona = persona;
+        this.grupo = grupo;
+
+    }
 
     public String getText() {
         return text;
@@ -35,10 +47,5 @@ public class Quote{
         this.grupo = grupo;
     }
 
-    public Quote(String text,String persona,String grupo){
-        this.text = text;
-        this.persona = persona;
-        this.grupo = grupo;
 
-    }
 }
