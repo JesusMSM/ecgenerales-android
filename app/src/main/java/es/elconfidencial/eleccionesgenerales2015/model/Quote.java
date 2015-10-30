@@ -13,14 +13,11 @@ public class Quote extends ParseObject{
     String grupo;
 
     public Quote(){
-
     }
-
     public Quote(String text,String persona,String grupo){
         this.text = text;
         this.persona = persona;
         this.grupo = grupo;
-
     }
 
     public String getText() {

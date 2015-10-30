@@ -84,27 +84,30 @@ public class MainActivity extends AppCompatActivity {
         ParseObject.registerSubclass(Quote.class);
         Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
-        ParseQuery<Quote> query = ParseQuery.getQuery(Quote.class);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
         query.fromLocalDatastore();
         try {
-            List<Quote> parseQuotes = query.find();
+            List<ParseObject> parseQuotes = query.find();
             if(parseQuotes.isEmpty()){
                 Log.i("ParsePrueba", "Entramos en el null");
                 //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
                 parseQuotes = getQuotesFromParse();
-                Quote.pinAll(parseQuotes);
 
-                GlobalMethod.quotes = parseQuotes;
+                for (ParseObject q : parseQuotes) {
+                    GlobalMethod.quotes.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
+                }
+                ParseObject.pinAll(parseQuotes);
                 Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
-                Log.i("ParsePrueba", "Ejemplo quote" + parseQuotes.get(0).getPersona());
+                Log.i("ParsePrueba", "Ejemplo quote" + GlobalMethod.quotes.get(0).getPersona());
 
             } else {
                 Log.i("ParsePrueba", "Entramos en el else");
-                GlobalMethod.quotes = parseQuotes;
-                Log.i("ParsePrueba", "Ejemplo quote persona 0 " + parseQuotes.get(0).getPersona());
-
+                for (ParseObject q : parseQuotes) {
+                    GlobalMethod.quotes.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
+                }
+                Log.i("ParsePrueba", "Ejemplo quote persona 0 " + GlobalMethod.quotes.get(0).getPersona());
+                Log.i("ParsePrueba", "Ejemplo size " + GlobalMethod.quotes.size());
             }
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -141,15 +144,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private List<Quote> getQuotesFromParse() throws ParseException {
+    private List<ParseObject> getQuotesFromParse() throws ParseException {
         //Parse
-        final List<Quote> mList = new ArrayList<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
         List <ParseObject> parseQuotes = query.find();
-        for (ParseObject q : parseQuotes) {
-            mList.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
-        }
-        return mList;
+
+        return parseQuotes;
     }
 
 
