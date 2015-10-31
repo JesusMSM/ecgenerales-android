@@ -1,6 +1,8 @@
 package es.elconfidencial.eleccionesgenerales2015.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.setCustomTabView(R.layout.custom_actionbar, 0);
         tabs.setViewPager(pager);
 
+
         //Parse
         // Enable Local Datastore.
 
@@ -100,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
                 Log.i("ParsePrueba", "Ejemplo quote" + GlobalMethod.quotes.get(0).getPersona());
 
+                GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(this,"quotesIndex",0);
+
             } else {
                 Log.i("ParsePrueba", "Entramos en el else");
                 for (ParseObject q : parseQuotes) {
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.i("ParsePrueba", "Ejemplo quote persona 0 " + GlobalMethod.quotes.get(0).getPersona());
                 Log.i("ParsePrueba", "Ejemplo size " + GlobalMethod.quotes.size());
+                GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(this,"quotesIndex",0);
             }
         } catch (ParseException e) {
             e.printStackTrace();

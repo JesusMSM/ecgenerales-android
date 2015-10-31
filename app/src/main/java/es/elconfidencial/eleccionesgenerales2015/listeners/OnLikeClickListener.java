@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
+import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 
 /**
  * Created by Afll on 29/10/2015.
@@ -70,5 +71,13 @@ public class OnLikeClickListener implements View.OnClickListener{
         //Fonts
         title.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Light.otf"));
         persona.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+
+        //Aumentamos index siguiente pregunta
+        GlobalMethod.saveIntPreference(context,GlobalMethod.quotesIndex,"quotesIndex");
+        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(context,"quotesIndex",0);
+    }
+
+    public void rellenarCampos(){
+
     }
 }

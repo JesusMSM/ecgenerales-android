@@ -1,6 +1,8 @@
 package es.elconfidencial.eleccionesgenerales2015.model;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -13,7 +15,7 @@ import java.util.List;
 public class GlobalMethod {
     Context mContext;
     public static List<Quote> quotes = new ArrayList();
-
+    public static int quotesIndex = 0;
     // constructor
     public GlobalMethod(Context context){
         this.mContext = context;
@@ -34,5 +36,18 @@ public class GlobalMethod {
                     haveConnectedMobile = true;
         }
         return haveConnectedWifi || haveConnectedMobile;
+    }
+
+    public static void saveIntPreference(Context context, int value, String key){
+        //Indexer Quotes
+        SharedPreferences sp = context.getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+    public static int getIntPreference(Context context, String key, int defaultValue){
+        SharedPreferences sp = context.getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+        return sp.getInt(key, defaultValue);
+
     }
 }
