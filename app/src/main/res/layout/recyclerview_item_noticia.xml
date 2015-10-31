@@ -61,16 +61,17 @@
         android:id="@+id/fab"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_home_grey"
-        app:fabSize="mini"
+        app:backgroundTint="@color/white"
+        android:src="@drawable/ic_share_variant"
+        app:fabSize="normal"
         app:borderWidth="0dp"
         android:layout_gravity="bottom|end"
-        android:layout_marginTop="-40dp"
+        android:layout_marginTop="-45dp"
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:clickable="true"
-        android:padding="-5dp" />
+         />
 
 
 </LinearLayout>
