@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,9 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
     private String url = "";
     private String info = "";
+    private String textSize= "";
+    private WebView descripcion;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Extraemos el intent para leer los par�metros y rellenar los campos
-        Intent intent = getIntent();
+        intent = getIntent();
 
         //Datos para compartir
         url = intent.getStringExtra("link");
@@ -54,7 +58,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
         TextView titulo = (TextView) findViewById(R.id.titulo);
         ImageView imagen = (ImageView) findViewById(R.id.imagen);
-        WebView descripcion = (WebView)findViewById(R.id.descripcion);
+        descripcion = (WebView)findViewById(R.id.descripcion);
         TextView autor = (TextView) findViewById(R.id.autor);
         TextView fecha = (TextView) findViewById(R.id.fecha);
 
@@ -63,7 +67,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         fecha.setText(getTimeAgo(intent.getStringExtra("fecha")));
 
         //Obtenemos el tamaño de letra del contenido dependiendo del tamaño de pantalla
-        String textSize= "";
+
         if (getSizeName().equals("xlarge")) {
             textSize="25px";
         } else if (getSizeName().equals("large")) {
@@ -127,6 +131,62 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void changeSize(){
+
+        int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
+
+        if (getSizeName().equals("xlarge")) {
+            textSizeInt=textSizeInt+3;
+            if(textSizeInt>40) textSizeInt=25;
+            textSize=textSizeInt+"px";
+        }else{
+            textSizeInt=textSizeInt+2;
+            if(textSizeInt>25) textSizeInt=14;
+            textSize=textSizeInt+"px";
+        }
+
+
+
+        //Insertamos la cabecera al html con el estilo
+        String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
+                "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
+                "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
+                "h2{font-family: MilioHeavy;}" +
+                "img{max-width: 100%; width:auto; height: auto;}" +
+                "body{font-family:TitilliumLight;text-align:justify}" +
+                "a{text-decoration: none;color:black;} " +
+                "html { font-size: " + textSize + "}" +
+                "strong{font-family:TitilliumSemibold;}</style></head>";
+
+        String htmlString ="<html>" + head + "<body><div>" + intent.getStringExtra("descripcion") + "</div></body></html>";
+
+        //String htmlStringFormatted = htmlString.replace("<img src[^>]*>", "");
+        //Quitar la imagen del final
+
+        descripcion.getSettings().setJavaScriptEnabled(true);
+        descripcion.getSettings().setDefaultTextEncodingName("utf-8");
+        descripcion.loadDataWithBaseURL("", htmlString, "text/html", "charset=UTF-8", null);
+        descripcion.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //Bloquear links
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+        });
+        // disable scroll on touch
+        descripcion.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -134,6 +194,9 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         }
         if(item.getItemId() == R.id.share){
             shareAction(url,info);
+        }
+        if(item.getItemId() == R.id.size){
+            changeSize();
         }
         return super.onOptionsItemSelected(item);
     }
