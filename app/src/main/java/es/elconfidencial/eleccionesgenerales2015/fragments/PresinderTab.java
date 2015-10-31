@@ -103,7 +103,7 @@ public class PresinderTab extends Fragment {
             TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
 
-            title.setText("Estás de acuerdo con:");
+            title.setText("Estï¿½s de acuerdo con:");
             persona.setText("Mariano Rajoy");
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));

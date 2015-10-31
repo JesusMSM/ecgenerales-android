@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.setViewPager(pager);
 
 
+
         //Parse
         // Enable Local Datastore.
 
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
+        query.orderByAscending("createdAt"); //Guardar las quotes en el mismo orden que se recibe desde la nube
         query.fromLocalDatastore();
         try {
             List<ParseObject> parseQuotes = query.find();

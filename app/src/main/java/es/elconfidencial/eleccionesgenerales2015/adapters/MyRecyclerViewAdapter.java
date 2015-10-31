@@ -28,8 +28,10 @@ import es.elconfidencial.eleccionesgenerales2015.activities.NoticiaContentActivi
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
+import es.elconfidencial.eleccionesgenerales2015.model.PoliticoResultado;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
+import es.elconfidencial.eleccionesgenerales2015.viewholders.PoliticoViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PresinderViewHolder;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -42,7 +44,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Object> items;
     Context context;
 
-    private final int NOTICIA = 0,PRESINDER = 1;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -63,8 +65,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Noticia) {
             return NOTICIA;
         }
-        else if (items.get(position) instanceof Quote) {
+        if (items.get(position) instanceof Quote) {
             return PRESINDER;
+        }
+        else if (items.get(position) instanceof PoliticoResultado) {
+            return POLITICO;
         }
         return -1;
     }
@@ -84,6 +89,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v2 = inflater.inflate(R.layout.recyclerview_item_presinder, viewGroup, false);
                 viewHolder = new PresinderViewHolder(v2);
                 break;
+            case POLITICO:
+                View v3 = inflater.inflate(R.layout.recyclerview_item_politico, viewGroup, false);
+                viewHolder = new PoliticoViewHolder(v3);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -102,6 +111,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case PRESINDER:
                 PresinderViewHolder vh2 = (PresinderViewHolder) viewHolder;
                 configurePresinderViewHolder(vh2, position);
+                break;
+            case POLITICO:
+                PoliticoViewHolder vh3 = (PoliticoViewHolder) viewHolder;
+                configurePoliticoViewHolder(vh3, position);
                 break;
             default:
         }
@@ -144,15 +157,26 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         });
     }
-    private void configurePresinderViewHolder(final PresinderViewHolder vh2, int position) {
+    private void configurePresinderViewHolder(final PresinderViewHolder vh, int position) {
         final Quote quote = (Quote) items.get(position);
 
-        vh2.question.setText(quote.getText());
-        vh2.group.setText(quote.getGrupo());
+        vh.question.setText(quote.getText());
+        vh.group.setText(quote.getGrupo());
 
         //Like/Dislikes listeners
-        vh2.like.setOnClickListener(new OnLikeClickListener(context));
-        vh2.dislike.setOnClickListener(new OnDislikeClickListener(context));
+        vh.like.setOnClickListener(new OnLikeClickListener(context));
+        vh.dislike.setOnClickListener(new OnDislikeClickListener(context));
+
+    }
+
+
+    private void configurePoliticoViewHolder(final PoliticoViewHolder vh, int position) {
+        final PoliticoResultado politico = (PoliticoResultado) items.get(position);
+
+        vh.nombre.setText(politico.getNombre());
+        vh.partido.setText(politico.getPartido());
+        vh.nLikes.setText("" + politico.getnLikes());
+        vh.nDislikes.setText("" + politico.getnDislikes());
 
     }
 }
