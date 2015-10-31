@@ -1,6 +1,7 @@
 package es.elconfidencial.eleccionesgenerales2015.fragments;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,16 +10,23 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.WindowCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
@@ -42,24 +50,66 @@ public class PresinderTab extends Fragment {
         View v = inflater.inflate(R.layout.fragment_presinder_tab, container, false);
 
         text = (TextView) v.findViewById(R.id.questionQuote);
-        persona = (TextView) v.findViewById(R.id.personaText);
         grupo = (TextView) v.findViewById(R.id.groupQuote);
 
         like = (Button) v.findViewById(R.id.likeButton);
         dislike = (Button) v.findViewById(R.id.dislikeButton);
 
         like.setOnClickListener(new OnPresinderLikeClickListener(getContext()));
-        dislike.setOnClickListener(new OnDislikeClickListener(getContext()));
+        dislike.setOnClickListener(new OnPresinderDislikeClickListener(getContext()));
+
+        setQuote();
 
         return v;
     }
-
+    public void setQuote(){
+        text.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getText());
+        grupo.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getGrupo());
+    }
     public void nextQuote(){
         text.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getText());
-        persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
         grupo.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getGrupo());
     }
 
+    public void saveLike(){
+        //Guardo el like en el hash de contadores
+        String key = GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona();//Persona
+        if (GlobalMethod.likesCount.containsKey(key)){
+            GlobalMethod.likesCount.put(key, GlobalMethod.likesCount.get(key) + 1); //Incrementamos el valor de esa persona
+        }else{
+            GlobalMethod.likesCount.put(key, 1); //Primer like
+        }
+        //Actualizo cache
+        GlobalMethod.putMyHashmap(getContext(), "likesCount", GlobalMethod.likesCount);
+        Log.i("PresinderTab", "LIKE Persona: " + key + " Value: " + GlobalMethod.likesCount.get(key));
+    }
+
+    public void saveDislike(){
+        //Guardo el like en el hash de contadores
+        String key = GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona();//Persona
+        if (GlobalMethod.dislikesCount.containsKey(key)){
+            GlobalMethod.dislikesCount.put(key, GlobalMethod.dislikesCount.get(key).intValue() + 1); //Incrementamos el valor de esa persona
+        }else{
+            GlobalMethod.dislikesCount.put(key, 1); //Primer like
+        }
+        //Actualizo cache
+        GlobalMethod.putMyHashmap(getContext(), "dislikesCount", GlobalMethod.dislikesCount);
+        Log.i("PresinderTab", "DISLIKE Persona: " + key + " Value: " + GlobalMethod.dislikesCount.get(key));
+
+    }
+
+    public void resetPresinder(){
+        GlobalMethod.likesCount = new HashMap<>();
+        GlobalMethod.dislikesCount = new HashMap<>();
+        GlobalMethod.quotesIndex = 0;
+        //Save
+        GlobalMethod.saveIntPreference(getContext(),GlobalMethod.quotesIndex,"quotesIndex");
+        GlobalMethod.putMyHashmap(getContext(), "likesCount", GlobalMethod.likesCount);
+        GlobalMethod.putMyHashmap(getContext(), "dislikesCount", GlobalMethod.dislikesCount);
+    }
+    /***********LISTENERS******************/
+
+    //Like Listener
     public class OnPresinderLikeClickListener extends OnLikeClickListener {
         public OnPresinderLikeClickListener(Context context) {
             super(context);
@@ -69,30 +119,57 @@ public class PresinderTab extends Fragment {
         public void onClick(View v) {
             Activity act = (Activity) v.getContext();
             final Dialog settingsDialog = new Dialog(act);
+            settingsDialog.getWindow().requestFeature(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
             settingsDialog.setContentView(inflater.inflate(R.layout.image_popup_layout
                     , null));
             settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
+            saveLike();
+
+            /**LISTENERS**/
             //Contador de 3 segundos
             settingsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                 @Override
                 public void onShow(DialogInterface dialog) {
                     //Contador 3,2,1 dismiss.
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+
+                            // add your stuff here
+                            settingsDialog.dismiss();
+                        }
+                    }, 1500, 1500);
                 }
             });
-
-            //Al tocarlo se cierra
             settingsDialog.findViewById(R.id.image_dialog_root).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     settingsDialog.dismiss();
                 }
             });
+            //Al tocarlo se cierra
+            settingsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    //Aumentamos index siguiente pregunta
+                    if (GlobalMethod.quotesIndex == GlobalMethod.quotes.size() - 1) {//Ha llegado al final de las quotes
+                        //Reset del index
+                        GlobalMethod.saveIntPreference(getContext(), 0, "quotesIndex");
+                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
+                    } else {
+                        GlobalMethod.saveIntPreference(getContext(), GlobalMethod.quotesIndex + 1, "quotesIndex");
+                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
+                    }
+                    nextQuote();
+                    settingsDialog.dismiss();
+                }
+            });
             settingsDialog.show();
 
-            //Set imagen
+            //Set imagen correspondiente
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
                 Glide.with(getContext()).load(R.drawable.nopicpersona).into(foto);
@@ -103,16 +180,93 @@ public class PresinderTab extends Fragment {
             TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
 
-            title.setText("Est�s de acuerdo con:");
-            persona.setText("Mariano Rajoy");
+            title.setText("Estás de acuerdo con:");
+            persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
-            //Aumentamos index siguiente pregunta
-            GlobalMethod.saveIntPreference(getContext(), GlobalMethod.quotesIndex, "quotesIndex");
-            GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
-            nextQuote();
+
+        }
+
+    }
+
+    //Dislike listener
+    public class OnPresinderDislikeClickListener extends OnLikeClickListener {
+        public OnPresinderDislikeClickListener(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Activity act = (Activity) v.getContext();
+            final Dialog settingsDialog = new Dialog(act);
+            settingsDialog.getWindow().requestFeature(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            LayoutInflater inflater = LayoutInflater.from(v.getContext());
+            settingsDialog.setContentView(inflater.inflate(R.layout.image_popup_layout
+                    , null));
+            settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            saveDislike();
+
+            /**LISTENERS**/
+            //Contador de 3 segundos
+            settingsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    //Contador 3,2,1 dismiss.
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+
+                            // add your stuff here
+                            settingsDialog.dismiss();
+                        }
+                    }, 1500, 1500);
+                }
+            });
+            settingsDialog.findViewById(R.id.image_dialog_root).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    settingsDialog.dismiss();
+                }
+            });
+            //Al tocarlo se cierra
+            settingsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    //Aumentamos index siguiente pregunta
+                    if (GlobalMethod.quotesIndex == GlobalMethod.quotes.size() - 1) {//Ha llegado al final de las quotes
+                        //Reset del index
+                        GlobalMethod.saveIntPreference(getContext(), 0, "quotesIndex");
+                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
+                    } else {
+                        GlobalMethod.saveIntPreference(getContext(), GlobalMethod.quotesIndex + 1, "quotesIndex");
+                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
+                    }
+                    nextQuote();
+                    settingsDialog.dismiss();
+                }
+            });
+            settingsDialog.show();
+
+            //Set imagen correspondiente
+            try {
+                ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
+                Glide.with(getContext()).load(R.drawable.nopicpersona).into(foto);
+                //Fonts
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
+            TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
+
+            title.setText("Estás de acuerdo con:");
+            persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
+            //Fonts
+            title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
+            persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         }
 
     }

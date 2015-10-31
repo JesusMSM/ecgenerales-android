@@ -34,4 +34,8 @@ dependencies {
     //Parse
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
+
+    //Gson
+    compile 'com.google.code.gson:gson:2.2.+'
+
 }

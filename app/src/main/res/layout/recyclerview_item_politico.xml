@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:adjustViewBounds="true"
-            android:layout_gravity="clip_vertical"
-            android:src="@drawable/nopicpersona" />
+            android:layout_gravity="clip_vertical"/>
 
         <LinearLayout
             android:orientation="vertical"

@@ -131,7 +131,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             try {
                 System.gc();
                 Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh.imagen);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -177,6 +176,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.partido.setText(politico.getPartido());
         vh.nLikes.setText("" + politico.getnLikes());
         vh.nDislikes.setText("" + politico.getnDislikes());
+        try{
+            Glide.with(context).load(R.drawable.nopicpersona).into(vh.foto);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }
