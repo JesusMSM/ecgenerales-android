@@ -28,7 +28,7 @@ import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
 public class NoticiasTab extends Fragment {
 
     private String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-cataluna-2015-6160/";
-    GlobalMethod globalMethod = new GlobalMethod(getContext());
+
 
     //RecyclerView atributtes
     private RecyclerView mRecyclerView;
@@ -59,6 +59,7 @@ public class NoticiasTab extends Fragment {
 
         List<Object> items = new ArrayList<>();
         List<Noticia> noticias = new ArrayList<>();
+        GlobalMethod globalMethod = new GlobalMethod(getContext());
 
 
         protected Boolean doInBackground(String... params) {
