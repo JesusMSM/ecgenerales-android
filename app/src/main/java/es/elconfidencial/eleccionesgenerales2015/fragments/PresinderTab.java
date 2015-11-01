@@ -89,13 +89,9 @@ public class PresinderTab extends Fragment {
     }
 
     public void resetPresinder(){
-        GlobalMethod.likesCount = new HashMap<>();
-        GlobalMethod.dislikesCount = new HashMap<>();
         qs.quotesIndex = 0;
         //Save
         GlobalMethod.saveIntPreference(getContext(),qs.quotesIndex,"quotesIndex");
-        GlobalMethod.putMyHashmap(getContext(), "likesCount", GlobalMethod.likesCount);
-        GlobalMethod.putMyHashmap(getContext(), "dislikesCount", GlobalMethod.dislikesCount);
     }
     /***********LISTENERS******************/
 

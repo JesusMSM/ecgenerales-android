@@ -5,12 +5,15 @@ import android.util.Log;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Afll on 01/11/2015.
@@ -153,6 +156,12 @@ public class QuoteServer{
         Persona p = getPersonFromName(quote.getPersona());
         p.personaPObj.increment("agree");
         p.personaPObj.pinInBackground();
+
+        //Parse Analytics - agree
+        Map<String, String> agree = new HashMap<String, String>();
+        agree.put("quote", quote.getText());
+        agree.put("persona", quote.getPersona());
+        ParseAnalytics.trackEvent("ECL_AGREE_EVENT", agree);
     }
 
     public void disagreedWithQuote(Quote quote) {
@@ -161,6 +170,12 @@ public class QuoteServer{
         Persona p = getPersonFromName(quote.getPersona());
         p.personaPObj.increment("disagree");
         p.personaPObj.pinInBackground();
+
+        //Parse Analytics - disagree
+        Map<String, String> disagree = new HashMap<String, String>();
+        disagree.put("quote", quote.getText());
+        disagree.put("persona", quote.getPersona());
+        ParseAnalytics.trackEvent("ECL_DISAGREE_EVENT", disagree);
     }
     public void incrementQuotesIndex(){
         //Aumentamos index siguiente pregunta

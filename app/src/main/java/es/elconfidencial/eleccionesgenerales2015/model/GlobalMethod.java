@@ -19,10 +19,6 @@ import java.util.List;
  */
 public class GlobalMethod {
     Context mContext;
-    public static List<Quote> quotes = new ArrayList();
-
-    public static HashMap<String,Integer> likesCount = new HashMap<>();
-    public static HashMap<String,Integer> dislikesCount = new HashMap<>();
 
     // constructor
     public GlobalMethod(Context context){
