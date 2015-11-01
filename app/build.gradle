@@ -6,10 +6,14 @@ android {
 
     defaultConfig {
         applicationId "es.elconfidencial.eleccionesgenerales2015"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+    }
+    dexOptions {
+        incremental true
+        preDexLibraries false
     }
     buildTypes {
         release {
