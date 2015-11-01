@@ -73,8 +73,8 @@ public class OnLikeClickListener implements View.OnClickListener{
         persona.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
 
         //Aumentamos index siguiente pregunta
-        GlobalMethod.saveIntPreference(context,GlobalMethod.quotesIndex,"quotesIndex");
-        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(context,"quotesIndex",0);
+        //GlobalMethod.saveIntPreference(context,GlobalMethod.quotesIndex,"quotesIndex");
+        //GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(context,"quotesIndex",0);
     }
 
     public void rellenarCampos(){

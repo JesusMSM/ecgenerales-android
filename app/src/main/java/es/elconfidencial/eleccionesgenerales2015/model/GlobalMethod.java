@@ -20,7 +20,6 @@ import java.util.List;
 public class GlobalMethod {
     Context mContext;
     public static List<Quote> quotes = new ArrayList();
-    public static int quotesIndex = 0;
 
     public static HashMap<String,Integer> likesCount = new HashMap<>();
     public static HashMap<String,Integer> dislikesCount = new HashMap<>();
@@ -57,6 +56,18 @@ public class GlobalMethod {
     public static int getIntPreference(Context context, String key, int defaultValue){
         SharedPreferences sp = context.getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
         return sp.getInt(key, defaultValue);
+
+    }
+    public static void saveStringPreference(Context context, String value, String key){
+        //Indexer Quotes
+        SharedPreferences sp = context.getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+    public static String getIntPreference(Context context, String key, String defaultValue){
+        SharedPreferences sp = context.getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+        return sp.getString(key, defaultValue);
 
     }
 

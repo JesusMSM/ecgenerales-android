@@ -1,7 +1,14 @@
 package es.elconfidencial.eleccionesgenerales2015.model;
 
+import android.util.Log;
+
+import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 /**
  * Created by Afll on 28/10/2015.
@@ -11,6 +18,7 @@ public class Quote extends ParseObject{
     String text;
     String persona;
     String grupo;
+    ParseObject quotePObj;
 
     public Quote(){
     }
@@ -19,7 +27,14 @@ public class Quote extends ParseObject{
         this.persona = persona;
         this.grupo = grupo;
     }
-
+    public Quote (ParseObject quotePObj){
+        this.quotePObj = quotePObj;
+        if (quotePObj != null) {
+            this.text = quotePObj.getString("QUOTE");
+            this.grupo = quotePObj.getString("LABEL");
+            this.persona = quotePObj.getString("PERSONA");
+        }
+    }
     public String getText() {
         return text;
     }
@@ -42,6 +57,20 @@ public class Quote extends ParseObject{
 
     public void setGrupo(String grupo) {
         this.grupo = grupo;
+    }
+
+    public void agree(){
+        //Parse agree
+    }
+    public void disagree(){
+
+    }
+    public boolean IsEqualToQuote(Quote quote){
+        return true;
+    }
+
+    public void SaveRemotelyInBG() {
+
     }
 
 

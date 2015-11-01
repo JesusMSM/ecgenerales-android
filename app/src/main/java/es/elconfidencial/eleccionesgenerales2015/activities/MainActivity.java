@@ -25,6 +25,7 @@ import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.ViewPagerAdapter;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
+import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 import es.elconfidencial.eleccionesgenerales2015.slidingtabfiles.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     CharSequence[] Titles = new CharSequence[numbOfTabs];
     GlobalMethod globalMethod = new GlobalMethod(this);
 
+    //Quotes
+    QuoteServer qs = QuoteServer.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         this.context = getApplicationContext();
+        qs.init(getApplicationContext());
 
         //Titulos, da igual lo que se ponga pero tienen que existir aunque no se vayan a ver despues
         Titles[0] = "HOME";
@@ -78,51 +83,11 @@ public class MainActivity extends AppCompatActivity {
         tabs.setCustomTabView(R.layout.custom_actionbar, 0);
         tabs.setViewPager(pager);
 
-
-
-        //Parse
-        // Enable Local Datastore.
-
-        Parse.enableLocalDatastore(this);
-
-        ParseObject.registerSubclass(Quote.class);
-        Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
-        query.orderByAscending("createdAt"); //Guardar las quotes en el mismo orden que se recibe desde la nube
-        query.fromLocalDatastore();
-        try {
-            List<ParseObject> parseQuotes = query.find();
-            if(parseQuotes.isEmpty()){
-                Log.i("ParsePrueba", "Entramos en el null");
-                //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
-                parseQuotes = getQuotesFromParse();
-
-                for (ParseObject q : parseQuotes) {
-                    GlobalMethod.quotes.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
-                }
-                ParseObject.pinAll(parseQuotes);
-                Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
-                Log.i("ParsePrueba", "Ejemplo quote" + GlobalMethod.quotes.get(0).getPersona());
-
-                GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(this,"quotesIndex",0);
-
-            } else {
-                Log.i("ParsePrueba", "Entramos en el else");
-                for (ParseObject q : parseQuotes) {
-                    GlobalMethod.quotes.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
-                }
-                Log.i("ParsePrueba", "Ejemplo quote persona 0 " + GlobalMethod.quotes.get(0).getPersona());
-                Log.i("ParsePrueba", "Ejemplo size " + GlobalMethod.quotes.size());
-                GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(this,"quotesIndex",0);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        //Download quotes
+        qs.getQuotesFromParseOrLocal();
         //Likes dislikes count
-        GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
-        GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
+        //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
+        //GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
     }
 
         @Override
@@ -156,13 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private List<ParseObject> getQuotesFromParse() throws ParseException {
-        //Parse
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
-        List <ParseObject> parseQuotes = query.find();
 
-        return parseQuotes;
-    }
 
 
 }

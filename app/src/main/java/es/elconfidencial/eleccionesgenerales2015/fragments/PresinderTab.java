@@ -33,14 +33,18 @@ import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
+import es.elconfidencial.eleccionesgenerales2015.model.Quote;
+import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PresinderTab extends Fragment {
 
-    TextView grupo,text,persona,header1,header2;
+    TextView grupo,text,header1,header2;
     Button like,dislike,verResultados;
+    QuoteServer qs = QuoteServer.getInstance();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +53,9 @@ public class PresinderTab extends Fragment {
         Log.i("Presinder", "OnCreateView");
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_presinder_tab, container, false);
+
+        //Initiamos la instancia del QuoteServer
+        qs.init(getContext());
 
         header1 = (TextView) v.findViewById(R.id.headerPresinder);
         header2 = (TextView) v.findViewById(R.id.headerPresinder2);
@@ -63,7 +70,7 @@ public class PresinderTab extends Fragment {
         dislike.setOnClickListener(new OnPresinderDislikeClickListener(getContext()));
 
         setFonts();
-        setQuote();
+        setNextQuote();
 
         return v;
     }
@@ -76,48 +83,17 @@ public class PresinderTab extends Fragment {
         verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
     }
 
-    public void setQuote(){
-        text.setText("\"" + GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getText() + "\"");
-        grupo.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getGrupo());
-    }
-    public void nextQuote(){
-        text.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getText());
-        grupo.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getGrupo());
-    }
-
-    public void saveLike(){
-        //Guardo el like en el hash de contadores
-        String key = GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona();//Persona
-        if (GlobalMethod.likesCount.containsKey(key)){
-            GlobalMethod.likesCount.put(key, GlobalMethod.likesCount.get(key) + 1); //Incrementamos el valor de esa persona
-        }else{
-            GlobalMethod.likesCount.put(key, 1); //Primer like
-        }
-        //Actualizo cache
-        GlobalMethod.putMyHashmap(getContext(), "likesCount", GlobalMethod.likesCount);
-        Log.i("PresinderTab", "LIKE Persona: " + key + " Value: " + GlobalMethod.likesCount.get(key));
-    }
-
-    public void saveDislike(){
-        //Guardo el like en el hash de contadores
-        String key = GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona();//Persona
-        if (GlobalMethod.dislikesCount.containsKey(key)){
-            GlobalMethod.dislikesCount.put(key, GlobalMethod.dislikesCount.get(key).intValue() + 1); //Incrementamos el valor de esa persona
-        }else{
-            GlobalMethod.dislikesCount.put(key, 1); //Primer like
-        }
-        //Actualizo cache
-        GlobalMethod.putMyHashmap(getContext(), "dislikesCount", GlobalMethod.dislikesCount);
-        Log.i("PresinderTab", "DISLIKE Persona: " + key + " Value: " + GlobalMethod.dislikesCount.get(key));
-
+    public void setNextQuote(){
+        text.setText("\"" + qs.quotes.get(qs.getQuotesIndex()).getText() + "\"");
+        grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
     }
 
     public void resetPresinder(){
         GlobalMethod.likesCount = new HashMap<>();
         GlobalMethod.dislikesCount = new HashMap<>();
-        GlobalMethod.quotesIndex = 0;
+        qs.quotesIndex = 0;
         //Save
-        GlobalMethod.saveIntPreference(getContext(),GlobalMethod.quotesIndex,"quotesIndex");
+        GlobalMethod.saveIntPreference(getContext(),qs.quotesIndex,"quotesIndex");
         GlobalMethod.putMyHashmap(getContext(), "likesCount", GlobalMethod.likesCount);
         GlobalMethod.putMyHashmap(getContext(), "dislikesCount", GlobalMethod.dislikesCount);
     }
@@ -131,6 +107,7 @@ public class PresinderTab extends Fragment {
 
         @Override
         public void onClick(View v) {
+            //Abrimos el dialog con la persona correspondiente
             Activity act = (Activity) v.getContext();
             final Dialog settingsDialog = new Dialog(act);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -140,7 +117,10 @@ public class PresinderTab extends Fragment {
             settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
             settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-            saveLike();
+            //Indentificamos la quote actual
+            Quote currentQuote = qs.quotes.get(qs.getQuotesIndex());
+            //Agree con la quote actual
+            qs.agreedWithQuote(currentQuote);
 
             /**LISTENERS**/
             //Contador de 3 segundos
@@ -168,21 +148,13 @@ public class PresinderTab extends Fragment {
             settingsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    //Aumentamos index siguiente pregunta
-                    if (GlobalMethod.quotesIndex == GlobalMethod.quotes.size() - 1) {//Ha llegado al final de las quotes
-                        //Reset del index
-                        GlobalMethod.saveIntPreference(getContext(), 0, "quotesIndex");
-                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
-                    } else {
-                        GlobalMethod.saveIntPreference(getContext(), GlobalMethod.quotesIndex + 1, "quotesIndex");
-                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
-                    }
-                    nextQuote();
+                    setNextQuote();
                     settingsDialog.dismiss();
                 }
             });
             settingsDialog.show();
 
+            /*RELLENAR CAMPOS DEL POP UP**/
             //Set imagen correspondiente
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
@@ -193,14 +165,16 @@ public class PresinderTab extends Fragment {
             }
             TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
+            TextView party = (TextView) settingsDialog.findViewById(R.id.partyText);
 
             title.setText("Parece que estás de acuerdo con:");
-            persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
+            persona.setText(currentQuote.getPersona());
+            party.setText(qs.getPersonFromName(currentQuote.getPersona()).getParty());
+
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-
-
+            party.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         }
 
     }
@@ -222,7 +196,10 @@ public class PresinderTab extends Fragment {
             settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
             settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-            saveDislike();
+            //Indentificamos la quote actual
+            Quote currentQuote = qs.quotes.get(qs.getQuotesIndex());
+            //Agree con la quote actual
+            qs.disagreedWithQuote(currentQuote);
 
             /**LISTENERS**/
             //Contador de 3 segundos
@@ -250,16 +227,7 @@ public class PresinderTab extends Fragment {
             settingsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    //Aumentamos index siguiente pregunta
-                    if (GlobalMethod.quotesIndex == GlobalMethod.quotes.size() - 1) {//Ha llegado al final de las quotes
-                        //Reset del index
-                        GlobalMethod.saveIntPreference(getContext(), 0, "quotesIndex");
-                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
-                    } else {
-                        GlobalMethod.saveIntPreference(getContext(), GlobalMethod.quotesIndex + 1, "quotesIndex");
-                        GlobalMethod.quotesIndex = GlobalMethod.getIntPreference(getContext(), "quotesIndex", 0);
-                    }
-                    nextQuote();
+                    setNextQuote();
                     settingsDialog.dismiss();
                 }
             });
@@ -275,12 +243,15 @@ public class PresinderTab extends Fragment {
             }
             TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
+            TextView party = (TextView) settingsDialog.findViewById(R.id.partyText);
 
             title.setText("No estás de acuerdo con:");
-            persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
+            persona.setText(currentQuote.getPersona());
+            party.setText(qs.getPersonFromName(currentQuote.getPersona()).getParty());
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+            party.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         }
 
     }

@@ -22,6 +22,7 @@ import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
+import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +30,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 public class HomeTab extends Fragment {
 
     List<Object> items = new ArrayList<>();
+    QuoteServer qs = QuoteServer.getInstance();
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -39,7 +41,6 @@ public class HomeTab extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home_tab, container, false);
-
 
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recycler_view);
@@ -58,7 +59,7 @@ public class HomeTab extends Fragment {
 
         if (items.size() > 0) items.clear(); //Evitar duplicados
 
-        items.add(new Quote("\"Las repeticiones son el instrumento principal por el que se canaliza el fracaso escolar y acaban siendo unos causantes del abandono prematuro del sistema educativo\"","Mariano Rajoy","Educación"));
+        items.add(qs.quotes.get(qs.getQuotesIndex()));
 
         mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
         mRecyclerView.setAdapter(mAdapter);
