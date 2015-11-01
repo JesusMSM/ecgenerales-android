@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -38,8 +39,8 @@ import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
  */
 public class PresinderTab extends Fragment {
 
-    TextView grupo,text,persona;
-    Button like,dislike;
+    TextView grupo,text,persona,header1,header2;
+    Button like,dislike,verResultados;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,21 +50,34 @@ public class PresinderTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_presinder_tab, container, false);
 
+        header1 = (TextView) v.findViewById(R.id.headerPresinder);
+        header2 = (TextView) v.findViewById(R.id.headerPresinder2);
         text = (TextView) v.findViewById(R.id.questionQuote);
         grupo = (TextView) v.findViewById(R.id.groupQuote);
 
         like = (Button) v.findViewById(R.id.likeButton);
         dislike = (Button) v.findViewById(R.id.dislikeButton);
+        verResultados = (Button) v.findViewById(R.id.verResultadosButton);
 
         like.setOnClickListener(new OnPresinderLikeClickListener(getContext()));
         dislike.setOnClickListener(new OnPresinderDislikeClickListener(getContext()));
 
+        setFonts();
         setQuote();
 
         return v;
     }
+    public void setFonts(){
+        //Fonts
+        header1.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
+        header2.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
+        text.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
+        grupo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+    }
+
     public void setQuote(){
-        text.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getText());
+        text.setText("\"" + GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getText() + "\"");
         grupo.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getGrupo());
     }
     public void nextQuote(){
@@ -119,12 +133,12 @@ public class PresinderTab extends Fragment {
         public void onClick(View v) {
             Activity act = (Activity) v.getContext();
             final Dialog settingsDialog = new Dialog(act);
-            settingsDialog.getWindow().requestFeature(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
             settingsDialog.setContentView(inflater.inflate(R.layout.image_popup_layout
                     , null));
-            settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+            settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             saveLike();
 
@@ -262,7 +276,7 @@ public class PresinderTab extends Fragment {
             TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
 
-            title.setText("Estás de acuerdo con:");
+            title.setText("Parece que estás de acuerdo con:");
             persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));

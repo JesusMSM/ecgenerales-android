@@ -134,7 +134,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             vh.autor.setText(noticia.getAutor());
             try {
                 System.gc();
-                Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh.imagen);
+                //Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh.imagen);
+                Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.mipmap.nopic).into(vh.imagen);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -171,7 +172,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setType("text/plain");
 
-                v.getContext().startActivity(  Intent.createChooser( intent, v.getContext().getResources().getString(R.string.share) )  );
+                v.getContext().startActivity(Intent.createChooser(intent, v.getContext().getResources().getString(R.string.share)));
             }
         });
     }
@@ -187,6 +188,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.like.setOnClickListener(new OnLikeClickListener(context));
         vh.dislike.setOnClickListener(new OnDislikeClickListener(context));
 
+        //Fonts
+        vh.group.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-BoldItalic.otf"));
     }
 
 
