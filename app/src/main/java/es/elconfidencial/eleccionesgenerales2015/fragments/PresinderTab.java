@@ -194,7 +194,7 @@ public class PresinderTab extends Fragment {
             TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
 
-            title.setText("Estás de acuerdo con:");
+            title.setText("Parece que estás de acuerdo con:");
             persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
@@ -215,12 +215,12 @@ public class PresinderTab extends Fragment {
         public void onClick(View v) {
             Activity act = (Activity) v.getContext();
             final Dialog settingsDialog = new Dialog(act);
-            settingsDialog.getWindow().requestFeature(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
             settingsDialog.setContentView(inflater.inflate(R.layout.image_popup_layout
                     , null));
-            settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+            settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             saveDislike();
 
@@ -276,7 +276,7 @@ public class PresinderTab extends Fragment {
             TextView title = (TextView) settingsDialog.findViewById(R.id.introText);
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
 
-            title.setText("Parece que estás de acuerdo con:");
+            title.setText("No estás de acuerdo con:");
             persona.setText(GlobalMethod.quotes.get(GlobalMethod.quotesIndex).getPersona());
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
