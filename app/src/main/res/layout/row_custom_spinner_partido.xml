@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="3dip"
+    android:layout_marginRight="15dp"
+    android:paddingRight="15dp">
+    <TextView
+        android:layout_marginTop="2dip"
+        android:textColor="@color/grey"
+        android:layout_marginLeft="45dip"
+        android:layout_marginRight="45dip"
+        android:id="@+id/nombrePartido"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:singleLine="false"
+        android:ellipsize="none"/>
+</LinearLayout>

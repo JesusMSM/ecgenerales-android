@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +29,13 @@ import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
  */
 public class NoticiasTab extends Fragment {
 
-    private String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-cataluna-2015-6160/";
+    public static String rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";
+    public static int seleccion = 0;
 
 
     //RecyclerView atributtes
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    public static RecyclerView mRecyclerView;
+    public static RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -85,6 +88,9 @@ public class NoticiasTab extends Fragment {
             }
 
         public void addItems() {
+            
+            Spinner spinner = new Spinner(getActivity());
+            items.add(spinner);
 
 //            if(globalMethod.haveNetworkConnection()) {
                 for (Noticia noticia : noticias){

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="partidos">
+        <item>@string/pp</item>
+        <item>@string/psoe</item>
+        <item>@string/ciudadanos</item>
+        <item>@string/podemos</item>
+        <item>@string/iu</item>
+        <item>@string/upyd</item>
+    </string-array>
+</resources>
