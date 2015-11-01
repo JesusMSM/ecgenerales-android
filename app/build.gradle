@@ -42,4 +42,6 @@ dependencies {
     //Gson
     compile 'com.google.code.gson:gson:2.2.+'
 
+    //PushWoosh
+    compile 'com.pushwoosh:pushwoosh:+'
 }
