@@ -124,6 +124,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * Funciones de configuracion de los ViewHolders **
      */
     private void configureNoticiaViewHolder(final NoticiaViewHolder vh, int position) {
+
+        String url = "";
+        String info = "";
+
         final Noticia noticia = (Noticia) items.get(position);
         if (noticia != null) {
             vh.titulo.setText(Html.fromHtml(noticia.getTitulo()));
@@ -155,7 +159,24 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 context.startActivity(intent);
             }
         });
+        vh.botonCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               
+                Intent intent = new Intent();
+                String textoCompartir = noticia.getLink() + "\n\n" + noticia.getTitulo();
+
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, textoCompartir);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setType("text/plain");
+
+                v.getContext().startActivity(  Intent.createChooser( intent, v.getContext().getResources().getString(R.string.share) )  );
+            }
+        });
     }
+
+
     private void configurePresinderViewHolder(final PresinderViewHolder vh, int position) {
         final Quote quote = (Quote) items.get(position);
 

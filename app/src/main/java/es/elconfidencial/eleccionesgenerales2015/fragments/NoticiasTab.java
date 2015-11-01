@@ -54,6 +54,8 @@ public class NoticiasTab extends Fragment {
         return v;
     }
 
+
+
     /*Permite gestionar de forma asincrona el RSS */
     private class CargarXmlTask extends AsyncTask<String,Integer,Boolean> {
 
