@@ -153,9 +153,14 @@ public class QuoteServer{
     public void agreedWithQuote(Quote quote) {
         incrementQuotesIndex();
 
+        Log.i("QuoteServer: agree", quote.getPersona());
         Persona p = getPersonFromName(quote.getPersona());
-        p.personaPObj.increment("agree");
-        p.personaPObj.pinInBackground();
+        try {
+            p.personaPObj.increment("agree");
+            p.personaPObj.pin();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //Parse Analytics - agree
         Map<String, String> agree = new HashMap<String, String>();
@@ -166,10 +171,15 @@ public class QuoteServer{
 
     public void disagreedWithQuote(Quote quote) {
         incrementQuotesIndex();
+        Log.i("QuoteServer: disagree", quote.getPersona());
 
         Persona p = getPersonFromName(quote.getPersona());
-        p.personaPObj.increment("disagree");
-        p.personaPObj.pinInBackground();
+        try {
+            p.personaPObj.increment("disagree");
+            p.personaPObj.pin();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //Parse Analytics - disagree
         Map<String, String> disagree = new HashMap<String, String>();
