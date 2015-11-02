@@ -143,7 +143,7 @@ public class QuoteServer{
 
     public Persona getPersonFromName(String name){
         for (Persona p :personas){
-            if(personExists(name)){
+            if(personExists(name) && p.getName().equals(name)){
                 return p;
             }
         }
@@ -156,11 +156,14 @@ public class QuoteServer{
         Log.i("QuoteServer: agree", quote.getPersona());
         Persona p = getPersonFromName(quote.getPersona());
         try {
-            p.personaPObj.increment("agree");
+            p.increaseAgree();
+            Log.i("Quote", p.personaPObj.getString("name"));
+            Log.i("Quote", p.getName());
             p.personaPObj.pin();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.i("Quote:", "Agrees:" + p.getAgree() + " Disagrees: " + p.getDisagree());
 
         //Parse Analytics - agree
         Map<String, String> agree = new HashMap<String, String>();
@@ -175,7 +178,9 @@ public class QuoteServer{
 
         Persona p = getPersonFromName(quote.getPersona());
         try {
-            p.personaPObj.increment("disagree");
+            p.increaseDisagree();
+            Log.i("Quote", p.personaPObj.getString("name"));
+            Log.i("Quote", p.getName());
             p.personaPObj.pin();
         } catch (ParseException e) {
             e.printStackTrace();

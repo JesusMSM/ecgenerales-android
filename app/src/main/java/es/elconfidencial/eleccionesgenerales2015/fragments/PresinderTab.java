@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -30,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
+import es.elconfidencial.eleccionesgenerales2015.activities.ResultadosPresinderActivity;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
@@ -42,7 +44,8 @@ import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 public class PresinderTab extends Fragment {
 
     TextView grupo,text,header1,header2;
-    Button like,dislike,verResultados;
+    ImageView like,dislike;
+    Button verResultados;
     QuoteServer qs = QuoteServer.getInstance();
 
 
@@ -62,12 +65,22 @@ public class PresinderTab extends Fragment {
         text = (TextView) v.findViewById(R.id.questionQuote);
         grupo = (TextView) v.findViewById(R.id.groupQuote);
 
-        like = (Button) v.findViewById(R.id.likeButton);
-        dislike = (Button) v.findViewById(R.id.dislikeButton);
+        like = (ImageView) v.findViewById(R.id.likeButtonTab);
+        dislike = (ImageView) v.findViewById(R.id.dislikeButtonTab);
         verResultados = (Button) v.findViewById(R.id.verResultadosButton);
 
+        //Listeners de los botones de agree y disagree
         like.setOnClickListener(new OnPresinderLikeClickListener(getContext()));
         dislike.setOnClickListener(new OnPresinderDislikeClickListener(getContext()));
+
+        //Listener del boton resultados
+        verResultados.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ResultadosPresinderActivity.class);
+                startActivity(intent);
+            }
+        });
 
         setFonts();
         setNextQuote();
@@ -248,6 +261,18 @@ public class PresinderTab extends Fragment {
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
             party.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        }
+
+        public class OnPresinderVerResultadosClickListener extends OnLikeClickListener {
+            public OnPresinderVerResultadosClickListener(Context context) {
+                super(context);
+            }
+
+            @Override
+            public void onClick(View v) {
+
+            }
+
         }
 
     }

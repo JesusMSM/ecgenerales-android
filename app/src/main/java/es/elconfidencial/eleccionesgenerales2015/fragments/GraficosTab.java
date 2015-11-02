@@ -10,12 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
-import es.elconfidencial.eleccionesgenerales2015.model.PoliticoResultado;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,19 +37,13 @@ public class GraficosTab extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(MainActivity.context);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(MainActivity.context, getSampleArrayList());
-        mRecyclerView.setAdapter(mAdapter);
+       /** mAdapter = new MyRecyclerViewAdapter(MainActivity.context, getSampleArrayList());
+        mRecyclerView.setAdapter(mAdapter);**/
 
 
         return v;
     }
 
-    private ArrayList<Object> getSampleArrayList() {
-        ArrayList<Object> items = new ArrayList<>();
-        items.add(new PoliticoResultado("Albert Rivera", "Ciudadanos", 3, 1));
-        items.add(new PoliticoResultado("Albert Rivera", "Ciudadanos", 3, 1));
-        return items;
-    }
 
 
 }

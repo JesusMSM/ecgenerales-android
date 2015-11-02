@@ -13,16 +13,17 @@ import es.elconfidencial.eleccionesgenerales2015.R;
  */
 public class PoliticoViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView nombre,partido,nLikes,nDislikes;
-    public ImageView foto;
+    public TextView nombre,partido,nAgrees,nDisAgrees,posicion;
+    public ImageView fotoPolitico;
 
 
     public PoliticoViewHolder(View v) {
         super(v);
+        posicion = (TextView) v.findViewById(R.id.posicion);
         nombre = (TextView) v.findViewById(R.id.nombrePolitico);
         partido = (TextView) v.findViewById(R.id.partidoPolitico);
-        nLikes = (TextView) v.findViewById(R.id.nLikes);
-        nDislikes = (TextView) v.findViewById(R.id.nDislikes);
-        foto = (ImageView) v.findViewById(R.id.foto);
+        nAgrees = (TextView) v.findViewById(R.id.nAgrees);
+        nDisAgrees = (TextView) v.findViewById(R.id.nDisAgrees);
+        fotoPolitico = (ImageView) v.findViewById(R.id.fotoPolitico);
     }
 }

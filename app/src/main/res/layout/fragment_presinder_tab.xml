@@ -27,16 +27,19 @@
             android:gravity="center"
             android:textSize="11pt"/>
     </LinearLayout>
-    <android.support.v7.widget.CardView
-        android:layout_width="fill_parent"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
-        card_view:contentPadding="@dimen/activity_horizontal_margin"
+        android:layout_weight="10">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/resultados_button"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        card_view:cardCornerRadius="3dp">
+        android:layout_marginBottom="80dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -62,8 +65,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_below="@+id/contentText"/>
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
@@ -75,31 +77,40 @@
                 android:textSize="8pt"
                 android:textColor="@color/ColorPrimaryDark"
                 android:id="@+id/questionQuote"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="LIKE"
-                    android:id="@+id/likeButton"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="DISLIKE"
-                    android:id="@+id/dislikeButton"/>
-            </LinearLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+        <ImageView
+            android:id="@+id/likeButtonTab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nopicpersona"
+            android:clickable="true"/>
+        <ImageView
+            android:id="@+id/dislikeButtonTab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nopicpersona"
+            android:clickable="true"/>
+    </LinearLayout>
+    </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:background="@color/tabsScrollColor"
             android:paddingTop="3dp"

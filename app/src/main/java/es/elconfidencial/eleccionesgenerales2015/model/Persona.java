@@ -83,10 +83,15 @@ public class Persona {
     }
 
     public void increaseAgree(){
+        agree++;
 
     }
     public void increaseDisagree(){
+        disagree++;
 
+    }
+    public int getAgreeDisagreeDif(){
+        return disagree - agree;
     }
     public void SaveLocallyInBG(){
 

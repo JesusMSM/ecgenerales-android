@@ -1,28 +1,16 @@
 package es.elconfidencial.eleccionesgenerales2015.adapters;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -37,14 +25,13 @@ import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListene
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
-import es.elconfidencial.eleccionesgenerales2015.model.PoliticoResultado;
+import es.elconfidencial.eleccionesgenerales2015.model.Persona;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PoliticoViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PresinderViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.SpinnerViewHolder;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by Moonfish on 28/10/15.
@@ -79,7 +66,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Quote) {
             return PRESINDER;
         }
-        if (items.get(position) instanceof PoliticoResultado) {
+        if (items.get(position) instanceof Persona) {
             return POLITICO;
         }
         else if (items.get(position) instanceof Spinner) {
@@ -217,14 +204,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
     private void configurePoliticoViewHolder(final PoliticoViewHolder vh, int position) {
-        final PoliticoResultado politico = (PoliticoResultado) items.get(position);
+        final Persona persona = (Persona) items.get(position);
 
-        vh.nombre.setText(politico.getNombre());
-        vh.partido.setText(politico.getPartido());
-        vh.nLikes.setText("" + politico.getnLikes());
-        vh.nDislikes.setText("" + politico.getnDislikes());
+        vh.posicion.setText(""+(position+1));
+        vh.nombre.setText(persona.getName());
+        vh.partido.setText(persona.getParty());
+        vh.nAgrees.setText("" + persona.getAgree());
+        vh.nDisAgrees.setText("" + persona.getDisagree());
         try{
-            Glide.with(context).load(R.drawable.nopicpersona).into(vh.foto);
+            Glide.with(context).load(R.drawable.nopicpersona).into(vh.fotoPolitico);
         }catch (Exception e){
             e.printStackTrace();
         }

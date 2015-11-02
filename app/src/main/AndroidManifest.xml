@@ -26,6 +26,10 @@
             android:name=".activities.NoticiaContentActivity"
             android:label="@string/title_activity_noticia_content" >
         </activity>
+        <activity
+            android:name=".activities.ResultadosPresinderActivity"
+            android:label="@string/title_activity_resultados_presinder" >
+        </activity>
     </application>
 
 </manifest>
