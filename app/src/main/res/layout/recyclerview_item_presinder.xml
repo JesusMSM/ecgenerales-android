@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/headerPresinder"
             android:text="@string/presinderHeader"
             android:textColor="@color/black"
             android:gravity="center"
@@ -29,11 +34,10 @@
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@drawable/resultados_button"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -41,21 +45,20 @@
             android:layout_marginBottom="80dp">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:paddingBottom="80dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:gravity="bottom|center_horizontal"
                         android:layout_marginBottom="3dp"
+                        android:text="GURTEL"
                         android:textColor="@color/grey"
                         android:id="@+id/groupQuote"
                         android:textAllCaps="true"/>
@@ -70,11 +73,15 @@
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="7"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:minHeight="150dp"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingLeft="16dp"
                     android:textSize="8pt"
                     android:textColor="@color/ColorPrimaryDark"
                     android:id="@+id/questionQuote"/>
@@ -87,6 +94,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:layout_marginBottom="40dp"
             android:orientation="horizontal"
             android:layout_gravity="bottom">
             <ImageView
