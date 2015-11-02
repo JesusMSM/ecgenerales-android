@@ -96,6 +96,7 @@
     <orderEntry type="library" exported="" name="cardview-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="design-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.1" level="project" />
+    <orderEntry type="library" exported="" name="pushwoosh-3.1.14" level="project" />
     <orderEntry type="library" exported="" name="parse-android-1.10.3" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="glide-3.6.1" level="project" />
