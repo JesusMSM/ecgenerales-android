@@ -207,7 +207,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         final Persona persona = (Persona) items.get(position);
 
         vh.posicion.setText(""+(position+1));
-        vh.nombre.setText(persona.getName());
+        vh.nombre.setText(persona.getNiceName());
         vh.partido.setText(persona.getParty());
         vh.nAgrees.setText("" + persona.getAgree());
         vh.nDisAgrees.setText("" + persona.getDisagree());

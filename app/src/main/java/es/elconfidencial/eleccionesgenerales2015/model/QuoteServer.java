@@ -74,7 +74,7 @@ public class QuoteServer{
                     //Create new Quote from ParseObject
                     quotes.add(new Quote(q));
                     //Save persona for this quote
-                    savePersonInLocalWithName(q.getString("PERSONA"));
+                    savePersonInLocalWithQuote(q);
                 }
                 ParseObject.pinAll(parseQuotes);
 
@@ -97,16 +97,17 @@ public class QuoteServer{
         }
     }
 
-    public void savePersonInLocalWithName(String name){
-        if(!personExists(name)){
+    // Creamos en parse local un objeto persona con los datos que extraemos de la quote pasada por parámetro
+    public void savePersonInLocalWithQuote(ParseObject quote){
+        if(!personExists(quote.getString("PERSONA"))){
             ParseObject personaPObj = new ParseObject("Persona");
-            personaPObj.put("name", name);
-            personaPObj.put("niceName", name);
+            personaPObj.put("name", quote.getString("PERSONA"));
+            personaPObj.put("niceName", quote.getString("NICENAME"));
             personaPObj.put("photoLink", "");
             personaPObj.put("agree", 0);
             personaPObj.put("disagree", 0);
             personaPObj.put("partyColor", "");
-            personaPObj.put("party", "Partido político");
+            personaPObj.put("party", quote.getString("PARTIDO"));
 
             //Objecto local
             Persona personaECL = new Persona(personaPObj);
@@ -156,9 +157,10 @@ public class QuoteServer{
         Log.i("QuoteServer: agree", quote.getPersona());
         Persona p = getPersonFromName(quote.getPersona());
         try {
-            p.increaseAgree();
+            p.increaseAgree(); //incrementamos la variable local del contador
             Log.i("Quote", p.personaPObj.getString("name"));
             Log.i("Quote", p.getName());
+            p.personaPObj.increment("agree"); //incrementamos la variable de parse local, para siguientes sesiones
             p.personaPObj.pin();
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,9 +180,10 @@ public class QuoteServer{
 
         Persona p = getPersonFromName(quote.getPersona());
         try {
-            p.increaseDisagree();
+            p.increaseDisagree(); //incrementamos la variable local del contador
             Log.i("Quote", p.personaPObj.getString("name"));
             Log.i("Quote", p.getName());
+            p.personaPObj.increment("disagree");//incrementamos la variable de parse local, para siguientes sesiones
             p.personaPObj.pin();
         } catch (ParseException e) {
             e.printStackTrace();

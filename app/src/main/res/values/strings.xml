@@ -12,6 +12,14 @@
     <string name="iu">Izquierda Unida</string>
     <string name="upyd">UPYD</string>
 
+    <!-- Strings presinder -->
+    <string name="presinderHeader">Descubre a qué \n candidato te pareces</string>
+    <string name="presinderHeader2">Juega a nuestro test de afinidad</string>
+    <string name="agree">Parece que estás de acuerdo con:</string>
+    <string name="disagree">Parece que no estás de acuerdo con:</string>
+    <string name="verResultados">Ver resultados</string>
+    <string name="volverAJugar">Volver a jugar</string>
+    <string name="resultadosTest">Resultados del test</string>
 
 
 <!-- TODO: Remove or change this placeholder text -->

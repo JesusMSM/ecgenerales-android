@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="VOLVER A JUGAR"
+            android:text="@string/volverAJugar"
             android:paddingLeft="@dimen/abc_button_padding_horizontal_material"
             android:paddingRight="@dimen/abc_button_padding_horizontal_material"
             android:background="@drawable/resultados_button"/>

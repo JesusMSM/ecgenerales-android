@@ -43,7 +43,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
  */
 public class PresinderTab extends Fragment {
 
-    TextView grupo,text,header1,header2;
+    TextView grupo,text,header1;
     ImageView like,dislike;
     Button verResultados;
     QuoteServer qs = QuoteServer.getInstance();
@@ -61,7 +61,6 @@ public class PresinderTab extends Fragment {
         qs.init(getContext());
 
         header1 = (TextView) v.findViewById(R.id.headerPresinder);
-        header2 = (TextView) v.findViewById(R.id.headerPresinder2);
         text = (TextView) v.findViewById(R.id.questionQuote);
         grupo = (TextView) v.findViewById(R.id.groupQuote);
 
@@ -90,7 +89,6 @@ public class PresinderTab extends Fragment {
     public void setFonts(){
         //Fonts
         header1.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
-        header2.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
         text.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
         grupo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
@@ -176,8 +174,8 @@ public class PresinderTab extends Fragment {
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
             TextView party = (TextView) settingsDialog.findViewById(R.id.partyText);
 
-            title.setText("Parece que estás de acuerdo con:");
-            persona.setText(currentQuote.getPersona());
+            title.setText(getResources().getString(R.string.agree));
+            persona.setText(qs.getPersonFromName(currentQuote.getPersona()).getNiceName());
             party.setText(qs.getPersonFromName(currentQuote.getPersona()).getParty());
 
             //Fonts
@@ -254,8 +252,8 @@ public class PresinderTab extends Fragment {
             TextView persona = (TextView) settingsDialog.findViewById(R.id.personaText);
             TextView party = (TextView) settingsDialog.findViewById(R.id.partyText);
 
-            title.setText("No estás de acuerdo con:");
-            persona.setText(currentQuote.getPersona());
+            title.setText(getResources().getString(R.string.disagree));
+            persona.setText(qs.getPersonFromName(currentQuote.getPersona()).getNiceName());
             party.setText(qs.getPersonFromName(currentQuote.getPersona()).getParty());
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
