@@ -4,6 +4,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
     <color name="grey">#484848</color>
+    <color name="titulos">#333333</color>
     <color name="transparent">#00000000</color>
     <color name="actionBar_color">#000</color>
     <color name="tabsScrollColor">#D8D8D8</color>
@@ -11,4 +12,10 @@
     <color name="ColorPrimaryDark">#0c3140</color>
     <color name="ColorPreferencias">#165875</color>
     <color name="ColorAccent">#165875</color>
+
+    <!-- Presinder Tab -->
+    <color name="Color_disagree">#ff2600</color>
+    <color name="Color_agree">#278a20</color>
+    <color name="Color_position">#cf2329</color>
+
 </resources>

@@ -14,7 +14,7 @@ import es.elconfidencial.eleccionesgenerales2015.R;
 public class PoliticoViewHolder extends RecyclerView.ViewHolder {
 
     public TextView nombre,partido,nAgrees,nDisAgrees,posicion;
-    public ImageView fotoPolitico;
+    public ImageView fotoPolitico, likesPolitico, dislikesPolitico;
 
 
     public PoliticoViewHolder(View v) {
@@ -25,5 +25,7 @@ public class PoliticoViewHolder extends RecyclerView.ViewHolder {
         nAgrees = (TextView) v.findViewById(R.id.nAgrees);
         nDisAgrees = (TextView) v.findViewById(R.id.nDisAgrees);
         fotoPolitico = (ImageView) v.findViewById(R.id.fotoPolitico);
+        likesPolitico = (ImageView) v.findViewById(R.id.likesPolitico);
+        dislikesPolitico = (ImageView) v.findViewById(R.id.dislikesPolitico);
     }
 }

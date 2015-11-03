@@ -11,6 +11,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class QuoteServer{
         Parse.initialize(context, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
-        query.orderByAscending("createdAt"); //Guardar las quotes en el mismo orden que se recibe desde la nube
+        //query.orderByAscending("objectId"); //Guardar las quotes en orden según id (simulando aleatorio)
         query.fromLocalDatastore();
         try {
             List<ParseObject> parseQuotes = query.find();
@@ -76,6 +77,7 @@ public class QuoteServer{
                     //Save persona for this quote
                     savePersonInLocalWithQuote(q);
                 }
+                Collections.shuffle(parseQuotes); //Mezclamos aleatoriamente las quotes
                 ParseObject.pinAll(parseQuotes);
 
                 Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
@@ -103,7 +105,7 @@ public class QuoteServer{
             ParseObject personaPObj = new ParseObject("Persona");
             personaPObj.put("name", quote.getString("PERSONA"));
             personaPObj.put("niceName", quote.getString("NICENAME"));
-            personaPObj.put("photoLink", "");
+            personaPObj.put("photoLink", quote.getString("PERSONA").toLowerCase());
             personaPObj.put("agree", 0);
             personaPObj.put("disagree", 0);
             personaPObj.put("partyColor", "");

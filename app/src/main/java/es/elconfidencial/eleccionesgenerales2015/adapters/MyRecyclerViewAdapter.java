@@ -193,9 +193,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.question.setText(quote.getText());
         vh.group.setText(quote.getGrupo());
 
+        try{
+            Glide.with(context).load(R.drawable.caraok).into(vh.like);
+            Glide.with(context).load(R.drawable.carano).into(vh.dislike);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         //Like/Dislikes listeners
-        vh.like.setOnClickListener(new OnLikeClickListener(context));
-        vh.dislike.setOnClickListener(new OnDislikeClickListener(context));
+       // vh.like.setOnClickListener(new OnLikeClickListener(context));
+       // vh.dislike.setOnClickListener(new OnDislikeClickListener(context));
 
         //Fonts
         vh.group.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
@@ -212,10 +219,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.nAgrees.setText("" + persona.getAgree());
         vh.nDisAgrees.setText("" + persona.getDisagree());
         try{
-            Glide.with(context).load(R.drawable.nopicpersona).into(vh.fotoPolitico);
+            Glide.with(context).load(context.getResources().getIdentifier(persona.getPhotoLink(),"drawable", context.getPackageName())).placeholder(R.drawable.nopicpersona).into(vh.fotoPolitico);
+            Glide.with(context).load(R.drawable.caralittleok).into(vh.likesPolitico);
+            Glide.with(context).load(R.drawable.caralittleno).into(vh.dislikesPolitico);
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        //Fonts
+        vh.posicion.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
+        vh.nombre.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
+        vh.partido.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        vh.nAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        vh.nDisAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
 
     }
 

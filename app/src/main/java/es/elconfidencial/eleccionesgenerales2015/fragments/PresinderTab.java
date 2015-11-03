@@ -142,7 +142,7 @@ public class PresinderTab extends Fragment {
                             // add your stuff here
                             settingsDialog.dismiss();
                         }
-                    }, 1500, 1500);
+                    }, 3000, 3000);
                 }
             });
             settingsDialog.findViewById(R.id.image_dialog_root).setOnClickListener(new View.OnClickListener() {
@@ -165,7 +165,7 @@ public class PresinderTab extends Fragment {
             //Set imagen correspondiente
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
-                Glide.with(getContext()).load(R.drawable.nopicpersona).into(foto);
+                Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
                 //Fonts
             } catch (Exception e) {
                 e.printStackTrace();
@@ -221,7 +221,7 @@ public class PresinderTab extends Fragment {
                             // add your stuff here
                             settingsDialog.dismiss();
                         }
-                    }, 1500, 1500);
+                    }, 3000, 3000);
                 }
             });
             settingsDialog.findViewById(R.id.image_dialog_root).setOnClickListener(new View.OnClickListener() {
@@ -243,7 +243,7 @@ public class PresinderTab extends Fragment {
             //Set imagen correspondiente
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
-                Glide.with(getContext()).load(R.drawable.nopicpersona).into(foto);
+                Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
                 //Fonts
             } catch (Exception e) {
                 e.printStackTrace();

@@ -25,10 +25,12 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/resultados_button"
+        android:background="@drawable/cards"
+        android:padding="20dp"
+        android:layout_marginTop="-16dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="80dp">
+        android:layout_marginBottom="40dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,29 +81,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal"
         android:layout_gravity="bottom">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
         <ImageView
             android:id="@+id/likeButtonTab"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_marginLeft="15dp"
             android:adjustViewBounds="true"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/nopicpersona"
+            android:src="@drawable/caraok"
             android:clickable="true"/>
         <ImageView
             android:id="@+id/dislikeButtonTab"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_marginRight="15dp"
             android:adjustViewBounds="true"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/nopicpersona"
+            android:src="@drawable/carano"
             android:clickable="true"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
     </FrameLayout>
         <LinearLayout
