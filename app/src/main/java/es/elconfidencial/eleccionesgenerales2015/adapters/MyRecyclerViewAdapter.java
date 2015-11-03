@@ -30,6 +30,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.Persona;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
 import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
+import es.elconfidencial.eleccionesgenerales2015.viewholders.ContadorViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PoliticoViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PresinderViewHolder;
@@ -45,7 +46,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Object> items;
     Context context;
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -75,8 +76,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Spinner) {
             return SPINNER;
         }
-        else if (items.get(position) instanceof Titulo) {
+        if (items.get(position) instanceof Titulo) {
             return TITULO;
+        }
+        else if (items.get(position).equals("contador")) {
+            return CONTADOR;
         }
         return -1;
     }
@@ -108,6 +112,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v5 = inflater.inflate(R.layout.recyclerview_item_titulo, viewGroup, false);
                 viewHolder = new TituloViewHolder(v5);
                 break;
+            case CONTADOR:
+                View v6 = inflater.inflate(R.layout.recyclerview_item_contador, viewGroup, false);
+                viewHolder = new ContadorViewHolder(v6);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -138,6 +146,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case TITULO:
                 TituloViewHolder vh5 = (TituloViewHolder) viewHolder;
                 configureTituloViewHolder(vh5, position);
+                break;
+            case CONTADOR:
+                ContadorViewHolder vh6 = (ContadorViewHolder) viewHolder;
+                configureContadorViewHolder(vh6, position);
                 break;
             default:
         }
@@ -200,6 +212,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         });
     }
 
+    private void configureContadorViewHolder(ContadorViewHolder vh3, int position) {
+        vh3.showContador();
+        vh3.contador.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
+        vh3.label.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
+        vh3.barra.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
+        vh3.d_20.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
+
+    }
 
     private void configurePresinderViewHolder(final PresinderViewHolder vh, int position) {
         final Quote quote = (Quote) items.get(position);

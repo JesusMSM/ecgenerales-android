@@ -94,7 +94,7 @@ public class HomeTab extends Fragment {
 
             if (items.size() > 0) items.clear(); //Evitar duplicados
 
-
+            items.add("contador");
 
             items.add(new Titulo(getString(R.string.titulo_ultimas_noticias)));
 

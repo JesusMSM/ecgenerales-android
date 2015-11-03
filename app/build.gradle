@@ -44,4 +44,6 @@ dependencies {
 
     //PushWoosh
     compile 'com.pushwoosh:pushwoosh:+'
+
+    compile 'com.inthecheesefactory.thecheeselibrary:adjustable-imageview:1.0.0'
 }
