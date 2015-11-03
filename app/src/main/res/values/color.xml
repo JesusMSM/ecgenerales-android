@@ -12,6 +12,7 @@
     <color name="ColorPrimaryDark">#0c3140</color>
     <color name="ColorPreferencias">#165875</color>
     <color name="ColorAccent">#165875</color>
+    <color name="ColorBackgroundGrey">#F5F5F5</color>
 
     <!-- Presinder Tab -->
     <color name="Color_disagree">#ff2600</color>

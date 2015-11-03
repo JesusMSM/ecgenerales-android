@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,13 @@ import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
 import es.elconfidencial.eleccionesgenerales2015.model.Persona;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
+import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
 import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PoliticoViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PresinderViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.SpinnerViewHolder;
+import es.elconfidencial.eleccionesgenerales2015.viewholders.TituloViewHolder;
 
 /**
  * Created by Moonfish on 28/10/15.
@@ -42,7 +45,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Object> items;
     Context context;
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -69,8 +72,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Persona) {
             return POLITICO;
         }
-        else if (items.get(position) instanceof Spinner) {
+        if (items.get(position) instanceof Spinner) {
             return SPINNER;
+        }
+        else if (items.get(position) instanceof Titulo) {
+            return TITULO;
         }
         return -1;
     }
@@ -98,6 +104,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v4 = inflater.inflate(R.layout.recyclerview_item_spinner, viewGroup, false);
                 viewHolder = new SpinnerViewHolder(v4);
                 break;
+            case TITULO:
+                View v5 = inflater.inflate(R.layout.recyclerview_item_titulo, viewGroup, false);
+                viewHolder = new TituloViewHolder(v5);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -124,6 +134,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case SPINNER:
                 SpinnerViewHolder vh4 = (SpinnerViewHolder) viewHolder;
                 configureSpinnerViewHolder(vh4, position);
+                break;
+            case TITULO:
+                TituloViewHolder vh5 = (TituloViewHolder) viewHolder;
+                configureTituloViewHolder(vh5, position);
                 break;
             default:
         }
@@ -232,6 +246,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.partido.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.nAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.nDisAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+
+    }
+
+    private void configureTituloViewHolder(TituloViewHolder vh6, int position) {
+        final Titulo title = (Titulo) items.get(position);
+        if (title != null) {
+            vh6.title.setText(title.getTitle());
+        }
+
+        //Fonts
+        vh6.title.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+
 
     }
 

@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Setting the ViewPager For the SlidingTabsLayout
+
         tabs.setCustomTabView(R.layout.custom_actionbar, 0);
         tabs.setViewPager(pager);
 
