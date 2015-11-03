@@ -1,7 +1,16 @@
 package es.elconfidencial.eleccionesgenerales2015.activities;
 
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +24,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +46,9 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
     List<Object> items = new ArrayList<>();
 
     Button volver;
+
+    //Compartir
+    private File picFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +131,9 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             onBackPressed();
         }
+        if(id == R.id.share_result){
+            shareit();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -126,5 +143,70 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         System.gc();
         finish();
         super.onBackPressed();
+    }
+
+    //Compartir
+    public void shareit()
+    {
+        //View view =  findViewById(R.id.result);//your layout idr
+        View view = getWindow().getDecorView();
+        view.getRootView();
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state))
+        {
+            File picDir  = new File(Environment.getExternalStorageDirectory()+ "/EG2015-EC");
+            if (!picDir.exists())
+            {
+                picDir.mkdir();
+            }
+            view.setDrawingCacheEnabled(true);
+            view.buildDrawingCache(true);
+            Bitmap bitmap = view.getDrawingCache();
+
+            /**Funciones para detectar el tema y colores/imagenes de fondo**/
+            final Canvas canvas = new Canvas(bitmap);
+
+            // Get current theme to know which background to use
+            final Resources.Theme theme = ResultadosPresinderActivity.this.getTheme();
+            final TypedArray ta = theme
+                    .obtainStyledAttributes(new int[] { android.R.attr.windowBackground });
+            final int res = ta.getResourceId(0, 0);
+            final Drawable background= ResultadosPresinderActivity.this.getResources().getDrawable(res);
+
+            // Draw background
+            background.draw(canvas);
+
+            // Draw views
+            view.draw(canvas);
+
+            String fileName = "resultPicture" + ".jpg";
+            picFile = new File(picDir + "/" + fileName);
+            try
+            {
+                picFile.createNewFile();
+                FileOutputStream picOut = new FileOutputStream(picFile);
+                bitmap.setDensity(view.getResources().getDisplayMetrics().densityDpi);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), (int)(bitmap.getHeight()));
+
+                boolean saved = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, picOut);
+
+                picOut.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            view.destroyDrawingCache();
+        } else {
+            //Error
+
+        }
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/jpeg");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, "Estos han sido mis resultados en Presinder EC. Descarga la app en: https://www.elconfidencial.com");
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(picFile.getAbsolutePath()));
+        startActivity(Intent.createChooser(sharingIntent, "Compartir"));
     }
 }

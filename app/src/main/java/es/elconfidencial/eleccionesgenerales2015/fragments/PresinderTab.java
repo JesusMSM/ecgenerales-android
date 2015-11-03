@@ -7,10 +7,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.WindowCompat;
 import android.util.Log;
@@ -26,7 +35,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
