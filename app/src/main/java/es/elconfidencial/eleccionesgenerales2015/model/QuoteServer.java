@@ -12,6 +12,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,11 @@ public class QuoteServer{
                     savePersonInLocalWithQuote(q);
                 }
 
-                Collections.shuffle(parseQuotes); //Mezclamos aleatoriamente las quotes
+                Log.i("Jorge", "Antes del Shuffle: 1 quote " + quotes.get(0).getPersona());
+                Log.i("Jorge", "Antes del Shuffle: 2 quote " + quotes.get(1).getPersona());
+                Collections.shuffle(quotes); //Mezclamos aleatoriamente las quotes
+                Log.i("Jorge", "Despues del Shuffle: 1 quote " + quotes.get(0).getPersona());
+                Log.i("Jorge", "Despues del Shuffle: 2 quote " + quotes.get(1).getPersona());
                 ParseObject.pinAll(parseQuotes);
 
                 Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
