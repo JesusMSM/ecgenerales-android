@@ -1,5 +1,6 @@
 package es.elconfidencial.eleccionesgenerales2015.viewholders;
 
+import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,21 +12,51 @@ import java.util.Date;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
+import es.elconfidencial.eleccionesgenerales2015.views.DonutProgress;
 
 /**
  * Created by Jesus on 03/11/2015.
  */
 public class ContadorViewHolder extends RecyclerView.ViewHolder{
 
-    public TextView contador,label,barra,d_20;
+    public TextView contador,label,barra,d_20, textViewDias,textViewHoras,textViewMinutos;
+    public DonutProgress donut_dias,donut_horas,donut_minutos;
 
     public ContadorViewHolder(View v) {
         super(v);
-        contador = (TextView) v.findViewById(R.id.contador);
+
         label = (TextView) v.findViewById(R.id.label);
         barra = (TextView) v.findViewById(R.id.barra);
         d_20 = (TextView) v.findViewById(R.id.d_20);
+        donut_dias = (DonutProgress) v.findViewById(R.id.donut_dias);
+        textViewDias = (TextView) v.findViewById(R.id.textViewDias);
+        donut_horas = (DonutProgress) v.findViewById(R.id.donut_horas);
+        textViewHoras = (TextView) v.findViewById(R.id.textViewHoras);
+        donut_minutos = (DonutProgress) v.findViewById(R.id.donut_minutos);
+        textViewMinutos = (TextView) v.findViewById(R.id.textViewMinutos);
+
+        donut_dias.setStartingDegree(270);
+        donut_dias.setTextColor(v.getResources().getColor(R.color.white));
+        donut_dias.setTextSize(50f);
+        donut_dias.setMax(50);
+
+
+        donut_horas.setStartingDegree(270);
+        donut_horas.setTextColor(v.getResources().getColor(R.color.white));
+        donut_horas.setTextSize(50f);
+        donut_horas.setMax(24);
+
+        donut_minutos.setStartingDegree(270);
+        donut_minutos.setTextColor(v.getResources().getColor(R.color.white));
+        donut_minutos.setTextSize(50f);
+        donut_minutos.setMax(60);
+
+        textViewDias.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
+        textViewHoras.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
+        textViewMinutos.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
+
     }
+
     public void showContador(){
 
         long tiempoRestante = 0;
@@ -54,8 +85,13 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
                 long minutes = (millisUntilFinished - days*(1000*60*60*24) - hours*(1000*60*60))/ (1000 * 60); //for counting minutes
                 long seconds = (millisUntilFinished - days*(1000*60*60*24) - hours*(1000*60*60) - minutes*(1000*60)) / (1000); //for counting seconds
 
-
-                contador.setText( days + " " + MainActivity.resources.getString(R.string.dias) + "  " + hours + " h  \n"+ minutes +" mins  " + seconds + " segs ");
+                donut_dias.setText(""+days);
+                donut_dias.setProgress((int) days);
+                donut_horas.setText("" + hours);
+                donut_horas.setProgress((int) hours);
+                donut_minutos.setText("" + minutes);
+                donut_minutos.setProgress((int) minutes);
+//                contador.setText( days + " " + MainActivity.resources.getString(R.string.dias) + "  " + hours + " h  \n"+ minutes +" mins  " + seconds + " segs ");
             }
 
             public void onFinish() {

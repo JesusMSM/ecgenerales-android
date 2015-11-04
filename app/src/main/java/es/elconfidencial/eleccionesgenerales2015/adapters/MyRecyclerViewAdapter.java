@@ -214,10 +214,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void configureContadorViewHolder(ContadorViewHolder vh3, int position) {
         vh3.showContador();
-        vh3.contador.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
+
         vh3.label.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         vh3.barra.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         vh3.d_20.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
+
 
     }
 
