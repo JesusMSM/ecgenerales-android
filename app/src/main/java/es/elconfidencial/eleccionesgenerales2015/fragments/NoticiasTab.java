@@ -1,6 +1,7 @@
 package es.elconfidencial.eleccionesgenerales2015.fragments;
 
 
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +36,7 @@ public class NoticiasTab extends Fragment {
     public static String rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";
     public static int seleccion = 0;
 
+    private TextView actionBarTitle;
 
     //RecyclerView atributtes
     public static RecyclerView mRecyclerView;
@@ -45,6 +50,8 @@ public class NoticiasTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_noticias_tab, container, false);
 
+        actionBarTitle = (TextView) v.findViewById(R.id.actionBarNoticias);
+        actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rss_recycler_view);

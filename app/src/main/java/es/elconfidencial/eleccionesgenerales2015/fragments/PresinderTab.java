@@ -55,7 +55,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
  */
 public class PresinderTab extends Fragment {
 
-    TextView grupo,text,header1,likeText,dislikeText;
+    TextView grupo,text,header1,likeText,dislikeText, actionBarTitle;
     ImageView like,dislike;
     Button verResultados;
     QuoteServer qs = QuoteServer.getInstance();
@@ -69,6 +69,7 @@ public class PresinderTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_presinder_tab, container, false);
 
+        actionBarTitle = (TextView) v.findViewById(R.id.actionBarPresinder);
 
         //Initiamos la instancia del QuoteServer
         qs.init(getContext());
@@ -109,6 +110,7 @@ public class PresinderTab extends Fragment {
         verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         likeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         dislikeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
     }
 
     public void setNextQuote(){

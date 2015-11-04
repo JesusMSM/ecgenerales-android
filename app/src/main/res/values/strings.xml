@@ -16,6 +16,10 @@
     <string name="iu">Izquierda Unida</string>
     <string name="upyd">UPYD</string>
 
+    <!-- ActionBar Text -->
+    <string name="actionbar_presinder">Test de afinidad</string>
+    <string name="actionbar_noticias">Últimas noticias</string>
+    <string name="actionbar_resultados">Resultados</string>
 
     <!-- Strings presinder -->
     <string name="presinderHeader">Descubre a qué \n candidato te pareces</string>

@@ -4,6 +4,7 @@
     android:orientation="vertical"
     tools:context="es.elconfidencial.eleccionesgenerales2015.activities.ResultadosPresinderActivity">
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/resultados_recycler_view"
         android:layout_width="match_parent"
