@@ -25,6 +25,8 @@
     <string name="verResultados">Ver resultados</string>
     <string name="volverAJugar">Volver a jugar</string>
     <string name="resultadosTest">Resultados del test</string>
+    <string name="a_favor">Sí, estoy a favor</string>
+    <string name="en_contra">No, estoy en contra</string>
 
 
 <!-- TODO: Remove or change this placeholder text -->

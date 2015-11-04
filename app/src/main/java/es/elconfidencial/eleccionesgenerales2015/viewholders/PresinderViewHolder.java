@@ -13,7 +13,7 @@ import es.elconfidencial.eleccionesgenerales2015.R;
  */
 public class PresinderViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView group,question;
+    public TextView group,question,likeText,dislikeText;
     public ImageView like,dislike;
 
     public PresinderViewHolder(View v) {
@@ -22,5 +22,7 @@ public class PresinderViewHolder extends RecyclerView.ViewHolder {
         question = (TextView) v.findViewById(R.id.questionQuote);
         like = (ImageView) v.findViewById(R.id.likeButton);
         dislike = (ImageView) v.findViewById(R.id.dislikeButton);
+        likeText = (TextView) v.findViewById(R.id.aFavor);
+        dislikeText = (TextView) v.findViewById(R.id.enContra);
     }
 }

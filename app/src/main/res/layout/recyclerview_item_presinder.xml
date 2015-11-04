@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_vertical_margin">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,10 +79,9 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:minHeight="150dp"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="30dp"
-                    android:paddingRight="16dp"
-                    android:paddingLeft="16dp"
+                    android:gravity="center"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="23dp"
                     android:textSize="8pt"
                     android:textColor="@color/ColorPrimaryDark"
                     android:id="@+id/questionQuote"/>
@@ -93,36 +93,79 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal"
+            android:layout_height="130dp"
+            android:orientation="vertical"
             android:layout_gravity="bottom">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-            <ImageView
-                android:id="@+id/likeButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/caraok"
-                android:clickable="true"/>
-            <ImageView
-                android:id="@+id/dislikeButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/carano"
-                android:clickable="true"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <ImageView
+                    android:id="@+id/likeButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="15dp"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/caraok"
+                    android:clickable="true"/>
+                <ImageView
+                    android:id="@+id/dislikeButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_marginRight="15dp"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/carano"
+                    android:clickable="true"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/aFavor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/a_favor"
+                    android:textSize="5pt"
+                    android:textColor="@color/Color_agree"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAllCaps="true"/>
+                <TextView
+                    android:id="@+id/enContra"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/en_contra"
+                    android:textSize="5pt"
+                    android:textColor="@color/Color_disagree"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAllCaps="true"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

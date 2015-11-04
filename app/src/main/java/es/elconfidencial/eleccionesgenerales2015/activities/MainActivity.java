@@ -1,5 +1,6 @@
 package es.elconfidencial.eleccionesgenerales2015.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.context = getApplicationContext();
         qs.init(getApplicationContext());
+        
 
         //Titulos, da igual lo que se ponga pero tienen que existir aunque no se vayan a ver despues
         Titles[0] = "HOME";

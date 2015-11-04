@@ -26,7 +26,7 @@
             android:text="@string/volverAJugar"
             android:paddingLeft="@dimen/abc_button_padding_horizontal_material"
             android:paddingRight="@dimen/abc_button_padding_horizontal_material"
-            android:background="@drawable/resultados_button"/>
+            android:background="@drawable/button_resultados"/>
     </LinearLayout>
 
 </LinearLayout>

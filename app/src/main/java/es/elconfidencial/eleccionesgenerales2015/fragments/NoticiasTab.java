@@ -45,6 +45,7 @@ public class NoticiasTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_noticias_tab, container, false);
 
+
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rss_recycler_view);
         mRecyclerView.setHasFixedSize(true);

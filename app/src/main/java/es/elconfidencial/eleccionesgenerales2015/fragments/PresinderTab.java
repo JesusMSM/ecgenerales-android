@@ -55,7 +55,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
  */
 public class PresinderTab extends Fragment {
 
-    TextView grupo,text,header1;
+    TextView grupo,text,header1,likeText,dislikeText;
     ImageView like,dislike;
     Button verResultados;
     QuoteServer qs = QuoteServer.getInstance();
@@ -69,12 +69,15 @@ public class PresinderTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_presinder_tab, container, false);
 
+
         //Initiamos la instancia del QuoteServer
         qs.init(getContext());
 
         header1 = (TextView) v.findViewById(R.id.headerPresinder);
         text = (TextView) v.findViewById(R.id.questionQuote);
         grupo = (TextView) v.findViewById(R.id.groupQuote);
+        likeText =(TextView) v.findViewById(R.id.aFavorTab);
+        dislikeText =(TextView) v.findViewById(R.id.enContraTab);
 
         like = (ImageView) v.findViewById(R.id.likeButtonTab);
         dislike = (ImageView) v.findViewById(R.id.dislikeButtonTab);
@@ -104,6 +107,8 @@ public class PresinderTab extends Fragment {
         text.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
         grupo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        likeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        dislikeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
     }
 
     public void setNextQuote(){
@@ -267,6 +272,7 @@ public class PresinderTab extends Fragment {
             title.setText(getResources().getString(R.string.disagree));
             persona.setText(qs.getPersonFromName(currentQuote.getPersona()).getNiceName());
             party.setText(qs.getPersonFromName(currentQuote.getPersona()).getParty());
+
             //Fonts
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));

@@ -61,15 +61,14 @@ public class QuoteServer{
         Parse.initialize(context, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
-        //query.orderByAscending("objectId"); //Guardar las quotes en orden según id (simulando aleatorio)
         query.fromLocalDatastore();
         try {
             List<ParseObject> parseQuotes = query.find();
             if(parseQuotes.isEmpty()){
-                Log.i("ParsePrueba", "Entramos en el null");
                 //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
                 ParseQuery<ParseObject> query2 = ParseQuery.getQuery("QUOTES");
                 parseQuotes = query2.find();
+
 
                 for (ParseObject q : parseQuotes) {
                     //Create new Quote from ParseObject
@@ -77,6 +76,7 @@ public class QuoteServer{
                     //Save persona for this quote
                     savePersonInLocalWithQuote(q);
                 }
+
                 Collections.shuffle(parseQuotes); //Mezclamos aleatoriamente las quotes
                 ParseObject.pinAll(parseQuotes);
 

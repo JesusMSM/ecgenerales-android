@@ -4,6 +4,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
     <color name="grey">#484848</color>
+    <color name="light_grey">#BDBDBD</color>
     <color name="titulos">#333333</color>
     <color name="transparent">#00000000</color>
     <color name="actionBar_color">#000</color>
