@@ -107,7 +107,7 @@ public class PresinderTab extends Fragment {
     }
 
     public void setNextQuote(){
-        text.setText("\"" + qs.quotes.get(qs.getQuotesIndex()).getText() + "\"");
+        text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
         grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
     }
 

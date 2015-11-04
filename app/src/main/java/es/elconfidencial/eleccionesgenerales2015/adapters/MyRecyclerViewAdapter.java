@@ -253,7 +253,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.nAgrees.setText("" + persona.getAgree());
         vh.nDisAgrees.setText("" + persona.getDisagree());
         try{
-            Glide.with(context).load(context.getResources().getIdentifier(persona.getPhotoLink(),"drawable", context.getPackageName())).placeholder(R.drawable.nopicpersona).into(vh.fotoPolitico);
+            Glide.with(context).load(context.getResources().getIdentifier(persona.getPhotoLink(),"drawable", context.getPackageName())).placeholder(R.mipmap.circlenopic).into(vh.fotoPolitico);
             Glide.with(context).load(R.drawable.caralittleok).into(vh.likesPolitico);
             Glide.with(context).load(R.drawable.caralittleno).into(vh.dislikesPolitico);
         }catch (Exception e){
