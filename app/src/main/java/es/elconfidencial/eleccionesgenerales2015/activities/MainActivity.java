@@ -53,7 +53,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.context = getApplicationContext();
         qs.init(getApplicationContext());
-        
+
+        SharedPreferences prefs = context.getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstTime", false);
+        editor.apply();
 
         //Titulos, da igual lo que se ponga pero tienen que existir aunque no se vayan a ver despues
         Titles[0] = "HOME";
