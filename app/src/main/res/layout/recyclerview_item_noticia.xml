@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         app:backgroundTint="@color/white"
         android:src="@drawable/ic_share_variant"
-        app:fabSize="normal"
+        app:fabSize="mini"
         app:borderWidth="0dp"
         android:layout_gravity="bottom|end"
         android:layout_marginTop="-45dp"

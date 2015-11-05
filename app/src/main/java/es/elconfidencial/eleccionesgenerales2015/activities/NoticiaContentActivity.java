@@ -131,6 +131,117 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void reduceTamaño(){
+        int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
+
+        if (getSizeName().equals("xlarge")) {
+            textSizeInt=textSizeInt-3;
+            if(textSizeInt<20) textSizeInt=20;
+            textSize=textSizeInt+"px";
+        }else{
+            textSizeInt=textSizeInt-2;
+            if(textSizeInt<10) textSizeInt=10;
+            textSize=textSizeInt+"px";
+        }
+
+
+
+        //Insertamos la cabecera al html con el estilo
+        String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
+                "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
+                "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
+                "h2{font-family: MilioHeavy;}" +
+                "img{max-width: 100%; width:auto; height: auto;}" +
+                "body{font-family:TitilliumLight;text-align:justify}" +
+                "a{text-decoration: none;color:black;} " +
+                "html { font-size: " + textSize + "}" +
+                "strong{font-family:TitilliumSemibold;}</style></head>";
+
+        String htmlString ="<html>" + head + "<body><div>" + intent.getStringExtra("descripcion") + "</div></body></html>";
+
+        //String htmlStringFormatted = htmlString.replace("<img src[^>]*>", "");
+        //Quitar la imagen del final
+
+        descripcion.getSettings().setJavaScriptEnabled(true);
+        descripcion.getSettings().setDefaultTextEncodingName("utf-8");
+        descripcion.loadDataWithBaseURL("", htmlString, "text/html", "charset=UTF-8", null);
+        descripcion.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //Bloquear links
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+        });
+        // disable scroll on touch
+        descripcion.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+
+    }
+
+    public void aumentarTamaño(){
+        int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
+
+        if (getSizeName().equals("xlarge")) {
+            textSizeInt=textSizeInt+3;
+            if(textSizeInt>40) textSizeInt=40;
+            textSize=textSizeInt+"px";
+        }else{
+            textSizeInt=textSizeInt+2;
+            if(textSizeInt>25) textSizeInt=25;
+            textSize=textSizeInt+"px";
+        }
+
+
+
+        //Insertamos la cabecera al html con el estilo
+        String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
+                "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
+                "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
+                "h2{font-family: MilioHeavy;}" +
+                "img{max-width: 100%; width:auto; height: auto;}" +
+                "body{font-family:TitilliumLight;text-align:justify}" +
+                "a{text-decoration: none;color:black;} " +
+                "html { font-size: " + textSize + "}" +
+                "strong{font-family:TitilliumSemibold;}</style></head>";
+
+        String htmlString ="<html>" + head + "<body><div>" + intent.getStringExtra("descripcion") + "</div></body></html>";
+
+        //String htmlStringFormatted = htmlString.replace("<img src[^>]*>", "");
+        //Quitar la imagen del final
+
+        descripcion.getSettings().setJavaScriptEnabled(true);
+        descripcion.getSettings().setDefaultTextEncodingName("utf-8");
+        descripcion.loadDataWithBaseURL("", htmlString, "text/html", "charset=UTF-8", null);
+        descripcion.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //Bloquear links
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+        });
+        // disable scroll on touch
+        descripcion.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+
+    }
     public void changeSize(){
 
         int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
@@ -193,10 +304,13 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             onBackPressed();
         }
         if(item.getItemId() == R.id.share){
-            shareAction(url,info);
+           shareAction(url,info);
         }
-        if(item.getItemId() == R.id.size){
-            changeSize();
+        if(item.getItemId() == R.id.aumenta){
+            aumentarTamaño();
+        }
+        if(item.getItemId() == R.id.reduce){
+            reduceTamaño();
         }
         return super.onOptionsItemSelected(item);
     }
