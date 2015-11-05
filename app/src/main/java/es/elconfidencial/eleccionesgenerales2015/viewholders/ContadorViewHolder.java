@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +21,7 @@ import es.elconfidencial.eleccionesgenerales2015.views.DonutProgress;
  */
 public class ContadorViewHolder extends RecyclerView.ViewHolder{
 
-    public TextView contador,label,barra,d_20, textViewDias,textViewHoras,textViewMinutos;
+    public TextView contador,label,barra,d_20, textViewDias,textViewHoras,textViewMinutos,textViewFaltan,textViewColegiosElectorales;
     public DonutProgress donut_dias,donut_horas,donut_minutos;
 
     public ContadorViewHolder(View v) {
@@ -28,6 +30,8 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         label = (TextView) v.findViewById(R.id.label);
         barra = (TextView) v.findViewById(R.id.barra);
         d_20 = (TextView) v.findViewById(R.id.d_20);
+        textViewFaltan = (TextView) v.findViewById(R.id.textViewFaltan);
+        textViewColegiosElectorales = (TextView) v.findViewById(R.id.textViewColegiosElectorales);
         donut_dias = (DonutProgress) v.findViewById(R.id.donut_dias);
         textViewDias = (TextView) v.findViewById(R.id.textViewDias);
         donut_horas = (DonutProgress) v.findViewById(R.id.donut_horas);
@@ -54,7 +58,8 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         textViewDias.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
         textViewHoras.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
         textViewMinutos.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
-
+        textViewFaltan.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Regular.otf"));
+        textViewColegiosElectorales.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Regular.otf"));
     }
 
     public void showContador(){

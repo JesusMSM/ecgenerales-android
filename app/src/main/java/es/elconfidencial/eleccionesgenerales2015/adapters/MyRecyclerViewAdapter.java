@@ -14,6 +14,15 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +40,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
 import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.ContadorViewHolder;
+import es.elconfidencial.eleccionesgenerales2015.viewholders.EncuestasViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PoliticoViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PresinderViewHolder;
@@ -46,7 +56,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Object> items;
     Context context;
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -79,8 +89,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Titulo) {
             return TITULO;
         }
-        else if (items.get(position).equals("contador")) {
+        if (items.get(position).equals("contador")) {
             return CONTADOR;
+        }
+        else if (items.get(position).equals("encuestas")) {
+            return ENCUESTA;
         }
         return -1;
     }
@@ -116,6 +129,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v6 = inflater.inflate(R.layout.recyclerview_item_contador, viewGroup, false);
                 viewHolder = new ContadorViewHolder(v6);
                 break;
+            case ENCUESTA:
+                View v7 = inflater.inflate(R.layout.recyclerview_item_encuesta, viewGroup, false);
+                viewHolder = new EncuestasViewHolder(v7);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -150,6 +167,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case CONTADOR:
                 ContadorViewHolder vh6 = (ContadorViewHolder) viewHolder;
                 configureContadorViewHolder(vh6, position);
+                break;
+            case ENCUESTA:
+                EncuestasViewHolder vh7 = (EncuestasViewHolder) viewHolder;
+                configureEncuestasViewHolder(vh7, position);
                 break;
             default:
         }
@@ -219,6 +240,100 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh3.barra.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         vh3.d_20.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
 
+
+    }
+
+    private void configureEncuestasViewHolder(EncuestasViewHolder vh3, int position) {
+        //final BarChart grafico = (BarChart) items.get(position);
+
+        BarChart grafico = vh3.grafico;
+
+        grafico.setDrawBarShadow(false);
+        grafico.setDrawValueAboveBar(true);
+
+        grafico.setDescription("");
+
+        // if more than 60 entries are displayed in the chart, no values will be
+        // drawn
+        grafico.setMaxVisibleValueCount(60);
+
+        // scaling can now only be done on x- and y-axis separately
+        grafico.setPinchZoom(false);
+
+        grafico.setDrawGridBackground(false);
+        grafico.setClickable(false);
+        // grafico.setDrawYLabels(false);
+
+        //Typeface mTf = Typeface.createFromAsset(context.getAssets(), "Titilium-Regular.otf");
+
+        XAxis xAxis = grafico.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setSpaceBetweenLabels(2);
+
+
+
+        YAxis leftAxis = grafico.getAxisLeft();
+        leftAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        leftAxis.setLabelCount(8, false);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+        leftAxis.setEnabled(false);
+
+        YAxis rightAxis = grafico.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        rightAxis.setLabelCount(8, false);
+        rightAxis.setSpaceTop(15f);
+        rightAxis.setEnabled(false);
+
+        Legend l = grafico.getLegend();
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        l.setForm(Legend.LegendForm.SQUARE);
+        l.setFormSize(9f);
+        l.setTextSize(11f);
+        l.setXEntrySpace(4f);
+        l.setEnabled(false);
+        // l.setExtra(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
+        // "def", "ghj", "ikl", "mno" });
+        // l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
+        // "def", "ghj", "ikl", "mno" });
+
+        setData(grafico);
+
+
+
+    }
+
+    private void setData(BarChart grafico){
+
+        //Typeface mTf = Typeface.createFromAsset(context.getAssets(), "Titilium-Regular.otf");
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < 5; i++) {
+            xVals.add("PP");
+        }
+
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+
+        for (int i = 0; i < 5; i++) {
+            float mult = 5;
+            float val = (float) (Math.random() * mult);
+            yVals1.add(new BarEntry(val, i));
+        }
+
+        BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
+        set1.setBarSpacePercent(35f);
+
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
+
+        BarData data = new BarData(xVals, dataSets);
+        data.setValueTextSize(10f);
+        data.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));;
+
+        grafico.setData(data);
 
     }
 

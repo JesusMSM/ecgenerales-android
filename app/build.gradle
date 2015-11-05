@@ -48,4 +48,6 @@ dependencies {
     compile 'com.inthecheesefactory.thecheeselibrary:adjustable-imageview:1.0.0'
 
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
 }

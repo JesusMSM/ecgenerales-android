@@ -97,6 +97,9 @@ public class HomeTab extends Fragment {
 
             items.add("contador");
 
+            items.add(new Titulo(getString(R.string.titulo_encuestas)));
+            items.add("encuestas");
+
             items.add(new Titulo(getString(R.string.titulo_ultimas_noticias)));
 
             int listLength = 4; //número de noticias que deben aparecer
