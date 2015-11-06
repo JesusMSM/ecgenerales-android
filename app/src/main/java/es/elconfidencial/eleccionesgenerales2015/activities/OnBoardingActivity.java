@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+
+import com.parse.ParseObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +21,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 
@@ -26,6 +32,9 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     private Button empezar;
     private AutoCompleteTextView searchMunicipio;
+
+    private List<String> municipiosAutoComplete = new ArrayList<>();
+    private List<String> municipiosList = new ArrayList<>();
 
 
     private String CCAAname;
@@ -46,9 +55,12 @@ public class OnBoardingActivity extends AppCompatActivity {
         empezar = (Button) findViewById(R.id.empezar);
 
 
+       /** if(municipiosAutoComplete.get(0)!=null) {
+            Log.i("Municipios", "Primer municipio de la lista " + municipiosAutoComplete.get(0));
+        }**/
         //Adapter del buscador de municipio
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, municipios);
+                android.R.layout.simple_dropdown_item_1line, municipiosAutoComplete);
 
         // Numero de caracteres necesarios para que se empiece
         // a mostrar la lista
@@ -56,6 +68,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
         // Se establece el Adapter
         searchMunicipio.setAdapter(adapter);
+
 
         //Listener del boton empezar
         empezar.setOnClickListener(new Button.OnClickListener() {
@@ -67,7 +80,8 @@ public class OnBoardingActivity extends AppCompatActivity {
         });
 
 
-       // new JSONParse().execute();
+        new JSONParse().execute();
+
     }
 
     private class JSONParse extends AsyncTask<String, String, JSONObject> {
@@ -98,32 +112,89 @@ public class OnBoardingActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            if(json!=null){
+                Log.i("Municipios", "JSON recuperado de assets");
+            } else{
+                Log.i("Municipios", "JSON no recuperado de assets");
+            }
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
 
-           /** try {
-                //Parseamos el array y vamos añadiendo municipios a la lista
-                for(int i=0;i<json.length();i++){
-                    JSONArray jsonCCAA = json.getJSONArray(String.valueOf(i));
-                    for (int j=0; j < jsonCCAA.length(); j++)
-                    {
-                        try {
-                            JSONArray oneObject = jsonCCAA.getJSONArray(j);
+            getListMunicipios(json);
 
-                        } catch (JSONException e) {
-                            // Oops
-                        }
-                    }
+        }
 
+        private void getListMunicipios (JSONObject json){
 
+            String provinciaNameAutoComplete;
+            String municipioNameAutoComplete;
 
+            Iterator iterIdCCAA = json.keys();
+            while(iterIdCCAA.hasNext()){
+                String idCCAA = (String)iterIdCCAA.next();
+                JSONObject jsonCCAA = null;
+                try {
+                    jsonCCAA = json.getJSONObject(idCCAA);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
+                //Extraemos el jsonObject del campo "Provincia"
+                try {
+                    assert jsonCCAA != null;
+                    JSONObject jsonIDProvincia = jsonCCAA.getJSONObject("Provincias");
+                    String CCAAname = jsonCCAA.getString("Name");
+                    Log.i("Municipios", "Entramos en  " + CCAAname);
+
+                    Iterator iterIdProvincia = jsonIDProvincia.keys();
+                    while(iterIdProvincia.hasNext()){
+
+                        String idProvincia = (String)iterIdProvincia.next();
+                        JSONObject jsonProvincia = null;
+                        try {
+                            jsonProvincia = jsonIDProvincia.getJSONObject(idProvincia);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //Extraemos el jsonObject del campo "Municipios"
+                        try {
+                            assert jsonProvincia != null;
+                            JSONObject jsonIDMunicipio = jsonProvincia.getJSONObject("Municipios");
+                            provinciaNameAutoComplete = jsonProvincia.getString("Name");
+
+                            Iterator iterIdMunicipio = jsonIDMunicipio.keys();
+                            while(iterIdMunicipio.hasNext()){
+                                String idMunicipio = (String)iterIdMunicipio.next();
+                                JSONObject jsonMunicipio = null;
+                                try {
+                                    jsonMunicipio = jsonIDMunicipio.getJSONObject(idMunicipio);
+
+                                    //Por último, extraemos el nombre del municipio y lo guardamos en la lista de municipios
+                                    municipioNameAutoComplete = jsonMunicipio.getString("Name") + ", " + provinciaNameAutoComplete;
+                                    municipiosAutoComplete.add(municipioNameAutoComplete);
+                                    municipiosList.add(jsonMunicipio.getString("Name"));
+                                    municipioNameAutoComplete = "";
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                 } catch (JSONException e) {
-                e.printStackTrace();
-            }**/
+                    e.printStackTrace();
+                }
+            }
 
         }
 
@@ -135,7 +206,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         String json = null;
         try {
 
-            InputStream is = getAssets().open("file_name.json");
+            InputStream is = getAssets().open("ccaa_provincia_municipio_ID.json");
 
             int size = is.available();
 
