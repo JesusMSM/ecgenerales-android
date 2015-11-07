@@ -19,10 +19,15 @@
             android:orientation="vertical"
             android:layout_gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Spinner
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SPINNER"/>
+                android:paddingTop="@dimen/abc_button_padding_vertical_material"
+                android:layout_marginRight="50dp"
+                android:paddingBottom="@dimen/abc_button_padding_vertical_material"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/spinnerEncuesta"
+                />
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/chartEncuestas"

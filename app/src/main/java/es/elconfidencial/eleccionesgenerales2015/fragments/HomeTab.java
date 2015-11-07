@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,23 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
+import es.elconfidencial.eleccionesgenerales2015.json.JSONParser;
+import es.elconfidencial.eleccionesgenerales2015.model.DatosEncuentas;
+import es.elconfidencial.eleccionesgenerales2015.model.Encuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
+import es.elconfidencial.eleccionesgenerales2015.model.PartidoEncuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
@@ -38,10 +48,14 @@ public class HomeTab extends Fragment {
     QuoteServer qs = QuoteServer.getInstance();
 
     public static String rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";
+    public static String encuestas_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/survey.json";
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    public static ArrayList<Encuesta> encuestas = new ArrayList<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,10 +70,134 @@ public class HomeTab extends Fragment {
         mLayoutManager = new LinearLayoutManager(MainActivity.context);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        new CargarXmlTask().execute(rss_url);
+        new JSONParse().execute();
+        //new CargarXmlTask().execute(rss_url);
         return v;
     }
 
+
+    private class JSONParse extends AsyncTask<String, String, JSONArray> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            // Getting JSON from URL
+            JSONArray json = jParser.getJSONFromUrl(encuestas_url);
+
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONArray json) {
+            encuestas.clear();
+            ArrayList<PartidoEncuesta> partidoEncuestas = new ArrayList<>();
+            ArrayList<String> titulos = new ArrayList<>();
+            ArrayList<DatosEncuentas> datosEncuestas = new ArrayList<>();
+
+
+            for(int i=0; i<json.length(); i++){
+
+                try {
+                    partidoEncuestas.clear();
+                    JSONObject encuestaGlobal = json.getJSONObject(i);
+                    titulos.add(encuestaGlobal.getString("Name"));
+                    JSONArray datos = encuestaGlobal.getJSONArray("Data");
+                    for(int j=0; j<datos.length();j++){
+                        JSONObject duplaPartido = datos.getJSONObject(j);
+                        JSONArray partido = duplaPartido.names();
+                        String nombre="";
+                        double porcentaje =0;
+                        for(int k=0; k<partido.length(); k++) {
+                            nombre = partido.getString(k);
+                            //Log.d("Encuestas", nombre);
+                            porcentaje = duplaPartido.getDouble(nombre);
+                            //Log.d("Encuestas", ""+porcentaje);
+
+
+                        }
+                        PartidoEncuesta partidoEncuesta = new PartidoEncuesta(nombre, porcentaje);
+                        partidoEncuestas.add(partidoEncuesta);
+
+                        }
+                    datosEncuestas.add(new DatosEncuentas(partidoEncuestas));
+
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                encuestas.add(new Encuesta(titulos.get(i),datosEncuestas.get(i).getDatosEncuesta()));
+            }
+
+
+            for(int n=0; n<encuestas.size(); n++){
+                Log.d("Encuestas", "El contenido de encuestas es: ");
+                Log.d("Encuestas", encuestas.get(n).getName());
+
+                for (int m=0; m< encuestas.get(n).getPartidosEncuesta().size(); m++){
+                    Log.d("Encuestas", "Con el partido "+encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
+                }
+            }
+/*
+            try {
+                for(int i = 0; i< json.length(); i++) {
+                    partidoEncuestas.clear();
+                    JSONObject encuesta = json.getJSONObject(i);
+                    String name = encuesta.getString("Name");
+                    JSONArray datos = encuesta.getJSONArray("Data");
+                    for (int j = 0; j < datos.length(); j++) {
+                        JSONObject partido = datos.getJSONObject(j);
+                        Iterator<String> nombrePartido = partido.keys();
+                        while (nombrePartido.hasNext()) {
+                            String nombre = nombrePartido.next();
+                            double porcentaje = partido.getDouble(nombre);
+                            PartidoEncuesta partidoEncuesta = new PartidoEncuesta(nombre, porcentaje);
+                            partidoEncuestas.add(partidoEncuesta);
+                        }
+
+                    }
+                    Encuesta e = new Encuesta(name,partidoEncuestas);
+                    for(int n=0; n<encuestas.size(); n++){
+                        Log.d("Encuestas", "El contenido de encuestas es: ");
+                        Log.d("Encuestas", encuestas.get(n).getName());
+
+                        for (int m=0; m< encuestas.get(n).getPartidosEncuesta().size(); m++){
+                            Log.d("Encuestas", "Con el partido "+encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
+                        }
+                    }
+                    Log.d("Encuestas", "Se va a añadir la encuesta" + e.getName());
+                    for(int k=0; k<e.getPartidosEncuesta().size(); k++){
+                        Log.d("Encuestas", e.getPartidosEncuesta().get(k).getName());
+                    }
+                    encuestas.add(e);
+                }
+
+               for(int z =0; z<encuestas.size(); z++){
+                    Log.d("Encuestas", "Encuesta: " + encuestas.get(z).getName());
+                    for(int w=0; w<encuestas.get(z).getPartidosEncuesta().size(); w++){
+                        Log.d("Encuestas", encuestas.get(z).getPartidosEncuesta().get(w).getName() +"  "+ encuestas.get(z).getPartidosEncuesta().get(w).getPorcentaje() );
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }*/
+            /*for(int i=0; i<encuestas.size(); i++){
+                Encuesta e = encuestas.get(i);
+                Log.d("Encuestas", "La encuesta " + e.getName());
+                for (int z = 0; z < e.getPartidosEncuesta().size(); z++) {
+                    Log.d("Encuestas", "contiente " + e.getPartidosEncuesta().get(z).getName() + " con porcentaje " + e.getPartidosEncuesta().get(z).getPorcentaje());
+                }
+            }*/
+            new CargarXmlTask().execute(rss_url);
+        }
+    }
 
     /*Permite gestionar de forma asincrona el RSS */
     private class CargarXmlTask extends AsyncTask<String,Integer,Boolean> {
@@ -84,6 +222,7 @@ public class HomeTab extends Fragment {
             return true;
         }
         protected void onPostExecute(Boolean result) {
+
 
             addItems();
 

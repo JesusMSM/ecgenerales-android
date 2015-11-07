@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
@@ -30,9 +31,11 @@ import java.util.List;
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.activities.NoticiaContentActivity;
+import es.elconfidencial.eleccionesgenerales2015.fragments.HomeTab;
 import es.elconfidencial.eleccionesgenerales2015.fragments.NoticiasTab;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
+import es.elconfidencial.eleccionesgenerales2015.model.Encuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
 import es.elconfidencial.eleccionesgenerales2015.model.Persona;
@@ -55,6 +58,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     // The items to display in your RecyclerView
     private List<Object> items;
     Context context;
+    int encuestaSeleccionada = 0;
+    BarChart grafico;
 
     private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6;
 
@@ -219,7 +224,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.botonCompartir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               
+
                 Intent intent = new Intent();
                 String textoCompartir = noticia.getLink() + "\n\n" + noticia.getTitulo();
 
@@ -246,7 +251,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void configureEncuestasViewHolder(EncuestasViewHolder vh3, int position) {
         //final BarChart grafico = (BarChart) items.get(position);
 
-        BarChart grafico = vh3.grafico;
+        this.grafico = vh3.grafico;
+        Spinner spinner = vh3.spinner;
 
         grafico.setDrawBarShadow(false);
         grafico.setDrawValueAboveBar(true);
@@ -301,27 +307,61 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         // l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
         // "def", "ghj", "ikl", "mno" });
 
-        setData(grafico);
+
+        List<String> encuestasTitulo = new ArrayList<String>();
+        for(int i=0; i<HomeTab.encuestas.size(); i++){
+            Log.d("ENCUESTAS", HomeTab.encuestas.get(i).getName());
+            encuestasTitulo.add(HomeTab.encuestas.get(i).getName());
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, R.layout.row_custom_spinner_encuesta, R.id.nombreEncuesta, encuestasTitulo);
+        spinner.setAdapter(dataAdapter);
+
+
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                    encuestaSeleccionada = position;
+                    setData(grafico, HomeTab.encuestas.get(position));
+                }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        setData(grafico, HomeTab.encuestas.get(encuestaSeleccionada));
 
 
 
     }
 
-    private void setData(BarChart grafico){
+    private void setData(BarChart grafico, Encuesta e){
+
+
+
 
         //Typeface mTf = Typeface.createFromAsset(context.getAssets(), "Titilium-Regular.otf");
         ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < 5; i++) {
-            xVals.add("PP");
+
+        for (int i = 0; i < e.getPartidosEncuesta().size(); i++) {
+           // Log.d("Encuestas", "contiente " + e.getPartidosEncuesta().get(i).getName() + " con porcentaje " + e.getPartidosEncuesta().get(i).getPorcentaje());
+            xVals.add(e.getPartidosEncuesta().get(i).getName());
         }
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-        for (int i = 0; i < 5; i++) {
-            float mult = 5;
-            float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(val, i));
+        for (int i = 0; i < e.getPartidosEncuesta().size(); i++) {
+
+            yVals1.add(new BarEntry((float)e.getPartidosEncuesta().get(i).getPorcentaje(), i));
         }
+
 
         BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
         set1.setBarSpacePercent(35f);
@@ -334,6 +374,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         data.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));;
 
         grafico.setData(data);
+
+        grafico.invalidate();
 
     }
 
