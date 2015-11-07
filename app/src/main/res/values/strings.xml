@@ -18,6 +18,9 @@
     <string name="upyd">UPYD</string>
 
 
+    <!-- Strings OnBoarding -->
+    <string name="introduce_municipio">Introduce su municipio</string>
+    <string name="empezar">Empezar</string>
 
     <!-- ActionBar Text -->
     <string name="actionbar_presinder">Test de afinidad</string>

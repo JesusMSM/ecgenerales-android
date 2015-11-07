@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 
@@ -35,15 +36,12 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     private List<String> municipiosAutoComplete = new ArrayList<>();
     private List<String> municipiosList = new ArrayList<>();
+    private List<Integer> tagsList = new ArrayList<>();
 
 
-    private String CCAAname;
-    private String CCAAid;
-    private String provinciaName;
-    private String provinciaId;
-    private String municipioName;
-    private String municipioId;
 
+    //private String pushwooshTag; // Ej:08.10.0000 (No ha marcado que desea recibir notificación a nivel de municipio)
+    private String realTag; // Ej:08.101.003
 
     private List<String> municipios = new ArrayList<>();
     @Override
@@ -60,7 +58,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         }**/
         //Adapter del buscador de municipio
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, municipiosAutoComplete);
+                android.R.layout.simple_dropdown_item_1line, municipiosList);
 
         // Numero de caracteres necesarios para que se empiece
         // a mostrar la lista
@@ -74,13 +72,23 @@ public class OnBoardingActivity extends AppCompatActivity {
         empezar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                startActivity(intent);
+                if(getTagFromMunicipio(searchMunicipio.getText().toString())!=0){
+                    // internalMunicipioTag = getTagFromMunicipio(searchMunicipio.getText().toString());
+                    Log.i("Municipios", "" + searchMunicipio.getText().toString());
+                    Intent intent = new Intent(view.getContext(), MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.introduce_municipio), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
             }
         });
 
 
         new JSONParse().execute();
+
+
 
     }
 
@@ -124,16 +132,29 @@ public class OnBoardingActivity extends AppCompatActivity {
 
             getListMunicipios(json);
 
+
+
         }
 
+        /**Rellenaremos 3 List:
+         *  - municipiosAutoComplete: Con Strings de cada uno de los municipios encontrados en el json con la forma "Municipio, Provincia"
+         *  - municipiosList: Con Strings de cada uno de los municipios
+         *  - realTagList: Con ints de cada uno de los ids de los municipios, en el mismo orden que en las otras dos listas
+         *
+         * @param json ; json con la lisa de CCAA-Provincias-Municipios y sus tags
+         */
         private void getListMunicipios (JSONObject json){
+
+            int tag;
 
             String provinciaNameAutoComplete;
             String municipioNameAutoComplete;
 
             Iterator iterIdCCAA = json.keys();
             while(iterIdCCAA.hasNext()){
+                //Guardamos la ID en la variable tag. Ej: ID = 8 --> tag = 8.000.000
                 String idCCAA = (String)iterIdCCAA.next();
+                tag = Integer.parseInt(idCCAA) * 1000000;
                 JSONObject jsonCCAA = null;
                 try {
                     jsonCCAA = json.getJSONObject(idCCAA);
@@ -151,7 +172,9 @@ public class OnBoardingActivity extends AppCompatActivity {
                     Iterator iterIdProvincia = jsonIDProvincia.keys();
                     while(iterIdProvincia.hasNext()){
 
+                        //Guardamos la ID en la variable tag. Ej: ID = 11 --> tag = 110.000
                         String idProvincia = (String)iterIdProvincia.next();
+                        tag += Integer.parseInt(idProvincia) * 10000;
                         JSONObject jsonProvincia = null;
                         try {
                             jsonProvincia = jsonIDProvincia.getJSONObject(idProvincia);
@@ -168,36 +191,60 @@ public class OnBoardingActivity extends AppCompatActivity {
 
                             Iterator iterIdMunicipio = jsonIDMunicipio.keys();
                             while(iterIdMunicipio.hasNext()){
+                                //Guardamos la ID en la variable tag. Ej: ID = 1024 --> tag = 1.0024
                                 String idMunicipio = (String)iterIdMunicipio.next();
+                                tag += Integer.parseInt(idMunicipio);
                                 JSONObject jsonMunicipio = null;
                                 try {
                                     jsonMunicipio = jsonIDMunicipio.getJSONObject(idMunicipio);
 
-                                    //Por último, extraemos el nombre del municipio y lo guardamos en la lista de municipios
+                                    //Guardamos el nombre del municipio en la lista del autoComplete y en la lista de nombres de municipios
                                     municipioNameAutoComplete = jsonMunicipio.getString("Name") + ", " + provinciaNameAutoComplete;
                                     municipiosAutoComplete.add(municipioNameAutoComplete);
                                     municipiosList.add(jsonMunicipio.getString("Name"));
+                                    //Guardamos el tag correspondiente a la CCAA-provincia-municipio de dicho municipio
+                                    tagsList.add(tag);
+
+                                    //Reseteamos los valores para la próxima iteración
                                     municipioNameAutoComplete = "";
+                                    tag -= Integer.parseInt(idMunicipio);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-
 
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
+                        //Reseteamos la variable tag para la siguiente iteración
+                        tag -= Integer.parseInt(idProvincia);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                //Reseteamos la variable tag para la siguiente iteración
+                tag -= Integer.parseInt(idCCAA);
+
             }
 
         }
 
+    }
+
+
+    //Método que extrae el tag CCAA-provincia-municipio a partir del nombre de un municipio
+    //Devuelve 0 si no encuentra el municipio en la lista
+    public int getTagFromMunicipio(String municipio){
+        for(int i=0;i<municipiosList.size();i++) {
+            if(municipiosList.get(i).equals(municipio)){
+                return tagsList.get(i);
+            }
+        }
+        return 0;
     }
 
 
