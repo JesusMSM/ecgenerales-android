@@ -22,10 +22,17 @@
     <string name="introduce_municipio">Introduce su municipio</string>
     <string name="empezar">Empezar</string>
 
+
+
     <!-- ActionBar Text -->
     <string name="actionbar_presinder">Test de afinidad</string>
     <string name="actionbar_noticias">Últimas noticias</string>
     <string name="actionbar_resultados">Resultados</string>
+
+
+    <!-- Strings megaencuesta -->
+    <string name="header_megaencuesta">¿A quién vas a votar?</string>
+    <string name="vota">Vota</string>
 
     <!-- Strings presinder -->
     <string name="presinderHeader">Descubre a qué \n candidato te pareces</string>

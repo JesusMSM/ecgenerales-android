@@ -1,24 +1,21 @@
 package es.elconfidencial.eleccionesgenerales2015.fragments;
 
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.TextureView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
-import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
-import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +24,9 @@ public class GraficosTab extends Fragment {
 
 
     private TextView actionBarTitle;
+    Context context;
+
+    private ImageView pp,cs,psoe,podemos,iu,pnv,convergencia,upyd,otros;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,8 +34,23 @@ public class GraficosTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_graficos_tab, container, false);
 
+        //actionBar
         actionBarTitle = (TextView) v.findViewById(R.id.actionBarResultados);
         actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+
+        //Inicializamos layout: NO día de las elecciones - No se ha votado
+
+        //Imagenes
+        pp = (ImageView) v.findViewById(R.id.ppLogo);
+        cs = (ImageView) v.findViewById(R.id.cslogo);
+        psoe = (ImageView) v.findViewById(R.id.psoelogo);
+        podemos = (ImageView) v.findViewById(R.id.podemosLogo);
+        iu = (ImageView) v.findViewById(R.id.iulogo);
+        pnv = (ImageView) v.findViewById(R.id.pnvlogo);
+        convergencia = (ImageView) v.findViewById(R.id.convergenciaLogo);
+        upyd = (ImageView) v.findViewById(R.id.upydlogo);
+        otros = (ImageView) v.findViewById(R.id.otroslogo);
+
 
 
         return v;

@@ -21,4 +21,120 @@
     </LinearLayout>
 
 
+    <!-- LAYOUT SI LA ENCUESTA AÚN NO SE HA REALIZADO Y NO ES EL DÍA DE LAS ELECCIONES -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <TextView
+            android:id="@+id/headerEncuesta"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:text="@string/header_megaencuesta"
+            android:textColor="@color/titulos"
+            android:textSize="8pt"
+            android:gravity="center"
+            android:textAllCaps="true"/>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/ppLogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+                <ImageView
+                    android:id="@+id/cslogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+                <ImageView
+                    android:id="@+id/psoelogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/podemosLogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+                <ImageView
+                    android:id="@+id/iulogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+                <ImageView
+                    android:id="@+id/pnvlogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/convergenciaLogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+                <ImageView
+                    android:id="@+id/upydlogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona"/>
+                <ImageView
+                    android:id="@+id/otroslogo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/nopicpersona" />
+            </TableRow>
+        </TableLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:background="@color/tabsScrollColor"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp">
+            <Button
+                android:id="@+id/votaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/vota"
+                android:paddingLeft="80dp"
+                android:paddingRight="80dp"
+                android:background="@drawable/button_resultados"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </LinearLayout>
