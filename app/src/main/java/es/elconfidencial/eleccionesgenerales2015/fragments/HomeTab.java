@@ -97,7 +97,7 @@ public class HomeTab extends Fragment {
         @Override
         protected void onPostExecute(JSONArray json) {
             encuestas.clear();
-            ArrayList<PartidoEncuesta> partidoEncuestas = new ArrayList<>();
+
             ArrayList<String> titulos = new ArrayList<>();
             ArrayList<DatosEncuentas> datosEncuestas = new ArrayList<>();
 
@@ -105,7 +105,7 @@ public class HomeTab extends Fragment {
             for(int i=0; i<json.length(); i++){
 
                 try {
-                    partidoEncuestas.clear();
+                    ArrayList<PartidoEncuesta> partidoEncuestas = new ArrayList<>();
                     JSONObject encuestaGlobal = json.getJSONObject(i);
                     titulos.add(encuestaGlobal.getString("Name"));
                     JSONArray datos = encuestaGlobal.getJSONArray("Data");
