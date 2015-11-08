@@ -20,13 +20,13 @@
             android:textAllCaps="true"/>
     </LinearLayout>
 
-
     <!-- LAYOUT SI LA ENCUESTA AÚN NO SE HA REALIZADO Y NO ES EL DÍA DE LAS ELECCIONES -->
     <LinearLayout
+        android:id="@+id/gridMegaencuestaScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
         <TextView
             android:id="@+id/headerEncuesta"
             android:layout_width="match_parent"
@@ -53,20 +53,17 @@
                     android:id="@+id/ppLogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/cslogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/psoelogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"
@@ -76,20 +73,17 @@
                     android:id="@+id/podemosLogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/iulogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/pnvlogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"
@@ -99,20 +93,17 @@
                     android:id="@+id/convergenciaLogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/upydlogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona"/>
+                    android:layout_weight="1"/>
                 <ImageView
                     android:id="@+id/otroslogo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/nopicpersona" />
+                    android:layout_weight="1" />
             </TableRow>
         </TableLayout>
         <LinearLayout
@@ -133,6 +124,28 @@
                 android:paddingRight="80dp"
                 android:background="@drawable/button_resultados"/>
         </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- LAYOUT CON LA ENCUESTA HECHA Y NO ES EL DÍA DE LAS ELECCIONES -->
+    <LinearLayout
+        android:id="@+id/graficoMegaencuestaScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/horizontalBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6" />
+        <TextView
+            android:id="@+id/gracias"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/gracias"/>
 
     </LinearLayout>
 

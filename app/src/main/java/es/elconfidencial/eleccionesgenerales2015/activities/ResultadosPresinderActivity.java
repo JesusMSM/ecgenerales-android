@@ -76,6 +76,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
 
         //Listener del boton de retroceder
         volver = (Button) findViewById(R.id.volverAJugar);
+        volver.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         volver.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
