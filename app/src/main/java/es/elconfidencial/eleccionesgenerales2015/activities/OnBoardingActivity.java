@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
+import es.elconfidencial.eleccionesgenerales2015.adapters.MyArrayAdapter;
 
 public class OnBoardingActivity extends AppCompatActivity {
 
@@ -57,8 +58,8 @@ public class OnBoardingActivity extends AppCompatActivity {
             Log.i("Municipios", "Primer municipio de la lista " + municipiosAutoComplete.get(0));
         }**/
         //Adapter del buscador de municipio
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, municipiosList);
+        MyArrayAdapter<String> adapter = new MyArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, municipiosAutoComplete);
 
         // Numero de caracteres necesarios para que se empiece
         // a mostrar la lista
@@ -239,8 +240,8 @@ public class OnBoardingActivity extends AppCompatActivity {
     //Método que extrae el tag CCAA-provincia-municipio a partir del nombre de un municipio
     //Devuelve 0 si no encuentra el municipio en la lista
     public int getTagFromMunicipio(String municipio){
-        for(int i=0;i<municipiosList.size();i++) {
-            if(municipiosList.get(i).equals(municipio)){
+        for(int i=0;i<municipiosAutoComplete.size();i++) {
+            if(municipiosAutoComplete.get(i).equals(municipio)){
                 return tagsList.get(i);
             }
         }
