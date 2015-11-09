@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     QuoteServer qs = QuoteServer.getInstance();
 
     //PartidosList
-    List<Partido> partidosList = new ArrayList<>();
+    public static List<Partido> partidosList = new ArrayList<>();
 
     public List<Partido> getPartidosList(){
         return partidosList;

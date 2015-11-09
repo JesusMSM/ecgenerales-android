@@ -23,16 +23,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/abc_button_padding_vertical_material"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="20dp"
                 android:paddingBottom="@dimen/abc_button_padding_vertical_material"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/spinnerEncuesta"
                 />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+
+                android:layout_marginRight="30dp"
+
+                android:background="@color/grey"/>
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/chartEncuestas"
                 android:padding="5dp"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
                 android:layout_height="200dp"
                  />
 

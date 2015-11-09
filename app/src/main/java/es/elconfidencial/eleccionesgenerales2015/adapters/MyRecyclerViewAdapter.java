@@ -1,7 +1,9 @@
 package es.elconfidencial.eleccionesgenerales2015.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +40,7 @@ import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.model.Encuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
+import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 import es.elconfidencial.eleccionesgenerales2015.model.Persona;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
@@ -268,6 +271,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         grafico.setDrawGridBackground(false);
         grafico.setClickable(false);
+
         // grafico.setDrawYLabels(false);
 
         //Typeface mTf = Typeface.createFromAsset(context.getAssets(), "Titilium-Regular.otf");
@@ -344,8 +348,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void setData(BarChart grafico, Encuesta e){
 
-
-
+        grafico.animateY(2500);
+        ArrayList<Integer> colores = new ArrayList<>();
+        List<Partido> partidosJsonDatos = MainActivity.partidosList;
+        for(int i=0; i<e.getPartidosEncuesta().size(); i++){
+            colores.add(Color.parseColor(partidosJsonDatos.get(i).getColor()));
+        }
 
         //Typeface mTf = Typeface.createFromAsset(context.getAssets(), "Titilium-Regular.otf");
         ArrayList<String> xVals = new ArrayList<String>();
@@ -353,6 +361,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         for (int i = 0; i < e.getPartidosEncuesta().size(); i++) {
            // Log.d("Encuestas", "contiente " + e.getPartidosEncuesta().get(i).getName() + " con porcentaje " + e.getPartidosEncuesta().get(i).getPorcentaje());
             xVals.add(e.getPartidosEncuesta().get(i).getName());
+
+            for (int j=0; j<partidosJsonDatos.size(); j++){
+                if(e.getPartidosEncuesta().get(i).getName().equalsIgnoreCase(partidosJsonDatos.get(j).getId())){
+                    colores.set(i,Color.parseColor(partidosJsonDatos.get(j).getColor()));
+                    xVals.set(i, partidosJsonDatos.get(j).getSiglas());
+                }
+
+            }
         }
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
@@ -364,9 +380,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
-        set1.setBarSpacePercent(35f);
+        set1.setBarSpacePercent(15f);
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        set1.setColors(colores);
         dataSets.add(set1);
 
         BarData data = new BarData(xVals, dataSets);

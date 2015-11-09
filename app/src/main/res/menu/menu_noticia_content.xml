@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/sizeMenu" android:icon="@drawable/ic_format_size" android:title="size" app:showAsAction="ifRoom">
-    <menu>
-        <item android:id="@+id/aumenta" android:icon="@drawable/ic_format_size" android:title="Aumentar" app:showAsAction="ifRoom"></item>
-        <item android:id="@+id/reduce" android:icon="@drawable/ic_format_size" android:title="Reducir" app:showAsAction="ifRoom"></item>
-    </menu>
-    </item>
 
+    <item android:id="@+id/aumenta" android:icon="@drawable/ic_increase_font" android:title="Aumentar" app:showAsAction="ifRoom"></item>
+    <item android:id="@+id/reduce" android:icon="@drawable/ic_decrease_font" android:title="Reducir" app:showAsAction="ifRoom"></item>
     <item android:id="@+id/share" android:icon="@drawable/ic_share_variant" android:title="share" app:showAsAction="ifRoom"></item>
 </menu>
