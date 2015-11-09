@@ -4,6 +4,7 @@ package es.elconfidencial.eleccionesgenerales2015.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,8 +23,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -32,11 +38,15 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
+import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Partido;
+import es.elconfidencial.eleccionesgenerales2015.model.PartidoMegaencuesta;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,16 +59,15 @@ public class GraficosTab extends Fragment {
     HorizontalBarChart grafico;
     Context context;
     private View v;
-    private int partidoMarcado;
+    private int partidoMarcado = -1;
 
-    private ImageView pp,cs,psoe,podemos,iu,pnv,convergencia,upyd,otros;
+    private ImageView pp, cs, psoe, podemos, iu, pnv, convergencia, upyd, otros;
     private Button vota;
 
 
-    //Variables globales para gráfico
-    ArrayList<Integer> nVotosList = new ArrayList<Integer>();
-    ArrayList<String> partidosStringList = new ArrayList<String>();
-    ArrayList<String> coloresList = new ArrayList<String>();
+    //Lista de partidos de la megaencuesta
+    ArrayList<PartidoMegaencuesta> partidoMegaencuestaList = new ArrayList<PartidoMegaencuesta>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,13 +94,13 @@ public class GraficosTab extends Fragment {
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
         SharedPreferences prefs = getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        boolean hasVoted = prefs.getBoolean("hasVoted", false ); //Si no existe, devuelve el segundo parametro
-        if(hasVoted){
+        boolean hasVoted = prefs.getBoolean("hasVoted", false); //Si no existe, devuelve el segundo parametro
+        if (hasVoted) {
             //Cargamos la vista del gráfico
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.VISIBLE);
             setGraficoMegaencuesta();
-        }else{
+        } else {
             //Cargamos la vista del Grid
             gridMegaencuesta.setVisibility(View.VISIBLE);
             graficoMegaencuesta.setVisibility(View.GONE);
@@ -99,16 +108,15 @@ public class GraficosTab extends Fragment {
         }
 
 
-
         return v;
     }
 
     /**
      * Este método carga en pantalla el layout correspondiente a:
-     *  - El usuario aún no ha votado en la encuesta
-     *  - No es el día de las elecciones, por lo que el webview permanece oculto
+     * - El usuario aún no ha votado en la encuesta
+     * - No es el día de las elecciones, por lo que el webview permanece oculto
      */
-    public void setGridMegaencuestaLayout(){
+    public void setGridMegaencuestaLayout() {
 
         headerEncuesta = (TextView) v.findViewById(R.id.headerEncuesta);
         headerEncuesta.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
@@ -168,6 +176,9 @@ public class GraficosTab extends Fragment {
                             }
                         }
                     });
+                } else {
+                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.selecciona_partido), Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         });
@@ -175,15 +186,15 @@ public class GraficosTab extends Fragment {
     }
 
 
-
     /**
      * Este método carga en pantalla el layout correspondiente a:
-     *  - El usuario SÍ ha votado en la encuesta
-     *  - No es el día de las elecciones, por lo que el webview permanece oculto
+     * - El usuario SÍ ha votado en la encuesta
+     * - No es el día de las elecciones, por lo que el webview permanece oculto
      */
-    public void setGraficoMegaencuesta(){
+    public void setGraficoMegaencuesta() {
 
         graciasPorParticipar = (TextView) v.findViewById(R.id.gracias);
+        graciasPorParticipar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
         grafico = (HorizontalBarChart) v.findViewById(R.id.horizontalBarChart);
 
         //Nos bajamos los resultados de Parse
@@ -192,21 +203,182 @@ public class GraficosTab extends Fragment {
             List<ParseObject> pList = query.find();
             for (ParseObject partidoPObj : pList) {
                 Log.i("Megaencuesta", "" + partidoPObj.getString("PARTIDO") + " : " + partidoPObj.getInt("COUNT"));
-                for(Partido partidoObject: ((MainActivity)getActivity()).getPartidosList()){
+                for (Partido partidoObject : ((MainActivity) getActivity()).getPartidosList()) {
                     //Si coinciden las ids de los partidos de la lista recibida de Parse y la local global
                     //Rellenamos las 3 necesarias para pintar nuestro gráfico
-                    if(partidoObject.getId().equals(partidoPObj.getString("PARTIDO"))){
-                        partidosStringList.add(partidoObject.getSiglas());
-                        nVotosList.add(partidoPObj.getInt("COUNT"));
-                        coloresList.add(partidoObject.getColor());
+                    if (partidoObject.getId().equals(partidoPObj.getString("PARTIDO"))) {
+                        //Rellenamos un nuevo objeto PartidoMegaencuesta
+                        PartidoMegaencuesta partidoMegaencuesta = new PartidoMegaencuesta();
+                        partidoMegaencuesta.setName(partidoObject.getSiglas());
+                        partidoMegaencuesta.setnVotos(partidoPObj.getInt("COUNT"));
+                        partidoMegaencuesta.setColor(Color.parseColor(partidoObject.getColor()));
+                        //Lo añadimos a la lista
+                        partidoMegaencuestaList.add(partidoMegaencuesta);
                     }
                 }
             }
+            //Con las listas completadas, añadimos a cada partido su atributo de porcentaje de votos
+            setPorcentajes();
+            sortPartiesByPercentage();
+            //Con los partidos ordenador, rellenamos el gráfico
+            generateDataBar();
+
         } catch (ParseException e) {
             e.printStackTrace();
             Log.d("Megaencuesta", "Error: " + e.getMessage());
         }
     }
+
+    public void sortPartiesByPercentage(){
+        Collections.sort(partidoMegaencuestaList, new Comparator<PartidoMegaencuesta>(){
+            public int compare(PartidoMegaencuesta partido1, PartidoMegaencuesta partido2) {
+                return Double.compare(partido1.getPorcentajeVotos(),partido2.getPorcentajeVotos());
+            }
+        });
+    }
+
+    public void setPorcentajes(){
+
+        double tamañoMuestra = getTamañoMuestra(partidoMegaencuestaList);
+        Log.i("Grafico", "Tamaño de la muestra: " + tamañoMuestra);
+
+        for(PartidoMegaencuesta partidoMegaencuesta : partidoMegaencuestaList) {
+            Log.i("Grafico", "" + partidoMegaencuesta.getnVotos()/tamañoMuestra);
+            partidoMegaencuesta.setPorcentajeVotos((partidoMegaencuesta.getnVotos() / tamañoMuestra) * 100);
+           // Log.i("Grafico", "" + partidoMegaencuesta.getPorcentajeVotos());
+        }
+
+    }
+
+    public int getTamañoMuestra(List<PartidoMegaencuesta> partidosList){
+        int tamañoMuestra = 0;
+        for(PartidoMegaencuesta partido : partidosList){
+            tamañoMuestra += partido.getnVotos();
+        }
+        return tamañoMuestra;
+    }
+
+    private void generateDataBar(){
+
+        ArrayList<BarEntry> porcentajesPartidos = new ArrayList<BarEntry>();
+        ArrayList<Integer> coloresList = new ArrayList<>();
+        ArrayList<String> partidosStringList = new ArrayList<>();
+
+        int i = 0;
+        for (PartidoMegaencuesta partidoMegaencuesta: partidoMegaencuestaList) {
+            porcentajesPartidos.add(new BarEntry((float)partidoMegaencuesta.getPorcentajeVotos(), i));
+            coloresList.add(partidoMegaencuesta.getColor());
+            partidosStringList.add(partidoMegaencuesta.getName());
+            i++;
+        }
+
+        BarDataSet set1 = new BarDataSet(porcentajesPartidos, "% de votos");
+
+        set1.setColors(coloresList);
+
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
+
+        BarData data = new BarData(partidosStringList, dataSets);
+
+
+
+        //Estilo del gráfico
+
+        //Tamaño de letra
+        GlobalMethod globalMethod = new GlobalMethod(getContext());
+        if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
+            data.setValueTextSize(25f);
+        } else if (GlobalMethod.getSizeName(getContext()).equals("large")) {
+            data.setValueTextSize(17f);
+        } else if (GlobalMethod.getSizeName(getContext()).equals("normal")) {
+            data.setValueTextSize(13f);
+        }else {
+            data.setValueTextSize(11f);
+        }
+        if (grafico != null) {
+            grafico.setDrawBarShadow(false);
+            grafico.setTouchEnabled(false);
+            grafico.setDrawValueAboveBar(false);
+            grafico.setBackgroundColor(Color.TRANSPARENT);
+            grafico.setGridBackgroundColor(Color.TRANSPARENT);
+            grafico.setDescription(getTamañoMuestra(partidoMegaencuestaList) + " votos");
+            if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
+                grafico.setDescriptionTextSize(25f);
+            } else if (GlobalMethod.getSizeName(getContext()).equals("large")) {
+                grafico.setDescriptionTextSize(17f);
+            } else if (GlobalMethod.getSizeName(getContext()).equals("normal")) {
+                grafico.setDescriptionTextSize(13f);
+            }else {
+                grafico.setDescriptionTextSize(13f);
+            }
+            grafico.setDescriptionTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            grafico.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            grafico.setPinchZoom(false);
+
+            // draw shadows for each bar that show the maximum value
+            // mChart.setDrawBarShadow(true);
+
+            // mChart.setDrawXLabels(false);
+
+            grafico.setDrawGridBackground(false);
+
+            // mChart.setDrawYLabels(false);
+
+            data.setValueTextColor(Color.WHITE);
+
+
+            XAxis xl = grafico.getXAxis();
+            xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xl.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
+            xl.setDrawAxisLine(false);
+            xl.setDrawGridLines(false);
+            xl.setGridLineWidth(0.3f);
+            if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
+                xl.setTextSize(27f);
+            } else if (GlobalMethod.getSizeName(getContext()).equals("large")) {
+                xl.setTextSize(16f);
+            } else if (GlobalMethod.getSizeName(getContext()).equals("normal")) {
+                xl.setTextSize(13f);
+            }else {
+                xl.setTextSize(9f);
+            }
+
+
+            YAxis yl = grafico.getAxisLeft();
+            yl.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
+            yl.setDrawAxisLine(false);
+            yl.setDrawGridLines(false);
+            yl.setTextColor(Color.TRANSPARENT);
+            yl.setGridLineWidth(0.3f);
+
+            //  yl.setInverted(true);
+
+            YAxis yr = grafico.getAxisRight();
+            yr.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
+            yr.setDrawAxisLine(false);
+            yr.setDrawGridLines(false);
+            yr.setTextColor(Color.TRANSPARENT);
+            //            yr.setInverted(true);
+
+            grafico.animateY(2500);
+
+            //Desactivamos la leyenda
+            Legend l = grafico.getLegend();
+            l.setEnabled(false);
+
+
+            //Pasamos los datos al gráfico
+            grafico.setData((BarData) data);
+        }
+
+    }
+
 
 
 

@@ -34,6 +34,7 @@
     <string name="header_megaencuesta">¿A quién vas a votar?</string>
     <string name="vota">Vota</string>
     <string name="gracias">¡Muchas gracias por participar!</string>
+    <string name="selecciona_partido">Selecciona un partido</string>
 
     <!-- Strings presinder -->
     <string name="presinderHeader">Descubre a qué \n candidato te pareces</string>

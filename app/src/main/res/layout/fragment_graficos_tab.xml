@@ -138,6 +138,7 @@
             android:id="@+id/horizontalBarChart"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="30dp"
             android:layout_weight="6" />
         <TextView
             android:id="@+id/gracias"
@@ -145,7 +146,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/gracias"/>
+            android:text="@string/gracias"
+            android:textColor="@color/titulos"
+            android:textSize="10pt"/>
 
     </LinearLayout>
 
