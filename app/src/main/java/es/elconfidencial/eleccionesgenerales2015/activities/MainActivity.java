@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,12 +20,20 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.ViewPagerAdapter;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
+import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 import es.elconfidencial.eleccionesgenerales2015.slidingtabfiles.SlidingTabLayout;
@@ -42,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Quotes
     QuoteServer qs = QuoteServer.getInstance();
+
+    //PartidosList
+    public static List<Partido> partidosList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +108,66 @@ public class MainActivity extends AppCompatActivity {
         //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
         //GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
 
+        //Create Partidos variables
+        // Getting JSON from asset
+        String json = loadJSONFromAsset("PARTIDOS_TAGS.json");
+        if(json!=null){
+            Log.i("PartidosJSON", "JSON recuperado de assets");
+            setPartidosListFromJSON(json);
+        } else{
+            Log.i("PartidosJSON", "JSON no recuperado de assets");
+        }
+    }
+
+    //Almacena los objetos Partidos dentro de la Lista Global partidosList a partir de un json
+    public void setPartidosListFromJSON(String json){
+        try {
+            JSONArray jArray = new JSONArray(json);
+            for (int i = 0; i < jArray.length(); i++) {
+                try {
+                    JSONObject partidoObject = jArray.getJSONObject(i);
+
+                    // Creamos un objeto Partido, donde almacenaremos todos sus atributos
+                    Partido partido = new Partido();
+                    partido.setId(partidoObject.getString("ID"));
+                    partido.setNombre(partidoObject.getString("Desc"));
+                    partido.setColor(partidoObject.getString("Color"));
+                    partido.setSiglas(partidoObject.getString("Short"));
+                    partidosList.add(partido);
+                    Log.i("PartidosJSON", "Almacenado el partido " + partido.getId());
+                    Log.i("PartidosJSON", "Con siglas " + partido.getSiglas());
+                } catch (JSONException e) {
+                    Log.i("PartidosJSON", "Error lectura de JSON");
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
+
+    //Método que lee un fichero json almacenado en assets
+    public String loadJSONFromAsset(String nameFile) {
+        String json = null;
+        try {
+
+            InputStream is = getAssets().open(nameFile);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
 
 
     @Override

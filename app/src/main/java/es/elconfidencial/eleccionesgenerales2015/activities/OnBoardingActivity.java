@@ -116,7 +116,7 @@ public class OnBoardingActivity extends AppCompatActivity {
             // Getting JSON from asset
             JSONObject json = null;
             try {
-                json = new JSONObject(loadJSONFromAsset());
+                json = new JSONObject(loadJSONFromAsset("ccaa_provincia_municipio_ID.json"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -249,11 +249,11 @@ public class OnBoardingActivity extends AppCompatActivity {
 
 
     //Método que lee un fichero json almacenado en assets
-    public String loadJSONFromAsset() {
+    public String loadJSONFromAsset(String nameFile) {
         String json = null;
         try {
 
-            InputStream is = getAssets().open("ccaa_provincia_municipio_ID.json");
+            InputStream is = getAssets().open(nameFile);
 
             int size = is.available();
 

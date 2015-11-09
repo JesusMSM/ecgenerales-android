@@ -1,0 +1,56 @@
+[
+                       {
+                        "ID":"CIUDADANOS",
+                        "Desc" : "Ciudadanos",
+                        "Color" : "#f58723",
+                        "Short" : "Cs"
+                       },
+                       {
+                        "ID":"PSOE",
+                        "Desc" : "PSOE",
+                        "Color" : "#ce1415",
+                        "Short" : "PSOE"
+                       },
+                       {
+                        "ID":"PP",
+                        "Desc" : "Partido Popular",
+                        "Color" : "#1ba1ef",
+                        "Short" : "PP"
+                       } ,
+                       {
+                        "ID":"PODEMOS",
+                        "Desc" : "Podemos",
+                        "Color" : "#bd42b8",
+                        "Short" : "Cs"
+                       },
+                       {
+                        "ID":"IU",
+                        "Desc" : "Izquierda Unida",
+                        "Color" : "#18a196",
+                        "Short" : "IU"
+                       } ,
+                       {
+                        "ID":"PACMA",
+                       "Desc" : "PACMA",
+                       "Color" : "#3838FF",
+                       "Short" : "Cs"
+                       },
+                       {
+                        "ID":"PNV",
+                       "Desc" : "PNV",
+                       "Color" : "#118747",
+                       "Short" : "PNV"
+                       },
+                       {
+                        "ID":"UPYD",
+                       "Desc" : "UPYD",
+                       "Color" : "#f5407b",
+                       "Short" : "UPYD"
+                       },
+                       {
+                        "ID":"OTROS",
+                       "Desc" : "OTROS",
+                       "Color" : "#383838",
+                       "Short" : "Otros"
+                       }
+]

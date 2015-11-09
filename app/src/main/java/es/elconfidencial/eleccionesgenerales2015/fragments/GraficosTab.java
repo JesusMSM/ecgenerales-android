@@ -22,11 +22,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarEntry;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
@@ -46,6 +52,12 @@ public class GraficosTab extends Fragment {
 
     private ImageView pp,cs,psoe,podemos,iu,pnv,convergencia,upyd,otros;
     private Button vota;
+
+
+    //Variables globales para gráfico
+    ArrayList<BarEntry> nVotos = new ArrayList<BarEntry>();
+    ArrayList<String> partidos = new ArrayList<String>();
+    ArrayList<Integer> colores = new ArrayList<Integer>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -172,9 +184,19 @@ public class GraficosTab extends Fragment {
         graciasPorParticipar = (TextView) v.findViewById(R.id.gracias);
         grafico = (HorizontalBarChart) v.findViewById(R.id.horizontalBarChart);
 
-
-
+        //Nos bajamos los resultados de Parse
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PARTY_SURVEY");
+        try {
+            List<ParseObject> pList = query.find();
+            for (ParseObject partido : pList) {
+                Log.i("Megaencuesta", "" + partido.getString("PARTIDO") + " : " + partido.getInt("COUNT"));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("Megaencuesta", "Error: " + e.getMessage());
+        }
     }
+
 
 
     public void setNotPressedImages(){
@@ -331,8 +353,6 @@ public class GraficosTab extends Fragment {
             default: partidoMarcado = -1;break;
         }
     }
-
-
 
 
 }
