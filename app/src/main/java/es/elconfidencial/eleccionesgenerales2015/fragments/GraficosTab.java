@@ -36,6 +36,7 @@ import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
+import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,9 +56,9 @@ public class GraficosTab extends Fragment {
 
 
     //Variables globales para gráfico
-    ArrayList<BarEntry> nVotos = new ArrayList<BarEntry>();
-    ArrayList<String> partidos = new ArrayList<String>();
-    ArrayList<Integer> colores = new ArrayList<Integer>();
+    ArrayList<Integer> nVotosList = new ArrayList<Integer>();
+    ArrayList<String> partidosStringList = new ArrayList<String>();
+    ArrayList<String> coloresList = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -174,6 +175,7 @@ public class GraficosTab extends Fragment {
     }
 
 
+
     /**
      * Este método carga en pantalla el layout correspondiente a:
      *  - El usuario SÍ ha votado en la encuesta
@@ -188,8 +190,17 @@ public class GraficosTab extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PARTY_SURVEY");
         try {
             List<ParseObject> pList = query.find();
-            for (ParseObject partido : pList) {
-                Log.i("Megaencuesta", "" + partido.getString("PARTIDO") + " : " + partido.getInt("COUNT"));
+            for (ParseObject partidoPObj : pList) {
+                Log.i("Megaencuesta", "" + partidoPObj.getString("PARTIDO") + " : " + partidoPObj.getInt("COUNT"));
+                for(Partido partidoObject: ((MainActivity)getActivity()).getPartidosList()){
+                    //Si coinciden las ids de los partidos de la lista recibida de Parse y la local global
+                    //Rellenamos las 3 necesarias para pintar nuestro gráfico
+                    if(partidoObject.getId().equals(partidoPObj.getString("PARTIDO"))){
+                        partidosStringList.add(partidoObject.getSiglas());
+                        nVotosList.add(partidoPObj.getInt("COUNT"));
+                        coloresList.add(partidoObject.getColor());
+                    }
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();
