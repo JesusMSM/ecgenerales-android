@@ -42,7 +42,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
 
     //private String pushwooshTag; // Ej:08.10.0000 (No ha marcado que desea recibir notificación a nivel de municipio)
-    private String realTag; // Ej:08.101.003
+    public static int realTag; // Ej:08.101.003
 
     private List<String> municipios = new ArrayList<>();
     @Override
@@ -74,7 +74,8 @@ public class OnBoardingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(getTagFromMunicipio(searchMunicipio.getText().toString())!=0){
-                    // internalMunicipioTag = getTagFromMunicipio(searchMunicipio.getText().toString());
+                    //Alamacenamos el TAG completo del municipio seleccionado
+                    realTag = getTagFromMunicipio(searchMunicipio.getText().toString());
                     Log.i("Municipios", "" + searchMunicipio.getText().toString());
                     Intent intent = new Intent(view.getContext(), MainActivity.class);
                     startActivity(intent);

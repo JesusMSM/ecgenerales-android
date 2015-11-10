@@ -230,9 +230,9 @@ public class GraficosTab extends Fragment {
     }
 
     public void sortPartiesByPercentage(){
-        Collections.sort(partidoMegaencuestaList, new Comparator<PartidoMegaencuesta>(){
+        Collections.sort(partidoMegaencuestaList, new Comparator<PartidoMegaencuesta>() {
             public int compare(PartidoMegaencuesta partido1, PartidoMegaencuesta partido2) {
-                return Double.compare(partido1.getPorcentajeVotos(),partido2.getPorcentajeVotos());
+                return Double.compare(partido1.getPorcentajeVotos(), partido2.getPorcentajeVotos());
             }
         });
     }
@@ -384,15 +384,15 @@ public class GraficosTab extends Fragment {
 
     public void setNotPressedImages(){
         //Cargamos las imagenes not pressed
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(pp);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(cs);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(psoe);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(podemos);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(iu);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(pnv);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(convergencia);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(upyd);
-        Glide.with(getContext()).load(R.drawable.nopicpersona).placeholder(R.drawable.nopicpersona).into(otros);
+        Glide.with(getContext()).load(R.drawable.pp_off).placeholder(R.drawable.nopicpersona).into(pp);
+        Glide.with(getContext()).load(R.drawable.cs_off).placeholder(R.drawable.nopicpersona).into(cs);
+        Glide.with(getContext()).load(R.drawable.psoe_off).placeholder(R.drawable.nopicpersona).into(psoe);
+        Glide.with(getContext()).load(R.drawable.pdms_off).placeholder(R.drawable.nopicpersona).into(podemos);
+        Glide.with(getContext()).load(R.drawable.iu_off).placeholder(R.drawable.nopicpersona).into(iu);
+        Glide.with(getContext()).load(R.drawable.pnv_off).placeholder(R.drawable.nopicpersona).into(pnv);
+        Glide.with(getContext()).load(R.drawable.convergencia_off).placeholder(R.drawable.nopicpersona).into(convergencia);
+        Glide.with(getContext()).load(R.drawable.upyd_off).placeholder(R.drawable.nopicpersona).into(upyd);
+        Glide.with(getContext()).load(R.drawable.otros_off).placeholder(R.drawable.nopicpersona).into(otros);
     }
 
     public void setListenersImgPartidos(){
@@ -400,55 +400,101 @@ public class GraficosTab extends Fragment {
         pp.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(0);
+                if(partidoMarcado!=0){
+                    checkPartido(0);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
+
             }
         });
         cs.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(1);
+                if(partidoMarcado!=1){
+                    checkPartido(1);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
         psoe.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(2);
+                if(partidoMarcado!=2){
+                    checkPartido(2);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
         podemos.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(3);
+                if(partidoMarcado!=3){
+                    checkPartido(3);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
         iu.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(4);
+                if(partidoMarcado!=4){
+                    checkPartido(4);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
         pnv.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(5);
+                if(partidoMarcado!=5){
+                    checkPartido(5);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
         convergencia.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(6);
+                if(partidoMarcado!=6){
+                    checkPartido(6);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
         upyd.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(7);
+                if(partidoMarcado!=7){
+                    checkPartido(7);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
         otros.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPartido(8);
+                if(partidoMarcado!=8){
+                    checkPartido(8);
+                } else {
+                    setNotPressedImages();
+                    partidoMarcado = -1;
+                }
             }
         });
     }
@@ -495,43 +541,39 @@ public class GraficosTab extends Fragment {
         switch (partidoPosition){
             case 0: //PP
                 partidoMarcado= 0;
-                Glide.with(getContext()).load(R.drawable.mariano_rajoy).into(pp);
+                Glide.with(getContext()).load(R.drawable.pp_on).into(pp);
                 break;
             case 1: //CS
                 partidoMarcado= 1;
-                Glide.with(getContext()).load(R.drawable.albert_rivera).into(cs);
+                Glide.with(getContext()).load(R.drawable.cs_on).into(cs);
                 break;
             case 2: //PSOE
                 partidoMarcado= 2;
-                Glide.with(getContext()).load(R.drawable.pedro_sanchez).into(psoe);
+                Glide.with(getContext()).load(R.drawable.psoe_on).into(psoe);
                 break;
             case 3: //PODEMOS
                 partidoMarcado= 3;
-                Glide.with(getContext()).load(R.drawable.pablo_iglesias).into(podemos);
+                Glide.with(getContext()).load(R.drawable.pdms_on).into(podemos);
                 break;
             case 4: //IU
                 partidoMarcado= 4;
-                Glide.with(getContext()).load(R.drawable.pablo_iglesias).into(podemos);
+                Glide.with(getContext()).load(R.drawable.iu_on).into(iu);
                 break;
             case 5: //PNV
                 partidoMarcado= 5;
-                Glide.with(getContext()).load(R.drawable.pablo_iglesias).into(podemos);
+                Glide.with(getContext()).load(R.drawable.pnv_on).into(pnv);
                 break;
-            case 6: //PP
+            case 6: //CONVERGENCIA
                 partidoMarcado= 6;
-                Glide.with(getContext()).load(R.drawable.pablo_iglesias).into(podemos);
+                Glide.with(getContext()).load(R.drawable.convergencia_on).into(convergencia);
                 break;
-            case 7: //PP
+            case 7: //UPYD
                 partidoMarcado= 7;
-                Glide.with(getContext()).load(R.drawable.pablo_iglesias).into(podemos);
+                Glide.with(getContext()).load(R.drawable.upyd_on).into(upyd);
                 break;
-            case 8: //PP
+            case 8: //OTROS
                 partidoMarcado= 8;
-                Glide.with(getContext()).load(R.drawable.pablo_iglesias).into(podemos);
-                break;
-            case 9: //PP
-                partidoMarcado= 9;
-                Glide.with(getContext()).load(R.drawable.pablo_iglesias).into(podemos);
+                Glide.with(getContext()).load(R.drawable.otros_on).into(otros);
                 break;
             default: partidoMarcado = -1;break;
         }

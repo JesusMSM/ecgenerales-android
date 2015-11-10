@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
         <TextView
             android:id="@+id/headerEncuesta"
             android:layout_width="match_parent"
@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
+            android:background="@drawable/border_image"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp">
@@ -51,16 +52,19 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/ppLogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/cslogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/psoelogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -71,16 +75,19 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/podemosLogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/iulogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/pnvlogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -91,16 +98,19 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/convergenciaLogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
                 <ImageView
                     android:id="@+id/upydlogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <ImageView
                     android:id="@+id/otroslogo"
+                    android:background="@drawable/border_image"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -133,7 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:id="@+id/horizontalBarChart"
             android:layout_width="match_parent"
