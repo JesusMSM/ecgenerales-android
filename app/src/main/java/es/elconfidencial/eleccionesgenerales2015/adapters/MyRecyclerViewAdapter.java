@@ -26,9 +26,12 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
+import com.parse.ParseAnalytics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
@@ -271,6 +274,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         grafico.setDrawGridBackground(false);
         grafico.setClickable(false);
+        grafico.setPinchZoom(false);
+        grafico.setDoubleTapToZoomEnabled(false);
 
         // grafico.setDrawYLabels(false);
 
@@ -329,6 +334,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                     encuestaSeleccionada = position;
+                    Map<String, String> encuestas = new HashMap<>();
+                    encuestas.put("encuesta", HomeTab.encuestas.get(position).getName());
+                    //encuestas.put("persona", this.persona);
+                    ParseAnalytics.trackEvent("ECL_SELECTOR_ENCUESTAS", encuestas);
                     setData(grafico, HomeTab.encuestas.get(position));
                 }
 

@@ -56,10 +56,10 @@ public class QuoteServer{
     public void getQuotesFromParseOrLocal(){
         //Parse
         // Enable Local Datastore.
-        Parse.enableLocalDatastore(context);
+//        Parse.enableLocalDatastore(context);
 
         ParseObject.registerSubclass(Quote.class);
-        Parse.initialize(context, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
+//        Parse.initialize(context, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
         query.fromLocalDatastore();
