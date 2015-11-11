@@ -481,21 +481,24 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 spinnerArray.add(context.getResources().getString(R.string.elige_partido_politico));
                 break;
             case 1:
-                spinnerArray.add(context.getResources().getString(R.string.pp));
+                spinnerArray.add("General");
                 break;
             case 2:
-                spinnerArray.add(context.getResources().getString(R.string.psoe));
+                spinnerArray.add(context.getResources().getString(R.string.pp));
                 break;
             case 3:
-                spinnerArray.add(context.getResources().getString(R.string.ciudadanos));
+                spinnerArray.add(context.getResources().getString(R.string.psoe));
                 break;
             case 4:
-                spinnerArray.add(context.getResources().getString(R.string.podemos));
+                spinnerArray.add(context.getResources().getString(R.string.ciudadanos));
                 break;
             case 5:
-                spinnerArray.add(context.getResources().getString(R.string.iu));
+                spinnerArray.add(context.getResources().getString(R.string.podemos));
                 break;
             case 6:
+                spinnerArray.add(context.getResources().getString(R.string.iu));
+                break;
+            case 7:
                 spinnerArray.add(context.getResources().getString(R.string.upyd));
                 break;
 
@@ -521,33 +524,37 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         NoticiasTab.seleccion = 0;
                         break;
                     case 1:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //general
                         NoticiasTab.seleccion = 1;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
                     case 2:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/cup-15022/"; //PSOE
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
                         NoticiasTab.seleccion = 2;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 3:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/personajes/catalunya-si-que-es-pot-15843/";  //Ciudadanos
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/cup-15022/"; //PSOE
                         NoticiasTab.seleccion = 3;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 4:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";  //Podemos
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/personajes/catalunya-si-que-es-pot-15843/";  //Ciudadanos
                         NoticiasTab.seleccion = 4;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 5:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";   //IU
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";  //Podemos
                         NoticiasTab.seleccion = 5;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 6:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";  //UPYD
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";   //IU
                         NoticiasTab.seleccion = 6;
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        break;
+                    case 7:
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";  //UPYD
+                        NoticiasTab.seleccion = 7;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                 }

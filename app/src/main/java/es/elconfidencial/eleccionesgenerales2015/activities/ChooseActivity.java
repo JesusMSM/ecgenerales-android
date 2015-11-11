@@ -27,6 +27,9 @@ public class ChooseActivity extends AppCompatActivity {
         //Register receivers for push notifications
         registerReceivers();
 
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
         //Create and start push manager
         PushManager pushManager = PushManager.getInstance(this);
 
@@ -43,8 +46,7 @@ public class ChooseActivity extends AppCompatActivity {
         pushManager.registerForPushNotifications();
 
         checkMessage(getIntent());
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
+
 
         Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
