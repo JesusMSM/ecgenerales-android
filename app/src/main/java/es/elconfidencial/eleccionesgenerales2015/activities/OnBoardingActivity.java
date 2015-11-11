@@ -1,6 +1,8 @@
 package es.elconfidencial.eleccionesgenerales2015.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -77,6 +79,13 @@ public class OnBoardingActivity extends AppCompatActivity {
                     //Alamacenamos el TAG completo del municipio seleccionado
                     realTag = getTagFromMunicipio(searchMunicipio.getText().toString());
                     Log.i("Municipios", "" + searchMunicipio.getText().toString());
+
+                    //Guardamos en preferences
+                    SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("realTag", realTag);
+                    editor.apply();
+
                     Intent intent = new Intent(view.getContext(), MainActivity.class);
                     startActivity(intent);
                 } else {

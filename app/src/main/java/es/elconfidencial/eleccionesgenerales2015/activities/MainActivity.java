@@ -19,6 +19,8 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.pushwoosh.PushManager;
+import com.pushwoosh.SendPushTagsCallBack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,8 +29,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.ViewPagerAdapter;
@@ -40,6 +44,7 @@ import es.elconfidencial.eleccionesgenerales2015.slidingtabfiles.SlidingTabLayou
 
 public class MainActivity extends AppCompatActivity {
 
+    public final String PWTAG = "MUNICIPIOS_TAGS";
     public static Context context;
     public static Resources resources;
     static ViewPager pager;
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     int numbOfTabs =4;
     CharSequence[] Titles = new CharSequence[numbOfTabs];
     GlobalMethod globalMethod = new GlobalMethod(this);
+    private PushManager pushManager ;
 
     //Quotes
     QuoteServer qs = QuoteServer.getInstance();
@@ -65,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         resources = getResources();
+
+        pushManager = PushManager.getInstance(this);
 
         setContentView(R.layout.activity_main);
         this.context = getApplicationContext();
@@ -121,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
         } else{
             Log.i("PartidosJSON", "JSON no recuperado de assets");
         }
+
+        //Prueba Pushwoosh. Envia el tag CCAA-Provincia-Municipio almacenado en cache
+        int realTag = prefs.getInt("realTag", 00000000); //Si no existe, devuelve el segundo parametro
+        sendTagsToPushWoosh(realTag);
     }
 
     //Almacena los objetos Partidos dentro de la Lista Global partidosList a partir de un json
@@ -182,7 +194,29 @@ public class MainActivity extends AppCompatActivity {
         System.exit(0);
     }
 
+    /*** Envia un numero al tasg de PW *****/
+    public void sendTagsToPushWoosh(final int number){
+        Map<String,Object> tags = new HashMap<>();
+        tags.put(PWTAG, number);
+        pushManager.sendTags(context, tags, new SendPushTagsCallBack() {
+                @Override
+                public void taskStarted() {
+                    //Task Start
+                    Log.i("PushWoosh: ", "Sending tags to PW...  "+ String.valueOf(number));
+                }
 
+                @Override
+                public void onSentTagsSuccess(Map<String, String> map) {
+                    //Task end
+                    Log.i("PushWoosh: ", "Sent Success");
+                }
+
+                @Override
+                public void onSentTagsError(Exception e) {
+                    Log.i("PushWoosh: ", "Sent Error");
+                }
+        });
+    }
 
 
 
