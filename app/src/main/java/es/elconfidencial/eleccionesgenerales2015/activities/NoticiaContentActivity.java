@@ -3,6 +3,7 @@ package es.elconfidencial.eleccionesgenerales2015.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -85,8 +86,8 @@ public class NoticiaContentActivity  extends ActionBarActivity {
                 "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
                 "h2{font-family: MilioHeavy;}" +
                 "img{max-width: 100%; width:auto; height: auto;}" +
-                "body{font-family:TitilliumLight;text-align:justify}" +
-                "a{text-decoration: none;color:black;} " +
+                "body{font-family:TitilliumLight;}" +
+
                 "html { font-size: " + textSize + "}" +
                 "strong{font-family:TitilliumSemibold;}</style></head>";
 
@@ -102,8 +103,11 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //Bloquear links
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(i);
                 return true;
             }
+
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -152,8 +156,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
                 "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
                 "h2{font-family: MilioHeavy;}" +
                 "img{max-width: 100%; width:auto; height: auto;}" +
-                "body{font-family:TitilliumLight;text-align:justify}" +
-                "a{text-decoration: none;color:black;} " +
+                "body{font-family:TitilliumLight;}" +
                 "html { font-size: " + textSize + "}" +
                 "strong{font-family:TitilliumSemibold;}</style></head>";
 
@@ -169,6 +172,8 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //Bloquear links
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(i);
                 return true;
             }
 
@@ -208,8 +213,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
                 "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
                 "h2{font-family: MilioHeavy;}" +
                 "img{max-width: 100%; width:auto; height: auto;}" +
-                "body{font-family:TitilliumLight;text-align:justify}" +
-                "a{text-decoration: none;color:black;} " +
+                "body{font-family:TitilliumLight;}" +
                 "html { font-size: " + textSize + "}" +
                 "strong{font-family:TitilliumSemibold;}</style></head>";
 
@@ -225,6 +229,8 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //Bloquear links
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(i);
                 return true;
             }
 

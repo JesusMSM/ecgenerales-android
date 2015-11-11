@@ -276,6 +276,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         grafico.setClickable(false);
         grafico.setPinchZoom(false);
         grafico.setDoubleTapToZoomEnabled(false);
+        grafico.setTouchEnabled(false);
 
         // grafico.setDrawYLabels(false);
 
