@@ -4,7 +4,10 @@ import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.pushwoosh.thirdparty.radiusnetworks.ibeacon.IBeaconManager;
 
 import org.w3c.dom.Text;
 
@@ -24,6 +27,8 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
     public TextView contador,label,barra,d_20, textViewDias,textViewHoras,textViewMinutos,textViewFaltan,textViewColegiosElectorales;
     public DonutProgress donut_dias,donut_horas,donut_minutos;
 
+    public ImageView preferences;
+
     public ContadorViewHolder(View v) {
         super(v);
 
@@ -38,6 +43,7 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         textViewHoras = (TextView) v.findViewById(R.id.textViewHoras);
         donut_minutos = (DonutProgress) v.findViewById(R.id.donut_minutos);
         textViewMinutos = (TextView) v.findViewById(R.id.textViewMinutos);
+        preferences = (ImageView) v.findViewById(R.id.preferencesIcon);
 
         donut_dias.setStartingDegree(270);
         donut_dias.setTextColor(v.getResources().getColor(R.color.white));

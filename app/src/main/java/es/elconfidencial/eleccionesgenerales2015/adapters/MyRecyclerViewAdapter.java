@@ -36,6 +36,7 @@ import java.util.Map;
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.activities.NoticiaContentActivity;
+import es.elconfidencial.eleccionesgenerales2015.activities.PreferencesActivity;
 import es.elconfidencial.eleccionesgenerales2015.fragments.HomeTab;
 import es.elconfidencial.eleccionesgenerales2015.fragments.NoticiasTab;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
@@ -251,7 +252,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh3.barra.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         vh3.d_20.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
 
-
+        vh3.preferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PreferencesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void configureEncuestasViewHolder(EncuestasViewHolder vh3, int position) {

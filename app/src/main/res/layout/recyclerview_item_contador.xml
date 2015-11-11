@@ -24,6 +24,14 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3">
+                <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/titulo_el_confidencial"
@@ -59,7 +67,17 @@
                 android:paddingRight="5dp"
                 android:paddingLeft="5dp"
                 />
+            </LinearLayout>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tab_home_icon"
+                android:id="@+id/preferencesIcon"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"/>
 
 
         </LinearLayout>
