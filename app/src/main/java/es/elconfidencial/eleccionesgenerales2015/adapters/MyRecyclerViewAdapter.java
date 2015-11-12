@@ -265,6 +265,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void configureEncuestasViewHolder(EncuestasViewHolder vh3, int position) {
         //final BarChart grafico = (BarChart) items.get(position);
 
+        if(HomeTab.encuestas.size()>0){
+
+
         this.grafico = vh3.grafico;
         Spinner spinner = vh3.spinner;
 
@@ -360,6 +363,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         setData(grafico, HomeTab.encuestas.get(encuestaSeleccionada));
 
+        }
 
 
     }

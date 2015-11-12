@@ -14,8 +14,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
+import com.parse.ConfigCallback;
 import com.parse.Parse;
+import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -52,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
     int numbOfTabs =4;
     CharSequence[] Titles = new CharSequence[numbOfTabs];
     GlobalMethod globalMethod = new GlobalMethod(this);
+
+    //Parámetros de CONFIG
+    public static int DFP_CARD_EVERY_N;
+    public static int LAST_NEWS_COUNTER;
+    public static String RESULTS_WEBVIEW_URL;
+    public static boolean SHOW_SURVEYS;
+    public static boolean SHOW_TIMER;
+    public static boolean SHOW_WIDGET_TIMER;
+
 
     //Quotes
     QuoteServer qs = QuoteServer.getInstance();
@@ -125,6 +138,30 @@ public class MainActivity extends AppCompatActivity {
         } else{
             Log.i("PartidosJSON", "JSON no recuperado de assets");
         }
+
+        final RelativeLayout loadingLayout = (RelativeLayout) findViewById(R.id.loadingLayout);
+        final RelativeLayout activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
+        ParseConfig.getInBackground(new ConfigCallback() {
+            @Override
+            public void done(ParseConfig config, ParseException e) {
+                DFP_CARD_EVERY_N = config.getInt("DFP_CARD_EVERY_N");
+                LAST_NEWS_COUNTER = config.getInt("LAST_NEWS_COUNTER");
+                RESULTS_WEBVIEW_URL = config.getString("RESULTS_WEBVIEW_URL");
+                SHOW_SURVEYS = config.getBoolean("SHOW_SURVEYS");
+                SHOW_TIMER = config.getBoolean("SHOW_TIMER");
+                SHOW_WIDGET_TIMER = config.getBoolean("SHOW_WIDGET_RESULTS");
+                Log.d("TAG", "URL" + RESULTS_WEBVIEW_URL);
+                loadingLayout.setVisibility(View.GONE);
+                activityLayout.setVisibility(View.VISIBLE);
+
+            }
+        });
+       /* Log.d("TAG", "URL"+RESULTS_WEBVIEW_URL);
+        while(RESULTS_WEBVIEW_URL == null){
+            Log.d("TAG", "URL"+RESULTS_WEBVIEW_URL);
+        }
+
+        ;*/
     }
 
     //Almacena los objetos Partidos dentro de la Lista Global partidosList a partir de un json

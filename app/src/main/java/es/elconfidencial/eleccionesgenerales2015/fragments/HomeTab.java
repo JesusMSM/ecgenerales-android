@@ -101,49 +101,49 @@ public class HomeTab extends Fragment {
             ArrayList<String> titulos = new ArrayList<>();
             ArrayList<DatosEncuentas> datosEncuestas = new ArrayList<>();
 
+            if(json!=null) {
+                for (int i = 0; i < json.length(); i++) {
 
-            for(int i=0; i<json.length(); i++){
+                    try {
+                        ArrayList<PartidoEncuesta> partidoEncuestas = new ArrayList<>();
+                        JSONObject encuestaGlobal = json.getJSONObject(i);
+                        titulos.add(encuestaGlobal.getString("Name"));
+                        JSONArray datos = encuestaGlobal.getJSONArray("Data");
+                        for (int j = 0; j < datos.length(); j++) {
+                            JSONObject duplaPartido = datos.getJSONObject(j);
+                            JSONArray partido = duplaPartido.names();
+                            String nombre = "";
+                            double porcentaje = 0;
+                            for (int k = 0; k < partido.length(); k++) {
+                                nombre = partido.getString(k);
+                                //Log.d("Encuestas", nombre);
+                                porcentaje = duplaPartido.getDouble(nombre);
+                                //Log.d("Encuestas", ""+porcentaje);
 
-                try {
-                    ArrayList<PartidoEncuesta> partidoEncuestas = new ArrayList<>();
-                    JSONObject encuestaGlobal = json.getJSONObject(i);
-                    titulos.add(encuestaGlobal.getString("Name"));
-                    JSONArray datos = encuestaGlobal.getJSONArray("Data");
-                    for(int j=0; j<datos.length();j++){
-                        JSONObject duplaPartido = datos.getJSONObject(j);
-                        JSONArray partido = duplaPartido.names();
-                        String nombre="";
-                        double porcentaje =0;
-                        for(int k=0; k<partido.length(); k++) {
-                            nombre = partido.getString(k);
-                            //Log.d("Encuestas", nombre);
-                            porcentaje = duplaPartido.getDouble(nombre);
-                            //Log.d("Encuestas", ""+porcentaje);
 
+                            }
+                            PartidoEncuesta partidoEncuesta = new PartidoEncuesta(nombre, porcentaje);
+                            partidoEncuestas.add(partidoEncuesta);
 
                         }
-                        PartidoEncuesta partidoEncuesta = new PartidoEncuesta(nombre, porcentaje);
-                        partidoEncuestas.add(partidoEncuesta);
-
-                        }
-                    datosEncuestas.add(new DatosEncuentas(partidoEncuestas));
+                        datosEncuestas.add(new DatosEncuentas(partidoEncuestas));
 
 
-                }catch (Exception e){
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    encuestas.add(new Encuesta(titulos.get(i), datosEncuestas.get(i).getDatosEncuesta()));
                 }
-                encuestas.add(new Encuesta(titulos.get(i),datosEncuestas.get(i).getDatosEncuesta()));
-            }
 
 
-            for(int n=0; n<encuestas.size(); n++){
-                Log.d("Encuestas", "El contenido de encuestas es: ");
-                Log.d("Encuestas", encuestas.get(n).getName());
+                for (int n = 0; n < encuestas.size(); n++) {
+                    Log.d("Encuestas", "El contenido de encuestas es: ");
+                    Log.d("Encuestas", encuestas.get(n).getName());
 
-                for (int m=0; m< encuestas.get(n).getPartidosEncuesta().size(); m++){
-                    Log.d("Encuestas", "Con el partido "+encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
+                    for (int m = 0; m < encuestas.get(n).getPartidosEncuesta().size(); m++) {
+                        Log.d("Encuestas", "Con el partido " + encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
+                    }
                 }
-            }
 /*
             try {
                 for(int i = 0; i< json.length(); i++) {
@@ -195,6 +195,7 @@ public class HomeTab extends Fragment {
                     Log.d("Encuestas", "contiente " + e.getPartidosEncuesta().get(z).getName() + " con porcentaje " + e.getPartidosEncuesta().get(z).getPorcentaje());
                 }
             }*/
+            }
             new CargarXmlTask().execute(rss_url);
         }
     }
