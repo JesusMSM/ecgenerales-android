@@ -26,6 +26,9 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.parse.ParseAnalytics;
 
 import java.util.ArrayList;
@@ -41,6 +44,7 @@ import es.elconfidencial.eleccionesgenerales2015.fragments.HomeTab;
 import es.elconfidencial.eleccionesgenerales2015.fragments.NoticiasTab;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
+import es.elconfidencial.eleccionesgenerales2015.model.CardPubli;
 import es.elconfidencial.eleccionesgenerales2015.model.Encuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
@@ -49,6 +53,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.Persona;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
 import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
+import es.elconfidencial.eleccionesgenerales2015.viewholders.CardPubliViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.ContadorViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.EncuestasViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
@@ -68,7 +73,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     int encuestaSeleccionada = 0;
     BarChart grafico;
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -104,8 +109,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position).equals("contador")) {
             return CONTADOR;
         }
-        else if (items.get(position).equals("encuestas")) {
+        if (items.get(position).equals("encuestas")) {
             return ENCUESTA;
+        }
+        else if (items.get(position) instanceof CardPubli) {
+            return CARDPUBLI;
         }
         return -1;
     }
@@ -145,6 +153,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v7 = inflater.inflate(R.layout.recyclerview_item_encuesta, viewGroup, false);
                 viewHolder = new EncuestasViewHolder(v7);
                 break;
+            case CARDPUBLI:
+                View v8 = inflater.inflate(R.layout.recyclerview_item_cardpubli, viewGroup, false);
+                viewHolder = new CardPubliViewHolder(v8);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -183,6 +195,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case ENCUESTA:
                 EncuestasViewHolder vh7 = (EncuestasViewHolder) viewHolder;
                 configureEncuestasViewHolder(vh7, position);
+                break;
+            case CARDPUBLI:
+                CardPubliViewHolder vh8 = (CardPubliViewHolder) viewHolder;
+                configureCardPubliViewHolder(vh8, position);
                 break;
             default:
         }
@@ -243,6 +259,67 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 v.getContext().startActivity(Intent.createChooser(intent, v.getContext().getResources().getString(R.string.share)));
             }
         });
+    }
+
+    private void configureCardPubliViewHolder(final CardPubliViewHolder vh, int position) {
+
+        String url = "";
+        String info = "";
+
+
+
+        PublisherAdView mPublisherAdView = vh.mPublisherAdView;
+        mPublisherAdView.setAdSizes(AdSize.BANNER);
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
+       /* final Noticia noticia = (Noticia) items.get(position);
+        if (noticia != null) {
+            vh.titulo.setText(Html.fromHtml(noticia.getTitulo()));
+            vh.autor.setText(noticia.getAutor());
+            try {
+                System.gc();
+                //Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh.imagen);
+                Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.mipmap.nopic).into(vh.imagen);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        vh.autor.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        vh.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Heavy-Italic.ttf"));
+
+        //onClickListenerNoticia
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Creamos un intent para llamar a NoticiasContentActivity con los extras de la noticia correspondiente
+                Intent intent = new Intent(context, NoticiaContentActivity.class);
+                intent.putExtra("titulo", noticia.getTitulo());
+                System.out.print("DESC" + noticia.getDescripcion());
+                intent.putExtra("descripcion", noticia.getDescripcion());
+                intent.putExtra("autor", noticia.getAutor());
+                intent.putExtra("fecha", noticia.getFecha());
+                intent.putExtra("link", noticia.getLink());
+                intent.putExtra("imagenUrl", noticia.getImagenUrl());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+        vh.botonCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                String textoCompartir = noticia.getLink() + "\n\n" + noticia.getTitulo();
+
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, textoCompartir);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setType("text/plain");
+
+                v.getContext().startActivity(Intent.createChooser(intent, v.getContext().getResources().getString(R.string.share)));
+            }
+        });*/
     }
 
     private void configureContadorViewHolder(ContadorViewHolder vh3, int position) {
@@ -545,27 +622,27 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 3:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/cup-15022/"; //PSOE
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
                         NoticiasTab.seleccion = 3;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 4:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/personajes/catalunya-si-que-es-pot-15843/";  //Ciudadanos
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
                         NoticiasTab.seleccion = 4;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 5:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";  //Podemos
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
                         NoticiasTab.seleccion = 5;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 6:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";   //IU
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
                         NoticiasTab.seleccion = 6;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 7:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";  //UPYD
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
                         NoticiasTab.seleccion = 7;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;

@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         ;*/
     }
 
+
     //Almacena los objetos Partidos dentro de la Lista Global partidosList a partir de un json
     public void setPartidosListFromJSON(String json){
         try {

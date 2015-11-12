@@ -29,6 +29,7 @@ import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import es.elconfidencial.eleccionesgenerales2015.json.JSONParser;
+import es.elconfidencial.eleccionesgenerales2015.model.CardPubli;
 import es.elconfidencial.eleccionesgenerales2015.model.DatosEncuentas;
 import es.elconfidencial.eleccionesgenerales2015.model.Encuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
@@ -235,15 +236,20 @@ public class HomeTab extends Fragment {
 
             if (items.size() > 0) items.clear(); //Evitar duplicados
 
-            items.add("contador");
+            if(MainActivity.SHOW_TIMER){
+                items.add("contador");
+            }
 
-            items.add(new Titulo(getString(R.string.titulo_encuestas)));
-            items.add("encuestas");
+            if(MainActivity.SHOW_SURVEYS){
+                items.add(new Titulo(getString(R.string.titulo_encuestas)));
+                items.add("encuestas");
+            }
 
             items.add(new Titulo(getString(R.string.titulo_ultimas_noticias)));
 
-            int listLength = 4; //número de noticias que deben aparecer
+            int listLength = MainActivity.LAST_NEWS_COUNTER; //número de noticias que deben aparecer
             for (int i = 0; i < listLength; i++) {
+                if (i%MainActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
                 items.add(noticias.get(i));
             }
 

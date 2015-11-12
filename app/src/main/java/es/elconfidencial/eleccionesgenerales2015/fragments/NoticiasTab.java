@@ -23,6 +23,7 @@ import java.util.List;
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
+import es.elconfidencial.eleccionesgenerales2015.model.CardPubli;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
@@ -101,8 +102,11 @@ public class NoticiasTab extends Fragment {
             items.add(spinner);
 
 //            if(globalMethod.haveNetworkConnection()) {
+            int i =0;
                 for (Noticia noticia : noticias){
+                    if (i%MainActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
                     items.add(noticia);
+                    i++;
                 }
         /**    } else{
                 //Mensaje de error
