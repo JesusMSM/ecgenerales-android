@@ -79,14 +79,6 @@ public class GraficosTab extends Fragment {
         actionBarTitle = (TextView) v.findViewById(R.id.actionBarResultados);
         actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
-        //Inicializamos parse
-        try {
-            Parse.enableLocalDatastore(v.getContext());
-            //Autenticacion con Parse
-            Parse.initialize(context, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         //Inicializamos los Layout correspondientes a cada una de las screens
         gridMegaencuesta = (LinearLayout) v.findViewById(R.id.gridMegaencuestaScreen);

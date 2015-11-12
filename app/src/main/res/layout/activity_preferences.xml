@@ -9,6 +9,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Notificaciones de resultados"/>
+    <AutoCompleteTextView
+        android:id="@+id/searchMunicipioPref"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+    <Button
+        android:id="@+id/reestablecerPref"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Reestablecer"
+        android:src="@drawable/button_resultados"/>
+    <TextView
+        android:id="@+id/ccaaNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/provinciaNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/municipioNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

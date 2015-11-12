@@ -31,6 +31,7 @@ import java.util.Map;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyArrayAdapter;
+import es.elconfidencial.eleccionesgenerales2015.model.Municipio;
 
 public class OnBoardingActivity extends AppCompatActivity {
 
@@ -38,15 +39,10 @@ public class OnBoardingActivity extends AppCompatActivity {
     private AutoCompleteTextView searchMunicipio;
 
     private List<String> municipiosAutoComplete = new ArrayList<>();
-    private List<String> municipiosList = new ArrayList<>();
-    private List<Integer> tagsList = new ArrayList<>();
+    private List<Municipio> municipiosList = new ArrayList<>();
 
+    public Municipio municipioObj;
 
-
-    //private String pushwooshTag; // Ej:08.10.0000 (No ha marcado que desea recibir notificación a nivel de municipio)
-    public static int realTag; // Ej:08.101.003
-
-    private List<String> municipios = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,15 +71,22 @@ public class OnBoardingActivity extends AppCompatActivity {
         empezar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getTagFromMunicipio(searchMunicipio.getText().toString())!=0){
+                if(getMunicipioObject(searchMunicipio.getText().toString())!=null){
                     //Alamacenamos el TAG completo del municipio seleccionado
-                    realTag = getTagFromMunicipio(searchMunicipio.getText().toString());
+                    municipioObj = getMunicipioObject(searchMunicipio.getText().toString());
                     Log.i("Municipios", "" + searchMunicipio.getText().toString());
 
                     //Guardamos en preferences
                     SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("realTag", realTag);
+                    editor.putInt("realTag", municipioObj.getTag());
+                    editor.putString("MunicipioName", municipioObj.getMunicipioName());
+                    editor.putString("ProvinciaName", municipioObj.getProvinciaName());
+                    editor.putString("CCAAName", municipioObj.getCcaaaName());
+                    Log.i("Municipios", "Guardamos en Preferences el municipio " + municipioObj.getTag());
+                    Log.i("Municipios", "Guardamos en Preferences el municipio " + municipioObj.getMunicipioName());
+                    Log.i("Municipios", "Guardamos en Preferences la provincia" + municipioObj.getProvinciaName());
+                    Log.i("Municipios", "Guardamos en Preferences la CCAA " + municipioObj.getCcaaaName());
                     editor.apply();
 
                     Intent intent = new Intent(view.getContext(), MainActivity.class);
@@ -209,12 +212,20 @@ public class OnBoardingActivity extends AppCompatActivity {
                                 try {
                                     jsonMunicipio = jsonIDMunicipio.getJSONObject(idMunicipio);
 
-                                    //Guardamos el nombre del municipio en la lista del autoComplete y en la lista de nombres de municipios
+                                    //Guardamos el nombre del municipio en la lista del autoComplete
                                     municipioNameAutoComplete = jsonMunicipio.getString("Name") + ", " + provinciaNameAutoComplete;
                                     municipiosAutoComplete.add(municipioNameAutoComplete);
-                                    municipiosList.add(jsonMunicipio.getString("Name"));
-                                    //Guardamos el tag correspondiente a la CCAA-provincia-municipio de dicho municipio
-                                    tagsList.add(tag);
+
+                                    //Creamos un objeto municipio y lo rellenamos. Lo añadimos a la lista de municipios
+                                    Municipio municipioObj = new Municipio();
+                                    municipioObj.setTag(tag);
+                                    municipioObj.setCcaaaName(CCAAname);
+                                    municipioObj.setCcaaTag(Integer.parseInt(idCCAA));
+                                    municipioObj.setProvinciaName(jsonProvincia.getString("Name"));
+                                    municipioObj.setProvinciaTag(Integer.parseInt(idProvincia));
+                                    municipioObj.setMunicipioName(jsonMunicipio.getString("Name"));
+                                    municipioObj.setMunicipioTag(Integer.parseInt(idMunicipio));
+                                    municipiosList.add(municipioObj);
 
                                     //Reseteamos los valores para la próxima iteración
                                     municipioNameAutoComplete = "";
@@ -247,16 +258,17 @@ public class OnBoardingActivity extends AppCompatActivity {
     }
 
 
-    //Método que extrae el tag CCAA-provincia-municipio a partir del nombre de un municipio
+    //Método que extrae el objeto Municipio a partir del nombre del auto complete de un municipio
     //Devuelve 0 si no encuentra el municipio en la lista
-    public int getTagFromMunicipio(String municipio){
+    public Municipio getMunicipioObject(String municipio){
         for(int i=0;i<municipiosAutoComplete.size();i++) {
             if(municipiosAutoComplete.get(i).equals(municipio)){
-                return tagsList.get(i);
+                return municipiosList.get(i);
             }
         }
-        return 0;
+        return null;
     }
+
 
 
     //Método que lee un fichero json almacenado en assets
