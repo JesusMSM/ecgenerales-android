@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/loadingLayout"
         android:visibility="visible"
-        android:background="@color/ColorAccent"
+        android:background="@drawable/background_onboarding"
         android:gravity="center">
 
         <ProgressBar

@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -54,9 +56,10 @@ import es.elconfidencial.eleccionesgenerales2015.model.PartidoMegaencuesta;
 public class GraficosTab extends Fragment {
 
 
-    private LinearLayout gridMegaencuesta, graficoMegaencuesta;
+    private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
     private TextView actionBarTitle, headerEncuesta, graciasPorParticipar;
     HorizontalBarChart grafico;
+    private WebView webviewResultados;
     Context context;
     private View v;
     private int partidoMarcado = -1;
@@ -83,24 +86,97 @@ public class GraficosTab extends Fragment {
         //Inicializamos los Layout correspondientes a cada una de las screens
         gridMegaencuesta = (LinearLayout) v.findViewById(R.id.gridMegaencuestaScreen);
         graficoMegaencuesta = (LinearLayout) v.findViewById(R.id.graficoMegaencuestaScreen);
+        webviewLayout = (LinearLayout) v.findViewById(R.id.webviewScreen);
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
-        SharedPreferences prefs = getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        boolean hasVoted = prefs.getBoolean("hasVoted", false); //Si no existe, devuelve el segundo parametro
-        if (hasVoted) {
-            //Cargamos la vista del gráfico
+        if(MainActivity.SHOW_WIDGET_RESULTS){
+            //Cargamos el WebView
             gridMegaencuesta.setVisibility(View.GONE);
-            graficoMegaencuesta.setVisibility(View.VISIBLE);
-            setGraficoMegaencuesta();
-        } else {
-            //Cargamos la vista del Grid
-            gridMegaencuesta.setVisibility(View.VISIBLE);
             graficoMegaencuesta.setVisibility(View.GONE);
-            setGridMegaencuestaLayout();
+            webviewLayout.setVisibility(View.VISIBLE);
+            setWebViewLayout();
+        } else{
+            SharedPreferences prefs = getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            boolean hasVoted = prefs.getBoolean("hasVoted", false); //Si no existe, devuelve el segundo parametro
+            if (hasVoted) {
+                //Cargamos la vista del gráfico
+                gridMegaencuesta.setVisibility(View.GONE);
+                graficoMegaencuesta.setVisibility(View.VISIBLE);
+                webviewLayout.setVisibility(View.GONE);
+                setGraficoMegaencuesta();
+            } else {
+                //Cargamos la vista del Grid
+                gridMegaencuesta.setVisibility(View.VISIBLE);
+                graficoMegaencuesta.setVisibility(View.GONE);
+                webviewLayout.setVisibility(View.GONE);
+                setGridMegaencuestaLayout();
+            }
         }
 
 
+
         return v;
+    }
+
+
+    /**
+     * Este método carga en pantalla el layout correspondiente al día de las elecciones
+     */
+    public void setWebViewLayout(){
+        webviewResultados = (WebView) v.findViewById(R.id.resultadosWebview);
+        GlobalMethod globalMethod = new GlobalMethod(getContext());
+
+        //Comprobamos si tiene conexi�n a Internet
+        //Si tiene conexi�n cargamos la url, si no tiene mostramos el mensaje de alerta
+        if(globalMethod.haveNetworkConnection() && MainActivity.RESULTS_WEBVIEW_URL !=null){
+            webviewResultados.loadUrl(MainActivity.RESULTS_WEBVIEW_URL);
+        } else {
+            //Compramos el tipo de dispositivo y calculamos el tama�o de letra.
+            String textSize= "";
+            if (globalMethod.getSizeName(getContext()).equals("xlarge")) {
+                textSize="25px";
+            } else if (globalMethod.getSizeName(getContext()).equals("large")) {
+                textSize="18px";
+            } else if (globalMethod.getSizeName(getContext()).equals("normal")) {
+                textSize="16px";
+            }else {
+                textSize="14px";
+            }
+
+            String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
+                    "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
+                    "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
+                    "h2{font-family: MilioHeavy;}" +
+                    "body{font-family:TitilliumLight;text-align:justify}" +
+                    "a{text-decoration: none;color:black;} " +
+                    "html { font-size: " + textSize + "}" +
+                    "strong{font-family:TitilliumSemibold;}</style></head>";
+
+            String htmlSinConexion ="<html>" + head + "<body><div>" + getResources().getString(R.string.alerta_conexion_webview) + "</div></body></html>";
+            webviewResultados.loadDataWithBaseURL("", htmlSinConexion, "text/html", "charset=UTF-8", null);
+        }
+
+
+        webviewResultados.setWebViewClient(
+                new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                    }
+                });
+        // disable scroll on touch
+       /** webviewResultados.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });**/
     }
 
     /**

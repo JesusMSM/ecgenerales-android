@@ -35,6 +35,8 @@
     <string name="vota">Vota</string>
     <string name="gracias">¡Muchas gracias por participar!</string>
     <string name="selecciona_partido">Selecciona un partido</string>
+    <string name="alerta_conexion_webview"><![CDATA[<p></p><p></p><p><strong>NO ES POSIBLE ACCEDER A LOS RESULTADOS.</strong></p>
+    <p>Para poder seguir los resultados en directo necesita conexión a Internet. Por favor, revise su conexión e intentalo de nuevo.</p>]]></string>
 
     <!-- Strings presinder -->
     <string name="presinderHeader">Descubre a qué \n candidato te pareces</string>

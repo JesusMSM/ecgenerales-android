@@ -3,6 +3,9 @@ package es.elconfidencial.eleccionesgenerales2015.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseObject;
@@ -37,6 +41,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     private Button empezar;
     private AutoCompleteTextView searchMunicipio;
+    private TextView introduceMunicipio;
 
     private List<String> municipiosAutoComplete = new ArrayList<>();
     private List<Municipio> municipiosList = new ArrayList<>();
@@ -49,8 +54,13 @@ public class OnBoardingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_on_boarding);
 
         searchMunicipio = (AutoCompleteTextView) findViewById(R.id.searchMunicipio);
+        searchMunicipio.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        searchMunicipio.setTypeface((Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf")));
         empezar = (Button) findViewById(R.id.empezar);
+        empezar.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
 
+        introduceMunicipio = (TextView) findViewById(R.id.introduceMunicipio);
+        introduceMunicipio.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf"));
 
        /** if(municipiosAutoComplete.get(0)!=null) {
             Log.i("Municipios", "Primer municipio de la lista " + municipiosAutoComplete.get(0));

@@ -24,13 +24,19 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter{
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
-    private int[] imageResId = {
-            R.drawable.tab_home_icon,
-            R.drawable.tab_home_icon,
-            R.drawable.tab_home_icon,
-            R.drawable.tab_home_icon
-    };
+    /**private int[] imageResId = {
+            R.drawable.home_tab,
+            R.drawable.noticias_tab,
+            R.drawable.graficos_tab,
+            R.drawable.test_tab
+    };**/
 
+    private int[] imageResId = {
+     R.drawable.tab_home_icon,
+     R.drawable.tab_home_icon,
+     R.drawable.tab_home_icon,
+     R.drawable.tab_home_icon
+     };
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {

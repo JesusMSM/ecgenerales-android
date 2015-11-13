@@ -8,15 +8,19 @@ public class Partido {
     private String nombre;
     private String color;
     private String siglas;
+    private String tagNoticias;
+    private String tagPush;
 
     public Partido(){
     }
 
-    public Partido(String id, String color, String nombre, String siglas) {
+    public Partido(String id, String nombre, String color, String siglas, String tagNoticias, String tagPush) {
         this.id = id;
-        this.color = color;
         this.nombre = nombre;
+        this.color = color;
         this.siglas = siglas;
+        this.tagNoticias = tagNoticias;
+        this.tagPush = tagPush;
     }
 
     public String getId() {
@@ -49,5 +53,21 @@ public class Partido {
 
     public void setSiglas(String siglas) {
         this.siglas = siglas;
+    }
+
+    public String getTagNoticias() {
+        return tagNoticias;
+    }
+
+    public void setTagNoticias(String tagNoticias) {
+        this.tagNoticias = tagNoticias;
+    }
+
+    public String getTagPush() {
+        return tagPush;
+    }
+
+    public void setTagPush(String tagPush) {
+        this.tagPush = tagPush;
     }
 }

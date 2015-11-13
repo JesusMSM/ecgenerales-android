@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public static String RESULTS_WEBVIEW_URL;
     public static boolean SHOW_SURVEYS;
     public static boolean SHOW_TIMER;
-    public static boolean SHOW_WIDGET_TIMER;
+    public static boolean SHOW_WIDGET_RESULTS;
 
 
     //Quotes
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 RESULTS_WEBVIEW_URL = config.getString("RESULTS_WEBVIEW_URL");
                 SHOW_SURVEYS = config.getBoolean("SHOW_SURVEYS");
                 SHOW_TIMER = config.getBoolean("SHOW_TIMER");
-                SHOW_WIDGET_TIMER = config.getBoolean("SHOW_WIDGET_RESULTS");
+                SHOW_WIDGET_RESULTS = config.getBoolean("SHOW_WIDGET_RESULTS");
                 Log.d("TAG", "URL" + RESULTS_WEBVIEW_URL);
                 loadingLayout.setVisibility(View.GONE);
                 activityLayout.setVisibility(View.VISIBLE);
@@ -179,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
                     partido.setNombre(partidoObject.getString("Desc"));
                     partido.setColor(partidoObject.getString("Color"));
                     partido.setSiglas(partidoObject.getString("Short"));
+                    partido.setTagNoticias(partidoObject.getString("News_TAG"));
+                    partido.setTagPush(partidoObject.getString("Push_TAG"));
                     partidosList.add(partido);
                     Log.i("PartidosJSON", "Almacenado el partido " + partido.getId());
                     Log.i("PartidosJSON", "Con siglas " + partido.getSiglas());

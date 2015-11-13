@@ -70,9 +70,9 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/tab_home_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/settings_icon"
                 android:id="@+id/preferencesIcon"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="8dp"

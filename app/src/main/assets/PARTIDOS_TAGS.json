@@ -3,54 +3,81 @@
                         "ID":"CIUDADANOS",
                         "Desc" : "Ciudadanos",
                         "Color" : "#f58723",
-                        "Short" : "Cs"
+                        "Short" : "Cs",
+                         "News_TAG" : "ciudadanos-6359",
+                         "Push_TAG" : "CIUDADANOS"
                        },
                        {
                         "ID":"PSOE",
                         "Desc" : "PSOE",
                         "Color" : "#ce1415",
-                        "Short" : "PSOE"
+                        "Short" : "PSOE",
+                         "News_TAG" : "psoe-7017",
+                         "Push_TAG" : "PSOE"
                        },
                        {
                         "ID":"PP",
                         "Desc" : "Partido Popular",
                         "Color" : "#1ba1ef",
-                        "Short" : "PP"
+                        "Short" : "PP",
+                         "News_TAG" : "partido-popular-pp-3113",
+                         "Push_TAG" : "PP"
                        } ,
                        {
                         "ID":"PODEMOS",
                         "Desc" : "Podemos",
                         "Color" : "#bd42b8",
-                        "Short" : "Cs"
+                        "Short" : "Podemos",
+                        "News_TAG" : "podemos-10616",
+                         "Push_TAG" : "PODEMOS"
                        },
                        {
                         "ID":"IU",
                         "Desc" : "Izquierda Unida",
                         "Color" : "#18a196",
-                        "Short" : "IU"
+                        "Short" : "IU",
+                         "News_TAG" : "izquierda-unida-2547",
+                         "Push_TAG" : "IU"
                        } ,
                        {
                         "ID":"PACMA",
                        "Desc" : "PACMA",
                        "Color" : "#3838FF",
-                       "Short" : "Cs"
+                       "Short" : "PACMA",
+                        "News_TAG" : "",
+                         "Push_TAG" : ""
                        },
                        {
                         "ID":"PNV",
                        "Desc" : "PNV",
                        "Color" : "#118747",
-                       "Short" : "PNV"
+                       "Short" : "PNV",
+                        "News_TAG" : "",
+                         "Push_TAG" : ""
                        },
                        {
                         "ID":"UPYD",
                        "Desc" : "UPYD",
                        "Color" : "#f5407b",
-                       "Short" : "UPYD"
+                       "Short" : "UPyD",
+                        "News_TAG" : "upyd-2430",
+                         "Push_TAG" : "UPYD"
                        },
                        {
                         "ID":"OTROS",
                        "Desc" : "OTROS",
                        "Color" : "#383838",
-                       "Short" : "Otros"
+                       "Short" : "Otros",
+                        "News_TAG" : "",
+                         "Push_TAG" : ""
+                       },
+                       {
+                        "ID":"CONVERGENTS",
+                       "Desc" : "Convergents",
+                       "Color" : "#FFC375",
+                       "Short" : "Otros",
+                        "News_TAG" : "",
+                         "Push_TAG" : ""
                        }
+
 ]
