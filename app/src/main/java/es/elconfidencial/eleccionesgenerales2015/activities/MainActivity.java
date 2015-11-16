@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.parse.ConfigCallback;
 import com.parse.Parse;
+import com.parse.ParseAnalytics;
 import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -80,6 +81,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Enable Local Datastore.
+        try {
+            Parse.enableLocalDatastore(this);
+
+            Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
+
+            ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         resources = getResources();
 

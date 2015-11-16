@@ -93,7 +93,7 @@ public class OnBoardingActivity extends AppCompatActivity {
                     editor.putString("MunicipioName", municipioObj.getMunicipioName());
                     editor.putString("ProvinciaName", municipioObj.getProvinciaName());
                     editor.putString("CCAAName", municipioObj.getCcaaaName());
-                    Log.i("Municipios", "Guardamos en Preferences el municipio " + municipioObj.getTag());
+                    Log.i("Municipios", "Guardamos en Preferences el tag " + municipioObj.getTag());
                     Log.i("Municipios", "Guardamos en Preferences el municipio " + municipioObj.getMunicipioName());
                     Log.i("Municipios", "Guardamos en Preferences la provincia" + municipioObj.getProvinciaName());
                     Log.i("Municipios", "Guardamos en Preferences la CCAA " + municipioObj.getCcaaaName());
@@ -101,6 +101,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(view.getContext(), MainActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.introduce_municipio), Toast.LENGTH_LONG);
                     toast.show();

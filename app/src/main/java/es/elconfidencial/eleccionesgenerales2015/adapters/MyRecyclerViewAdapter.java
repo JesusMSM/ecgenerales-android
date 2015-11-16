@@ -14,7 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
@@ -26,9 +30,16 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.google.android.gms.ads.formats.NativeAdOptions;
+import com.google.android.gms.ads.formats.NativeAppInstallAd;
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
+import com.google.android.gms.ads.formats.NativeCustomTemplateAd;
 import com.parse.ParseAnalytics;
 
 import java.util.ArrayList;
@@ -72,6 +83,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     Context context;
     int encuestaSeleccionada = 0;
     BarChart grafico;
+    NativeCustomTemplateAd adCustom;
 
     private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7;
 
@@ -154,7 +166,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 viewHolder = new EncuestasViewHolder(v7);
                 break;
             case CARDPUBLI:
-                View v8 = inflater.inflate(R.layout.recyclerview_item_cardpubli, viewGroup, false);
+                View v8 =  inflater.inflate(R.layout.recyclerview_item_cardpubli, viewGroup, false);
                 viewHolder = new CardPubliViewHolder(v8);
                 break;
             default:
@@ -198,7 +210,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 break;
             case CARDPUBLI:
                 CardPubliViewHolder vh8 = (CardPubliViewHolder) viewHolder;
-                configureCardPubliViewHolder(vh8, position);
+                loadAd(vh8);
                 break;
             default:
         }
@@ -261,17 +273,47 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         });
     }
 
-    private void configureCardPubliViewHolder(final CardPubliViewHolder vh, int position) {
 
-        String url = "";
-        String info = "";
+    private void loadAd(final CardPubliViewHolder vh) {
+
+        AdLoader.Builder builder = new AdLoader.Builder(context, "/6499/example/native");
+
+        builder.forCustomTemplateAd("10063170",
+                new NativeCustomTemplateAd.OnCustomTemplateAdLoadedListener() {
+                    @Override
+                    public void onCustomTemplateAdLoaded(NativeCustomTemplateAd ad) {
 
 
+                        if(vh.empresa!=null) Log.d("PUBLI", "Headline no es null");
+                        if(ad!=null) Log.d("PUBLI", "Ad no es null");
+                        if(vh.empresa==null) Log.d("PUBLI","Headline sí es null");
+                        vh.empresa.setText(ad.getText("Headline"));
 
-        PublisherAdView mPublisherAdView = vh.mPublisherAdView;
-        mPublisherAdView.setAdSizes(AdSize.BANNER);
-        PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
-        mPublisherAdView.loadAd(adRequest);
+
+                        vh.imagen.setImageDrawable(
+                                ad.getImage("MainImage").getDrawable());
+
+                    }
+                },
+                new NativeCustomTemplateAd.OnCustomClickListener() {
+                    @Override
+                    public void onCustomClick(NativeCustomTemplateAd ad, String s) {
+
+                    }
+                });
+
+        AdLoader adLoader = builder.withAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Toast.makeText(context, "Failed to load native ad: "
+                        + errorCode, Toast.LENGTH_SHORT).show();
+            }
+        }).build();
+
+        adLoader.loadAd(new PublisherAdRequest.Builder().build());
+
+    }
+
 
        /* final Noticia noticia = (Noticia) items.get(position);
         if (noticia != null) {
@@ -320,7 +362,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 v.getContext().startActivity(Intent.createChooser(intent, v.getContext().getResources().getString(R.string.share)));
             }
         });*/
-    }
+
 
     private void configureContadorViewHolder(ContadorViewHolder vh3, int position) {
         vh3.showContador();

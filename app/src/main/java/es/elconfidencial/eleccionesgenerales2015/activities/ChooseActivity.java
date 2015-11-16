@@ -27,8 +27,7 @@ public class ChooseActivity extends AppCompatActivity {
         //Register receivers for push notifications
         registerReceivers();
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
+
 
         //Create and start push manager
         PushManager pushManager = PushManager.getInstance(this);
@@ -48,9 +47,7 @@ public class ChooseActivity extends AppCompatActivity {
         checkMessage(getIntent());
 
 
-        Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         //Comprueba si es la primera vez
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);

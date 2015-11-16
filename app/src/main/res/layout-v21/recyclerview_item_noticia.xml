@@ -33,7 +33,6 @@
                 android:textSize="10pt"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:text="Pablo Iglesias apoya públicamente a ETA."
                 android:layout_marginBottom="10dp"/>
 
             <TextView

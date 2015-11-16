@@ -1,5 +1,6 @@
 package es.elconfidencial.eleccionesgenerales2015.viewholders;
 
+import android.media.Image;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,17 +16,14 @@ import es.elconfidencial.eleccionesgenerales2015.R;
  */
 public class CardPubliViewHolder extends RecyclerView.ViewHolder{
 
-    public TextView titulo,autor;
+    public TextView empresa;
     public ImageView imagen;
-    public PublisherAdView mPublisherAdView;
-    public FloatingActionButton botonCompartir;
+
 
     public CardPubliViewHolder(View v) {
         super(v);
-        titulo = (TextView) v.findViewById(R.id.titulo);
-        autor = (TextView) v.findViewById(R.id.autor);
-        imagen = (ImageView) v.findViewById(R.id.imagen);
-        botonCompartir = (FloatingActionButton) v.findViewById(R.id.fab);
-        mPublisherAdView = (PublisherAdView) v.findViewById(R.id.publisherAdView);
+        empresa = (TextView) v.findViewById(R.id.textViewEmpresa);
+        imagen = (ImageView) v.findViewById(R.id.imageView);
+
     }
 }
