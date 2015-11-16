@@ -29,7 +29,10 @@ public class NoticiaContentActivity  extends ActionBarActivity {
     private String url = "";
     private String info = "";
     private String textSize= "";
-    private WebView descripcion;
+    private WebView descripcion1, descripcion2;
+    private TextView textoPrueba;
+    private String head="";
+    private String htmlString1,htmlString2, contenido1, contenido2 ="";
     private Intent intent;
 
     @Override
@@ -59,9 +62,12 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
         TextView titulo = (TextView) findViewById(R.id.titulo);
         ImageView imagen = (ImageView) findViewById(R.id.imagen);
-        descripcion = (WebView)findViewById(R.id.descripcion);
+        descripcion1 = (WebView)findViewById(R.id.descripcion1);
+        descripcion2 = (WebView)findViewById(R.id.descripcion2);
         TextView autor = (TextView) findViewById(R.id.autor);
         TextView fecha = (TextView) findViewById(R.id.fecha);
+
+        TextView textoPrueba = (TextView) findViewById(R.id.textoPrueba);
 
         titulo.setText(Html.fromHtml(intent.getStringExtra("titulo")));
         autor.setText(Html.fromHtml(intent.getStringExtra("autor")));
@@ -78,49 +84,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         }else {
             textSize="14px";
         }
-
-
-        //Insertamos la cabecera al html con el estilo
-        String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
-                "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
-                "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
-                "h2{font-family: MilioHeavy;}" +
-                "img{max-width: 100%; width:auto; height: auto;}" +
-                "body{font-family:TitilliumLight;}" +
-
-                "html { font-size: " + textSize + "}" +
-                "strong{font-family:TitilliumSemibold;}</style></head>";
-
-        String htmlString ="<html>" + head + "<body><div>" + intent.getStringExtra("descripcion") + "</div></body></html>";
-
-        //String htmlStringFormatted = htmlString.replace("<img src[^>]*>", "");
-        //Quitar la imagen del final
-
-        descripcion.getSettings().setJavaScriptEnabled(true);
-        descripcion.getSettings().setDefaultTextEncodingName("utf-8");
-        descripcion.loadDataWithBaseURL("", htmlString, "text/html", "charset=UTF-8", null);
-        descripcion.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //Bloquear links
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(i);
-                return true;
-            }
-
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-            }
-        });
-        // disable scroll on touch
-        descripcion.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
+         reloadDescription();
 
         //Estilo
         titulo.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Milio-Heavy-Italic.ttf"));
@@ -148,47 +112,8 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             textSize=textSizeInt+"px";
         }
 
+        reloadDescription();
 
-
-        //Insertamos la cabecera al html con el estilo
-        String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
-                "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
-                "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
-                "h2{font-family: MilioHeavy;}" +
-                "img{max-width: 100%; width:auto; height: auto;}" +
-                "body{font-family:TitilliumLight;}" +
-                "html { font-size: " + textSize + "}" +
-                "strong{font-family:TitilliumSemibold;}</style></head>";
-
-        String htmlString ="<html>" + head + "<body><div>" + intent.getStringExtra("descripcion") + "</div></body></html>";
-
-        //String htmlStringFormatted = htmlString.replace("<img src[^>]*>", "");
-        //Quitar la imagen del final
-
-        descripcion.getSettings().setJavaScriptEnabled(true);
-        descripcion.getSettings().setDefaultTextEncodingName("utf-8");
-        descripcion.loadDataWithBaseURL("", htmlString, "text/html", "charset=UTF-8", null);
-        descripcion.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //Bloquear links
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(i);
-                return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-            }
-        });
-        // disable scroll on touch
-        descripcion.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
 
     }
 
@@ -205,27 +130,37 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             textSize=textSizeInt+"px";
         }
 
+        reloadDescription();
 
 
+    }
+
+    public void reloadDescription(){
         //Insertamos la cabecera al html con el estilo
-        String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
+        head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
                 "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
                 "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
                 "h2{font-family: MilioHeavy;}" +
                 "img{max-width: 100%; width:auto; height: auto;}" +
                 "body{font-family:TitilliumLight;}" +
+
                 "html { font-size: " + textSize + "}" +
                 "strong{font-family:TitilliumSemibold;}</style></head>";
 
-        String htmlString ="<html>" + head + "<body><div>" + intent.getStringExtra("descripcion") + "</div></body></html>";
+        String contenido = intent.getStringExtra("descripcion");
+        splitContenido(contenido);
+
+
+        htmlString1 ="<html>" + head + "<body><div>" + contenido1 + "</div></body></html>";
 
         //String htmlStringFormatted = htmlString.replace("<img src[^>]*>", "");
         //Quitar la imagen del final
+        //Texto antes de anuncio
 
-        descripcion.getSettings().setJavaScriptEnabled(true);
-        descripcion.getSettings().setDefaultTextEncodingName("utf-8");
-        descripcion.loadDataWithBaseURL("", htmlString, "text/html", "charset=UTF-8", null);
-        descripcion.setWebViewClient(new WebViewClient() {
+        descripcion1.getSettings().setJavaScriptEnabled(true);
+        descripcion1.getSettings().setDefaultTextEncodingName("utf-8");
+        descripcion1.loadDataWithBaseURL("", htmlString1, "text/html", "charset=UTF-8", null);
+        descripcion1.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //Bloquear links
@@ -234,61 +169,36 @@ public class NoticiaContentActivity  extends ActionBarActivity {
                 return true;
             }
 
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
             }
         });
         // disable scroll on touch
-        descripcion.setOnTouchListener(new View.OnTouchListener() {
+        descripcion1.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
             }
         });
 
-    }
-    public void changeSize(){
+        //Texto después de anuncio
 
-        int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
+        htmlString2 ="<html>" + head + "<body><div>" + contenido2 + "</div></body></html>";
 
-        if (getSizeName().equals("xlarge")) {
-            textSizeInt=textSizeInt+3;
-            if(textSizeInt>40) textSizeInt=25;
-            textSize=textSizeInt+"px";
-        }else{
-            textSizeInt=textSizeInt+2;
-            if(textSizeInt>25) textSizeInt=14;
-            textSize=textSizeInt+"px";
-        }
-
-
-
-        //Insertamos la cabecera al html con el estilo
-        String head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
-                "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
-                "@font-face {font-family: TitilliumSemibold;src: url(\"file:///android_asset/Titillium-Semibold.otf\")}" +
-                "h2{font-family: MilioHeavy;}" +
-                "img{max-width: 100%; width:auto; height: auto;}" +
-                "body{font-family:TitilliumLight;text-align:justify}" +
-                "a{text-decoration: none;color:black;} " +
-                "html { font-size: " + textSize + "}" +
-                "strong{font-family:TitilliumSemibold;}</style></head>";
-
-        String htmlString ="<html>" + head + "<body><div>" + intent.getStringExtra("descripcion") + "</div></body></html>";
-
-        //String htmlStringFormatted = htmlString.replace("<img src[^>]*>", "");
-        //Quitar la imagen del final
-
-        descripcion.getSettings().setJavaScriptEnabled(true);
-        descripcion.getSettings().setDefaultTextEncodingName("utf-8");
-        descripcion.loadDataWithBaseURL("", htmlString, "text/html", "charset=UTF-8", null);
-        descripcion.setWebViewClient(new WebViewClient() {
+        descripcion2.getSettings().setJavaScriptEnabled(true);
+        descripcion2.getSettings().setDefaultTextEncodingName("utf-8");
+        descripcion2.loadDataWithBaseURL("", htmlString2, "text/html", "charset=UTF-8", null);
+        descripcion2.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //Bloquear links
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(i);
                 return true;
             }
+
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -296,12 +206,29 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             }
         });
         // disable scroll on touch
-        descripcion.setOnTouchListener(new View.OnTouchListener() {
+        descripcion2.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
             }
         });
+
+
+    }
+
+    public void splitContenido(String contenido){
+
+        String[] contenidoArray = contenido.split("</p>");
+        contenido1 = contenidoArray[0] + "</p>";
+        contenido2 = "";
+        for (int i = 1; i < contenidoArray.length; i++) {
+            if(i!=contenidoArray.length-1){
+                contenido2 += contenidoArray[i] + "</p>";
+            } else{
+                contenido2 += contenidoArray[i];
+            }
+
+        }
     }
 
     @Override
@@ -356,7 +283,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setType( "text/plain" );
 
-        startActivity(  Intent.createChooser( intent, getString(R.string.share) )  );
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }
 
     //Formateadores para la fecha ( hace X minutos)
