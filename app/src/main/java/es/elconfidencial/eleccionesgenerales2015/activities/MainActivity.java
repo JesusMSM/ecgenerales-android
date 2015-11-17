@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.parse.ConfigCallback;
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("PartidosJSON", "JSON no recuperado de assets");
         }
 
-        final RelativeLayout loadingLayout = (RelativeLayout) findViewById(R.id.loadingLayout);
+        final LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
         final RelativeLayout activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
         ParseConfig.getInBackground(new ConfigCallback() {
             @Override

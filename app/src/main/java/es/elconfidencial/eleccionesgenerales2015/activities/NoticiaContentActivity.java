@@ -87,7 +87,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
          reloadDescription();
 
         //Estilo
-        titulo.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Milio-Heavy-Italic.ttf"));
+        titulo.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Milio-Heavy.ttf"));
         autor.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         fecha.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         Glide.with(getApplicationContext()).load(intent.getStringExtra("imagenUrl")).placeholder(R.mipmap.nopic).into(imagen);

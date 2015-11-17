@@ -7,67 +7,48 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent" android:background="@color/white">
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12pt"
+            android:gravity="left"
+            android:textColor="@color/titulos"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"/>
+
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/imagen"
             android:adjustViewBounds="true"/>
 
-        <TextView
-            android:id="@+id/titulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="italic"
-            android:textSize="13pt"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/autor"
                 android:textColor="@color/ColorAccent"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="15dp"
+                android:textAllCaps="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="30dp"
                 android:paddingRight="5dp"
                 android:paddingLeft="5dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/fecha"
-                android:text="hey"
-                android:textColor="@color/ColorAccent"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_alignParentRight="true"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginStart="30dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginEnd="20dp"
-                android:background="#E0E0E0"
-                android:layout_below="@id/fecha"/>
-        </RelativeLayout>
+                android:layout_marginTop="15dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
             <WebView
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginRight="15dp"
@@ -97,7 +78,5 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical" />
-
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

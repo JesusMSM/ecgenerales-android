@@ -21,18 +21,20 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/imagen"
-                android:src="@drawable/nopic"
-                android:adjustViewBounds="true"
-                android:layout_marginBottom="10dp"/>
+                android:src="@mipmap/nopic"
+                android:adjustViewBounds="true" />
 
             <TextView
                 android:id="@+id/titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10pt"
-                android:gravity="center"
-                android:textColor="@color/black"
+                android:gravity="left"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/titulos"
                 android:layout_marginBottom="10dp"/>
 
             <TextView
@@ -44,7 +46,6 @@
                 android:gravity="left"
                 android:paddingLeft="16dp"
                 android:textColor="@color/ColorAccent"
-                android:text="EL CONFIDENCIAL"
                 android:textAllCaps="true"/>
 
             <!--<TextView

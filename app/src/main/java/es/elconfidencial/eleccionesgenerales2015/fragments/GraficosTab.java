@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,7 +90,8 @@ public class GraficosTab extends Fragment {
         webviewLayout = (LinearLayout) v.findViewById(R.id.webviewScreen);
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
-        if(MainActivity.SHOW_WIDGET_RESULTS){
+        //if(MainActivity.SHOW_WIDGET_RESULTS){
+        if(true){
             //Cargamos el WebView
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.GONE);
@@ -124,12 +126,21 @@ public class GraficosTab extends Fragment {
      */
     public void setWebViewLayout(){
         webviewResultados = (WebView) v.findViewById(R.id.resultadosWebview);
+
+        //Preparamos el Webview
+        webviewResultados.getSettings().setJavaScriptEnabled(true);
+        webviewResultados.getSettings().setDefaultTextEncodingName("utf-8");
+        webviewResultados.getSettings().setBuiltInZoomControls(true);
+        webviewResultados.getSettings().setSupportZoom(true);
+        webviewResultados.setVerticalScrollBarEnabled(true);
+
         GlobalMethod globalMethod = new GlobalMethod(getContext());
 
         //Comprobamos si tiene conexi�n a Internet
         //Si tiene conexi�n cargamos la url, si no tiene mostramos el mensaje de alerta
         if(globalMethod.haveNetworkConnection() && MainActivity.RESULTS_WEBVIEW_URL !=null){
             webviewResultados.loadUrl(MainActivity.RESULTS_WEBVIEW_URL);
+            Log.i("Resultados", "RESULTS_WEBVIEW_URL = " + MainActivity.RESULTS_WEBVIEW_URL);
         } else {
             //Compramos el tipo de dispositivo y calculamos el tama�o de letra.
             String textSize= "";
@@ -171,7 +182,7 @@ public class GraficosTab extends Fragment {
                     }
                 });
         // disable scroll on touch
-       /** webviewResultados.setOnTouchListener(new View.OnTouchListener() {
+     /**   webviewResultados.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
