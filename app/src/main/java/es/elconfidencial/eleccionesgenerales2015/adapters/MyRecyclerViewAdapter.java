@@ -276,9 +276,35 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void loadAd(final CardPubliViewHolder vh) {
 
-        AdLoader.Builder builder = new AdLoader.Builder(context, "/6499/example/native");
+        AdLoader builder = new AdLoader.Builder(context, "/35003347/ad_unit_native_test")
 
-        builder.forCustomTemplateAd("10063170",
+                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
+                    @Override
+                    public void onContentAdLoaded(NativeContentAd contentAd) {
+                        if (vh.empresa != null) Log.d("PUBLI", "Headline no es null");
+                        if (contentAd != null) Log.d("PUBLI", "Ad no es null");
+                        if (vh.empresa == null) Log.d("PUBLI", "Headline sí es null");
+                        vh.empresa.setText(contentAd.getHeadline());
+
+
+                        vh.imagen.setImageDrawable(
+                                contentAd.getImages().get(0).getDrawable());
+                    }
+                })
+                .withAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        Toast.makeText(context, "Failed to load native ad: "
+                                + errorCode, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .withNativeAdOptions(new NativeAdOptions.Builder()
+                        // Methods in the NativeAdOptions.Builder class can be
+                        // used here to specify individual options settings.
+                        .build())
+                .build();
+
+        /*builder.forCustomTemplateAd("10063170",
                 new NativeCustomTemplateAd.OnCustomTemplateAdLoadedListener() {
                     @Override
                     public void onCustomTemplateAdLoaded(NativeCustomTemplateAd ad) {
@@ -300,17 +326,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     public void onCustomClick(NativeCustomTemplateAd ad, String s) {
 
                     }
-                });
+                });*/
 
-        AdLoader adLoader = builder.withAdListener(new AdListener() {
+        /*AdLoader adLoader = builder.withAdListener(new AdListener() {
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 Toast.makeText(context, "Failed to load native ad: "
                         + errorCode, Toast.LENGTH_SHORT).show();
             }
-        }).build();
+        }).build();*/
 
-        adLoader.loadAd(new PublisherAdRequest.Builder().build());
+        builder.loadAd(new PublisherAdRequest.Builder().build());
 
     }
 
@@ -612,7 +638,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 spinnerArray.add(context.getResources().getString(R.string.elige_partido_politico));
                 break;
             case 1:
-                spinnerArray.add("General");
+                spinnerArray.add("Todos los partidos");
                 break;
             case 2:
                 spinnerArray.add(context.getResources().getString(R.string.pp));
@@ -734,8 +760,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             items.add(spinner);
 
 //            if(globalMethod.haveNetworkConnection()) {
+            int i =0;
             for (Noticia noticia : noticias){
+                if (i%MainActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
                 items.add(noticia);
+                i++;
             }
             /**    } else{
              //Mensaje de error
