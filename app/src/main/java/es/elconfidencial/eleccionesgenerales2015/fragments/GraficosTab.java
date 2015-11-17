@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -130,7 +131,6 @@ public class GraficosTab extends Fragment {
         //Preparamos el Webview
         webviewResultados.getSettings().setJavaScriptEnabled(true);
         webviewResultados.getSettings().setDefaultTextEncodingName("utf-8");
-        webviewResultados.getSettings().setBuiltInZoomControls(true);
         webviewResultados.getSettings().setSupportZoom(true);
         webviewResultados.setVerticalScrollBarEnabled(true);
 
@@ -172,8 +172,16 @@ public class GraficosTab extends Fragment {
                 new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
+                        if (url.equals(MainActivity.RESULTS_WEBVIEW_URL + "/")) {
+                            view.loadUrl(url);
+                            Log.i("Resultados", "dentro del if con " + url);
+                            return true;
+                        } else {
+                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(i);
+                            Log.i("Resultados", "dentro del else con " + url);
+                            return true;
+                        }
                     }
 
                     @Override
