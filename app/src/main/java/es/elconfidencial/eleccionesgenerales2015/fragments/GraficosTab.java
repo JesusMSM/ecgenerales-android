@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -130,16 +131,44 @@ public class GraficosTab extends Fragment {
 
         //Preparamos el Webview
         webviewResultados.getSettings().setJavaScriptEnabled(true);
+        webviewResultados.getSettings().setDomStorageEnabled(true);
+        webviewResultados.getSettings().setAppCacheEnabled(true);
         webviewResultados.getSettings().setDefaultTextEncodingName("utf-8");
-        webviewResultados.getSettings().setSupportZoom(true);
+        //webviewResultados.getSettings().setSupportZoom(true);
         webviewResultados.setVerticalScrollBarEnabled(true);
 
         GlobalMethod globalMethod = new GlobalMethod(getContext());
 
+        //WebChromeClient
+        webviewResultados.setWebChromeClient(new WebChromeClient());
+
+        //WebClient
+        webviewResultados.setWebViewClient(
+                new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        if (url.equals(MainActivity.RESULTS_WEBVIEW_URL + "/")) {
+                            view.loadUrl(url);
+                            Log.i("Resultados", "dentro del if con " + url);
+                            return true;
+                        } else {
+                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(i);
+                            Log.i("Resultados", "dentro del else con " + url);
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                    }
+                });
+
         //Comprobamos si tiene conexi�n a Internet
         //Si tiene conexi�n cargamos la url, si no tiene mostramos el mensaje de alerta
         if(globalMethod.haveNetworkConnection() && MainActivity.RESULTS_WEBVIEW_URL !=null){
-            webviewResultados.loadUrl(MainActivity.RESULTS_WEBVIEW_URL);
+            webviewResultados.loadUrl(MainActivity.RESULTS_WEBVIEW_URL + "/");
             Log.i("Resultados", "RESULTS_WEBVIEW_URL = " + MainActivity.RESULTS_WEBVIEW_URL);
         } else {
             //Compramos el tipo de dispositivo y calculamos el tama�o de letra.
@@ -168,27 +197,7 @@ public class GraficosTab extends Fragment {
         }
 
 
-        webviewResultados.setWebViewClient(
-                new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        if (url.equals(MainActivity.RESULTS_WEBVIEW_URL + "/")) {
-                            view.loadUrl(url);
-                            Log.i("Resultados", "dentro del if con " + url);
-                            return true;
-                        } else {
-                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            startActivity(i);
-                            Log.i("Resultados", "dentro del else con " + url);
-                            return true;
-                        }
-                    }
 
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                    }
-                });
         // disable scroll on touch
      /**   webviewResultados.setOnTouchListener(new View.OnTouchListener() {
             @Override
