@@ -5,6 +5,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -154,12 +155,10 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         View view = getWindow().getDecorView();
         view.getRootView();
         String state = Environment.getExternalStorageState();
-
-        if (Environment.MEDIA_MOUNTED.equals(state))
-        {
-            File picDir  = new File(Environment.getExternalStorageDirectory()+ "/EG2015-EC");
-            if (!picDir.exists())
-            {
+    try {
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            File picDir = new File(Environment.getExternalStorageDirectory() + "/EG2015-EC");
+            if (!picDir.exists()) {
                 picDir.mkdir();
             }
             view.setDrawingCacheEnabled(true);
@@ -172,9 +171,9 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
             // Get current theme to know which background to use
             final Resources.Theme theme = ResultadosPresinderActivity.this.getTheme();
             final TypedArray ta = theme
-                    .obtainStyledAttributes(new int[] { android.R.attr.windowBackground });
+                    .obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
             final int res = ta.getResourceId(0, 0);
-            final Drawable background= ResultadosPresinderActivity.this.getResources().getDrawable(res);
+            final Drawable background = ResultadosPresinderActivity.this.getResources().getDrawable(res);
 
             // Draw background
             background.draw(canvas);
@@ -182,26 +181,28 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
             // Draw views
             view.draw(canvas);
 
-            String fileName = "resultPicture" + ".jpg";
+            String fileName = "resultPicture" + ".png";
             picFile = new File(picDir + "/" + fileName);
-            try
-            {
+            try {
                 picFile.createNewFile();
                 FileOutputStream picOut = new FileOutputStream(picFile);
-                //bitmap.setDensity(view.getResources().getDisplayMetrics().densityDpi);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), (int)(bitmap.getHeight()));
 
-                boolean saved = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, picOut);
+                //Toño
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(picFile.getPath(), options);
+
+                bitmap.setDensity(view.getResources().getDisplayMetrics().densityDpi);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), (int) (bitmap.getHeight()));
+
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, picOut);
 
                 picOut.close();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
-            }
-            catch (OutOfMemoryError e2){
+            } catch (OutOfMemoryError e2) {
                 e2.printStackTrace();
-                Toast.makeText(getApplicationContext(),"Su dispositivo no puede compartir los resultados porque que dispone de poca memoria RAM. Cierre aplicaciones y vuelva a intentarlo",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Out of memory", Toast.LENGTH_LONG).show();
             }
             view.destroyDrawingCache();
         } else {
@@ -210,9 +211,12 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         }
 
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("image/jpeg");
+        sharingIntent.setType("image/png");
         sharingIntent.putExtra(Intent.EXTRA_TEXT, "Estos han sido mis resultados en Presinder EC. Descarga la app en: https://www.elconfidencial.com");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(picFile.getAbsolutePath()));
         startActivity(Intent.createChooser(sharingIntent, "Compartir"));
+    }catch (Exception e){
+
+    }
     }
 }
