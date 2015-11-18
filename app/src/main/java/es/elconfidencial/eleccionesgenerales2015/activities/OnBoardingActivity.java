@@ -16,9 +16,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
@@ -42,6 +45,8 @@ public class OnBoardingActivity extends AppCompatActivity {
     private Button empezar;
     private AutoCompleteTextView searchMunicipio;
     private TextView introduceMunicipio;
+    private ImageView fondo;
+    private LinearLayout linear;
 
     private List<String> municipiosAutoComplete = new ArrayList<>();
     private List<Municipio> municipiosList = new ArrayList<>();
@@ -53,11 +58,17 @@ public class OnBoardingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
 
+        fondo = (ImageView) findViewById(R.id.logoOnboarding);
+        Glide.with(getApplicationContext()).load(R.drawable.logo_onboarding).into(fondo);
+        linear = (LinearLayout) findViewById(R.id.linearOnboarding);
+        linear.setBackgroundResource(R.drawable.background_onboarding);
+
         searchMunicipio = (AutoCompleteTextView) findViewById(R.id.searchMunicipio);
         searchMunicipio.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         searchMunicipio.setTypeface((Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf")));
         empezar = (Button) findViewById(R.id.empezar);
         empezar.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        //empezar.setBackgroundResource(R.drawable.button_resultados);
 
         introduceMunicipio = (TextView) findViewById(R.id.introduceMunicipio);
         introduceMunicipio.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf"));

@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -187,7 +188,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
             {
                 picFile.createNewFile();
                 FileOutputStream picOut = new FileOutputStream(picFile);
-                bitmap.setDensity(view.getResources().getDisplayMetrics().densityDpi);
+                //bitmap.setDensity(view.getResources().getDisplayMetrics().densityDpi);
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), (int)(bitmap.getHeight()));
 
                 boolean saved = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, picOut);
@@ -197,6 +198,10 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
             catch (Exception e)
             {
                 e.printStackTrace();
+            }
+            catch (OutOfMemoryError e2){
+                e2.printStackTrace();
+                Toast.makeText(getApplicationContext(),"Su dispositivo no puede compartir los resultados porque que dispone de poca memoria RAM. Cierre aplicaciones y vuelva a intentarlo",Toast.LENGTH_LONG).show();
             }
             view.destroyDrawingCache();
         } else {

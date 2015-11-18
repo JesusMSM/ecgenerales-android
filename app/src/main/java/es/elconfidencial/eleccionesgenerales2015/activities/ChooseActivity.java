@@ -42,15 +42,17 @@ public class ChooseActivity extends AppCompatActivity {
         }
 
         //Register for push!
-        pushManager.registerForPushNotifications();
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        if (prefs.getString("wantPW","ON").equals("ON")){
+            pushManager.registerForPushNotifications();
+        }else{
+            pushManager.unregisterForPushNotifications();
+        }
 
         checkMessage(getIntent());
 
 
-
-
         //Comprueba si es la primera vez
-        SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         boolean firstTime = prefs.getBoolean("firstTime", true); //Si no existe, devuelve el segundo parametro
 
         if(firstTime){
@@ -143,23 +145,23 @@ public class ChooseActivity extends AppCompatActivity {
         {
             if (intent.hasExtra(PushManager.PUSH_RECEIVE_EVENT))
             {
-                showMessage("push message is " + intent.getExtras().getString(PushManager.PUSH_RECEIVE_EVENT));
+                //showMessage("push message is " + intent.getExtras().getString(PushManager.PUSH_RECEIVE_EVENT));
             }
             else if (intent.hasExtra(PushManager.REGISTER_EVENT))
             {
-                showMessage("register");
+                //showMessage("register");
             }
             else if (intent.hasExtra(PushManager.UNREGISTER_EVENT))
             {
-                showMessage("unregister");
+                //showMessage("unregister");
             }
             else if (intent.hasExtra(PushManager.REGISTER_ERROR_EVENT))
             {
-                showMessage("register error");
+                //showMessage("register error");
             }
             else if (intent.hasExtra(PushManager.UNREGISTER_ERROR_EVENT))
             {
-                showMessage("unregister error");
+                //showMessage("unregister error");
             }
 
             resetIntentValues();
@@ -199,7 +201,7 @@ public class ChooseActivity extends AppCompatActivity {
 
     private void showMessage(String message)
     {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
     @Override
     protected void onNewIntent(Intent intent)

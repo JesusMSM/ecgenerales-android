@@ -24,8 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:layout_margin="20dp"
-        android:src="@drawable/albert_rivera" />
+        android:layout_margin="20dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"

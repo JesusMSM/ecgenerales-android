@@ -33,13 +33,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyArrayAdapter;
 import es.elconfidencial.eleccionesgenerales2015.model.Municipio;
+import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 
 /**
  * Created by Afll on 11/11/2015.
@@ -51,6 +54,11 @@ public class PreferencesActivity extends ActionBarActivity {
     TextView ccaaNombre, provinciaNombre, municipioNombre;
     AutoCompleteTextView searchMunicipio;
     Switch generalesSwitch,comunidadSwitch,provinciaSwitch,municipioSwitch;
+
+    //Partidos
+    TextView ppText,psoeText,csText,podemosText,iuText,pacmaText,upydText,pnvText,convText,otrosText;
+    Switch ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,pacmaSwitch,upydSwitch,pnvSwitch,convSwitch,otrosSwitch;
+
     Button reestablecer;
 
     SharedPreferences prefs;
@@ -69,6 +77,8 @@ public class PreferencesActivity extends ActionBarActivity {
     String comunidadPW = "00";
     String provinciaPW = "00";
     String municipioPW = "0000";
+
+    List<String> partidosPW = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,8 +122,19 @@ public class PreferencesActivity extends ActionBarActivity {
         provinciaText = (TextView) findViewById(R.id.provinciaText);
         municipiosText = (TextView) findViewById(R.id.municipioText);
         ccaaNombre = (TextView) findViewById(R.id.ccaaNombre);
+        //Partidos Textviews
         provinciaNombre = (TextView) findViewById(R.id.provinciaNombre);
         municipioNombre = (TextView) findViewById(R.id.municipioNombre);
+        ppText = (TextView) findViewById(R.id.ppText);
+        psoeText = (TextView) findViewById(R.id.psoeText);
+        csText = (TextView) findViewById(R.id.csText);
+        podemosText = (TextView) findViewById(R.id.podemosText);
+        iuText = (TextView) findViewById(R.id.iuText);
+        upydText = (TextView) findViewById(R.id.upydText);
+        pacmaText = (TextView) findViewById(R.id.pacmaText);
+        pnvText = (TextView) findViewById(R.id.pnvText);
+        convText = (TextView) findViewById(R.id.convText);
+        otrosText = (TextView) findViewById(R.id.otrosText);
 
         ccaaNombre.setText(prefs.getString("CCAAName", "")); //Si no existe, devuelve el segundo parametro
         provinciaNombre.setText(prefs.getString("ProvinciaName", "")); //Si no existe, devuelve el segundo parametro
@@ -123,7 +144,7 @@ public class PreferencesActivity extends ActionBarActivity {
         reestablecer.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getMunicipioObject(searchMunicipio.getText().toString())!=null){
+                if (getMunicipioObject(searchMunicipio.getText().toString()) != null) {
 
                     municipioObj = getMunicipioObject(searchMunicipio.getText().toString());
                     Log.i("Municipios", "" + searchMunicipio.getText().toString());
@@ -143,6 +164,13 @@ public class PreferencesActivity extends ActionBarActivity {
                     toast.show();
                 }
 
+                //Pushwoosh tag reset
+                saveTagInLocal("00000000");
+                sendTagsToPushWoosh(00000000);
+                //Reload view
+                finish();
+                startActivity(getIntent());
+
             }
         });
 
@@ -152,14 +180,36 @@ public class PreferencesActivity extends ActionBarActivity {
         comunidadSwitch = (Switch) findViewById(R.id.comunidadSwitch);
         provinciaSwitch = (Switch) findViewById(R.id.provinciaSwitch);
         municipioSwitch = (Switch) findViewById(R.id.municipioSwitch);
+        //Partidos Switch
+        ppSwitch = (Switch) findViewById(R.id.ppSwitch);
+        psoeSwitch = (Switch) findViewById(R.id.psoeSwitch);
+        csSwitch = (Switch) findViewById(R.id.csSwitch);
+        podemosSwitch = (Switch) findViewById(R.id.podemosSwitch);
+        iuSwitch = (Switch) findViewById(R.id.iuSwitch);
+        pacmaSwitch = (Switch) findViewById(R.id.pacmaSwitch);
+        upydSwitch = (Switch) findViewById(R.id.upydSwitch);
+        pnvSwitch = (Switch) findViewById(R.id.pnvSwitch);
+        convSwitch = (Switch) findViewById(R.id.convSwitch);
+        otrosSwitch = (Switch) findViewById(R.id.otrosSwitch);
 
         //Set typefaces
         setTypefaces();
+
         //Set listeners
         generalesSwitch.setOnCheckedChangeListener(new GeneralesSwitchListener());
         comunidadSwitch.setOnCheckedChangeListener(new ComunidadSwitchListener());
         provinciaSwitch.setOnCheckedChangeListener(new ProvinciaSwitchListener());
         municipioSwitch.setOnCheckedChangeListener(new MunicipioSwitchListener());
+        ppSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        psoeSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        csSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        podemosSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        iuSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        pacmaSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        upydSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        pnvSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        convSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+        otrosSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
 
         getUserTagValues();
         initializeSpinnersFromLocal();
@@ -315,14 +365,11 @@ public class PreferencesActivity extends ActionBarActivity {
         }
     }
 
-
-
-
-
-
     public void setTypefaces(){
 
     }
+
+    /*********CCAA, PROVINCIA, MUNICIPIO***********/
     public void getUserTagValues(){
         realTag = prefs.getInt("realTag", 00000000);
         String tag = String.valueOf(realTag);
@@ -335,6 +382,11 @@ public class PreferencesActivity extends ActionBarActivity {
         municipio = tag.substring(4,8);
     }
     public void initializeSpinnersFromLocal(){
+        //General
+        String wantPW = prefs.getString("wantPW","ON");
+        if(wantPW.equals("ON")){generalesSwitch.setChecked(true);}
+        if(wantPW.equals("OFF")){generalesSwitch.setChecked(false);}
+        //CCAA,Prov,Munic
         pushwooshTag = prefs.getString("pushwooshTag", "00000000");
         String tag = pushwooshTag;
         //Add 0 from comunidad
@@ -356,6 +408,27 @@ public class PreferencesActivity extends ActionBarActivity {
         if(!municipioPW.equals("0000")){//Active
             municipioSwitch.setChecked(true);
             Log.i(PWTAG, "Municipio: " + municipioPW);
+        }
+
+        //Partidos tags init
+        partidosPW = new ArrayList<>(prefs.getStringSet("partidosPW", new HashSet<String>()));
+
+        //Recorremos la lista para ver que tags estan activos y marcamos el switch
+        for(int i = 0;i<partidosPW.size();i++){
+            switch (partidosPW.get(i)) {
+                case "partido-popular-pp-3113":
+                    ppSwitch.setChecked(true);break;
+                case "psoe-7017":
+                    psoeSwitch.setChecked(true);break;
+                case "ciudadanos-6359":
+                    csSwitch.setChecked(true);break;
+                case "podemos-10616":
+                    podemosSwitch.setChecked(true);break;
+                case "izquierda-unida-2547":
+                    iuSwitch.setChecked(true);break;
+                case "upyd-2430":
+                    upydSwitch.setChecked(true);break;
+            }
         }
     }
 
@@ -393,8 +466,6 @@ public class PreferencesActivity extends ActionBarActivity {
         sendTagsToPushWoosh(Integer.parseInt(tag));
     }
 
-
-
     //Método que extrae el objeto Municipio a partir del nombre del auto complete de un municipio
     //Devuelve 0 si no encuentra el municipio en la lista
     public Municipio getMunicipioObject(String municipio){
@@ -417,36 +488,6 @@ public class PreferencesActivity extends ActionBarActivity {
         comunidad = municipioNuevo.getCcaaaName();
         provincia = municipioNuevo.getProvinciaName();
         municipio = municipioNuevo.getMunicipioName();
-    }
-
-
-    public class GeneralesSwitchListener implements CompoundButton.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            //TODO
-        }
-    }
-    public class ComunidadSwitchListener implements CompoundButton.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            refreshComunidadTag(isChecked);
-        }
-    }
-    public class ProvinciaSwitchListener implements CompoundButton.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            refreshProvinciaTag(isChecked);
-        }
-    }
-    public class MunicipioSwitchListener implements CompoundButton.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            refreshMunicipioTag(isChecked);
-        }
     }
 
     public void saveTagInLocal(String tag){
@@ -478,6 +519,49 @@ public class PreferencesActivity extends ActionBarActivity {
                 Log.i("PushWoosh: ", "Sent Error");
             }
         });
+    }
+
+    //Partidos
+
+    public void refreshPartidoTag(boolean isChecked,String tagChecked){
+        if(isChecked){
+            if(!partidosPW.contains(tagChecked)){
+                partidosPW.add(tagChecked);
+            }
+        }else{
+            partidosPW.remove(tagChecked);
+        }
+        savePartidosInLocal();
+        sendPartidosToPushWoosh();
+    }
+    public void savePartidosInLocal(){
+        Log.i("Pref Partidos", "Local saved partidos tags...");
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putStringSet("partidosPW", new HashSet<String>(partidosPW));
+        editor.commit();
+    }
+
+    //Comunicacion con PushWoosh SEND
+    private void sendPartidosToPushWoosh(){
+        Map<String,Object> tags = new HashMap<>();
+        tags.put("PARTIDOS_TAGS", partidosPW.toArray());
+            pushManager.sendTags(getApplicationContext(), tags, new SendPushTagsCallBack() {
+                @Override
+                public void taskStarted() {
+                    //Task Start
+                    Log.i("Pref Partidos", "Sending partidos to PW...");
+                }
+
+                @Override
+                public void onSentTagsSuccess(Map<String, String> map) {
+                    //Task end
+                }
+
+                @Override
+                public void onSentTagsError(Exception e) {
+
+                }
+            });
     }
 
 
@@ -521,4 +605,79 @@ public class PreferencesActivity extends ActionBarActivity {
         finish();
         super.onBackPressed();
     }
+
+
+
+
+    //LISTENERS
+    public class GeneralesSwitchListener implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked){//Register for push
+                pushManager.registerForPushNotifications();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("wantPW","ON");
+                editor.commit();
+            }else{//Unregister for push
+                pushManager.unregisterForPushNotifications();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("wantPW","OFF");
+                editor.commit();
+            }
+
+        }
+    }
+    public class ComunidadSwitchListener implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            refreshComunidadTag(isChecked);
+        }
+    }
+    public class ProvinciaSwitchListener implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            refreshProvinciaTag(isChecked);
+        }
+    }
+    public class MunicipioSwitchListener implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            refreshMunicipioTag(isChecked);
+        }
+    }
+    public class PartidoSwitchListener implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            String result = "";
+            String idSwitch = getResources().getResourceEntryName(buttonView.getId());
+            switch (idSwitch){
+                case "ppSwitch":
+                    refreshPartidoTag(isChecked,"partido-popular-pp-3113");break;
+                case "psoeSwitch":
+                    refreshPartidoTag(isChecked,"psoe-7017");break;
+                case "csSwitch":
+                    refreshPartidoTag(isChecked,"ciudadanos-6359");break;
+                case "podemosSwitch":
+                    refreshPartidoTag(isChecked,"podemos-10616");break;
+                case "iuSwitch":
+                    refreshPartidoTag(isChecked,"izquierda-unida-2547");break;
+                case "pacmaSwitch":
+                    //No tag
+                case "upydSwitch":
+                    refreshPartidoTag(isChecked,"upyd-2430");break;
+                case "pnvSwitch":
+                    //No tag
+                case "convSwitch":
+                    //No tag
+                case "otrosSwitch":
+                    //No tag
+            }
+        }
+    }
+
 }
