@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -80,12 +82,24 @@ public class OnBoardingActivity extends AppCompatActivity {
         MyArrayAdapter<String> adapter = new MyArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, municipiosAutoComplete);
 
+
         // Numero de caracteres necesarios para que se empiece
         // a mostrar la lista
-        searchMunicipio.setThreshold(3);
+        searchMunicipio.setThreshold(2);
 
         // Se establece el Adapter
         searchMunicipio.setAdapter(adapter);
+
+        searchMunicipio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(arg1.getApplicationWindowToken(), 0);
+
+            }
+
+        });
 
 
         //Listener del boton empezar

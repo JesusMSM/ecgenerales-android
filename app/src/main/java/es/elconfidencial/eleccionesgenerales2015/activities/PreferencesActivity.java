@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -115,6 +117,17 @@ public class PreferencesActivity extends ActionBarActivity {
 
         // Se establece el Adapter
         searchMunicipio.setAdapter(adapter);
+
+        searchMunicipio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(arg1.getApplicationWindowToken(), 0);
+
+            }
+
+        });
 
         //TextViews
         generalesText = (TextView) findViewById(R.id.generalesText);

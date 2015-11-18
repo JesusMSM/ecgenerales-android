@@ -11,7 +11,7 @@
             android:id="@+id/titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12pt"
+            android:textSize="11pt"
             android:gravity="left"
             android:textColor="@color/titulos"
             android:layout_marginBottom="10dp"
