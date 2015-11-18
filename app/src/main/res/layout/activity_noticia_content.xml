@@ -64,7 +64,7 @@
                 android:id="@+id/textoPrueba"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jincho eres un puto cabrón"/>
+                android:text="AQUÍ SE INSERTARÍA EL ANUNCIO"/>
 
             <WebView
                 android:layout_marginTop="15dp"

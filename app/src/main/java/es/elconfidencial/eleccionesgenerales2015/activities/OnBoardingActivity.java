@@ -64,7 +64,6 @@ public class OnBoardingActivity extends AppCompatActivity {
         Glide.with(getApplicationContext()).load(R.drawable.logo_onboarding).into(fondo);
         linear = (LinearLayout) findViewById(R.id.linearOnboarding);
         linear.setBackgroundResource(R.drawable.background_onboarding);
-
         searchMunicipio = (AutoCompleteTextView) findViewById(R.id.searchMunicipio);
         searchMunicipio.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         searchMunicipio.setTypeface((Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf")));
