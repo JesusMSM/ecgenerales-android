@@ -60,11 +60,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical" />
 
-            <TextView
-                android:id="@+id/textoPrueba"
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="AQUÍ SE INSERTARÍA EL ANUNCIO"/>
+                android:adjustViewBounds="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                />
 
             <WebView
                 android:layout_marginTop="15dp"

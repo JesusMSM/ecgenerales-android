@@ -19,8 +19,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.formats.NativeAdOptions;
+import com.google.android.gms.ads.formats.NativeContentAd;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 
@@ -66,8 +72,9 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         descripcion2 = (WebView)findViewById(R.id.descripcion2);
         TextView autor = (TextView) findViewById(R.id.autor);
         TextView fecha = (TextView) findViewById(R.id.fecha);
+        final ImageView imagenPubli = (ImageView) findViewById(R.id.imageView);
 
-        TextView textoPrueba = (TextView) findViewById(R.id.textoPrueba);
+
 
         titulo.setText(Html.fromHtml(intent.getStringExtra("titulo")));
         autor.setText(Html.fromHtml(intent.getStringExtra("autor")));
@@ -76,13 +83,13 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         //Obtenemos el tamaño de letra del contenido dependiendo del tamaño de pantalla
 
         if (getSizeName().equals("xlarge")) {
-            textSize="25px";
+            textSize="28px";
         } else if (getSizeName().equals("large")) {
-            textSize="18px";
+            textSize="21px";
         } else if (getSizeName().equals("normal")) {
-            textSize="16px";
+            textSize="19px";
         }else {
-            textSize="14px";
+            textSize="17px";
         }
          reloadDescription();
 
@@ -91,6 +98,32 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         autor.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         fecha.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         Glide.with(getApplicationContext()).load(intent.getStringExtra("imagenUrl")).placeholder(R.mipmap.nopic).into(imagen);
+
+        AdLoader builder = new AdLoader.Builder(this, "/35003347/ad_unit_native_test")
+
+                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
+                    @Override
+                    public void onContentAdLoaded(NativeContentAd contentAd) {
+
+                       imagenPubli.setImageDrawable(
+                                contentAd.getImages().get(0).getDrawable());
+                        
+                    }
+                })
+                .withAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        Toast.makeText(getApplicationContext(), "Failed to load native ad: "
+                                + errorCode, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .withNativeAdOptions(new NativeAdOptions.Builder()
+                        // Methods in the NativeAdOptions.Builder class can be
+                        // used here to specify individual options settings.
+                        .build())
+                .build();
+
+        builder.loadAd(new PublisherAdRequest.Builder().build());
     }
 
     @Override
