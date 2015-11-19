@@ -22,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,6 +37,7 @@ import es.elconfidencial.eleccionesgenerales2015.model.Encuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
 import es.elconfidencial.eleccionesgenerales2015.model.PartidoEncuesta;
+import es.elconfidencial.eleccionesgenerales2015.model.PartidoMegaencuesta;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
@@ -127,14 +130,22 @@ public class HomeTab extends Fragment {
                             partidoEncuestas.add(partidoEncuesta);
 
                         }
+                        Collections.sort(partidoEncuestas, new Comparator<PartidoEncuesta>() {
+                            public int compare(PartidoEncuesta partido1, PartidoEncuesta partido2) {
+                                return Double.compare(partido2.getPorcentaje(), partido1.getPorcentaje());
+                            }
+                        });
                         datosEncuestas.add(new DatosEncuentas(partidoEncuestas));
 
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
+
                     encuestas.add(new Encuesta(titulos.get(i), datosEncuestas.get(i).getDatosEncuesta()));
                 }
+
 
 
                 for (int n = 0; n < encuestas.size(); n++) {
