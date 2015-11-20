@@ -51,7 +51,7 @@ public class HomeTab extends Fragment {
     List<Object> items = new ArrayList<>();
     QuoteServer qs = QuoteServer.getInstance();
 
-    public static String rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";
+    public static String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
     public static String encuestas_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/survey.json";
 
     private RecyclerView mRecyclerView;

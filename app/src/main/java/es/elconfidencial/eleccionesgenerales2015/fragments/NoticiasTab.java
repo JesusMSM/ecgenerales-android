@@ -34,7 +34,7 @@ import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
  */
 public class NoticiasTab extends Fragment {
 
-    public static String rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/";
+    public static String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
     public static int seleccion = 0;
 
     private TextView actionBarTitle;

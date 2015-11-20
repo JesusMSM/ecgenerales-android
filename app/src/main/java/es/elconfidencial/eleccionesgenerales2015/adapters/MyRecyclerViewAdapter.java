@@ -679,11 +679,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 switch (position) {
                     case 0:
                         NoticiasTab.seleccion = 0;
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
                         break;
                     case 1:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //general
+                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/"; //general
                         NoticiasTab.seleccion = 1;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        break;
                     case 2:
                         NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
                         NoticiasTab.seleccion = 2;
