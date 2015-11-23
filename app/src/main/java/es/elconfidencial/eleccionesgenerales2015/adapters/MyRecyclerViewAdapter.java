@@ -289,13 +289,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                         vh.imagen.setImageDrawable(
                                 contentAd.getImages().get(0).getDrawable());
+                        vh.adView.setHeadlineView(vh.empresa);
+                        vh.adView.setImageView(vh.imagen);
+                        vh.adView.setNativeAd(contentAd);
                     }
                 })
                 .withAdListener(new AdListener() {
                     @Override
                     public void onAdFailedToLoad(int errorCode) {
-                        Toast.makeText(context, "Failed to load native ad: "
-                                + errorCode, Toast.LENGTH_SHORT).show();
+                       /* Toast.makeText(context, "Failed to load native ad: "
+                                + errorCode, Toast.LENGTH_SHORT).show();*/
                     }
                 })
                 .withNativeAdOptions(new NativeAdOptions.Builder()

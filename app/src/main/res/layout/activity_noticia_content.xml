@@ -60,6 +60,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical" />
 
+
+        <com.google.android.gms.ads.formats.NativeContentAdView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/adView"
+            android:background="#FFFFFF"
+            android:minHeight="50dp">
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
@@ -68,6 +75,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 />
+        </com.google.android.gms.ads.formats.NativeContentAdView>
 
             <WebView
                 android:layout_marginTop="15dp"

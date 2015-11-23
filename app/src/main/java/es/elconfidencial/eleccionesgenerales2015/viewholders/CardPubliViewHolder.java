@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 
@@ -18,12 +19,14 @@ public class CardPubliViewHolder extends RecyclerView.ViewHolder{
 
     public TextView empresa;
     public ImageView imagen;
+    public NativeContentAdView adView;
 
 
     public CardPubliViewHolder(View v) {
         super(v);
         empresa = (TextView) v.findViewById(R.id.textViewEmpresa);
         imagen = (ImageView) v.findViewById(R.id.imageView);
+        adView = (NativeContentAdView) v.findViewById(R.id.adView);
 
     }
 }

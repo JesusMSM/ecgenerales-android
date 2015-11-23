@@ -27,6 +27,7 @@ import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 
@@ -73,6 +74,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         TextView autor = (TextView) findViewById(R.id.autor);
         TextView fecha = (TextView) findViewById(R.id.fecha);
         final ImageView imagenPubli = (ImageView) findViewById(R.id.imageView);
+        final NativeContentAdView adView = (NativeContentAdView) findViewById(R.id.adView);
 
 
 
@@ -107,14 +109,17 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
                        imagenPubli.setImageDrawable(
                                 contentAd.getImages().get(0).getDrawable());
+                        adView.setImageView(imagenPubli);
+                        adView.setNativeAd(contentAd);
+
                         
                     }
                 })
                 .withAdListener(new AdListener() {
                     @Override
                     public void onAdFailedToLoad(int errorCode) {
-                        Toast.makeText(getApplicationContext(), "Failed to load native ad: "
-                                + errorCode, Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(getApplicationContext(), "Failed to load native ad: "
+                                + errorCode, Toast.LENGTH_SHORT).show();*/
                     }
                 })
                 .withNativeAdOptions(new NativeAdOptions.Builder()
