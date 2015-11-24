@@ -15,12 +15,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:id="@+id/headerPresinder"
             android:text="@string/presinderHeader"
             android:textColor="@color/titulos"
             android:gravity="center"
-            android:textSize="11pt"/>
+            android:textSize="16pt"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -30,7 +30,7 @@
             android:textColor="@color/titulos"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:textSize="7pt"
+            android:textSize="10pt"
             android:textAllCaps="true"/>
     </LinearLayout>
     <FrameLayout
@@ -43,11 +43,11 @@
             android:background="@drawable/cards"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="60dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="20dp"
+                android:padding="40dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="vertical">
                 <LinearLayout
@@ -61,6 +61,7 @@
                         android:gravity="bottom|center_horizontal"
                         android:layout_marginBottom="3dp"
                         android:text="GURTEL"
+                        android:textSize="12pt"
                         android:textColor="@color/grey"
                         android:id="@+id/groupQuote"
                         android:textAllCaps="true"/>
@@ -76,13 +77,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:minHeight="150dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:minHeight="250dp"
                     android:gravity="center"
-                    android:layout_marginRight="23dp"
-                    android:layout_marginLeft="23dp"
-                    android:textSize="8pt"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginLeft="33dp"
+                    android:textSize="12pt"
                     android:textColor="@color/ColorPrimaryDark"
                     android:id="@+id/questionQuote"/>
                 <TextView
@@ -93,12 +94,12 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="200dp"
             android:orientation="vertical"
             android:layout_gravity="bottom">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 android:layout_gravity="bottom">
                 <TextView
@@ -110,7 +111,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="22dp"
                     android:adjustViewBounds="true"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/caraok"
@@ -120,7 +121,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="2dp"
                     android:adjustViewBounds="true"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/carano"
@@ -132,7 +133,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="45dp"
                 android:orientation="horizontal"
                 android:layout_gravity="bottom">
                 <TextView
@@ -145,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/a_favor"
-                    android:textSize="5pt"
+                    android:textSize="8pt"
                     android:textColor="@color/Color_agree"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -156,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/en_contra"
-                    android:textSize="5pt"
+                    android:textSize="8pt"
                     android:textColor="@color/Color_disagree"
                     android:layout_gravity="center"
                     android:gravity="center"

@@ -2,87 +2,90 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/activity_vertical_margin">
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@drawable/action_bar">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/actionbar_presinder"
+            android:textColor="@color/grey"
+            android:id="@+id/actionBarPresinder"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="true"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
             android:id="@+id/headerPresinder"
             android:text="@string/presinderHeader"
-            android:textColor="@color/titulos"
+            android:textColor="@color/black"
             android:gravity="center"
-            android:textSize="11pt"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/headerPresinder2"
-            android:text="@string/presinderHeader2"
-            android:textColor="@color/titulos"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:textSize="7pt"
-            android:textAllCaps="true"/>
+            android:textSize="16pt"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="10">
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@drawable/cards"
+            android:paddingTop="30dp"
+            android:layout_marginTop="-22dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="60dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="20dp"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
                         android:layout_gravity="bottom"
                         android:gravity="bottom|center_horizontal"
-                        android:layout_marginBottom="3dp"
+                        android:layout_marginBottom="4dp"
                         android:text="GURTEL"
+                        android:textSize="12pt"
                         android:textColor="@color/grey"
                         android:id="@+id/groupQuote"
                         android:textAllCaps="true"/>
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="3dp"
                         android:id="@+id/separator"
                         android:background="@color/material_grey_300"
                         android:layout_gravity="center"
-                        android:layout_marginRight="30dp"
-                        android:layout_marginLeft="30dp"/>
+                        android:layout_marginRight="45dp"
+                        android:layout_marginLeft="45dp"/>
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:minHeight="150dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
                     android:gravity="center"
-                    android:layout_marginRight="23dp"
-                    android:layout_marginLeft="23dp"
-                    android:textSize="8pt"
+                    android:paddingBottom="23dp"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginLeft="45dp"
+                    android:textSize="14pt"
                     android:textColor="@color/ColorPrimaryDark"
                     android:id="@+id/questionQuote"/>
                 <TextView
@@ -93,12 +96,12 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="200dp"
             android:orientation="vertical"
             android:layout_gravity="bottom">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 android:layout_gravity="bottom">
                 <TextView
@@ -106,21 +109,21 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
                 <ImageView
-                    android:id="@+id/likeButton"
+                    android:id="@+id/likeButtonTab"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="22dp"
                     android:adjustViewBounds="true"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/caraok"
                     android:clickable="true"/>
                 <ImageView
-                    android:id="@+id/dislikeButton"
+                    android:id="@+id/dislikeButtonTab"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="22dp"
                     android:adjustViewBounds="true"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/carano"
@@ -132,7 +135,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="45dp"
                 android:orientation="horizontal"
                 android:layout_gravity="bottom">
                 <TextView
@@ -140,23 +143,23 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/aFavor"
+                    android:id="@+id/aFavorTab"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/a_favor"
-                    android:textSize="5pt"
+                    android:textSize="8pt"
                     android:textColor="@color/Color_agree"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textAllCaps="true"/>
                 <TextView
-                    android:id="@+id/enContra"
+                    android:id="@+id/enContraTab"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/en_contra"
-                    android:textSize="5pt"
+                    android:textSize="8pt"
                     android:textColor="@color/Color_disagree"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -168,4 +171,25 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:background="@color/tabsScrollColor"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:text="@string/verResultados"
+            android:id="@+id/verResultadosButton"
+            android:paddingLeft="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="16dp"
+            android:background="@drawable/button_resultados"/>
+    </LinearLayout>
 </LinearLayout>
