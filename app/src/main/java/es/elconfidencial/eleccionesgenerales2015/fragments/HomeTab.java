@@ -1,6 +1,8 @@
 package es.elconfidencial.eleccionesgenerales2015.fragments;
 
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -29,6 +33,7 @@ import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
+import es.elconfidencial.eleccionesgenerales2015.activities.PreferencesActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import es.elconfidencial.eleccionesgenerales2015.json.JSONParser;
 import es.elconfidencial.eleccionesgenerales2015.model.CardPubli;
@@ -59,7 +64,8 @@ public class HomeTab extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     public static ArrayList<Encuesta> encuestas = new ArrayList<>();
-
+    ImageView preferences;
+    TextView titleActionBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +73,18 @@ public class HomeTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home_tab, container, false);
 
-
+        //Preferences
+        titleActionBar = (TextView) v.findViewById(R.id.actionBarHome);
+        titleActionBar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        preferences = (ImageView) v.findViewById(R.id.preferencesIcon);
+        preferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), PreferencesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recycler_view);
         mRecyclerView.setHasFixedSize(true);

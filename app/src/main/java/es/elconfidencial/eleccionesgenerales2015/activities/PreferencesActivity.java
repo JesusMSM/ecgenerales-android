@@ -58,6 +58,7 @@ public class PreferencesActivity extends ActionBarActivity {
     Switch generalesSwitch,comunidadSwitch,provinciaSwitch,municipioSwitch;
 
     //Partidos
+    TextView notifMunicipio,notifPartidos,notifMunicipioDescr,notifPartidosDescr;
     TextView ppText,psoeText,csText,podemosText,iuText,pacmaText,upydText,pnvText,convText,otrosText;
     Switch ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,pacmaSwitch,upydSwitch,pnvSwitch,convSwitch,otrosSwitch;
 
@@ -93,7 +94,7 @@ public class PreferencesActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.custom_title_noticias, null);
-        ((TextView)v.findViewById(R.id.actionBarTitle)).setText("PREFERENCIAS");
+        ((TextView)v.findViewById(R.id.actionBarTitle)).setText("CONFIGURACIÓN");
         ((TextView)v.findViewById(R.id.actionBarTitle)).setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf"));
         getSupportActionBar().setCustomView(v);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,6 +130,10 @@ public class PreferencesActivity extends ActionBarActivity {
 
         });
 
+        notifMunicipio = (TextView) findViewById(R.id.notifResultados);
+        notifPartidos = (TextView) findViewById(R.id.notifPartido);
+        notifMunicipioDescr = (TextView) findViewById(R.id.notifResultadosDescr);
+        notifPartidosDescr = (TextView) findViewById(R.id.notifPartidoDescr);
         //TextViews
         generalesText = (TextView) findViewById(R.id.generalesText);
         comunidadText = (TextView) findViewById(R.id.comunidadText);
@@ -379,7 +384,23 @@ public class PreferencesActivity extends ActionBarActivity {
     }
 
     public void setTypefaces(){
+        notifMunicipio.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        notifPartidos.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        notifMunicipioDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        notifPartidosDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
 
+        //Municipio
+        generalesText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        comunidadText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        provinciaText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        municipiosText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        //Partidos
+        ppText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        psoeText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        csText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        podemosText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        iuText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        upydText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
     }
 
     /*********CCAA, PROVINCIA, MUNICIPIO***********/
@@ -670,15 +691,15 @@ public class PreferencesActivity extends ActionBarActivity {
             String idSwitch = getResources().getResourceEntryName(buttonView.getId());
             switch (idSwitch){
                 case "ppSwitch":
-                    refreshPartidoTag(isChecked,"partido-popular-pp-3113");break;
+                    refreshPartidoTag(isChecked,"PP");break;
                 case "psoeSwitch":
-                    refreshPartidoTag(isChecked,"psoe-7017");break;
+                    refreshPartidoTag(isChecked,"PSOE");break;
                 case "csSwitch":
-                    refreshPartidoTag(isChecked,"ciudadanos-6359");break;
+                    refreshPartidoTag(isChecked,"CIUDADANOS");break;
                 case "podemosSwitch":
-                    refreshPartidoTag(isChecked,"podemos-10616");break;
+                    refreshPartidoTag(isChecked,"PODEMOS");break;
                 case "iuSwitch":
-                    refreshPartidoTag(isChecked,"izquierda-unida-2547");break;
+                    refreshPartidoTag(isChecked,"IU");break;
                 case "pacmaSwitch":
                     //No tag
                 case "upydSwitch":
