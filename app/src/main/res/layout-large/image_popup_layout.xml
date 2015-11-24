@@ -15,7 +15,7 @@
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
         android:gravity="bottom"
-        android:textSize="10pt"
+        android:textSize="15pt"
         android:text="Parece que estas de acuerdo con:"
         android:layout_marginBottom="10dp"
         android:id="@+id/introText"/>
@@ -24,17 +24,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:layout_margin="20dp" />
+        android:layout_margin="40dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:textColor="@color/white"
-        android:textSize="18pt"
+        android:textSize="25pt"
         android:text="Albert Rivera"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="7dp"
         android:id="@+id/personaText"/>
     <TextView
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
         android:gravity="center_horizontal"
         android:text="Ciudadanos"
         android:textColor="@color/white"
-        android:textSize="10pt"
+        android:textSize="15pt"
         android:textAllCaps="true"/>
     <TextView
         android:layout_width="match_parent"

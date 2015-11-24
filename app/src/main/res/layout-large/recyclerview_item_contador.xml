@@ -1,0 +1,212 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:cropToPadding="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/background_portada"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/titulo_el_confidencial"
+                    android:textSize="12pt"
+                    android:id="@+id/label"
+                    android:textColor="@color/white"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" | "
+                    android:gravity="center"
+                    android:textSize="12pt"
+                    android:id="@+id/barra"
+                    android:textColor="@color/white"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20-D"
+                    android:textSize="18pt"
+                    android:id="@+id/d_20"
+                    android:textColor="@color/white"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/textViewFaltan"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="10pt"
+                android:text="FALTAN"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/layoutdias">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="DIAS"
+                    android:textSize="10sp"
+                    android:id="@+id/textViewDias"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="bottom|center" />
+
+                <es.elconfidencial.eleccionesgenerales2015.views.DonutProgress
+
+                    android:layout_marginBottom="0dp"
+                    android:padding="10dp"
+                    android:id="@+id/donut_dias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:donut_unfinished_stroke_width="5dp"
+                    custom:donut_finished_stroke_width="5dp"
+                    custom:donut_progress="10"
+                    custom:donut_unfinished_color="@color/transparent"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/layouthoras"
+                android:layout_toRightOf="@id/layoutdias">
+
+
+                <es.elconfidencial.eleccionesgenerales2015.views.DonutProgress
+
+                    android:layout_marginBottom="0dp"
+                    android:id="@+id/donut_horas"
+                    android:padding="10dp"
+                    android:layout_toRightOf="@id/layouthoras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:donut_unfinished_stroke_width="5dp"
+                    custom:donut_finished_stroke_width="5dp"
+                    custom:donut_progress="10"
+                    custom:donut_unfinished_color="@color/transparent"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="HORAS"
+                    android:textSize="10sp"
+                    android:id="@+id/textViewHoras"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="bottom|center" />
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/layoutminutos"
+                android:layout_toRightOf="@id/layouthoras">
+
+
+                <es.elconfidencial.eleccionesgenerales2015.views.DonutProgress
+
+                    android:layout_marginBottom="0dp"
+                    android:padding="10dp"
+                    android:id="@+id/donut_minutos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:donut_unfinished_stroke_width="5dp"
+                    custom:donut_finished_stroke_width="5dp"
+                    custom:donut_progress="10"
+                    custom:donut_unfinished_color="@color/transparent"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="MINUTOS"
+                    android:textSize="10sp"
+                    android:id="@+id/textViewMinutos"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="bottom|center" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/textViewColegiosElectorales"
+                android:textColor="@color/white"
+                android:textSize="10pt"
+                android:gravity="center"
+                android:text="PARA QUE ABRAN LOS COLEGIOS ELECTORALES"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

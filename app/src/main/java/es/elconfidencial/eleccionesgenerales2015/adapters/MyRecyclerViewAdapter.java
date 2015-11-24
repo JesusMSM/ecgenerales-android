@@ -440,14 +440,22 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         // grafico.setDrawYLabels(false);
 
         //Typeface mTf = Typeface.createFromAsset(context.getAssets(), "Titilium-Regular.otf");
-
+        GlobalMethod globalMethod = new GlobalMethod(context);
         XAxis xAxis = grafico.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setSpaceBetweenLabels(2);
-
+            if (GlobalMethod.getSizeName(context).equals("xlarge")) {
+                xAxis.setTextSize(23f);
+            } else if (GlobalMethod.getSizeName(context).equals("large")) {
+                xAxis.setTextSize(16f);
+            }else if (GlobalMethod.getSizeName(context).equals("normal")) {
+                xAxis.setTextSize(11f);
+            }else {
+                xAxis.setTextSize(11f);
+            }
 
 
         YAxis leftAxis = grafico.getAxisLeft();
@@ -518,6 +526,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void setData(BarChart grafico, Encuesta e){
 
+        GlobalMethod globalMethod = new GlobalMethod(context);
         grafico.animateY(2500);
         ArrayList<Integer> colores = new ArrayList<>();
         List<Partido> partidosJsonDatos = MainActivity.partidosList;
@@ -557,7 +566,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         dataSets.add(set1);
 
         BarData data = new BarData(xVals, dataSets);
-        data.setValueTextSize(10f);
+        if (GlobalMethod.getSizeName(context).equals("xlarge")) {
+            data.setValueTextSize(23f);
+        } else if (GlobalMethod.getSizeName(context).equals("large")) {
+            data.setValueTextSize(17f);
+        }else if (GlobalMethod.getSizeName(context).equals("normal")) {
+            data.setValueTextSize(11f);
+        }else {
+            data.setValueTextSize(11f);
+        }
         data.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));;
 
         grafico.setData(data);
@@ -584,6 +601,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
        // vh.dislike.setOnClickListener(new OnDislikeClickListener(context));
 
         //Fonts
+        vh.header1.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
+        vh.header2.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.group.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-BoldItalic.otf"));
         vh.likeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));

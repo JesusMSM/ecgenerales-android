@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="-15dp">
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="-22dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="5dp">
+        card_view:cardCornerRadius="7dp">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -21,7 +21,7 @@
             <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="15dp"
                 android:id="@+id/imagen"
                 android:src="@mipmap/nopic"
                 android:adjustViewBounds="true" />
@@ -30,12 +30,12 @@
                 android:id="@+id/titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="10pt"
+                android:textSize="15pt"
                 android:gravity="left"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="15dp"
                 android:textColor="@color/titulos"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="15dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_gravity="left"
                 android:gravity="left"
-                android:paddingLeft="16dp"
+                android:paddingLeft="24dp"
                 android:textColor="@color/ColorAccent"
                 android:textAllCaps="true"/>
 
@@ -63,15 +63,15 @@
         android:layout_width="wrap_content"
         app:backgroundTint="@color/white"
         android:src="@drawable/ic_share_variant"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:borderWidth="0dp"
         android:layout_gravity="bottom|end"
-        android:layout_marginTop="-45dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="-55dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
         android:clickable="true"
-         />
+        />
 
 
 </LinearLayout>

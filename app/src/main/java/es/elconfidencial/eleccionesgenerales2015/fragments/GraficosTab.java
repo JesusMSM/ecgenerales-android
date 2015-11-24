@@ -60,7 +60,7 @@ public class GraficosTab extends Fragment {
 
 
     private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
-    private TextView actionBarTitle, headerEncuesta, graciasPorParticipar;
+    private TextView actionBarTitle, headerEncuesta, graciasPorParticipar, mensajeAviso;
     HorizontalBarChart grafico;
     private WebView webviewResultados;
     Context context;
@@ -93,7 +93,7 @@ public class GraficosTab extends Fragment {
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
         //if(MainActivity.SHOW_WIDGET_RESULTS){
-        if(true){
+        if(false){
             //Cargamos el WebView
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.GONE);
@@ -289,6 +289,8 @@ public class GraficosTab extends Fragment {
      */
     public void setGraficoMegaencuesta() {
 
+        mensajeAviso = (TextView) v.findViewById(R.id.avisoResultados);
+        mensajeAviso.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         graciasPorParticipar = (TextView) v.findViewById(R.id.gracias);
         graciasPorParticipar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
         grafico = (HorizontalBarChart) v.findViewById(R.id.horizontalBarChart);
