@@ -101,7 +101,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         fecha.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         Glide.with(getApplicationContext()).load(intent.getStringExtra("imagenUrl")).placeholder(R.mipmap.nopic).into(imagen);
 
-        AdLoader builder = new AdLoader.Builder(this, "/35003347/ad_unit_native_test")
+        AdLoader builder = new AdLoader.Builder(this, getResources().getString(R.string.ad_unit))
 
                 .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
                     @Override

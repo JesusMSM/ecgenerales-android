@@ -276,7 +276,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void loadAd(final CardPubliViewHolder vh) {
 
-        AdLoader builder = new AdLoader.Builder(context, "/35003347/ad_unit_native_test")
+        AdLoader builder = new AdLoader.Builder(context, context.getResources().getString(R.string.ad_unit))
 
                 .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
                     @Override
@@ -307,37 +307,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         .build())
                 .build();
 
-        /*builder.forCustomTemplateAd("10063170",
-                new NativeCustomTemplateAd.OnCustomTemplateAdLoadedListener() {
-                    @Override
-                    public void onCustomTemplateAdLoaded(NativeCustomTemplateAd ad) {
-
-
-                        if(vh.empresa!=null) Log.d("PUBLI", "Headline no es null");
-                        if(ad!=null) Log.d("PUBLI", "Ad no es null");
-                        if(vh.empresa==null) Log.d("PUBLI","Headline sí es null");
-                        vh.empresa.setText(ad.getText("Headline"));
-
-
-                        vh.imagen.setImageDrawable(
-                                ad.getImage("MainImage").getDrawable());
-
-                    }
-                },
-                new NativeCustomTemplateAd.OnCustomClickListener() {
-                    @Override
-                    public void onCustomClick(NativeCustomTemplateAd ad, String s) {
-
-                    }
-                });*/
-
-        /*AdLoader adLoader = builder.withAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Toast.makeText(context, "Failed to load native ad: "
-                        + errorCode, Toast.LENGTH_SHORT).show();
-            }
-        }).build();*/
 
         builder.loadAd(new PublisherAdRequest.Builder().build());
 
