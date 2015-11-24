@@ -7,10 +7,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.amplitude.api.Amplitude;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.pushwoosh.BasePushMessageReceiver;
@@ -20,6 +22,7 @@ import com.pushwoosh.PushManager;
 import es.elconfidencial.eleccionesgenerales2015.R;
 
 public class ChooseActivity extends AppCompatActivity {
+    private String apiKeyAmplitude = "43008110a84c5bad5caa9949192031f3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +67,11 @@ public class ChooseActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-    }
 
+        //Inicializar Amplitude
+        Log.i("RADAR_AMPLITUDE", "Inicializacion de Amplitude");
+        //Amplitude.getInstance().initialize(this, apiKeyAmplitude).enableForegroundTracking(getApplication());
+    }
 
     /**PW**/
     //Registration receiver
