@@ -28,7 +28,7 @@
             android:orientation="vertical">
 
 
-            <ImageView
+            <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

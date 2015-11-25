@@ -27,7 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+//import com.afollestad.materialdialogs.MaterialDialog;
 import com.pushwoosh.PushManager;
 import com.pushwoosh.SendPushTagsCallBack;
 
@@ -105,7 +105,7 @@ public class PreferencesActivity extends ActionBarActivity {
         getSupportActionBar().setCustomView(v);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //CREDITOS
+        /**CREDITOS
         Button buttonCreditos = (Button) findViewById(R.id.acercaDeButton);
         buttonCreditos.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -134,7 +134,7 @@ public class PreferencesActivity extends ActionBarActivity {
                         .show();
 
             }
-        });
+        });**/
 
         prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         pushManager = PushManager.getInstance(this);

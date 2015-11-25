@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@color/tabsScrollColor"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:paddingTop="40dp"
+    android:paddingBottom="40dp">
     <Button
         android:id="@+id/volverAJugar"
         android:layout_width="0dp"
