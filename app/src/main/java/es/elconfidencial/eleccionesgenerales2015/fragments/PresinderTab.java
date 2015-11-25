@@ -49,13 +49,15 @@ import es.elconfidencial.eleccionesgenerales2015.listeners.OnLikeClickListener;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
 import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
+import es.elconfidencial.eleccionesgenerales2015.model.TypeWriter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PresinderTab extends Fragment {
 
-    TextView grupo,text,header1,likeText,dislikeText, actionBarTitle;
+    TextView grupo,header1,likeText,dislikeText, actionBarTitle;
+    TextView text;
     ImageView like,dislike;
     Button verResultados;
     QuoteServer qs = QuoteServer.getInstance();
@@ -117,6 +119,10 @@ public class PresinderTab extends Fragment {
         //TODO:Animacion
         text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
         grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
+        text.setX(5000);
+        grupo.setX(5000);
+        text.animate().translationX(0).setDuration(450).start();
+        grupo.animate().translationX(0).setDuration(450).start();
     }
 
     /***********LISTENERS******************/

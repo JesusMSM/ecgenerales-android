@@ -60,7 +60,7 @@
                         android:layout_gravity="bottom"
                         android:gravity="bottom|center_horizontal"
                         android:layout_marginBottom="3dp"
-                        android:text="GURTEL"
+                        android:text=""
                         android:textColor="@color/grey"
                         android:id="@+id/groupQuote"
                         android:textAllCaps="true"/>
