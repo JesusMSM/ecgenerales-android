@@ -27,7 +27,7 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
     public TextView contador,label,barra,d_20, textViewDias,textViewHoras,textViewMinutos,textViewFaltan,textViewColegiosElectorales;
     public DonutProgress donut_dias,donut_horas,donut_minutos;
 
-    //public ImageView preferences;
+    public ImageView preferences;
 
     public ContadorViewHolder(View v) {
         super(v);
@@ -43,6 +43,7 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         textViewHoras = (TextView) v.findViewById(R.id.textViewHoras);
         donut_minutos = (DonutProgress) v.findViewById(R.id.donut_minutos);
         textViewMinutos = (TextView) v.findViewById(R.id.textViewMinutos);
+        preferences = (ImageView) v.findViewById(R.id.preferencesIconCont);
 
         donut_dias.setStartingDegree(270);
         donut_dias.setTextColor(v.getResources().getColor(R.color.white));

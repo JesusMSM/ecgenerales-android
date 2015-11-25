@@ -19,20 +19,27 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:gravity="center">
                 <TextView
-                android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                    android:layout_weight="4"
                 android:text="@string/titulo_el_confidencial"
+                    android:gravity="right"
                 android:textSize="8pt"
                 android:id="@+id/label"
                 android:textColor="@color/white"
@@ -40,8 +47,9 @@
                 android:paddingLeft="5dp"
                 />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text=" | "
                 android:gravity="center"
                 android:textSize="8pt"
@@ -51,8 +59,10 @@
                 android:paddingLeft="5dp"
                 />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="left"
                 android:text="20-D"
                 android:textSize="12pt"
                 android:id="@+id/d_20"
@@ -60,13 +70,20 @@
                 android:paddingRight="5dp"
                 android:paddingLeft="5dp"
                 />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="2"
+                    android:paddingRight="5dp"
+                    android:id="@+id/preferencesIconCont"
+                    android:src="@drawable/settings_icon"/>
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
@@ -79,19 +96,15 @@
                 android:text="FALTAN"/>
         </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="2"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="3dp"
             android:id="@+id/layoutdias">
 
             <TextView
@@ -122,7 +135,7 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="3dp"
             android:id="@+id/layouthoras"
             android:layout_toRightOf="@id/layoutdias">
 
@@ -157,7 +170,7 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="3dp"
             android:id="@+id/layoutminutos"
             android:layout_toRightOf="@id/layouthoras">
 
@@ -187,14 +200,11 @@
 
             </FrameLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="7dp"
+            android:layout_height="wrap_content"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"

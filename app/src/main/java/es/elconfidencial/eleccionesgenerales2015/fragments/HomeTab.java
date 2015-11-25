@@ -73,18 +73,21 @@ public class HomeTab extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home_tab, container, false);
 
-        //Preferences
-        titleActionBar = (TextView) v.findViewById(R.id.actionBarHome);
-        titleActionBar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-        preferences = (ImageView) v.findViewById(R.id.preferencesIcon);
-        preferences.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PreferencesActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
+        //Comprobamos si el contador se está mostrando, en caso negativo, no mostraremos la action bar
+        if(!MainActivity.SHOW_TIMER){
+            //Preferences
+            titleActionBar = (TextView) v.findViewById(R.id.actionBarHome);
+            titleActionBar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+            preferences = (ImageView) v.findViewById(R.id.preferencesIcon);
+            preferences.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), PreferencesActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+        }
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recycler_view);
         mRecyclerView.setHasFixedSize(true);
