@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("PartidosJSON", "JSON no recuperado de assets");
         }
 
-        final LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
+    /*    final LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
         final RelativeLayout activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
         ParseConfig.getInBackground(new ConfigCallback() {
             @Override
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 activityLayout.setVisibility(View.VISIBLE);
 
             }
-        });
+        });*/
        /* Log.d("TAG", "URL"+RESULTS_WEBVIEW_URL);
         while(RESULTS_WEBVIEW_URL == null){
             Log.d("TAG", "URL"+RESULTS_WEBVIEW_URL);

@@ -36,6 +36,7 @@ import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.activities.PreferencesActivity;
 import es.elconfidencial.eleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import es.elconfidencial.eleccionesgenerales2015.json.JSONParser;
+import es.elconfidencial.eleccionesgenerales2015.json.JSONParserObject;
 import es.elconfidencial.eleccionesgenerales2015.model.CardPubli;
 import es.elconfidencial.eleccionesgenerales2015.model.DatosEncuentas;
 import es.elconfidencial.eleccionesgenerales2015.model.Encuesta;
@@ -58,6 +59,15 @@ public class HomeTab extends Fragment {
 
     public static String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
     public static String encuestas_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/survey.json";
+    public static String config_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/config.json";
+
+    //Parámetros config
+    private String TAG_DFP_CARD_EVERY_N = "DFP_CARD_EVERY_N";
+    private String TAG_LAST_NEWS_COUNTER = "LAST_NEWS_COUNTER";
+    private String TAG_RESULTS_WEBVIEW = "RESULTS_WEBVIEW_URL";
+    private String TAG_SHOW_SURVEYS= "SHOW_SURVEYS";
+    private String TAG_SHOW_TIMER = "SHOW_TIMER";
+    private String TAG_SHOW_RESULTS = "SHOW_WIDGET_RESULTS";
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -93,11 +103,42 @@ public class HomeTab extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(MainActivity.context);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        new JSONParse().execute();
+        new JSONConfig().execute();
         //new CargarXmlTask().execute(rss_url);
         return v;
     }
+
+    private class JSONConfig extends AsyncTask<String, String, JSONObject> {
+
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParserObject jParser = new JSONParserObject();
+
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(config_url);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                // Getting JSON Array
+                MainActivity.DFP_CARD_EVERY_N = json.getInt(TAG_DFP_CARD_EVERY_N);
+                MainActivity.LAST_NEWS_COUNTER = json.getInt(TAG_LAST_NEWS_COUNTER);
+                MainActivity.RESULTS_WEBVIEW_URL = json.getString(TAG_RESULTS_WEBVIEW);
+                MainActivity.SHOW_SURVEYS = json.getBoolean(TAG_SHOW_SURVEYS);
+                MainActivity.SHOW_TIMER = json.getBoolean(TAG_SHOW_TIMER);
+                MainActivity.SHOW_WIDGET_RESULTS = json.getBoolean(TAG_SHOW_RESULTS);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            new JSONParse().execute();
+
+        }
+    }
+
 
 
     private class JSONParse extends AsyncTask<String, String, JSONArray> {
