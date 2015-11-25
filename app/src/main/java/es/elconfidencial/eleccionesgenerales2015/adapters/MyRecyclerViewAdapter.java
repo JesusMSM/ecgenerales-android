@@ -630,8 +630,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         //Like/Dislikes listeners
-       // vh.like.setOnClickListener(new OnLikeClickListener(context));
-       // vh.dislike.setOnClickListener(new OnDislikeClickListener(context));
+        vh.like.setOnClickListener(new OnLikeClickListener(context));
+        vh.dislike.setOnClickListener(new OnDislikeClickListener(context));
 
         //Fonts
         vh.header1.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));

@@ -19,54 +19,71 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:gravity="center">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
                     android:text="@string/titulo_el_confidencial"
+                    android:gravity="right"
                     android:textSize="12pt"
                     android:id="@+id/label"
                     android:textColor="@color/white"
-                    android:paddingRight="5dp"
-                    android:paddingLeft="5dp"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text=" | "
                     android:gravity="center"
                     android:textSize="12pt"
                     android:id="@+id/barra"
                     android:textColor="@color/white"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="left"
                     android:text="20-D"
                     android:textSize="18pt"
                     android:id="@+id/d_20"
                     android:textColor="@color/white"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
                     />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="2"
+                    android:paddingRight="8dp"
+                    android:id="@+id/preferencesIconCont"
+                    android:src="@drawable/settings_icon"/>
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
@@ -74,24 +91,22 @@
                 android:layout_gravity="center"
                 android:id="@+id/textViewFaltan"
                 android:textColor="@color/white"
+                android:textSize="9pt"
                 android:gravity="center"
-                android:textSize="10pt"
                 android:text="FALTAN"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center">
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:layout_marginRight="50dp"
                 android:id="@+id/layoutdias">
 
                 <TextView
@@ -99,9 +114,9 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:text="DIAS"
-                    android:textSize="10sp"
+                    android:textSize="13sp"
                     android:id="@+id/textViewDias"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="30dp"
                     android:layout_gravity="bottom|center" />
 
                 <es.elconfidencial.eleccionesgenerales2015.views.DonutProgress
@@ -109,8 +124,8 @@
                     android:layout_marginBottom="0dp"
                     android:padding="10dp"
                     android:id="@+id/donut_dias"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     custom:donut_unfinished_stroke_width="5dp"
                     custom:donut_finished_stroke_width="5dp"
                     custom:donut_progress="10"
@@ -133,8 +148,8 @@
                     android:id="@+id/donut_horas"
                     android:padding="10dp"
                     android:layout_toRightOf="@id/layouthoras"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     custom:donut_unfinished_stroke_width="5dp"
                     custom:donut_finished_stroke_width="5dp"
                     custom:donut_progress="10"
@@ -146,9 +161,9 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:text="HORAS"
-                    android:textSize="10sp"
+                    android:textSize="13sp"
                     android:id="@+id/textViewHoras"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="30dp"
                     android:layout_gravity="bottom|center" />
 
             </FrameLayout>
@@ -158,6 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:layout_marginLeft="50dp"
                 android:id="@+id/layoutminutos"
                 android:layout_toRightOf="@id/layouthoras">
 
@@ -167,8 +183,8 @@
                     android:layout_marginBottom="0dp"
                     android:padding="10dp"
                     android:id="@+id/donut_minutos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     custom:donut_unfinished_stroke_width="5dp"
                     custom:donut_finished_stroke_width="5dp"
                     custom:donut_progress="10"
@@ -180,21 +196,19 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:text="MINUTOS"
-                    android:textSize="10sp"
+                    android:textSize="13sp"
                     android:id="@+id/textViewMinutos"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="30dp"
                     android:layout_gravity="bottom|center" />
 
             </FrameLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
@@ -202,7 +216,7 @@
                 android:layout_gravity="center"
                 android:id="@+id/textViewColegiosElectorales"
                 android:textColor="@color/white"
-                android:textSize="10pt"
+                android:textSize="9pt"
                 android:gravity="center"
                 android:text="PARA QUE ABRAN LOS COLEGIOS ELECTORALES"/>
         </LinearLayout>
