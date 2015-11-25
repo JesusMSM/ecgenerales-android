@@ -1,10 +1,14 @@
 package es.elconfidencial.eleccionesgenerales2015.model;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -12,10 +16,14 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import es.elconfidencial.eleccionesgenerales2015.R;
+import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
+import es.elconfidencial.eleccionesgenerales2015.activities.ResultadosPresinderActivity;
+import es.elconfidencial.eleccionesgenerales2015.fragments.PresinderTab;
 
 /**
  * Created by Afll on 01/11/2015.
@@ -54,36 +62,17 @@ public class QuoteServer{
 
     /*Obtengo las quotes desde Parse o en local si hay**/
     public void getQuotesFromParseOrLocal(){
-        //Parse
-        // Enable Local Datastore.
-//        Parse.enableLocalDatastore(context);
+
 
         ParseObject.registerSubclass(Quote.class);
-//        Parse.initialize(context, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
         query.fromLocalDatastore();
         try {
             List<ParseObject> parseQuotes = query.find();
             if(parseQuotes.isEmpty()){
-                //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
-                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("QUOTES");
-                parseQuotes = query2.find();
-
-
-                for (ParseObject q : parseQuotes) {
-                    //Create new Quote from ParseObject
-                    quotes.add(new Quote(q));
-                    //Save persona for this quote
-                    savePersonInLocalWithQuote(q);
-                }
-
-                Collections.shuffle(quotes); //Mezclamos aleatoriamente las quotes
-                ParseObject.pinAll(parseQuotes);
-
-                Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
-                Log.i("ParsePrueba", "Ejemplo quote" + quotes.get(0).getPersona());
-
+                //Rellenamos la lista vacia con las de parse
+                getFromParse();
             } else {
                 Log.i("ParsePrueba", "Entramos en el else");
                 //Obtenemos las quotes de local
@@ -91,13 +80,31 @@ public class QuoteServer{
                     quotes.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
                 }
                 //Obtenemos las personas de local
-                getPersonsFromLocal();
-                Log.i("ParsePrueba", "Ejemplo quote persona 0 " + quotes.get(0).getPersona());
-                Log.i("ParsePrueba", "Ejemplo size " + quotes.size());
-            }
+                getPersonsFromLocal();            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    //Get from Parse
+    public void getFromParse() throws ParseException {
+        //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("QUOTES");
+        List<ParseObject> parseQuotes = query2.find();
+
+
+        for (ParseObject q : parseQuotes) {
+            //Create new Quote from ParseObject
+            quotes.add(new Quote(q));
+            //Save persona for this quote
+            savePersonInLocalWithQuote(q);
+        }
+
+        Collections.shuffle(quotes); //Mezclamos aleatoriamente las quotes
+        ParseObject.pinAll(parseQuotes);
+
+        Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
+        Log.i("ParsePrueba", "Ejemplo quote" + quotes.get(0).getPersona());
     }
 
     // Creamos en parse local un objeto persona con los datos que extraemos de la quote pasada por parámetro
@@ -127,6 +134,7 @@ public class QuoteServer{
                              ParseException e) {
                 if (e == null) {
                     for(ParseObject obj :objects){
+                        if(!personExists(obj.getString("name")))
                         personas.add(new Persona(obj));
                     }
                 } else {
@@ -155,8 +163,6 @@ public class QuoteServer{
     }
 
     public void agreedWithQuote(Quote quote) {
-        incrementQuotesIndex();
-
         Log.i("QuoteServer: agree", quote.getPersona());
         Persona p = getPersonFromName(quote.getPersona());
         try {
@@ -178,7 +184,6 @@ public class QuoteServer{
     }
 
     public void disagreedWithQuote(Quote quote) {
-        incrementQuotesIndex();
         Log.i("QuoteServer: disagree", quote.getPersona());
 
         Persona p = getPersonFromName(quote.getPersona());
@@ -199,12 +204,46 @@ public class QuoteServer{
         ParseAnalytics.trackEvent("ECL_DISAGREE_EVENT", disagree);
     }
     public void incrementQuotesIndex(){
+        Log.i("PRESINDER", "quotesIndex: " + String.valueOf(quotesIndex));
+        Log.i("PRESINDER", "totalQuotes: " + quotes.size());
         //Aumentamos index siguiente pregunta
         if (quotesIndex == quotes.size() - 1) {//Ha llegado al final de las quotes
-            //Reset del index
-            GlobalMethod.saveIntPreference(context, 0, "quotesIndex");
-            quotesIndex = GlobalMethod.getIntPreference(context, "quotesIndex", 0);
-            Log.i("QuoteServer","quoteIndex: " + quotesIndex);
+            MainActivity act = (MainActivity) context;
+            GlobalMethod.saveIntPreference(context,1,"NoMoreQuotes");
+            //Alert
+            AlertDialog mAlert = new AlertDialog.Builder(context)
+                    .setTitle("")
+                    .setMessage("Ha respondido a todas las frases, ¿desea reiniciar el test?. Se eliminarán sus resultados")
+                    .setPositiveButton("REINICIAR", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Reiniciar indice y vaciar lista
+                            quotes = new ArrayList<Quote>();
+                            quotesIndex = 0;
+
+                            GlobalMethod.saveIntPreference(context, 0, "quotesIndex");
+
+                            //Descargar de parse
+                            try {
+                                getFromParse();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            //Borrar Resultados personas
+                            resetPersonas();
+                            //Esto evita que se responda la ultima pregunta
+                            GlobalMethod.saveIntPreference(context, 0, "NoMoreQuotes");
+                            //Redraw
+                        }
+                    })
+                    .setNegativeButton("VER RESULTADOS", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            MainActivity act = (MainActivity) context;
+                            Intent intent = new Intent(act.getApplicationContext(), ResultadosPresinderActivity.class);
+                            act.startActivity(intent);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         } else {
             GlobalMethod.saveIntPreference(context, quotesIndex + 1, "quotesIndex");
             quotesIndex= GlobalMethod.getIntPreference(context, "quotesIndex", 0);
@@ -246,5 +285,21 @@ public class QuoteServer{
 
     public void setPersonasByAgreed(Persona[] personasByAgreed) {
         this.personasByAgreed = personasByAgreed;
+    }
+
+    public void resetPersonas(){
+        for (Persona p : personas) {
+            try {
+                //Reset local
+                p.setAgree(0);
+                p.setDisagree(0);
+                //Reset Parse local
+                p.personaPObj.put("agree",0);
+                p.personaPObj.put("disagree",0);
+                p.personaPObj.pin();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

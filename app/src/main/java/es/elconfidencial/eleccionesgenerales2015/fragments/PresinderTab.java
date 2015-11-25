@@ -59,7 +59,7 @@ public class PresinderTab extends Fragment {
     ImageView like,dislike;
     Button verResultados;
     QuoteServer qs = QuoteServer.getInstance();
-
+    public PresinderTab(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,15 +114,11 @@ public class PresinderTab extends Fragment {
     }
 
     public void setNextQuote(){
+        //TODO:Animacion
         text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
         grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
     }
 
-    public void resetPresinder(){
-        qs.quotesIndex = 0;
-        //Save
-        GlobalMethod.saveIntPreference(getContext(),qs.quotesIndex,"quotesIndex");
-    }
     /***********LISTENERS******************/
 
     //Like Listener
@@ -146,7 +142,10 @@ public class PresinderTab extends Fragment {
             //Indentificamos la quote actual
             Quote currentQuote = qs.quotes.get(qs.getQuotesIndex());
             //Agree con la quote actual
-            qs.agreedWithQuote(currentQuote);
+            if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
+                //Si siguen quedando quotes (Evita votar repetitivamente en la ultima quote)
+                qs.agreedWithQuote(currentQuote);
+            }
 
             /**LISTENERS**/
             //Contador de 3 segundos
@@ -178,7 +177,11 @@ public class PresinderTab extends Fragment {
                     settingsDialog.dismiss();
                 }
             });
-            settingsDialog.show();
+            if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
+                settingsDialog.show();
+            }
+            qs.incrementQuotesIndex();
+
 
             /*RELLENAR CAMPOS DEL POP UP**/
             //Set imagen correspondiente
@@ -225,8 +228,10 @@ public class PresinderTab extends Fragment {
             //Indentificamos la quote actual
             Quote currentQuote = qs.quotes.get(qs.getQuotesIndex());
             //Agree con la quote actual
-            qs.disagreedWithQuote(currentQuote);
-
+            if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
+                //Si siguen quedando quotes (Evita votar repetitivamente en la ultima quote)
+                qs.disagreedWithQuote(currentQuote);
+            }
             /**LISTENERS**/
             //Contador de 3 segundos
             settingsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -257,7 +262,10 @@ public class PresinderTab extends Fragment {
                     settingsDialog.dismiss();
                 }
             });
-            settingsDialog.show();
+            if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
+                settingsDialog.show();
+            }
+            qs.incrementQuotesIndex();
 
             //Set imagen correspondiente
             try {
@@ -293,5 +301,13 @@ public class PresinderTab extends Fragment {
 
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("PRESINDER","onResume");
+        qs.init(getContext());
+        setNextQuote();
     }
 }

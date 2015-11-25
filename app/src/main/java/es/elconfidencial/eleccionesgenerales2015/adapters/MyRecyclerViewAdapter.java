@@ -62,11 +62,13 @@ import es.elconfidencial.eleccionesgenerales2015.model.Noticia;
 import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 import es.elconfidencial.eleccionesgenerales2015.model.Persona;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
+import es.elconfidencial.eleccionesgenerales2015.model.QuoteServer;
 import es.elconfidencial.eleccionesgenerales2015.model.Titulo;
 import es.elconfidencial.eleccionesgenerales2015.rss.RssNoticiasParser;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.CardPubliViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.ContadorViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.EncuestasViewHolder;
+import es.elconfidencial.eleccionesgenerales2015.viewholders.FooterPresinderViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.NoticiaViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PoliticoViewHolder;
 import es.elconfidencial.eleccionesgenerales2015.viewholders.PresinderViewHolder;
@@ -84,8 +86,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     int encuestaSeleccionada = 0;
     BarChart grafico;
     NativeCustomTemplateAd adCustom;
+    QuoteServer qs = QuoteServer.getInstance();
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -123,6 +126,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         if (items.get(position).equals("encuestas")) {
             return ENCUESTA;
+        }
+        if (items.get(position).equals("footerpresinder")) {
+            return FOOTER_PRES;
         }
         else if (items.get(position) instanceof CardPubli) {
             return CARDPUBLI;
@@ -169,6 +175,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v8 =  inflater.inflate(R.layout.recyclerview_item_cardpubli, viewGroup, false);
                 viewHolder = new CardPubliViewHolder(v8);
                 break;
+            case FOOTER_PRES:
+                View v9 =  inflater.inflate(R.layout.recyclerview_item_footerpresinder, viewGroup, false);
+                viewHolder = new FooterPresinderViewHolder(v9);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -211,6 +221,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case CARDPUBLI:
                 CardPubliViewHolder vh8 = (CardPubliViewHolder) viewHolder;
                 loadAd(vh8);
+                break;
+            case FOOTER_PRES:
+                FooterPresinderViewHolder vh9 = (FooterPresinderViewHolder) viewHolder;
+                configureFooterPersinderViewHolder(vh9, position);
                 break;
             default:
         }
@@ -594,6 +608,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }catch (Exception e){
             e.printStackTrace();
         }
+        //BG
+        if(persona.getAgree()>persona.getDisagree()){
+            vh.rowPolitico.setBackgroundColor(Color.parseColor("#D5EEC8"));
+        }
+        if(persona.getAgree()<persona.getDisagree()){
+            vh.rowPolitico.setBackgroundColor(Color.parseColor("#FFCDBD"));
+        }
 
         //Fonts
         vh.posicion.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
@@ -670,40 +691,40 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 switch (position) {
                     case 0:
                         NoticiasTab.seleccion = 0;
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
                         break;
                     case 1:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/"; //general
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/"; //general
                         NoticiasTab.seleccion = 1;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 2:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
                         NoticiasTab.seleccion = 2;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 3:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
                         NoticiasTab.seleccion = 3;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 4:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
                         NoticiasTab.seleccion = 4;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 5:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
                         NoticiasTab.seleccion = 5;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 6:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
                         NoticiasTab.seleccion = 6;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 7:
-                        NoticiasTab.rss_url  = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
+                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
                         NoticiasTab.seleccion = 7;
                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
@@ -717,6 +738,26 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         });
 
+    }
+    public void configureFooterPersinderViewHolder(FooterPresinderViewHolder vh,int position){
+        vh.volverAJugar.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        vh.reset.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+
+        vh.volverAJugar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity act = (Activity) v.getContext();
+                act.onBackPressed();
+            }
+        });
+        vh.reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Mostramos la lista
+                qs.resetPersonas();
+                notifyDataSetChanged();
+            }
+        });
     }
 
     /*Permite gestionar de forma asincrona el RSS */

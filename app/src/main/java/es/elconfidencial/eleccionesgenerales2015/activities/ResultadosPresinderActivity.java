@@ -47,8 +47,6 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
     QuoteServer qs = QuoteServer.getInstance();
     List<Object> items = new ArrayList<>();
 
-    Button volver;
-
     //Compartir
     private File picFile;
 
@@ -76,17 +74,6 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         //Initiamos la instancia del QuoteServer
         qs.init(this);
 
-        //Listener del boton de retroceder
-        volver = (Button) findViewById(R.id.volverAJugar);
-        volver.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        volver.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-
         //Ordenamos los politicos de la base de datos local
         Collections.sort(qs.personas, new PersonComparator());
 
@@ -94,6 +81,9 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         for (Persona persona : qs.personas) {
             items.add(persona);
         }
+
+        //Add footer
+        items.add("footerpresinder");
 
         mAdapter = new MyRecyclerViewAdapter(MainActivity.context, items);
         mRecyclerView.setAdapter(mAdapter);
@@ -133,6 +123,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
 
         if(item.getItemId() == android.R.id.home){
             onBackPressed();
+            finish();
         }
         if(id == R.id.share_result){
             shareit();

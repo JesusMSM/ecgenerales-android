@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -59,8 +60,8 @@ public class PreferencesActivity extends ActionBarActivity {
 
     //Partidos
     TextView notifMunicipio,notifPartidos,notifMunicipioDescr,notifPartidosDescr;
-    TextView ppText,psoeText,csText,podemosText,iuText,pacmaText,upydText,pnvText,convText,otrosText;
-    Switch ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,pacmaSwitch,upydSwitch,pnvSwitch,convSwitch,otrosSwitch;
+    TextView ppText,psoeText,csText,podemosText,iuText,upydText;
+    Switch ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,upydSwitch;
 
     Button reestablecer;
 
@@ -87,6 +88,9 @@ public class PreferencesActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
+
+        //No abrir automaticsmente el teclado
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         //ActionBar
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -149,10 +153,6 @@ public class PreferencesActivity extends ActionBarActivity {
         podemosText = (TextView) findViewById(R.id.podemosText);
         iuText = (TextView) findViewById(R.id.iuText);
         upydText = (TextView) findViewById(R.id.upydText);
-        pacmaText = (TextView) findViewById(R.id.pacmaText);
-        pnvText = (TextView) findViewById(R.id.pnvText);
-        convText = (TextView) findViewById(R.id.convText);
-        otrosText = (TextView) findViewById(R.id.otrosText);
 
         ccaaNombre.setText(prefs.getString("CCAAName", "")); //Si no existe, devuelve el segundo parametro
         provinciaNombre.setText(prefs.getString("ProvinciaName", "")); //Si no existe, devuelve el segundo parametro
@@ -204,11 +204,7 @@ public class PreferencesActivity extends ActionBarActivity {
         csSwitch = (Switch) findViewById(R.id.csSwitch);
         podemosSwitch = (Switch) findViewById(R.id.podemosSwitch);
         iuSwitch = (Switch) findViewById(R.id.iuSwitch);
-        pacmaSwitch = (Switch) findViewById(R.id.pacmaSwitch);
         upydSwitch = (Switch) findViewById(R.id.upydSwitch);
-        pnvSwitch = (Switch) findViewById(R.id.pnvSwitch);
-        convSwitch = (Switch) findViewById(R.id.convSwitch);
-        otrosSwitch = (Switch) findViewById(R.id.otrosSwitch);
 
         //Set typefaces
         setTypefaces();
@@ -223,11 +219,7 @@ public class PreferencesActivity extends ActionBarActivity {
         csSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
         podemosSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
         iuSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
-        pacmaSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
         upydSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
-        pnvSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
-        convSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
-        otrosSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
 
         getUserTagValues();
         initializeSpinnersFromLocal();

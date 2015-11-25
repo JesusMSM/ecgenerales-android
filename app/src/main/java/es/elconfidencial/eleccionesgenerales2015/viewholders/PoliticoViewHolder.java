@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
@@ -15,7 +16,7 @@ public class PoliticoViewHolder extends RecyclerView.ViewHolder {
 
     public TextView nombre,partido,nAgrees,nDisAgrees,posicion;
     public ImageView fotoPolitico, likesPolitico, dislikesPolitico;
-
+    public LinearLayout rowPolitico;
 
     public PoliticoViewHolder(View v) {
         super(v);
@@ -27,5 +28,6 @@ public class PoliticoViewHolder extends RecyclerView.ViewHolder {
         fotoPolitico = (ImageView) v.findViewById(R.id.fotoPolitico);
         likesPolitico = (ImageView) v.findViewById(R.id.likesPolitico);
         dislikesPolitico = (ImageView) v.findViewById(R.id.dislikesPolitico);
+        rowPolitico = (LinearLayout) v.findViewById(R.id.rowPolitico);
     }
 }
