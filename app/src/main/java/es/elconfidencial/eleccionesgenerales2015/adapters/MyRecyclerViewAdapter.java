@@ -608,13 +608,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }catch (Exception e){
             e.printStackTrace();
         }
-        //BG
-        if(persona.getAgree()>persona.getDisagree()){
-            vh.rowPolitico.setBackgroundColor(Color.parseColor("#D5EEC8"));
-        }
-        if(persona.getAgree()<persona.getDisagree()){
-            vh.rowPolitico.setBackgroundColor(Color.parseColor("#FFCDBD"));
-        }
 
         //Fonts
         vh.posicion.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
@@ -754,7 +747,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
                 //Mostramos la lista
-                qs.resetPersonas();
+                qs.reset();
                 notifyDataSetChanged();
             }
         });

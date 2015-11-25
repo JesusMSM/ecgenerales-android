@@ -1,6 +1,7 @@
 package es.elconfidencial.eleccionesgenerales2015.model;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -63,7 +64,6 @@ public class QuoteServer{
     /*Obtengo las quotes desde Parse o en local si hay**/
     public void getQuotesFromParseOrLocal(){
 
-
         ParseObject.registerSubclass(Quote.class);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUOTES");
@@ -74,10 +74,11 @@ public class QuoteServer{
                 //Rellenamos la lista vacia con las de parse
                 getFromParse();
             } else {
-                Log.i("ParsePrueba", "Entramos en el else");
+                Log.i("PRESINDER", "GET FROM LOCAL");
                 //Obtenemos las quotes de local
                 for (ParseObject q : parseQuotes) {
-                    quotes.add(new Quote(q.get("QUOTE").toString(), q.get("PERSONA").toString(), q.get("LABEL").toString()));
+                    quotes.add(new Quote(q));
+                    Log.i("PRESINDER","GETTING IN LOCAL... " + q.get("QUOTE"));
                 }
                 //Obtenemos las personas de local
                 getPersonsFromLocal();            }
@@ -88,23 +89,29 @@ public class QuoteServer{
 
     //Get from Parse
     public void getFromParse() throws ParseException {
+        Log.i("PRESINDER", "GET FROM PARSE");
+
         //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("QUOTES");
         List<ParseObject> parseQuotes = query2.find();
 
 
+        ParseObject.pinAll("QUOTES",parseQuotes);
+
+        parseQuotes = query2.fromLocalDatastore().find();
+        //LOCAL
+        Log.i("PRESINDER", "GET FROM LOCAL");
+        //Obtenemos las quotes de local
         for (ParseObject q : parseQuotes) {
-            //Create new Quote from ParseObject
-            quotes.add(new Quote(q));
             //Save persona for this quote
             savePersonInLocalWithQuote(q);
+
+            quotes.add(new Quote(q));
+            Log.i("PRESINDER", "GETTING IN LOCAL... " + q.get("QUOTE"));
         }
+        //Obtenemos las personas de local
+        getPersonsFromLocal();
 
-        Collections.shuffle(quotes); //Mezclamos aleatoriamente las quotes
-        ParseObject.pinAll(parseQuotes);
-
-        Log.i("ParsePrueba", "Quotes de Internet guardadas en local");
-        Log.i("ParsePrueba", "Ejemplo quote" + quotes.get(0).getPersona());
     }
 
     // Creamos en parse local un objeto persona con los datos que extraemos de la quote pasada por parámetro
@@ -208,7 +215,7 @@ public class QuoteServer{
         Log.i("PRESINDER", "totalQuotes: " + quotes.size());
         //Aumentamos index siguiente pregunta
         if (quotesIndex == quotes.size() - 1) {//Ha llegado al final de las quotes
-            MainActivity act = (MainActivity) context;
+            final MainActivity act = (MainActivity) context;
             GlobalMethod.saveIntPreference(context,1,"NoMoreQuotes");
             //Alert
             AlertDialog mAlert = new AlertDialog.Builder(context)
@@ -216,23 +223,12 @@ public class QuoteServer{
                     .setMessage("Ha respondido a todas las frases, ¿desea reiniciar el test?. Se eliminarán sus resultados")
                     .setPositiveButton("REINICIAR", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            //Reiniciar indice y vaciar lista
-                            quotes = new ArrayList<Quote>();
-                            quotesIndex = 0;
-
-                            GlobalMethod.saveIntPreference(context, 0, "quotesIndex");
-
-                            //Descargar de parse
-                            try {
-                                getFromParse();
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            //Borrar Resultados personas
-                            resetPersonas();
+                            //Borrar Resultados
+                            reset();
                             //Esto evita que se responda la ultima pregunta
                             GlobalMethod.saveIntPreference(context, 0, "NoMoreQuotes");
                             //Redraw
+                            act.refreshPresinder();
                         }
                     })
                     .setNegativeButton("VER RESULTADOS", new DialogInterface.OnClickListener() {
@@ -287,7 +283,12 @@ public class QuoteServer{
         this.personasByAgreed = personasByAgreed;
     }
 
-    public void resetPersonas(){
+    public void reset(){
+        //Reiniciar indice y vaciar lista
+        quotes.clear();
+        quotesIndex = 0;
+
+        GlobalMethod.saveIntPreference(context, 0, "quotesIndex");
         for (Persona p : personas) {
             try {
                 //Reset local
@@ -300,6 +301,13 @@ public class QuoteServer{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+
+        //Descargar de parse
+        try {
+            getFromParse();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 }

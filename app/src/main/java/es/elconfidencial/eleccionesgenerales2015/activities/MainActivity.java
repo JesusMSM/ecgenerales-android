@@ -3,6 +3,7 @@ package es.elconfidencial.eleccionesgenerales2015.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.parse.ConfigCallback;
 import com.parse.Parse;
@@ -42,6 +44,7 @@ import java.util.Map;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.ViewPagerAdapter;
+import es.elconfidencial.eleccionesgenerales2015.fragments.PresinderTab;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
@@ -239,6 +242,20 @@ public class MainActivity extends AppCompatActivity {
         System.exit(0);
     }
 
-
+    public void refreshPresinder(){
+        Log.i("PRESINDER","Refreshing presinder...");
+        //Set text from here
+        pager.setAdapter(adapter);
+        pager.setCurrentItem(3);
+        /*PresinderTab pt = (PresinderTab) adapter.getItem(3);
+        TextView text = (TextView) pt.getView().findViewById(R.id.questionQuote);
+        TextView group = (TextView) pt.getView().findViewById(R.id.groupQuote);
+        text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
+        group.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
+        text.setX(5000);
+        group.setX(5000);
+        text.animate().translationX(0).setDuration(450).start();
+        group.animate().translationX(0).setDuration(450).start();*/
+    }
 
 }

@@ -31,6 +31,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -116,7 +117,9 @@ public class PresinderTab extends Fragment {
     }
 
     public void setNextQuote(){
-        //TODO:Animacion
+        Log.i("PRESINDER", "CurrentQuote: " + qs.quotes.get(qs.getQuotesIndex()).getText());
+        Log.i("PRESINDER", "CurrentIndex: " + String.valueOf(qs.quotesIndex));
+
         text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
         grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
         text.setX(5000);
@@ -140,8 +143,12 @@ public class PresinderTab extends Fragment {
             final Dialog settingsDialog = new Dialog(act);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
-            settingsDialog.setContentView(inflater.inflate(R.layout.image_popup_layout
-                    , null));
+            View popUp = inflater.inflate(R.layout.image_popup_layout, null);
+            settingsDialog.setContentView(popUp);
+            //BG
+            LinearLayout root = (LinearLayout) popUp.findViewById(R.id.image_dialog_root);
+            root.setBackgroundColor(Color.parseColor("#80D5EEC8"));//Like Green
+
             settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
             settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -226,8 +233,12 @@ public class PresinderTab extends Fragment {
             final Dialog settingsDialog = new Dialog(act);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
-            settingsDialog.setContentView(inflater.inflate(R.layout.image_popup_layout
-                    , null));
+            View popUp = inflater.inflate(R.layout.image_popup_layout, null);
+            settingsDialog.setContentView(popUp);
+            //BG
+            LinearLayout root = (LinearLayout) popUp.findViewById(R.id.image_dialog_root);
+            root.setBackgroundColor(Color.parseColor("#80FFCDBD"));//Dislike Red
+
             settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
             settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 

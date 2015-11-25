@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:text="BORRAR RESULTADOS"
+        android:text="REINICIAR TEST"
         android:paddingLeft="@dimen/abc_button_padding_horizontal_material"
         android:paddingRight="@dimen/abc_button_padding_horizontal_material"
         android:background="@drawable/button_resultados"
