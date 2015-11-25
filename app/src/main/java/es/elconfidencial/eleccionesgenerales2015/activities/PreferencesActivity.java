@@ -27,6 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.pushwoosh.PushManager;
 import com.pushwoosh.SendPushTagsCallBack;
 
@@ -103,6 +104,37 @@ public class PreferencesActivity extends ActionBarActivity {
         ((TextView)v.findViewById(R.id.actionBarTitle)).setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf"));
         getSupportActionBar().setCustomView(v);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //CREDITOS
+        Button buttonCreditos = (Button) findViewById(R.id.acercaDeButton);
+        buttonCreditos.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                new MaterialDialog.Builder(v.getContext())
+                        .title(R.string.titulo_creditos)
+                        .content(R.string.contenido_creditos)
+                        .positiveText(R.string.atras_creditos)
+                        .negativeText(R.string.contacto)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onNegative(MaterialDialog dialog) {
+                                try {
+                                    Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                                    sendIntent.setType("plain/text");
+                                    sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+                                    sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"moonfishteam@gmail.com", "laboratorio@elconfidencial.com"});
+                                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Contacto Elecciones Generales 20-D");
+
+                                    startActivity(sendIntent);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .show();
+
+            }
+        });
 
         prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         pushManager = PushManager.getInstance(this);

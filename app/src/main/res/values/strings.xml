@@ -50,6 +50,13 @@
     <string name="a_favor">Sí, estoy a favor</string>
     <string name="en_contra">No, estoy en contra</string>
 
+    <!-- Creditos -->
+    <string name="titulo_creditos">Contribuidores</string>
+    <string name="contenido_creditos">Esta aplicación ha sido desarrollada por: ElConfidencialLAB, en colaboración con:\n\n  Jorge Campos de la Mata \n  Antonio Fernández Llamas \n  Sergio Muñoz López \n  Jesús M. Sánchez Martínez \n  Angel Sans Muro </string>
+    <string name="atras_creditos">Atrás</string>
+    <string name="encuesta_ec">Encuesta El Confidencial</string>
+    <string name="contacto">Contacto</string>
+
     <!-- Publi -->
     <string name="ad_unit">/35003347/ad_unit_native_test</string>
 
