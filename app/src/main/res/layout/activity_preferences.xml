@@ -334,43 +334,23 @@
             android:id="@+id/upydSwitch"/>
     </LinearLayout>
     </LinearLayout>
-
     <TextView
         android:id="@+id/acercaDe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="30dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Acerca de"
-        android:textSize="15sp"
+        android:text="CRÉDITOS"
+        android:textSize="8pt"
         android:textAllCaps="true"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/black"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp"
-        android:text="Acerca de"
+        android:text="ACERCA DE"
+        android:textSize="7pt"
         android:id="@+id/acercaDeButton"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        style="?android:attr/borderlessButtonStyle"
-        />
-
-
-
+        style="?android:attr/borderlessButtonStyle"/>
 </LinearLayout>
 </ScrollView>

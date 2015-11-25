@@ -247,15 +247,6 @@ public class MainActivity extends AppCompatActivity {
         //Set text from here
         pager.setAdapter(adapter);
         pager.setCurrentItem(3);
-        /*PresinderTab pt = (PresinderTab) adapter.getItem(3);
-        TextView text = (TextView) pt.getView().findViewById(R.id.questionQuote);
-        TextView group = (TextView) pt.getView().findViewById(R.id.groupQuote);
-        text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
-        group.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
-        text.setX(5000);
-        group.setX(5000);
-        text.animate().translationX(0).setDuration(450).start();
-        group.animate().translationX(0).setDuration(450).start();*/
     }
 
 }

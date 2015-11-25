@@ -27,7 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.pushwoosh.PushManager;
 import com.pushwoosh.SendPushTagsCallBack;
 
@@ -57,6 +57,8 @@ public class PreferencesActivity extends ActionBarActivity {
 
     TextView generalesText,comunidadText,provinciaText,municipiosText;
     TextView ccaaNombre, provinciaNombre, municipioNombre;
+    TextView acercaDe;
+    Button contact;
     AutoCompleteTextView searchMunicipio;
     SwitchCompat generalesSwitch,comunidadSwitch,provinciaSwitch,municipioSwitch;
 
@@ -105,7 +107,7 @@ public class PreferencesActivity extends ActionBarActivity {
         getSupportActionBar().setCustomView(v);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /**CREDITOS
+        //CREDITOS
         Button buttonCreditos = (Button) findViewById(R.id.acercaDeButton);
         buttonCreditos.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -131,10 +133,13 @@ public class PreferencesActivity extends ActionBarActivity {
                                 }
                             }
                         })
+                        .typeface(Typeface.createFromAsset(getApplicationContext().getAssets(),
+                                "Titillium-Regular.otf"), Typeface.createFromAsset(getApplicationContext().getAssets(),
+                                "Titillium-Light.otf"))
                         .show();
 
             }
-        });**/
+        });
 
         prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         pushManager = PushManager.getInstance(this);
@@ -171,6 +176,8 @@ public class PreferencesActivity extends ActionBarActivity {
         notifPartidos = (TextView) findViewById(R.id.notifPartido);
         notifMunicipioDescr = (TextView) findViewById(R.id.notifResultadosDescr);
         notifPartidosDescr = (TextView) findViewById(R.id.notifPartidoDescr);
+        acercaDe = (TextView) findViewById(R.id.acercaDe);
+        contact = (Button) findViewById(R.id.acercaDeButton);
         //TextViews
         generalesText = (TextView) findViewById(R.id.generalesText);
         comunidadText = (TextView) findViewById(R.id.comunidadText);
@@ -413,7 +420,8 @@ public class PreferencesActivity extends ActionBarActivity {
         notifPartidos.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
         notifMunicipioDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         notifPartidosDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-
+        acercaDe.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        contact.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
         //Municipio
         generalesText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
         comunidadText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
