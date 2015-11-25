@@ -48,7 +48,7 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         donut_dias.setStartingDegree(270);
         donut_dias.setTextColor(v.getResources().getColor(R.color.white));
         donut_dias.setTextSize(50f);
-        donut_dias.setMax(50);
+        donut_dias.setMax(21);
 
 
         donut_horas.setStartingDegree(270);
@@ -75,8 +75,8 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         //Calculamos el tiempo (milisegundos) que quedan para las elecciones catalanas
         try {
             long today = new Date().getTime();
-            String fechaEleccionesCatalanas = "20/12/2015";
-            Date elecciones = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEleccionesCatalanas);
+            String fechaEleccionesCatalanas = "20/12/2015 09:00";
+            Date elecciones = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaEleccionesCatalanas);
 
             tiempoRestante = elecciones.getTime()- today;
         } catch (ParseException e) {
