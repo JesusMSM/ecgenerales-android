@@ -78,7 +78,7 @@
             android:id="@+id/generalesText"
             android:textSize="8pt"
             android:text="Generales"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -103,7 +103,7 @@
             android:id="@+id/comunidadText"
             android:textSize="8pt"
             android:text="Mi comunidad"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -128,7 +128,7 @@
             android:id="@+id/provinciaText"
             android:textSize="8pt"
             android:text="Mi provincia"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -153,7 +153,7 @@
             android:id="@+id/municipioText"
             android:textSize="8pt"
             android:text="Mi municipio"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -202,7 +202,7 @@
             android:id="@+id/ppText"
             android:textSize="8pt"
             android:text="PP"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -227,7 +227,7 @@
             android:id="@+id/psoeText"
             android:textSize="8pt"
             android:text="PSOE"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -252,7 +252,7 @@
             android:id="@+id/csText"
             android:textSize="8pt"
             android:text="Ciudadanos"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -277,7 +277,7 @@
             android:id="@+id/podemosText"
             android:textSize="8pt"
             android:text="PODEMOS"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -302,7 +302,7 @@
             android:id="@+id/iuText"
             android:textSize="8pt"
             android:text="IU"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -327,7 +327,7 @@
             android:id="@+id/upydText"
             android:textSize="8pt"
             android:text="UPyD"/>
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

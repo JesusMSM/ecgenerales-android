@@ -60,8 +60,8 @@
                        "Desc" : "UPYD",
                        "Color" : "#f5407b",
                        "Short" : "UPyD",
-                        "News_TAG" : "upyd-2430",
-                         "Push_TAG" : "UPYD"
+                        "News_TAG" : "UPYD",
+                         "Push_TAG" : "upyd-2430"
                        },
                        {
                         "ID":"OTROS",

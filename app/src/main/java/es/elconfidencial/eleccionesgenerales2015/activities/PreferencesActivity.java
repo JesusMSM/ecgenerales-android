@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -56,12 +57,12 @@ public class PreferencesActivity extends ActionBarActivity {
     TextView generalesText,comunidadText,provinciaText,municipiosText;
     TextView ccaaNombre, provinciaNombre, municipioNombre;
     AutoCompleteTextView searchMunicipio;
-    Switch generalesSwitch,comunidadSwitch,provinciaSwitch,municipioSwitch;
+    SwitchCompat generalesSwitch,comunidadSwitch,provinciaSwitch,municipioSwitch;
 
     //Partidos
     TextView notifMunicipio,notifPartidos,notifMunicipioDescr,notifPartidosDescr;
     TextView ppText,psoeText,csText,podemosText,iuText,upydText;
-    Switch ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,upydSwitch;
+    SwitchCompat ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,upydSwitch;
 
     Button reestablecer;
 
@@ -194,17 +195,17 @@ public class PreferencesActivity extends ActionBarActivity {
 
 
         //Switches
-        generalesSwitch = (Switch) findViewById(R.id.generalesSwitch);
-        comunidadSwitch = (Switch) findViewById(R.id.comunidadSwitch);
-        provinciaSwitch = (Switch) findViewById(R.id.provinciaSwitch);
-        municipioSwitch = (Switch) findViewById(R.id.municipioSwitch);
+        generalesSwitch = (SwitchCompat) findViewById(R.id.generalesSwitch);
+        comunidadSwitch = (SwitchCompat) findViewById(R.id.comunidadSwitch);
+        provinciaSwitch = (SwitchCompat) findViewById(R.id.provinciaSwitch);
+        municipioSwitch = (SwitchCompat) findViewById(R.id.municipioSwitch);
         //Partidos Switch
-        ppSwitch = (Switch) findViewById(R.id.ppSwitch);
-        psoeSwitch = (Switch) findViewById(R.id.psoeSwitch);
-        csSwitch = (Switch) findViewById(R.id.csSwitch);
-        podemosSwitch = (Switch) findViewById(R.id.podemosSwitch);
-        iuSwitch = (Switch) findViewById(R.id.iuSwitch);
-        upydSwitch = (Switch) findViewById(R.id.upydSwitch);
+        ppSwitch = (SwitchCompat) findViewById(R.id.ppSwitch);
+        psoeSwitch = (SwitchCompat) findViewById(R.id.psoeSwitch);
+        csSwitch = (SwitchCompat) findViewById(R.id.csSwitch);
+        podemosSwitch = (SwitchCompat) findViewById(R.id.podemosSwitch);
+        iuSwitch = (SwitchCompat) findViewById(R.id.iuSwitch);
+        upydSwitch = (SwitchCompat) findViewById(R.id.upydSwitch);
 
         //Set typefaces
         setTypefaces();
@@ -442,17 +443,17 @@ public class PreferencesActivity extends ActionBarActivity {
         //Recorremos la lista para ver que tags estan activos y marcamos el switch
         for(int i = 0;i<partidosPW.size();i++){
             switch (partidosPW.get(i)) {
-                case "partido-popular-pp-3113":
+                case "PP":
                     ppSwitch.setChecked(true);break;
-                case "psoe-7017":
+                case "PSOE":
                     psoeSwitch.setChecked(true);break;
-                case "ciudadanos-6359":
+                case "CIUDADANOS":
                     csSwitch.setChecked(true);break;
-                case "podemos-10616":
+                case "PODEMOS":
                     podemosSwitch.setChecked(true);break;
-                case "izquierda-unida-2547":
+                case "IU":
                     iuSwitch.setChecked(true);break;
-                case "upyd-2430":
+                case "UPYD":
                     upydSwitch.setChecked(true);break;
             }
         }
@@ -692,16 +693,9 @@ public class PreferencesActivity extends ActionBarActivity {
                     refreshPartidoTag(isChecked,"PODEMOS");break;
                 case "iuSwitch":
                     refreshPartidoTag(isChecked,"IU");break;
-                case "pacmaSwitch":
-                    //No tag
                 case "upydSwitch":
-                    refreshPartidoTag(isChecked,"upyd-2430");break;
-                case "pnvSwitch":
-                    //No tag
-                case "convSwitch":
-                    //No tag
-                case "otrosSwitch":
-                    //No tag
+                    refreshPartidoTag(isChecked,"UPYD");break;
+
             }
         }
     }
