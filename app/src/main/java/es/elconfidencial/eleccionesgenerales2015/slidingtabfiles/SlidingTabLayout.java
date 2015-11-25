@@ -21,6 +21,7 @@ import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -31,6 +32,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.amplitude.api.Amplitude;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.ViewPagerAdapter;
@@ -346,6 +349,25 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
+            }
+            //Amplitude
+            switch (position){
+                case 0:
+                    Log.i("20D_AMPLITUDE", "TABBAR: ONHOME");
+                    Amplitude.getInstance().logEvent("ONHOME");
+                    break;
+                case 1:
+                    Log.i("20D_AMPLITUDE", "TABBAR: ONNEW");
+                    Amplitude.getInstance().logEvent("ONNEW");
+                    break;
+                case 2:
+                    Log.i("20D_AMPLITUDE", "TABBAR: ONGRAPHICS");
+                    Amplitude.getInstance().logEvent("ONGRAPHICS");
+                    break;
+                case 3:
+                    Log.i("20D_AMPLITUDE", "TABBAR: ONPRESINDER");
+                    Amplitude.getInstance().logEvent("ONPRESINDER");
+                    break;
             }
         }
     }

@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -41,6 +42,9 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,6 +70,7 @@ public class GraficosTab extends Fragment {
     Context context;
     private View v;
     private int partidoMarcado = -1;
+    private final int MINIMO_TAMANO_MUESTRA=50;
 
     private ImageView pp, cs, psoe, podemos, iu, pnv, convergencia, upyd, otros;
     private Button vota;
@@ -272,6 +277,15 @@ public class GraficosTab extends Fragment {
                             }
                         }
                     });
+
+                    //Amplitude
+                    Log.i("20D_AMPLITUDE", "ONSELECT_PARTY: "+ getNamePartidoMarcado());
+                    JSONObject eventProperties = new JSONObject();
+                    try {
+                        eventProperties.put("PARTY NAME", getNamePartidoMarcado());
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("ONSELECT_PARTY", eventProperties);
                 } else {
                     Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.selecciona_partido), Toast.LENGTH_LONG);
                     toast.show();
@@ -400,17 +414,20 @@ public class GraficosTab extends Fragment {
             grafico.setDrawValueAboveBar(false);
             grafico.setBackgroundColor(Color.TRANSPARENT);
             grafico.setGridBackgroundColor(Color.TRANSPARENT);
-            grafico.setDescription(getTamañoMuestra(partidoMegaencuestaList) + " votos");
-            if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
-                grafico.setDescriptionTextSize(25f);
-            } else if (GlobalMethod.getSizeName(getContext()).equals("large")) {
-                grafico.setDescriptionTextSize(17f);
-            } else if (GlobalMethod.getSizeName(getContext()).equals("normal")) {
-                grafico.setDescriptionTextSize(13f);
-            }else {
-                grafico.setDescriptionTextSize(13f);
+            //Si el tamaño de la muestra es mayor de MINIMO_TAMAÑO_MUESTRA se muestra la descripción
+            if(getTamañoMuestra(partidoMegaencuestaList)>=MINIMO_TAMANO_MUESTRA){
+                grafico.setDescription(getTamañoMuestra(partidoMegaencuestaList) + " votos");
+                if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
+                    grafico.setDescriptionTextSize(25f);
+                } else if (GlobalMethod.getSizeName(getContext()).equals("large")) {
+                    grafico.setDescriptionTextSize(17f);
+                } else if (GlobalMethod.getSizeName(getContext()).equals("normal")) {
+                    grafico.setDescriptionTextSize(13f);
+                }else {
+                    grafico.setDescriptionTextSize(13f);
+                }
+                grafico.setDescriptionTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
             }
-            grafico.setDescriptionTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
             // if more than 60 entries are displayed in the chart, no values will be
             // drawn

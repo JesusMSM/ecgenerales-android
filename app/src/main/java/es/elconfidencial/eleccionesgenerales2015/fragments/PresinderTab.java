@@ -34,7 +34,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -217,6 +221,16 @@ public class PresinderTab extends Fragment {
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
             party.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+
+            //Amplitude
+            Log.i("20D_AMPLITUDE", "ONAGREE: "+ currentQuote.getText() + " " + currentQuote.getPersona().toString());
+            JSONObject eventProperties = new JSONObject();
+            try {
+                eventProperties.put("QUOTE", currentQuote.getText());
+                eventProperties.put("PERSONA", currentQuote.getPersona().toString());
+            } catch (JSONException exception) {
+            }
+            Amplitude.getInstance().logEvent("ONAGREE", eventProperties);
         }
 
     }

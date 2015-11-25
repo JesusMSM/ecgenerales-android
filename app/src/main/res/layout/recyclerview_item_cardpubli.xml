@@ -8,6 +8,7 @@
     android:minHeight="60dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
+    android:id="@+id/clickableCardLayout"
     >
 
     <com.google.android.gms.ads.formats.NativeContentAdView
@@ -28,7 +29,7 @@
             android:orientation="vertical">
 
 
-            <ImageView
+            <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

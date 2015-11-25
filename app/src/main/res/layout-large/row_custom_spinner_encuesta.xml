@@ -5,8 +5,8 @@
 
     <TextView
         android:layout_marginTop="2dip"
-        android:padding="5dp"
-        android:textSize="6pt"
+        android:padding="7dp"
+        android:textSize="9pt"
         android:textColor="@color/grey"
         android:textStyle="bold"
         android:id="@+id/nombreEncuesta"
