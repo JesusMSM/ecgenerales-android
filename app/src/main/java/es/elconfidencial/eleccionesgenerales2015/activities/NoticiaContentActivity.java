@@ -1,9 +1,12 @@
 package es.elconfidencial.eleccionesgenerales2015.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +44,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
     private String head="";
     private String htmlString1,htmlString2, contenido1, contenido2 ="";
     private Intent intent;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,8 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         final NativeContentAdView adView = (NativeContentAdView) findViewById(R.id.adView);
 
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
 
         titulo.setText(Html.fromHtml(intent.getStringExtra("titulo")));
         autor.setText(Html.fromHtml(intent.getStringExtra("autor")));
@@ -84,16 +90,27 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
         //Obtenemos el tamaño de letra del contenido dependiendo del tamaño de pantalla
 
-        if (getSizeName().equals("xlarge")) {
-            textSize="28px";
-        } else if (getSizeName().equals("large")) {
-            textSize="21px";
-        } else if (getSizeName().equals("normal")) {
-            textSize="19px";
-        }else {
-            textSize="17px";
+        //Comprueba si es la primera vez
+        boolean firstTime = prefs.getBoolean("firstTimeNews", true); //Si no existe, devuelve el segundo parametro
+        if(firstTime) {
+            if (getSizeName().equals("xlarge")) {
+                textSize = "28px";
+            } else if (getSizeName().equals("large")) {
+                textSize = "21px";
+            } else if (getSizeName().equals("normal")) {
+                textSize = "19px";
+            } else {
+                textSize = "17px";
+            }
+            editor.putString("textSize", textSize);
+            editor.putBoolean("firstTimeNews", false);
+            editor.apply();
+            Log.d("Primera vez", "Ha entrado en primera vez");
+            reloadDescription();
+        }else{
+            textSize = prefs.getString("textSize","");
+            reloadDescription();
         }
-         reloadDescription();
 
         //Estilo
         titulo.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Milio-Heavy.ttf"));
@@ -140,16 +157,21 @@ public class NoticiaContentActivity  extends ActionBarActivity {
     public void reduceTamaño(){
         int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
 
+        SharedPreferences.Editor editor = prefs.edit();
+
         if (getSizeName().equals("xlarge")) {
             textSizeInt=textSizeInt-3;
             if(textSizeInt<20) textSizeInt=20;
             textSize=textSizeInt+"px";
+
         }else{
             textSizeInt=textSizeInt-2;
             if(textSizeInt<10) textSizeInt=10;
             textSize=textSizeInt+"px";
-        }
 
+        }
+        editor.putString("textSize", textSize);
+        editor.apply();
         reloadDescription();
 
 
@@ -158,16 +180,20 @@ public class NoticiaContentActivity  extends ActionBarActivity {
     public void aumentarTamaño(){
         int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
 
+        SharedPreferences.Editor editor = prefs.edit();
+
         if (getSizeName().equals("xlarge")) {
             textSizeInt=textSizeInt+3;
             if(textSizeInt>40) textSizeInt=40;
             textSize=textSizeInt+"px";
+
         }else{
             textSizeInt=textSizeInt+2;
             if(textSizeInt>25) textSizeInt=25;
             textSize=textSizeInt+"px";
         }
-
+        editor.putString("textSize", textSize);
+        editor.apply();
         reloadDescription();
 
 
