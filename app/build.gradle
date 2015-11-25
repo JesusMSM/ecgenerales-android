@@ -58,7 +58,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
 
     //Amplitude
-    compile 'com.amplitude:android-sdk:2.1.0'
+    compile 'com.amplitude:android-sdk:2.2.0'
 
     compile('com.github.afollestad.material-dialogs:core:0.8.5.1@aar') {
         transitive = true

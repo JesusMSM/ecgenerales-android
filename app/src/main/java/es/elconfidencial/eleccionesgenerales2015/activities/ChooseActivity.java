@@ -22,7 +22,7 @@ import com.pushwoosh.PushManager;
 import es.elconfidencial.eleccionesgenerales2015.R;
 
 public class ChooseActivity extends AppCompatActivity {
-    private String apiKeyAmplitude = "43008110a84c5bad5caa9949192031f3";
+    private String apiKeyAmplitude = "47a789399b21bcd069f97c9d6afddd97";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +69,8 @@ public class ChooseActivity extends AppCompatActivity {
         }
 
         //Inicializar Amplitude
-        Log.i("RADAR_AMPLITUDE", "Inicializacion de Amplitude");
-        //Amplitude.getInstance().initialize(this, apiKeyAmplitude).enableForegroundTracking(getApplication());
+        Log.i("20D_AMPLITUDE", "Inicializacion de Amplitude");
+        Amplitude.getInstance().initialize(this, apiKeyAmplitude).enableForegroundTracking(getApplication());
     }
 
     /**PW**/

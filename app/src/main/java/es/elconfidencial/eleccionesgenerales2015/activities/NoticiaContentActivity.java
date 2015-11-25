@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
@@ -28,6 +29,9 @@ import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 
@@ -275,7 +279,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             onBackPressed();
         }
         if(item.getItemId() == R.id.share){
-           shareAction(url,info);
+           shareAction(url, info);
         }
         if(item.getItemId() == R.id.aumenta){
             aumentarTamaño();
@@ -288,6 +292,15 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
+        //Amplitude
+        Log.i("20D_AMPLITUDE", "ONTAP_FONT: "+ textSize);
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("FONT SIZE", textSize);
+        } catch (JSONException exception) {
+        }
+        Amplitude.getInstance().logEvent("ONTAP_FONT", eventProperties);
+
         System.gc();
         finish();
         super.onBackPressed();
@@ -322,6 +335,15 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         intent.setType( "text/plain" );
 
         startActivity(Intent.createChooser(intent, getString(R.string.share)));
+
+        //Amplitude
+        Log.i("20D_AMPLITUDE", "ONSHARE: "+ url);
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("NEWS URL", url);
+        } catch (JSONException exception) {
+        }
+        Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
     }
 
     //Formateadores para la fecha ( hace X minutos)

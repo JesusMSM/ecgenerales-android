@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -41,6 +42,9 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -272,6 +276,15 @@ public class GraficosTab extends Fragment {
                             }
                         }
                     });
+
+                    //Amplitude
+                    Log.i("20D_AMPLITUDE", "ONSELECT_PARTY: "+ getNamePartidoMarcado());
+                    JSONObject eventProperties = new JSONObject();
+                    try {
+                        eventProperties.put("PARTY NAME", getNamePartidoMarcado());
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("ONSELECT_PARTY", eventProperties);
                 } else {
                     Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.selecciona_partido), Toast.LENGTH_LONG);
                     toast.show();
