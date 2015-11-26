@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/ColorBackgroundGrey"
     android:paddingBottom="@dimen/activity_vertical_margin">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,37 +16,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar municipio"/>
-    <AutoCompleteTextView
-        android:id="@+id/searchMunicipioPref"
-        android:layout_width="match_parent"
-        android:layout_height="60dp" />
-    <Button
-        android:id="@+id/reestablecerPref"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="Reestablecer"
-        android:src="@drawable/button_resultados"/>
+        android:text="Editar municipio"
+        android:id="@+id/editarText"
+        android:textColor="@color/ColorPrimary"
+        android:textAllCaps="true"
+        android:textSize="8pt"/>
     <TextView
-        android:id="@+id/ccaaNombre"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/provinciaNombre"
+        android:layout_height="wrap_content"
+        android:text="Edita el nombre de tu municipio para recibir notificaciones durante el día de las elecciones"
+        android:id="@+id/editarDescr"
+        android:textSize="7pt"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/municipioNombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <AutoCompleteTextView
+            android:id="@+id/searchMunicipioPref"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="3"
+            style="@style/AutoCompleteStyle"/>
+        <Button
+            android:id="@+id/reestablecerPref"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GUARDAR\nMUNICIPIO"
+            android:textColor="@color/ColorPreferencias"
+            android:background="@android:color/transparent"
+            android:src="@drawable/button_resultados"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/notifResultados"
         android:text="Notificaciones de resultados"
+        android:textColor="@color/ColorPrimary"
         android:textAllCaps="true"
         android:textSize="8pt"
         android:layout_marginTop="15dp"/>
@@ -76,13 +84,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/generalesText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="Generales"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/generalesSwitch"/>
+            android:id="@+id/generalesSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -96,18 +106,33 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/comunidadText"
-            android:textSize="8pt"
-            android:text="Mi comunidad"/>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/comunidadText"
+                android:textColor="@color/ColorPrimary"
+                android:textSize="8pt"
+                android:text="Mi comunidad"/>
+            <TextView
+                android:id="@+id/ccaaNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="7pt"
+                android:layout_marginLeft="6dp"/>
+        </LinearLayout>
+
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/comunidadSwitch"/>
+            android:id="@+id/comunidadSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -121,18 +146,31 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/provinciaText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="Mi provincia"/>
+        <TextView
+            android:id="@+id/provinciaNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="7pt"
+            android:layout_marginLeft="6dp"/>
+            </LinearLayout>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/provinciaSwitch"/>
+            android:id="@+id/provinciaSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
         android:layout_width="match_parent"
@@ -146,18 +184,31 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/municipioText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="Mi municipio"/>
+        <TextView
+            android:id="@+id/municipioNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="7pt"
+            android:layout_marginLeft="6dp"/>
+            </LinearLayout>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/municipioSwitch"/>
+            android:id="@+id/municipioSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -169,6 +220,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Notificaciones de partido"
+        android:textColor="@color/ColorPrimary"
         android:id="@+id/notifPartido"
         android:textSize="8pt"
         android:textAllCaps="true"
@@ -196,17 +248,19 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_vertical_margin">
             <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/ppText"
-            android:textSize="8pt"
-            android:text="PP"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/ppText"
+                android:textColor="@color/ColorPrimary"
+                android:textSize="8pt"
+                android:text="PP"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/ppSwitch"/>
+            android:id="@+id/ppSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -225,13 +279,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/psoeText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="PSOE"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/psoeSwitch"/>
+            android:id="@+id/psoeSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -250,13 +306,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/csText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="Ciudadanos"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/csSwitch"/>
+            android:id="@+id/csSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -275,13 +333,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/podemosText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="PODEMOS"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/podemosSwitch"/>
+            android:id="@+id/podemosSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -300,13 +360,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/iuText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="IU"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/iuSwitch"/>
+            android:id="@+id/iuSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -325,13 +387,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/upydText"
+            android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
             android:text="UPyD"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/upydSwitch"/>
+            android:id="@+id/upydSwitch"
+            app:theme="@style/Color1SwitchStyle"/>
     </LinearLayout>
     </LinearLayout>
     <TextView
@@ -341,6 +405,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="CRÉDITOS"
+        android:textColor="@color/ColorPrimary"
         android:textSize="8pt"
         android:textAllCaps="true"/>
 
@@ -349,6 +414,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="ACERCA DE"
+        android:textColor="@color/ColorPreferencias"
         android:textSize="7pt"
         android:id="@+id/acercaDeButton"
         style="?android:attr/borderlessButtonStyle"/>

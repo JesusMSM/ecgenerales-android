@@ -17,4 +17,10 @@
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@android:color/white</item>
     </style>
+    <style name="Color1SwitchStyle">
+        <item name="colorControlActivated">@color/ColorPreferencias</item>
+    </style>
+    <style name="AutoCompleteStyle" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+        <item name="android:background">@drawable/apptheme_textfield_activated_holo_light</item>
+    </style>
 </resources>

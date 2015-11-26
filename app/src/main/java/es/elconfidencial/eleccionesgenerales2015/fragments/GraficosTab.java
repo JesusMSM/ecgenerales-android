@@ -282,7 +282,7 @@ public class GraficosTab extends Fragment {
                     Log.i("20D_AMPLITUDE", "ONSELECT_PARTY: "+ getNamePartidoMarcado());
                     JSONObject eventProperties = new JSONObject();
                     try {
-                        eventProperties.put("PARTY NAME", getNamePartidoMarcado());
+                        eventProperties.put("PARTY", getNamePartidoMarcado());
                     } catch (JSONException exception) {
                     }
                     Amplitude.getInstance().logEvent("ONSELECT_PARTY", eventProperties);

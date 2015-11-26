@@ -318,6 +318,16 @@ public class PresinderTab extends Fragment {
             title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Light.otf"));
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
             party.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+
+            //Amplitude
+            Log.i("20D_AMPLITUDE", "ONDISAGREE: "+ currentQuote.getText() + " " + currentQuote.getPersona().toString());
+            JSONObject eventProperties = new JSONObject();
+            try {
+                eventProperties.put("QUOTE", currentQuote.getText());
+                eventProperties.put("PERSONA", currentQuote.getPersona().toString());
+            } catch (JSONException exception) {
+            }
+            Amplitude.getInstance().logEvent("ONAGREE", eventProperties);
         }
 
         public class OnPresinderVerResultadosClickListener extends OnLikeClickListener {

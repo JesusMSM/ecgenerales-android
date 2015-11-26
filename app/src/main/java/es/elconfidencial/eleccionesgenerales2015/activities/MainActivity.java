@@ -155,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
             Log.i("PartidosJSON", "JSON no recuperado de assets");
         }
 
+        Log.i("VALUEEEE", String.valueOf(SHOW_WIDGET_RESULTS));
+        if(SHOW_WIDGET_RESULTS){
+            pager.setCurrentItem(2);
+        }
     /*    final LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
         final RelativeLayout activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
         ParseConfig.getInBackground(new ConfigCallback() {

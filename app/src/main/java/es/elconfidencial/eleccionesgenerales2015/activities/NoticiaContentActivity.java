@@ -122,6 +122,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         fecha.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         Glide.with(getApplicationContext()).load(intent.getStringExtra("imagenUrl")).placeholder(R.mipmap.nopic).into(imagen);
 
+        final String[] empresa = {""};
         AdLoader builder = new AdLoader.Builder(this, getResources().getString(R.string.ad_unit))
 
                 .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
@@ -132,8 +133,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
                                 contentAd.getImages().get(0).getDrawable());
                         adView.setImageView(imagenPubli);
                         adView.setNativeAd(contentAd);
-
-                        
+                        empresa[0] = (String) contentAd.getHeadline();
                     }
                 })
                 .withAdListener(new AdListener() {
@@ -141,6 +141,19 @@ public class NoticiaContentActivity  extends ActionBarActivity {
                     public void onAdFailedToLoad(int errorCode) {
                         /*Toast.makeText(getApplicationContext(), "Failed to load native ad: "
                                 + errorCode, Toast.LENGTH_SHORT).show();*/
+                    }
+
+                    @Override
+                    public void onAdOpened() {
+                        super.onAdOpened();
+                        //Amplitude
+                        Log.i("20D_AMPLITUDE", "ONTAP_CARD: "+ empresa[0]);
+                        JSONObject eventProperties = new JSONObject();
+                        try {
+                            eventProperties.put("CARD", empresa[0]);
+                        } catch (JSONException exception) {
+                        }
+                        Amplitude.getInstance().logEvent("ONTAP_CARD", eventProperties);
                     }
                 })
                 .withNativeAdOptions(new NativeAdOptions.Builder()
@@ -322,7 +335,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         Log.i("20D_AMPLITUDE", "ONTAP_FONT: "+ textSize);
         JSONObject eventProperties = new JSONObject();
         try {
-            eventProperties.put("FONT SIZE", textSize);
+            eventProperties.put("FONT_SIZE", textSize);
         } catch (JSONException exception) {
         }
         Amplitude.getInstance().logEvent("ONTAP_FONT", eventProperties);
@@ -366,7 +379,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         Log.i("20D_AMPLITUDE", "ONSHARE: "+ url);
         JSONObject eventProperties = new JSONObject();
         try {
-            eventProperties.put("NEWS URL", url);
+            eventProperties.put("URL", url);
         } catch (JSONException exception) {
         }
         Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
@@ -374,10 +387,11 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
     //Formateadores para la fecha ( hace X minutos)
     public static String getTimeAgo(String timeCTE) {
+        Log.i("FECHA_TIME AGO", timeCTE);
         long time = 0;
 
         try{
-            long epoch = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+02:00").parse(timeCTE).getTime();
+            long epoch = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+01:00").parse(timeCTE).getTime();
             time=epoch;
         }catch(Exception e){
             e.printStackTrace();

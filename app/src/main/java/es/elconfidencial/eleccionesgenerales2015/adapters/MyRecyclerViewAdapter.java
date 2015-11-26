@@ -277,7 +277,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Log.i("20D_AMPLITUDE", "ONTAP_NEW: "+ noticia.getLink());
                 JSONObject eventProperties = new JSONObject();
                 try {
-                    eventProperties.put("NEWS URL", noticia.getLink());
+                    eventProperties.put("URL", noticia.getLink());
                 } catch (JSONException exception) {
                 }
                 Amplitude.getInstance().logEvent("ONTAP_NEW", eventProperties);
@@ -301,7 +301,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Log.i("20D_AMPLITUDE", "ONSHARE: "+ noticia.getLink());
                 JSONObject eventProperties = new JSONObject();
                 try {
-                    eventProperties.put("NEWS URL", noticia.getLink());
+                    eventProperties.put("URL", noticia.getLink());
                 } catch (JSONException exception) {
                 }
                 Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
@@ -344,7 +344,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         Log.i("20D_AMPLITUDE", "ONTAP_CARD: "+ vh.empresa.getText());
                         JSONObject eventProperties = new JSONObject();
                         try {
-                            eventProperties.put("CARD TITLE", vh.empresa.getText());
+                            eventProperties.put("CARD", vh.empresa.getText());
                         } catch (JSONException exception) {
                         }
                         Amplitude.getInstance().logEvent("ONTAP_CARD", eventProperties);
@@ -358,14 +358,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         builder.loadAd(new PublisherAdRequest.Builder().build());
-
-        vh.imagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Amplitude
-                Log.i("20D_AMPLITUDE", "ONTAP_CARD: " + vh.empresa.getText());
-            }
-        });
     }
 
 
@@ -536,7 +528,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     Log.i("20D_AMPLITUDE", "SELECT_SURVEY: "+ HomeTab.encuestas.get(position).getName());
                     JSONObject eventProperties = new JSONObject();
                     try {
-                        eventProperties.put("SELECT_SURVEY", HomeTab.encuestas.get(position).getName());
+                        eventProperties.put("NAME", HomeTab.encuestas.get(position).getName());
                     } catch (JSONException exception) {
                     }
                     Amplitude.getInstance().logEvent("SELECT_SURVEY",eventProperties);
@@ -776,7 +768,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Log.i("20D_AMPLITUDE", "ONSELECT_FILTER: "+ NoticiasTab.rss_url);
                 JSONObject eventProperties = new JSONObject();
                 try {
-                    eventProperties.put("FILTER NAME", NoticiasTab.rss_url);
+                    eventProperties.put("PARTY", NoticiasTab.rss_url);
                 } catch (JSONException exception) {
                 }
                 Amplitude.getInstance().logEvent("ONSELECT_FILTER", eventProperties);

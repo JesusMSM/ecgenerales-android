@@ -56,7 +56,7 @@ public class PreferencesActivity extends ActionBarActivity {
     public final String PWTAG = "MUNICIPIOS_TAGS";
 
     TextView generalesText,comunidadText,provinciaText,municipiosText;
-    TextView ccaaNombre, provinciaNombre, municipioNombre;
+    TextView ccaaNombre, provinciaNombre, municipioNombre,editarText,editarDescr;
     TextView acercaDe;
     Button contact;
     AutoCompleteTextView searchMunicipio;
@@ -183,8 +183,10 @@ public class PreferencesActivity extends ActionBarActivity {
         comunidadText = (TextView) findViewById(R.id.comunidadText);
         provinciaText = (TextView) findViewById(R.id.provinciaText);
         municipiosText = (TextView) findViewById(R.id.municipioText);
+
+        editarText = (TextView) findViewById(R.id.editarText);
+        editarDescr = (TextView) findViewById(R.id.editarDescr);
         ccaaNombre = (TextView) findViewById(R.id.ccaaNombre);
-        //Partidos Textviews
         provinciaNombre = (TextView) findViewById(R.id.provinciaNombre);
         municipioNombre = (TextView) findViewById(R.id.municipioNombre);
         ppText = (TextView) findViewById(R.id.ppText);
@@ -422,6 +424,15 @@ public class PreferencesActivity extends ActionBarActivity {
         notifPartidosDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         acercaDe.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
         contact.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        //Editar
+        searchMunicipio.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        editarText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        editarDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        reestablecer.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        //Nombres
+        ccaaNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        provinciaNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        municipioNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
         //Municipio
         generalesText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
         comunidadText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));

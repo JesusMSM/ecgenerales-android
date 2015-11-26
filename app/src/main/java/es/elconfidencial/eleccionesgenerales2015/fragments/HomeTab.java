@@ -131,6 +131,7 @@ public class HomeTab extends Fragment {
                 MainActivity.SHOW_WIDGET_RESULTS = json.getBoolean(TAG_SHOW_RESULTS);
 
 
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
