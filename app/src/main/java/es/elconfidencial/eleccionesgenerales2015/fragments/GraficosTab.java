@@ -6,23 +6,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,10 +31,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -53,6 +46,7 @@ import java.util.List;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
+import es.elconfidencial.eleccionesgenerales2015.charts.HorizontalBarChartEC;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 import es.elconfidencial.eleccionesgenerales2015.model.PartidoMegaencuesta;
@@ -65,7 +59,7 @@ public class GraficosTab extends Fragment {
 
     private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
     private TextView actionBarTitle, headerEncuesta, graciasPorParticipar, mensajeAviso;
-    HorizontalBarChart grafico;
+    HorizontalBarChartEC grafico;
     private WebView webviewResultados;
     Context context;
     private View v;
@@ -307,7 +301,7 @@ public class GraficosTab extends Fragment {
         mensajeAviso.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         graciasPorParticipar = (TextView) v.findViewById(R.id.gracias);
         graciasPorParticipar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
-        grafico = (HorizontalBarChart) v.findViewById(R.id.horizontalBarChart);
+        grafico = (HorizontalBarChartEC) v.findViewById(R.id.horizontalBarChart);
 
         //Nos bajamos los resultados de Parse
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PARTY_SURVEY");
@@ -408,7 +402,10 @@ public class GraficosTab extends Fragment {
         }else {
             data.setValueTextSize(11f);
         }
+        data.setValueTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        data.setValueTextColor(Color.parseColor("#333333"));
         if (grafico != null) {
+            grafico.setExtraRightOffset(40f);
             grafico.setDrawBarShadow(false);
             grafico.setTouchEnabled(false);
             grafico.setDrawValueAboveBar(false);
@@ -444,8 +441,6 @@ public class GraficosTab extends Fragment {
             grafico.setDrawGridBackground(false);
 
             // mChart.setDrawYLabels(false);
-
-            data.setValueTextColor(Color.WHITE);
 
 
             XAxis xl = grafico.getXAxis();
@@ -636,14 +631,14 @@ public class GraficosTab extends Fragment {
                 partidoMarcadoName = "PNV";
                 break;
             case 6: //CONVERGENCIA
-                partidoMarcadoName = "PACMA";
+                partidoMarcadoName = "CONVERGENCIA";
                 break;
             case 7: //UPYD
                 partidoMarcadoName = "UPYD";
                 break;
-           /** case 8: //CONVERGENCIA
-                partidoMarcadoName = "";
-                break;**/
+            case 8: //CONVERGENCIA
+                partidoMarcadoName = "OTROS";
+                break;
         }
 
         return partidoMarcadoName;

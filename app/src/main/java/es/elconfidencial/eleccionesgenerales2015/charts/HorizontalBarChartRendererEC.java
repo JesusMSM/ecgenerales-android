@@ -1,8 +1,5 @@
-package es.elconfidencial.eleccionesgenerales2015.chart;
+package es.elconfidencial.eleccionesgenerales2015.charts;
 
-/**
- * Created by Moonfish on 9/11/15.
- */
 import android.graphics.Canvas;
 import android.graphics.Paint.Align;
 
@@ -101,7 +98,7 @@ public class HorizontalBarChartRendererEC extends BarChartRenderer {
 
             List<BarDataSet> dataSets = mChart.getBarData().getDataSets();
 
-            final float valueOffsetPlus = Utils.convertDpToPixel(5f);
+            final float valueOffsetPlus = Utils.convertDpToPixel(15f);
             float posOffset = 0f;
             float negOffset = 0f;
             final boolean drawValueAboveBar = mChart.isDrawValueAboveBarEnabled();
@@ -147,8 +144,8 @@ public class HorizontalBarChartRendererEC extends BarChartRenderer {
 
                         // calculate the correct offset depending on the draw position of the value
                         float valueTextWidth = Utils.calcTextWidth(mValuePaint, formattedValue);
-                        posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
-                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                        posOffset = (drawValueAboveBar ? valueOffsetPlus : +(valueTextWidth - valueOffsetPlus));
+                        negOffset = (drawValueAboveBar ? +(valueTextWidth - valueOffsetPlus) : valueOffsetPlus);
 
                         if (isInverted) {
                             posOffset = -posOffset - valueTextWidth;
@@ -187,8 +184,8 @@ public class HorizontalBarChartRendererEC extends BarChartRenderer {
 
                             // calculate the correct offset depending on the draw position of the value
                             float valueTextWidth = Utils.calcTextWidth(mValuePaint, formattedValue);
-                            posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
-                            negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                            posOffset = (drawValueAboveBar ? valueOffsetPlus : +(valueTextWidth - valueOffsetPlus));
+                            negOffset = (drawValueAboveBar ? +(valueTextWidth - valueOffsetPlus) : valueOffsetPlus);
 
                             if (isInverted) {
                                 posOffset = -posOffset - valueTextWidth;
@@ -231,8 +228,8 @@ public class HorizontalBarChartRendererEC extends BarChartRenderer {
 
                                 // calculate the correct offset depending on the draw position of the value
                                 float valueTextWidth = Utils.calcTextWidth(mValuePaint, formattedValue);
-                                posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
-                                negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                                posOffset = (drawValueAboveBar ? valueOffsetPlus : +(valueTextWidth - valueOffsetPlus));
+                                negOffset = (drawValueAboveBar ? +(valueTextWidth - valueOffsetPlus) : valueOffsetPlus);
 
                                 if (isInverted) {
                                     posOffset = -posOffset - valueTextWidth;
@@ -262,7 +259,7 @@ public class HorizontalBarChartRendererEC extends BarChartRenderer {
     }
 
     protected void drawValue(Canvas c, String valueText, float x, float y) {
-        c.drawText(valueText, x, y, mValuePaint);
+        c.drawText(valueText + " %", x, y, mValuePaint);
     }
 
     @Override

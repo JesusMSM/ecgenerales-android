@@ -26,7 +26,7 @@
                        {
                         "ID":"PODEMOS",
                         "Desc" : "Podemos",
-                        "Color" : "#bd42b8",
+                        "Color" : "#591253",
                         "Short" : "Podemos",
                         "News_TAG" : "podemos-10616",
                          "Push_TAG" : "PODEMOS"
@@ -72,10 +72,10 @@
                          "Push_TAG" : ""
                        },
                        {
-                        "ID":"CONVERGENTS",
+                        "ID":"CONVERGENCIA",
                        "Desc" : "Convergents",
-                       "Color" : "#FFC375",
-                       "Short" : "Otros",
+                       "Color" : "#3838FF",
+                       "Short" : "Convergencia",
                         "News_TAG" : "",
                          "Push_TAG" : ""
                        }
