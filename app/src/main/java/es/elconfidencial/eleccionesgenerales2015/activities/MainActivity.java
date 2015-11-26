@@ -45,6 +45,7 @@ import java.util.Map;
 import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.adapters.ViewPagerAdapter;
 import es.elconfidencial.eleccionesgenerales2015.fragments.PresinderTab;
+import es.elconfidencial.eleccionesgenerales2015.json.JSONParserObject;
 import es.elconfidencial.eleccionesgenerales2015.model.GlobalMethod;
 import es.elconfidencial.eleccionesgenerales2015.model.Partido;
 import es.elconfidencial.eleccionesgenerales2015.model.Quote;
@@ -70,6 +71,18 @@ public class MainActivity extends AppCompatActivity {
     public static boolean SHOW_TIMER;
     public static boolean SHOW_WIDGET_RESULTS;
 
+    public static String config_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/config.json";
+
+    //Parámetros config
+    private String TAG_DFP_CARD_EVERY_N = "DFP_CARD_EVERY_N";
+    private String TAG_LAST_NEWS_COUNTER = "LAST_NEWS_COUNTER";
+    private String TAG_RESULTS_WEBVIEW = "RESULTS_WEBVIEW_URL";
+    private String TAG_SHOW_SURVEYS= "SHOW_SURVEYS";
+    private String TAG_SHOW_TIMER = "SHOW_TIMER";
+    private String TAG_SHOW_RESULTS = "SHOW_WIDGET_RESULTS";
+
+    LinearLayout loadingLayout;
+    RelativeLayout activityLayout;
 
     //Quotes
     QuoteServer qs = QuoteServer.getInstance();
@@ -155,13 +168,11 @@ public class MainActivity extends AppCompatActivity {
             Log.i("PartidosJSON", "JSON no recuperado de assets");
         }
 
-        Log.i("VALUEEEE", String.valueOf(SHOW_WIDGET_RESULTS));
-        if(SHOW_WIDGET_RESULTS){
-            pager.setCurrentItem(2);
-        }
-    /*    final LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
-        final RelativeLayout activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
-        ParseConfig.getInBackground(new ConfigCallback() {
+
+        loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
+        activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
+        new JSONConfig().execute();
+        /*ParseConfig.getInBackground(new ConfigCallback() {
             @Override
             public void done(ParseConfig config, ParseException e) {
                 DFP_CARD_EVERY_N = config.getInt("DFP_CARD_EVERY_N");
@@ -251,6 +262,42 @@ public class MainActivity extends AppCompatActivity {
         //Set text from here
         pager.setAdapter(adapter);
         pager.setCurrentItem(3);
+
+    }
+
+    private class JSONConfig extends AsyncTask<String, String, JSONObject> {
+
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParserObject jParser = new JSONParserObject();
+
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(config_url);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                // Getting JSON Array
+                DFP_CARD_EVERY_N = json.getInt(TAG_DFP_CARD_EVERY_N);
+                LAST_NEWS_COUNTER = json.getInt(TAG_LAST_NEWS_COUNTER);
+                RESULTS_WEBVIEW_URL = json.getString(TAG_RESULTS_WEBVIEW);
+                SHOW_SURVEYS = json.getBoolean(TAG_SHOW_SURVEYS);
+                SHOW_TIMER = json.getBoolean(TAG_SHOW_TIMER);
+                SHOW_WIDGET_RESULTS = json.getBoolean(TAG_SHOW_RESULTS);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            loadingLayout.setVisibility(View.GONE);
+            activityLayout.setVisibility(View.VISIBLE);
+            if(SHOW_WIDGET_RESULTS){
+                pager.setCurrentItem(2);
+            }
+
+        }
     }
 
 }

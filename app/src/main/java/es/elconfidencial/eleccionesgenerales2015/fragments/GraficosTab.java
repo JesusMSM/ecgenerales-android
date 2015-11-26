@@ -92,7 +92,7 @@ public class GraficosTab extends Fragment {
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
         //if(MainActivity.SHOW_WIDGET_RESULTS){
-        if(false){
+        if(MainActivity.SHOW_WIDGET_RESULTS){
             //Cargamos el WebView
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.GONE);
