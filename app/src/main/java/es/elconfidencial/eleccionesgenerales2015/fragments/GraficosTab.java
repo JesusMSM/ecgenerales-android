@@ -405,7 +405,11 @@ public class GraficosTab extends Fragment {
         data.setValueTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         data.setValueTextColor(Color.parseColor("#333333"));
         if (grafico != null) {
-            grafico.setExtraRightOffset(40f);
+            if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
+                grafico.setExtraRightOffset(60f);
+            }else {
+                grafico.setExtraRightOffset(40f);
+            }
             grafico.setDrawBarShadow(false);
             grafico.setTouchEnabled(false);
             grafico.setDrawValueAboveBar(false);

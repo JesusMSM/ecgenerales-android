@@ -267,6 +267,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Cambia de TAB pasándole el número correspondiente
+    public static void switchFragment(int target){
+        pager.setCurrentItem(target);
+    }
+
     private class JSONConfig extends AsyncTask<String, String, JSONObject> {
 
 
