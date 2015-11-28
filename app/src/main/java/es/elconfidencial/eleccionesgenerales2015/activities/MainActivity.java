@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean SHOW_SURVEYS;
     public static boolean SHOW_TIMER;
     public static boolean SHOW_WIDGET_RESULTS;
+    public static String PRESINDER_SHARE_MESSAGE_ANDROID;
 
     public static String config_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/config.json";
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG_SHOW_SURVEYS= "SHOW_SURVEYS";
     private String TAG_SHOW_TIMER = "SHOW_TIMER";
     private String TAG_SHOW_RESULTS = "SHOW_WIDGET_RESULTS";
+    private String TAG_PRESINDER_SHARE_MESSAGE_ANDROID = "PRESINDER_SHARE_MESSAGE_ANDROID";
 
     LinearLayout loadingLayout;
     RelativeLayout activityLayout;
@@ -286,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
                 SHOW_SURVEYS = json.getBoolean(TAG_SHOW_SURVEYS);
                 SHOW_TIMER = json.getBoolean(TAG_SHOW_TIMER);
                 SHOW_WIDGET_RESULTS = json.getBoolean(TAG_SHOW_RESULTS);
+                PRESINDER_SHARE_MESSAGE_ANDROID = json.getString(TAG_PRESINDER_SHARE_MESSAGE_ANDROID);
 
 
             } catch (JSONException e) {

@@ -40,7 +40,7 @@
 
                 android:background="@color/grey"/>
 
-            <com.github.mikephil.charting.charts.BarChart
+            <es.elconfidencial.eleccionesgenerales2015.charts.BarChartEC
                 android:id="@+id/chartEncuestas"
                 android:padding="5dp"
                 android:layout_width="match_parent"

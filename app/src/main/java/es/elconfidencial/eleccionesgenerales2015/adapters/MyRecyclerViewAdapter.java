@@ -54,6 +54,7 @@ import es.elconfidencial.eleccionesgenerales2015.R;
 import es.elconfidencial.eleccionesgenerales2015.activities.MainActivity;
 import es.elconfidencial.eleccionesgenerales2015.activities.NoticiaContentActivity;
 import es.elconfidencial.eleccionesgenerales2015.activities.PreferencesActivity;
+import es.elconfidencial.eleccionesgenerales2015.charts.BarChartEC;
 import es.elconfidencial.eleccionesgenerales2015.fragments.HomeTab;
 import es.elconfidencial.eleccionesgenerales2015.fragments.NoticiasTab;
 import es.elconfidencial.eleccionesgenerales2015.listeners.OnDislikeClickListener;
@@ -87,7 +88,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Object> items;
     Context context;
     int encuestaSeleccionada = 0;
-    BarChart grafico;
+    BarChartEC grafico;
     NativeCustomTemplateAd adCustom;
     QuoteServer qs = QuoteServer.getInstance();
 
@@ -548,7 +549,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-    private void setData(BarChart grafico, Encuesta e){
+    private void setData(BarChartEC grafico, Encuesta e){
 
         GlobalMethod globalMethod = new GlobalMethod(context);
         grafico.animateY(2500);

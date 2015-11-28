@@ -7,17 +7,18 @@ import android.widget.Spinner;
 import com.github.mikephil.charting.charts.BarChart;
 
 import es.elconfidencial.eleccionesgenerales2015.R;
+import es.elconfidencial.eleccionesgenerales2015.charts.BarChartEC;
 
 /**
  * Created by Jesus on 05/11/2015.
  */
 public class EncuestasViewHolder extends RecyclerView.ViewHolder {
-    public BarChart grafico;
+    public BarChartEC grafico;
     public Spinner spinner;
 
     public EncuestasViewHolder(View v) {
         super(v);
-        grafico = (BarChart) v.findViewById(R.id.chartEncuestas);
+        grafico = (BarChartEC) v.findViewById(R.id.chartEncuestas);
         spinner = (Spinner) v.findViewById(R.id.spinnerEncuesta);
     }
 }
