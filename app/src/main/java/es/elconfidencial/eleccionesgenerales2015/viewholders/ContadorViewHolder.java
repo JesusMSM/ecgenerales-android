@@ -48,7 +48,7 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         donut_dias.setStartingDegree(270);
         donut_dias.setTextColor(v.getResources().getColor(R.color.white));
         donut_dias.setTextSize(50f);
-        donut_dias.setMax(21);
+        donut_dias.setMax(40);
 
 
         donut_horas.setStartingDegree(270);
