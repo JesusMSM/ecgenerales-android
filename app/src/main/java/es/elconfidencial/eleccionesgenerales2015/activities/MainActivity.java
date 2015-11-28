@@ -165,7 +165,9 @@ public class MainActivity extends AppCompatActivity {
         String json = loadJSONFromAsset("PARTIDOS_TAGS.json");
         if(json!=null){
             Log.i("PartidosJSON", "JSON recuperado de assets");
-            setPartidosListFromJSON(json);
+            if(partidosList.isEmpty()) {
+                setPartidosListFromJSON(json);
+            }
         } else{
             Log.i("PartidosJSON", "JSON no recuperado de assets");
         }
@@ -260,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshPresinder(){
-        Log.i("PRESINDER","Refreshing presinder...");
+        Log.i("PRESINDER", "Refreshing presinder...");
         //Set text from here
         pager.setAdapter(adapter);
         pager.setCurrentItem(3);

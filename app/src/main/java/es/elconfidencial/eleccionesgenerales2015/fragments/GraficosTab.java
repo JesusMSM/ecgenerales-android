@@ -309,10 +309,11 @@ public class GraficosTab extends Fragment {
             List<ParseObject> pList = query.find();
             for (ParseObject partidoPObj : pList) {
                 Log.i("Megaencuesta", "" + partidoPObj.getString("PARTIDO") + " : " + partidoPObj.getInt("COUNT"));
-                for (Partido partidoObject : ((MainActivity) getActivity()).getPartidosList()) {
+                for (Partido partidoObject : MainActivity.partidosList) {
                     //Si coinciden las ids de los partidos de la lista recibida de Parse y la local global
                     //Rellenamos las 3 necesarias para pintar nuestro gráfico
                     if (partidoObject.getId().equals(partidoPObj.getString("PARTIDO"))) {
+                        Log.i("Megaencuesta", partidoObject.getSiglas() + " lo metemos para procesar");
                         //Rellenamos un nuevo objeto PartidoMegaencuesta
                         PartidoMegaencuesta partidoMegaencuesta = new PartidoMegaencuesta();
                         partidoMegaencuesta.setName(partidoObject.getSiglas());
@@ -333,6 +334,7 @@ public class GraficosTab extends Fragment {
             e.printStackTrace();
             Log.d("Megaencuesta", "Error: " + e.getMessage());
         }
+
     }
 
     public void sortPartiesByPercentage(){
@@ -406,9 +408,9 @@ public class GraficosTab extends Fragment {
         data.setValueTextColor(Color.parseColor("#333333"));
         if (grafico != null) {
             if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
-                grafico.setExtraRightOffset(60f);
+                grafico.setExtraRightOffset(70f);
             }else {
-                grafico.setExtraRightOffset(40f);
+                grafico.setExtraRightOffset(50f);
             }
             grafico.setDrawBarShadow(false);
             grafico.setTouchEnabled(false);
