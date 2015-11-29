@@ -22,6 +22,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
+                android:scaleType="centerCrop"
                 android:id="@+id/imagen"
                 android:src="@mipmap/nopic"
                 android:adjustViewBounds="true" />

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/ColorBackgroundGrey"
-    tools:context="es.elconfidencial.eleccionesgenerales2015.fragments.HomeTab">
+    tools:context="com.elconfidencial.eceleccionesgenerales2015.fragments.HomeTab">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"

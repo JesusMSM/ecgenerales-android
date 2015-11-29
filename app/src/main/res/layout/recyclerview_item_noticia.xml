@@ -23,6 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:id="@+id/imagen"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/nopic"
                 android:adjustViewBounds="true" />
 

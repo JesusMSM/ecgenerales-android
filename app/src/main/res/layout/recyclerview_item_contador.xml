@@ -113,7 +113,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="bottom|center" />
 
-            <es.elconfidencial.eleccionesgenerales2015.views.DonutProgress
+            <com.elconfidencial.eceleccionesgenerales2015.views.DonutProgress
 
                 android:layout_marginBottom="0dp"
                 android:padding="10dp"
@@ -136,7 +136,7 @@
             android:layout_toRightOf="@id/layoutdias">
 
 
-            <es.elconfidencial.eleccionesgenerales2015.views.DonutProgress
+            <com.elconfidencial.eceleccionesgenerales2015.views.DonutProgress
 
                 android:layout_marginBottom="0dp"
                 android:id="@+id/donut_horas"
@@ -171,7 +171,7 @@
             android:layout_toRightOf="@id/layouthoras">
 
 
-            <es.elconfidencial.eleccionesgenerales2015.views.DonutProgress
+            <com.elconfidencial.eceleccionesgenerales2015.views.DonutProgress
 
                 android:layout_marginBottom="0dp"
                 android:padding="10dp"

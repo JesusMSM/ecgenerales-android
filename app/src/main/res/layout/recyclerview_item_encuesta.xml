@@ -40,7 +40,7 @@
 
                 android:background="@color/grey"/>
 
-            <es.elconfidencial.eleccionesgenerales2015.charts.BarChartEC
+            <com.elconfidencial.eceleccionesgenerales2015.charts.BarChartEC
                 android:id="@+id/chartEncuestas"
                 android:padding="5dp"
                 android:layout_width="match_parent"

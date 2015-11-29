@@ -154,7 +154,7 @@
             android:text="@string/mensaje_aviso_megaencuesta"
             android:textColor="@color/titulos"
             android:textSize="7pt"/>
-        <es.elconfidencial.eleccionesgenerales2015.charts.HorizontalBarChartEC
+        <com.elconfidencial.eceleccionesgenerales2015.charts.HorizontalBarChartEC
             android:id="@+id/horizontalBarChart"
             android:layout_width="match_parent"
             android:layout_height="0dp"

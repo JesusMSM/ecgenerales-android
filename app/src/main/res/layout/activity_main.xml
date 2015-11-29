@@ -43,7 +43,7 @@
         android:visibility="gone"
         android:id="@+id/activityLayout">
 
-        <es.elconfidencial.eleccionesgenerales2015.slidingtabfiles.SlidingTabLayout
+        <com.elconfidencial.eceleccionesgenerales2015.slidingtabfiles.SlidingTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
