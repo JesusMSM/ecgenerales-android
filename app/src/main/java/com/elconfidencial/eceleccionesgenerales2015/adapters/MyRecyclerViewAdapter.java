@@ -413,7 +413,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 //Amplitude
                 Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
-                Amplitude.getInstance().logEvent("ONTAP_SETTINGS");
+                Amplitude.getInstance().logEvent("ONTAP_CARD");
             }
         });
     }
@@ -618,6 +618,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void onClick(View v) {
 
                 MainActivity.switchFragment(3);
+                //Amplitude
+                Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
+                Amplitude.getInstance().logEvent("ONTAP_PRESINDER");
             }
         });
         vh.dislike.setOnClickListener(new View.OnClickListener() {
@@ -625,6 +628,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void onClick(View v) {
 
                 MainActivity.switchFragment(3);
+                //Amplitude
+                Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
+                Amplitude.getInstance().logEvent("ONTAP_PRESINDER");
             }
         });
 
