@@ -3,6 +3,8 @@ package com.elconfidencial.eceleccionesgenerales2015.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -255,6 +257,18 @@ public class PreferencesActivity extends ActionBarActivity {
         podemosSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
         iuSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
         upydSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
+
+        //VERSION
+        TextView version = (TextView) findViewById(R.id.version);
+        version.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        PackageInfo pInfo = null;
+        try {
+            pInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String versionString = pInfo.versionName;
+        version.setText("Versión de la aplicación: " + versionString);
 
         getUserTagValues();
         initializeSpinnersFromLocal();

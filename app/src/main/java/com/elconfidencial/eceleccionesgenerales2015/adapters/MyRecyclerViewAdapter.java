@@ -410,6 +410,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Intent intent = new Intent(context, PreferencesActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+
+                //Amplitude
+                Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
+                Amplitude.getInstance().logEvent("ONTAP_SETTINGS");
             }
         });
     }

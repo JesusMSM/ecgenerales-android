@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,10 +30,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.amplitude.api.Amplitude;
 import com.elconfidencial.eceleccionesgenerales2015.R;
 import com.elconfidencial.eceleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import com.elconfidencial.eceleccionesgenerales2015.model.Persona;
 import com.elconfidencial.eceleccionesgenerales2015.model.QuoteServer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ResultadosPresinderActivity extends AppCompatActivity {
 
@@ -123,6 +128,9 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         }
         if(id == R.id.share_result){
             shareit();
+            //Amplitude
+            Log.i("20D_AMPLITUDE", "ONSHARE_PRESINDER");
+            Amplitude.getInstance().logEvent("ONSHARE_PRESINDER");
         }
 
         return super.onOptionsItemSelected(item);

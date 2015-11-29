@@ -418,5 +418,10 @@
         android:textSize="7pt"
         android:id="@+id/acercaDeButton"
         style="?android:attr/borderlessButtonStyle"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/version"/>
+
 </LinearLayout>
 </ScrollView>
