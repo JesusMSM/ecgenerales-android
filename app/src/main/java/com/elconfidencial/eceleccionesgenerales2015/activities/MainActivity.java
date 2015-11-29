@@ -155,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
 
         loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
         activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
-        new JSONConfig().execute();
+        if(globalMethod.haveNetworkConnection()) {
+            new JSONConfig().execute();
+        }
         /*ParseConfig.getInBackground(new ConfigCallback() {
             @Override
             public void done(ParseConfig config, ParseException e) {
@@ -262,29 +264,38 @@ public class MainActivity extends AppCompatActivity {
             JSONParserObject jParser = new JSONParserObject();
 
             // Getting JSON from URL
-            JSONObject json = jParser.getJSONFromUrl(config_url);
-            return json;
+            if(globalMethod.haveNetworkConnection()){
+                JSONObject json = jParser.getJSONFromUrl(config_url);
+                return json;
+            }
+            return null;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
-                // Getting JSON Array
-                DFP_CARD_EVERY_N = json.getInt(TAG_DFP_CARD_EVERY_N);
-                LAST_NEWS_COUNTER = json.getInt(TAG_LAST_NEWS_COUNTER);
-                RESULTS_WEBVIEW_URL = json.getString(TAG_RESULTS_WEBVIEW);
-                SHOW_SURVEYS = json.getBoolean(TAG_SHOW_SURVEYS);
-                SHOW_TIMER = json.getBoolean(TAG_SHOW_TIMER);
-                SHOW_WIDGET_RESULTS = json.getBoolean(TAG_SHOW_RESULTS);
-                PRESINDER_SHARE_MESSAGE_ANDROID = json.getString(TAG_PRESINDER_SHARE_MESSAGE_ANDROID);
-
+                if(json != null && globalMethod.haveNetworkConnection()) {
+                    // Getting JSON Array
+                    DFP_CARD_EVERY_N = json.getInt(TAG_DFP_CARD_EVERY_N);
+                    LAST_NEWS_COUNTER = json.getInt(TAG_LAST_NEWS_COUNTER);
+                    RESULTS_WEBVIEW_URL = json.getString(TAG_RESULTS_WEBVIEW);
+                    SHOW_SURVEYS = json.getBoolean(TAG_SHOW_SURVEYS);
+                    SHOW_TIMER = json.getBoolean(TAG_SHOW_TIMER);
+                    SHOW_WIDGET_RESULTS = json.getBoolean(TAG_SHOW_RESULTS);
+                    PRESINDER_SHARE_MESSAGE_ANDROID = json.getString(TAG_PRESINDER_SHARE_MESSAGE_ANDROID);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            loadingLayout.setVisibility(View.GONE);
-            activityLayout.setVisibility(View.VISIBLE);
-            if(SHOW_WIDGET_RESULTS){
-                pager.setCurrentItem(2);
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            if(json!= null) {
+                loadingLayout.setVisibility(View.GONE);
+                activityLayout.setVisibility(View.VISIBLE);
+                if (SHOW_WIDGET_RESULTS) {
+                    pager.setCurrentItem(2);
+                }
             }
 
         }
