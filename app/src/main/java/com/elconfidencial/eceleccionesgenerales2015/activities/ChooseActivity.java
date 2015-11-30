@@ -7,9 +7,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.amplitude.api.Amplitude;
+import com.comscore.analytics.comScore;
+import com.elconfidencial.eceleccionesgenerales2015.R;
 import com.pushwoosh.BasePushMessageReceiver;
 import com.pushwoosh.BaseRegistrationReceiver;
 import com.pushwoosh.PushManager;
@@ -19,7 +22,22 @@ public class ChooseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MultiDex.install(this);
         super.onCreate(savedInstanceState);
+
+        try{
+            //Comscore
+            comScore.setAppContext(this.getApplicationContext());
+            comScore.setCustomerC2("elo_mtereisa");
+            comScore.setPublisherSecret("c703dc81c1024d5172e35a58f86e2e9b");
+            comScore.setAppName(getResources().getString(R.string.app_name));
+        } catch (Exception e){
+            Log.i("Comscore", "Error en Choose Activity en Comscore");
+            e.printStackTrace();
+        }
+
+
+
         //Register receivers for push notifications
         registerReceivers();
 

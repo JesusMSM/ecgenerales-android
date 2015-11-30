@@ -3,30 +3,36 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@drawable/action_bar">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/actionbar_resultados"
-            android:textColor="@color/grey"
-            android:id="@+id/actionBarResultados"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:textAllCaps="true"/>
-    </LinearLayout>
 
     <!-- LAYOUT SI LA ENCUESTA AÚN NO SE HA REALIZADO Y NO ES EL DÍA DE LAS ELECCIONES -->
+
+    <!-- CONTENIDO -->
     <LinearLayout
         android:id="@+id/gridMegaencuestaScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <!-- ACTION BAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@drawable/action_bar">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:layout_gravity="center"
+                android:text="@string/actionbar_resultados"
+                android:textColor="@color/grey"
+                android:id="@+id/actionBarResultados"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/headerEncuesta"
             android:layout_width="match_parent"
@@ -137,23 +143,60 @@
 
     </LinearLayout>
 
+
     <!-- LAYOUT CON LA ENCUESTA HECHA Y NO ES EL DÍA DE LAS ELECCIONES -->
+
+
     <LinearLayout
         android:id="@+id/graficoMegaencuestaScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="visible">
-        <TextView
-            android:id="@+id/avisoResultados"
+
+        <!-- ACTION BAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@drawable/action_bar">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:layout_gravity="center"
+                android:text="@string/actionbar_resultados"
+                android:textColor="@color/grey"
+                android:id="@+id/actionBarResultados1"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:text="@string/mensaje_aviso_megaencuesta"
-            android:textColor="@color/titulos"
-            android:textSize="7pt"/>
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:src="@drawable/alert_icon"/>
+            <TextView
+                android:id="@+id/avisoResultados"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="@string/mensaje_aviso_megaencuesta"
+                android:textColor="@color/titulos"
+                android:textSize="7pt"/>
+        </LinearLayout>
+
         <com.elconfidencial.eceleccionesgenerales2015.charts.HorizontalBarChartEC
             android:id="@+id/horizontalBarChart"
             android:layout_width="match_parent"
@@ -173,6 +216,37 @@
     </LinearLayout>
 
     <!-- LAYOUT SI ES EL DÍA DE LAS ELECCIONES -->
+
+    <!-- ACTION BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@drawable/action_bar">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_gravity="center"
+            android:text="@string/actionbar_resultados"
+            android:textColor="@color/grey"
+            android:id="@+id/actionBarResultadosWebview"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="true"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:id="@+id/refreshIcon"
+            android:src="@drawable/refresh_icon_results"/>
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/webviewScreen"
         android:layout_width="match_parent"

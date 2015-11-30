@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.comscore.analytics.comScore;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 
@@ -80,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try{
+            //comScore
+            comScore.onUxActive();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+
 
         // Enable Local Datastore.
         try {
@@ -237,6 +247,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        try{
+            //comScore
+            Log.i("Comscore", "Se sale de Comscore con onBackPressed");
+            comScore.onUxInactive();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
         System.gc();
         finish();
         super.onBackPressed();
@@ -254,6 +272,45 @@ public class MainActivity extends AppCompatActivity {
     //Cambia de TAB pasándole el número correspondiente
     public static void switchFragment(int target){
         pager.setCurrentItem(target);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Resume");
+            comScore.onEnterForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Pause");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            //comScore
+            Log.i("Comscore", "Se sale de la app con onDestroy");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
     }
 
     private class JSONConfig extends AsyncTask<String, String, JSONObject> {

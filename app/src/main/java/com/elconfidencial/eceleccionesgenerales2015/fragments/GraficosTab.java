@@ -57,7 +57,8 @@ public class GraficosTab extends Fragment {
 
 
     private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
-    private TextView actionBarTitle, headerEncuesta, graciasPorParticipar, mensajeAviso;
+    private TextView actionBarTitle, actionBarTitle1, actionBarTitleWebview, headerEncuesta, graciasPorParticipar, mensajeAviso;
+    private ImageView refreshIcon;
     HorizontalBarChartEC grafico;
     private WebView webviewResultados;
     Context context;
@@ -79,9 +80,6 @@ public class GraficosTab extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_graficos_tab, container, false);
 
-        //actionBar
-        actionBarTitle = (TextView) v.findViewById(R.id.actionBarResultados);
-        actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
 
         //Inicializamos los Layout correspondientes a cada una de las screens
@@ -127,6 +125,11 @@ public class GraficosTab extends Fragment {
     public void setWebViewLayout(){
         webviewResultados = (WebView) v.findViewById(R.id.resultadosWebview);
 
+        //actionBar
+        actionBarTitleWebview = (TextView) v.findViewById(R.id.actionBarResultadosWebview);
+        actionBarTitleWebview.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        refreshIcon = (ImageView) v.findViewById(R.id.refreshIcon);
+
         //Preparamos el Webview
         webviewResultados.getSettings().setJavaScriptEnabled(true);
         webviewResultados.getSettings().setDomStorageEnabled(true);
@@ -145,7 +148,7 @@ public class GraficosTab extends Fragment {
                 new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        if (url.equals(MainActivity.RESULTS_WEBVIEW_URL + "/")) {
+                        if (url.equals(MainActivity.RESULTS_WEBVIEW_URL)) {
                             view.loadUrl(url);
                             Log.i("Resultados", "dentro del if con " + url);
                             return true;
@@ -166,7 +169,7 @@ public class GraficosTab extends Fragment {
         //Comprobamos si tiene conexi�n a Internet
         //Si tiene conexi�n cargamos la url, si no tiene mostramos el mensaje de alerta
         if(globalMethod.haveNetworkConnection() && MainActivity.RESULTS_WEBVIEW_URL !=null){
-            webviewResultados.loadUrl(MainActivity.RESULTS_WEBVIEW_URL + "/");
+            webviewResultados.loadUrl(MainActivity.RESULTS_WEBVIEW_URL);
             Log.i("Resultados", "RESULTS_WEBVIEW_URL = " + MainActivity.RESULTS_WEBVIEW_URL);
         } else {
             //Compramos el tipo de dispositivo y calculamos el tama�o de letra.
@@ -195,6 +198,14 @@ public class GraficosTab extends Fragment {
         }
 
 
+        //Añadimos funcionalidad refresh
+        refreshIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webviewResultados.reload();
+            }
+        });
+
 
         // disable scroll on touch
      /**   webviewResultados.setOnTouchListener(new View.OnTouchListener() {
@@ -214,6 +225,10 @@ public class GraficosTab extends Fragment {
 
         headerEncuesta = (TextView) v.findViewById(R.id.headerEncuesta);
         headerEncuesta.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+
+        //actionBar
+        actionBarTitle = (TextView) v.findViewById(R.id.actionBarResultados);
+        actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
         pp = (ImageView) v.findViewById(R.id.ppLogo);
         cs = (ImageView) v.findViewById(R.id.cslogo);
@@ -295,6 +310,10 @@ public class GraficosTab extends Fragment {
      * - No es el día de las elecciones, por lo que el webview permanece oculto
      */
     public void setGraficoMegaencuesta() {
+
+        //actionBar
+        actionBarTitle1 = (TextView) v.findViewById(R.id.actionBarResultados1);
+        actionBarTitle1.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
         mensajeAviso = (TextView) v.findViewById(R.id.avisoResultados);
         mensajeAviso.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));

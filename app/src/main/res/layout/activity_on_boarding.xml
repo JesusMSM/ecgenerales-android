@@ -22,7 +22,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:layout_gravity="center"
-        android:text="Introduce su municipio"
+        android:text="Introduzca su municipio"
         android:textColor="@color/white"
         android:textAllCaps="true"
         android:textSize="7pt"/>

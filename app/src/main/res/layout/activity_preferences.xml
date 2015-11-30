@@ -308,7 +308,7 @@
             android:id="@+id/csText"
             android:textColor="@color/ColorPrimary"
             android:textSize="8pt"
-            android:text="Ciudadanos"/>
+            android:text="CIUDADANOS"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"

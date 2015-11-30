@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Elecciones20D</string>
+    <string name="app_name">Elecciones 20D</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -19,7 +19,7 @@
 
 
     <!-- Strings OnBoarding -->
-    <string name="introduce_municipio">Introduce su municipio</string>
+    <string name="introduce_municipio">Introduzca su municipio</string>
     <string name="empezar">Empezar</string>
 
 
@@ -58,7 +58,7 @@
     <string name="contacto">Contacto</string>
 
     <!-- Publi -->
-    <string name="ad_unit">/35003347/ad_unit_native_test</string>
+    <string name="ad_unit">/35003347/ad_unit_native</string>
 
 
 <!-- TODO: Remove or change this placeholder text -->

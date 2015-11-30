@@ -132,7 +132,7 @@ public class PresinderTab extends Fragment {
             settingsDialog.setContentView(popUp);
             //BG
             LinearLayout root = (LinearLayout) popUp.findViewById(R.id.image_dialog_root);
-            root.setBackgroundColor(Color.parseColor("#80D5EEC8"));//Like Green
+            root.setBackgroundColor(Color.parseColor("#80277200"));//Like Green
 
             settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
             settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -232,7 +232,7 @@ public class PresinderTab extends Fragment {
             settingsDialog.setContentView(popUp);
             //BG
             LinearLayout root = (LinearLayout) popUp.findViewById(R.id.image_dialog_root);
-            root.setBackgroundColor(Color.parseColor("#80FFCDBD"));//Dislike Red
+            root.setBackgroundColor(Color.parseColor("#80D71400"));//Dislike Red
 
             settingsDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
             settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -56,6 +57,7 @@ public class HomeTab extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     public static ArrayList<Encuesta> encuestas = new ArrayList<>();
+    public LinearLayout actionbar;
     ImageView preferences;
     TextView titleActionBar;
 
@@ -68,6 +70,7 @@ public class HomeTab extends Fragment {
         //Comprobamos si el contador se está mostrando, en caso negativo, no mostraremos la action bar
         if(!MainActivity.SHOW_TIMER){
             //Preferences
+            actionbar = (LinearLayout) v.findViewById(R.id.actionbar_home);
             titleActionBar = (TextView) v.findViewById(R.id.actionBarHome);
             titleActionBar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
             preferences = (ImageView) v.findViewById(R.id.preferencesIcon);
@@ -264,6 +267,8 @@ public class HomeTab extends Fragment {
 
             if(MainActivity.SHOW_TIMER){
                 items.add("contador");
+            }else{
+                actionbar.setVisibility(View.VISIBLE);
             }
 
             if(MainActivity.SHOW_SURVEYS){

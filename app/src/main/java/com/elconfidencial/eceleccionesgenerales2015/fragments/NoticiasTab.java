@@ -1,23 +1,28 @@
 package com.elconfidencial.eceleccionesgenerales2015.fragments;
 
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amplitude.api.Amplitude;
 import com.elconfidencial.eceleccionesgenerales2015.R;
 import com.elconfidencial.eceleccionesgenerales2015.activities.MainActivity;
+import com.elconfidencial.eceleccionesgenerales2015.activities.PreferencesActivity;
 import com.elconfidencial.eceleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import com.elconfidencial.eceleccionesgenerales2015.model.CardPubli;
 import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
@@ -38,6 +43,7 @@ public class NoticiasTab extends Fragment {
     public static RecyclerView mRecyclerView;
     public static RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ImageView prefIcon;
 
 
     @Override
@@ -48,6 +54,19 @@ public class NoticiasTab extends Fragment {
 
         actionBarTitle = (TextView) v.findViewById(R.id.actionBarNoticias);
         actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+
+        prefIcon = (ImageView) v.findViewById(R.id.preferencesIcon);
+        prefIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), PreferencesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                //Amplitude
+                Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
+                Amplitude.getInstance().logEvent("ONTAP_SETTINGS");
+            }
+        });
 
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rss_recycler_view);
