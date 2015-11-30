@@ -38,6 +38,7 @@
         android:layout_marginLeft="30dp"
         android:textColor="@color/white"
         android:textSize="11pt"
+        android:singleLine="true"
         android:layout_weight="1"/>
     <TextView
         android:layout_width="match_parent"
