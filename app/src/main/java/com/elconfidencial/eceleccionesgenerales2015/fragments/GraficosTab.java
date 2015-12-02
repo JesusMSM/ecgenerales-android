@@ -84,6 +84,7 @@ public class GraficosTab extends Fragment {
 
         //Inicializamos los Layout correspondientes a cada una de las screens
         gridMegaencuesta = (LinearLayout) v.findViewById(R.id.gridMegaencuestaScreen);
+        gridMegaencuesta.setBackgroundColor(Color.parseColor("#F4F4F4"));
         graficoMegaencuesta = (LinearLayout) v.findViewById(R.id.graficoMegaencuestaScreen);
         webviewLayout = (LinearLayout) v.findViewById(R.id.webviewScreen);
 
@@ -518,7 +519,7 @@ public class GraficosTab extends Fragment {
 
     public void setNotPressedImages(){
         //Cargamos las imagenes not pressed
-        Glide.with(getContext()).load(R.drawable.pp_off).placeholder(R.drawable.nopicpersona).into(pp);
+        /*Glide.with(getContext()).load(R.drawable.pp_off).placeholder(R.drawable.nopicpersona).into(pp);
         Glide.with(getContext()).load(R.drawable.cs_off).placeholder(R.drawable.nopicpersona).into(cs);
         Glide.with(getContext()).load(R.drawable.psoe_off).placeholder(R.drawable.nopicpersona).into(psoe);
         Glide.with(getContext()).load(R.drawable.pdms_off).placeholder(R.drawable.nopicpersona).into(podemos);
@@ -526,7 +527,16 @@ public class GraficosTab extends Fragment {
         Glide.with(getContext()).load(R.drawable.pnv_off).placeholder(R.drawable.nopicpersona).into(pnv);
         Glide.with(getContext()).load(R.drawable.convergencia_off).placeholder(R.drawable.nopicpersona).into(convergencia);
         Glide.with(getContext()).load(R.drawable.upyd_off).placeholder(R.drawable.nopicpersona).into(upyd);
-        Glide.with(getContext()).load(R.drawable.otros_off).placeholder(R.drawable.nopicpersona).into(otros);
+        Glide.with(getContext()).load(R.drawable.otros_off).placeholder(R.drawable.nopicpersona).into(otros);*/
+        pp.setImageDrawable(getResources().getDrawable(R.drawable.pp_off));
+        psoe.setImageDrawable(getResources().getDrawable(R.drawable.psoe_off));
+        cs.setImageDrawable(getResources().getDrawable(R.drawable.cs_off));
+        podemos.setImageDrawable(getResources().getDrawable(R.drawable.pdms_off));
+        iu.setImageDrawable(getResources().getDrawable(R.drawable.iu_off));
+        pnv.setImageDrawable(getResources().getDrawable(R.drawable.pnv_off));
+        convergencia.setImageDrawable(getResources().getDrawable(R.drawable.convergencia_off));
+        upyd.setImageDrawable(getResources().getDrawable(R.drawable.upyd_off));
+        otros.setImageDrawable(getResources().getDrawable(R.drawable.otros_off));
     }
 
     public void setListenersImgPartidos(){

@@ -93,7 +93,7 @@ public class PresinderTab extends Fragment {
     public void setFonts(){
         //Fonts
         header1.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
-        text.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
+        text.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Milio-Demibold-Italic.ttf"));
         grupo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
         likeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
@@ -308,7 +308,7 @@ public class PresinderTab extends Fragment {
                 eventProperties.put("PERSONA", currentQuote.getPersona().toString());
             } catch (JSONException exception) {
             }
-            Amplitude.getInstance().logEvent("ONAGREE", eventProperties);
+            Amplitude.getInstance().logEvent("ONDISAGREE", eventProperties);
         }
 
         public class OnPresinderVerResultadosClickListener extends OnLikeClickListener {
