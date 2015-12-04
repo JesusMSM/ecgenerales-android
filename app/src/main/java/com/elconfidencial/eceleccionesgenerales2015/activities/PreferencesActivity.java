@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.comscore.analytics.comScore;
 import com.pushwoosh.PushManager;
 import com.pushwoosh.SendPushTagsCallBack;
 
@@ -274,6 +275,45 @@ public class PreferencesActivity extends ActionBarActivity {
         initializeSpinnersFromLocal();
 
         new JSONParse().execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Resume");
+            comScore.onEnterForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Pause");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            //comScore
+            Log.i("Comscore", "Se sale de la app con onDestroy");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
     }
 
     private class JSONParse extends AsyncTask<String, String, JSONObject> {

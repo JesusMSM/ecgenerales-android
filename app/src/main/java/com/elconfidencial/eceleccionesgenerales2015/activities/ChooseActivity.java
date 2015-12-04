@@ -145,6 +145,15 @@ public class ChooseActivity extends AppCompatActivity {
 
         //Re-register receivers on resume
         registerReceivers();
+
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Resume");
+            comScore.onEnterForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -154,6 +163,27 @@ public class ChooseActivity extends AppCompatActivity {
 
         //Unregister receivers on pause
         unregisterReceivers();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Pause");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            //comScore
+            Log.i("Comscore", "Se sale de la app con onDestroy");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
     }
 
     private void checkMessage(Intent intent)

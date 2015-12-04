@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.amplitude.api.Amplitude;
+import com.comscore.analytics.comScore;
 import com.elconfidencial.eceleccionesgenerales2015.R;
 import com.elconfidencial.eceleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
 import com.elconfidencial.eceleccionesgenerales2015.model.Persona;
@@ -90,6 +91,45 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Resume");
+            comScore.onEnterForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Pause");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            //comScore
+            Log.i("Comscore", "Se sale de la app con onDestroy");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
     }
 
     //Ordenamos la lista de politicos según el siguiente criterio:

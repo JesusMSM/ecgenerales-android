@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
+import com.comscore.analytics.comScore;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
@@ -430,14 +431,39 @@ public class NoticiaContentActivity  extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //Re-register receivers on resume
-        //comScore.onEnterForeground();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Resume");
+            comScore.onEnterForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //Unregister receivers on pause
-        //comScore.onExitForeground();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Pause");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            //comScore
+            Log.i("Comscore", "Se sale de la app con onDestroy");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
     }
 }
