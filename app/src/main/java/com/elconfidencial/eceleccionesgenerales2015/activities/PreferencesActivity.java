@@ -429,6 +429,7 @@ public class PreferencesActivity extends ActionBarActivity {
 
                                     //Creamos un objeto municipio y lo rellenamos. Lo añadimos a la lista de municipios
                                     Municipio municipioObj = new Municipio();
+                                    municipioObj.setMunicipioAutoCompleteText(municipioNameAutoComplete);
                                     municipioObj.setTag(tag);
                                     municipioObj.setCcaaaName(CCAAname);
                                     municipioObj.setCcaaTag(Integer.parseInt(idCCAA));
