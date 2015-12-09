@@ -111,9 +111,11 @@ public class OnBoardingActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putInt("realTag", municipioObj.getTag());
                     editor.putString("MunicipioName", municipioObj.getMunicipioName());
+                    editor.putString("MunicipioAutoComplete", municipioObj.getMunicipioAutoCompleteText());
                     editor.putString("ProvinciaName", municipioObj.getProvinciaName());
                     editor.putString("CCAAName", municipioObj.getCcaaaName());
                     Log.i("Municipios", "Guardamos en Preferences el tag " + municipioObj.getTag());
+                    Log.i("Municipios", "Guardamos en Preferences el AutomCompleteText " + municipioObj.getMunicipioAutoCompleteText());
                     Log.i("Municipios", "Guardamos en Preferences el municipio " + municipioObj.getMunicipioName());
                     Log.i("Municipios", "Guardamos en Preferences la provincia" + municipioObj.getProvinciaName());
                     Log.i("Municipios", "Guardamos en Preferences la CCAA " + municipioObj.getCcaaaName());
@@ -288,6 +290,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
                                     //Creamos un objeto municipio y lo rellenamos. Lo añadimos a la lista de municipios
                                     Municipio municipioObj = new Municipio();
+                                    municipioObj.setMunicipioAutoCompleteText(municipioNameAutoComplete);
                                     municipioObj.setTag(tag);
                                     municipioObj.setCcaaaName(CCAAname);
                                     municipioObj.setCcaaTag(Integer.parseInt(idCCAA));

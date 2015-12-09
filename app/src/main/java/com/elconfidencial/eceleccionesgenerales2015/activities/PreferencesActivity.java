@@ -157,6 +157,9 @@ public class PreferencesActivity extends ActionBarActivity {
         // Se establece el Adapter
         searchMunicipio.setAdapter(adapter);
 
+        //Se crea el hint
+        searchMunicipio.setHint(prefs.getString("MunicipioAutoComplete", ""));
+
         searchMunicipio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

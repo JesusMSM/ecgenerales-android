@@ -185,7 +185,7 @@ public class PresinderTab extends Fragment {
             //Set imagen correspondiente
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
-                Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
+                Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).placeholder(R.drawable.default_img).into(foto);
                 //Fonts
             } catch (Exception e) {
                 e.printStackTrace();
@@ -282,7 +282,7 @@ public class PresinderTab extends Fragment {
             //Set imagen correspondiente
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
-                Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
+                Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).placeholder(R.drawable.default_img).into(foto);
                 //Fonts
             } catch (Exception e) {
                 e.printStackTrace();

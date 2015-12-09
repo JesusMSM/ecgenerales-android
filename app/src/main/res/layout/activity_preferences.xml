@@ -36,13 +36,14 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="3"
+            android:textColorHint="@color/titulos"
             style="@style/AutoCompleteStyle"/>
         <Button
             android:id="@+id/reestablecerPref"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="GUARDAR\nMUNICIPIO"
+            android:text="CAMBIAR\nMUNICIPIO"
             android:textColor="@color/ColorPreferencias"
             android:background="@android:color/transparent"
             android:src="@drawable/button_resultados"/>

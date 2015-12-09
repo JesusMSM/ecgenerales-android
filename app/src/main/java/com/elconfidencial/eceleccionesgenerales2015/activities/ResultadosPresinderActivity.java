@@ -142,7 +142,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
             if(p1.getAgreeDisagreeDif() - p2.getAgreeDisagreeDif()!=0) {
                 return p1.getAgreeDisagreeDif() - p2.getAgreeDisagreeDif();
             } else {
-                return p1.getAgree() - p2.getDisagree();
+                return p2.getAgree() - p1.getAgree();
             }
         }
     }
