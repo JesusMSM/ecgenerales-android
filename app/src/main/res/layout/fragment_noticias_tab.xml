@@ -33,6 +33,8 @@
             android:src="@drawable/settings_icon_grey"/>
     </LinearLayout>
 
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rss_recycler_view"
             android:layout_width="match_parent"

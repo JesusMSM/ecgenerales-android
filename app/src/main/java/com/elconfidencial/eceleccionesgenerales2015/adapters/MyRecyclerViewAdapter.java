@@ -1,6 +1,7 @@
 package com.elconfidencial.eceleccionesgenerales2015.adapters;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
+import com.elconfidencial.eceleccionesgenerales2015.viewholders.DialogViewHolder;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -80,7 +83,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     NativeCustomTemplateAd adCustom;
     QuoteServer qs = QuoteServer.getInstance();
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8, PROGRESS=9;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -121,6 +124,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         if (items.get(position).equals("footerpresinder")) {
             return FOOTER_PRES;
+        }
+        if (items.get(position).equals("progress")) {
+            return PROGRESS;
         }
         else if (items.get(position) instanceof CardPubli) {
             return CARDPUBLI;
@@ -171,6 +177,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v9 =  inflater.inflate(R.layout.recyclerview_item_footerpresinder, viewGroup, false);
                 viewHolder = new FooterPresinderViewHolder(v9);
                 break;
+            case PROGRESS:
+                View v10 =  inflater.inflate(R.layout.recyclerview_item_dialog, viewGroup, false);
+                viewHolder = new DialogViewHolder(v10);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -217,6 +227,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case FOOTER_PRES:
                 FooterPresinderViewHolder vh9 = (FooterPresinderViewHolder) viewHolder;
                 configureFooterPersinderViewHolder(vh9, position);
+                break;
+            case PROGRESS:
+                DialogViewHolder vh10 = (DialogViewHolder) viewHolder;
+                configureDialogViewHolder(vh10, position);
                 break;
             default:
         }
@@ -286,7 +300,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 v.getContext().startActivity(Intent.createChooser(intent, v.getContext().getResources().getString(R.string.share)));
 
                 //Amplitude
-                Log.i("20D_AMPLITUDE", "ONSHARE: "+ noticia.getLink());
+                Log.i("20D_AMPLITUDE", "ONSHARE: " + noticia.getLink());
                 JSONObject eventProperties = new JSONObject();
                 try {
                     eventProperties.put("URL", noticia.getLink());
@@ -419,6 +433,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         });
     }
 
+    private void configureDialogViewHolder(DialogViewHolder vh, int position) {
+
+    }
+
     private void configureEncuestasViewHolder(EncuestasViewHolder vh3, int position) {
         //final BarChart grafico = (BarChart) items.get(position);
 
@@ -500,9 +518,30 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             encuestasTitulo.add(HomeTab.encuestas.get(i).getName());
         }
 
+
+            List<String> spinnerArray =  new ArrayList<String>();
+            spinnerArray.addAll(encuestasTitulo);
+
+
+            //Default value
+            //spinnerArray.add(context.getResources().getString(R.string.elige_partido_politico));
+
+
+
+            EncuestaSpinnerAdapter adapter = new EncuestaSpinnerAdapter(
+                    context, R.layout.row_custom_spinner_encuesta, spinnerArray);
+
+
+
+
+
+
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, R.layout.row_custom_spinner_encuesta, R.id.nombreEncuesta, encuestasTitulo);
-            spinner.setAdapter(dataAdapter);
+        //ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, R.layout.row_custom_spinner_encuesta, R.id.nombreEncuesta, encuestasTitulo);
+
+            spinner.setAdapter(adapter);
+
+
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -637,7 +676,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.header1.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
         vh.header2.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.group.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Demibold-Italic.ttf"));
+        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-BoldItalic.otf"));
         vh.likeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.dislikeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
     }
@@ -652,7 +691,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.nAgrees.setText("" + persona.getAgree());
         vh.nDisAgrees.setText("" + persona.getDisagree());
         try{
-            Glide.with(context).load(context.getResources().getIdentifier(persona.getPhotoLink(),"drawable", context.getPackageName())).placeholder(R.drawable.default_img).into(vh.fotoPolitico);
+            if(context.getResources().getIdentifier(persona.getPhotoLink(),"drawable", context.getPackageName()) != 0) {
+                Glide.with(context).load(context.getResources().getIdentifier(persona.getPhotoLink(), "drawable", context.getPackageName())).into(vh.fotoPolitico);
+            } else{
+                Glide.with(context).load(R.drawable.default_img).into(vh.fotoPolitico);
+            }
             Glide.with(context).load(R.drawable.caralittleok).into(vh.likesPolitico);
             Glide.with(context).load(R.drawable.caralittleno).into(vh.dislikesPolitico);
         }catch (Exception e){
@@ -739,41 +782,41 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     case 1:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/"; //general
                         NoticiasTab.seleccion = 1;
-                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 2:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
                         NoticiasTab.seleccion = 2;
-                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 3:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
                         NoticiasTab.seleccion = 3;
-                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 4:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
                         NoticiasTab.seleccion = 4;
-                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 5:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
                         NoticiasTab.seleccion = 5;
-                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 6:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
                         NoticiasTab.seleccion = 6;
-                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                     case 7:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
                         NoticiasTab.seleccion = 7;
-                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
+                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                         break;
                 }
                 //Amplitude
-                Log.i("20D_AMPLITUDE", "ONSELECT_FILTER: "+ NoticiasTab.rss_url);
+                Log.i("20D_AMPLITUDE", "ONSELECT_FILTER: " + NoticiasTab.rss_url);
                 JSONObject eventProperties = new JSONObject();
                 try {
                     eventProperties.put("PARTY", NoticiasTab.rss_url);
@@ -815,19 +858,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         List<Object> items = new ArrayList<>();
         List<Noticia> noticias = new ArrayList<>();
-        Context context;
-        GlobalMethod globalMethod;
+        GlobalMethod globalMethod = new GlobalMethod(context);
 
-
-        public CargarXmlTask(Context context){
-            this.context=context;
-
-            globalMethod = new GlobalMethod(context);
-
-        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            items.clear();
+            items.add("progress");
+
+            NoticiasTab.mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
+            NoticiasTab.mRecyclerView.setAdapter(NoticiasTab.mAdapter);
         }
 
         protected Boolean doInBackground(String... params) {
@@ -846,8 +887,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         protected void onPostExecute(Boolean result) {
 
+            items.clear();
             addItems();
+
         }
+
 
         public void addItems() {
 
