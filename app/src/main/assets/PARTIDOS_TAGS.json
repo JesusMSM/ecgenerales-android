@@ -3,7 +3,7 @@
                         "ID":"CIUDADANOS",
                         "Desc" : "Ciudadanos",
                         "Color" : "#f58723",
-                        "Short" : "Cs",
+                        "Short" : "C'S",
                          "News_TAG" : "ciudadanos-6359",
                          "Push_TAG" : "CIUDADANOS"
                        },
@@ -27,7 +27,7 @@
                         "ID":"PODEMOS",
                         "Desc" : "Podemos",
                         "Color" : "#591253",
-                        "Short" : "Podemos",
+                        "Short" : "PODEMOS",
                         "News_TAG" : "podemos-10616",
                          "Push_TAG" : "PODEMOS"
                        },
@@ -67,7 +67,7 @@
                         "ID":"OTROS",
                        "Desc" : "OTROS",
                        "Color" : "#383838",
-                       "Short" : "Otros",
+                       "Short" : "OTROS",
                         "News_TAG" : "",
                          "Push_TAG" : ""
                        },
@@ -75,7 +75,7 @@
                         "ID":"CONVERGENCIA",
                        "Desc" : "Convergents",
                        "Color" : "#3838FF",
-                       "Short" : "Convergencia",
+                       "Short" : "CONVERGENCIA",
                         "News_TAG" : "",
                          "Push_TAG" : ""
                        }
