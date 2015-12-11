@@ -1,6 +1,7 @@
 package com.elconfidencial.eceleccionesgenerales2015.adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -501,9 +502,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, R.layout.row_custom_spinner_encuesta, R.id.nombreEncuesta, encuestasTitulo);
-        spinner.setAdapter(dataAdapter);
-
-
+            spinner.setAdapter(dataAdapter);
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -638,7 +637,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.header1.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
         vh.header2.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.group.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-BoldItalic.otf"));
+        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Demibold-Italic.ttf"));
         vh.likeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.dislikeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
     }
@@ -740,37 +739,37 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     case 1:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/"; //general
                         NoticiasTab.seleccion = 1;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
                         break;
                     case 2:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
                         NoticiasTab.seleccion = 2;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
                         break;
                     case 3:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
                         NoticiasTab.seleccion = 3;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
                         break;
                     case 4:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
                         NoticiasTab.seleccion = 4;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
                         break;
                     case 5:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
                         NoticiasTab.seleccion = 5;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
                         break;
                     case 6:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
                         NoticiasTab.seleccion = 6;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
                         break;
                     case 7:
                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
                         NoticiasTab.seleccion = 7;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                        new CargarXmlTask(context).execute(NoticiasTab.rss_url);
                         break;
                 }
                 //Amplitude
@@ -816,8 +815,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         List<Object> items = new ArrayList<>();
         List<Noticia> noticias = new ArrayList<>();
-        GlobalMethod globalMethod = new GlobalMethod(context);
+        Context context;
+        GlobalMethod globalMethod;
 
+
+        public CargarXmlTask(Context context){
+            this.context=context;
+
+            globalMethod = new GlobalMethod(context);
+
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         protected Boolean doInBackground(String... params) {
             try {
@@ -836,7 +847,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         protected void onPostExecute(Boolean result) {
 
             addItems();
-
         }
 
         public void addItems() {

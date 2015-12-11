@@ -18,14 +18,25 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-            <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/imagen"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/nopic"
-                android:adjustViewBounds="true" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+                <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:padding="3dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imagen"
+                    android:src="@mipmap/nopic"
+                    android:adjustViewBounds="true" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/rounded_corner_imageview"/>
+
+            </FrameLayout>
+
 
             <TextView
                 android:id="@+id/titulo"

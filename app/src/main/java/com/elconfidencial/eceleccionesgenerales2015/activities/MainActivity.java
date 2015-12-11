@@ -1,5 +1,6 @@
 package com.elconfidencial.eceleccionesgenerales2015.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     CharSequence[] Titles = new CharSequence[numbOfTabs];
     GlobalMethod globalMethod = new GlobalMethod(this);
 
+
     //Parámetros de CONFIG
     public static int DFP_CARD_EVERY_N;
     public static int LAST_NEWS_COUNTER;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout loadingLayout;
     RelativeLayout activityLayout;
+    public static ProgressDialog pd;
 
     //Quotes
     QuoteServer qs = QuoteServer.getInstance();
@@ -81,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         try{
             //comScore
             comScore.onUxActive();
@@ -189,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ;*/
+        pd = new ProgressDialog(getApplicationContext());
     }
 
 
@@ -357,5 +360,4 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
 }
