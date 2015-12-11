@@ -676,7 +676,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.header1.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
         vh.header2.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.group.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-BoldItalic.otf"));
+        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Demibold-Italic.ttf"));
         vh.likeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
         vh.dislikeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
     }
