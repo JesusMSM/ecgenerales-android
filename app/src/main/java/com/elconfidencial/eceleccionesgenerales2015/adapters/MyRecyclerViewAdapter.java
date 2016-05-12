@@ -655,7 +655,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
 
-                MainActivity.switchFragment(3);
+               // MainActivity.switchFragment(3);
                 //Amplitude
                 Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
                 Amplitude.getInstance().logEvent("ONTAP_PRESINDER");
@@ -665,7 +665,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
 
-                MainActivity.switchFragment(3);
+               // MainActivity.switchFragment(3);
                 //Amplitude
                 Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
                 Amplitude.getInstance().logEvent("ONTAP_PRESINDER");

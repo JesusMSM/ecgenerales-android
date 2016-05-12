@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,28 +46,31 @@ public class NoticiasTab extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ImageView prefIcon;
 
+    public NoticiasTab() {}
+
+    public static NoticiasTab newInstance() {
+
+        Bundle args = new Bundle();
+
+        NoticiasTab fragment = new NoticiasTab();
+        fragment.setArguments(args);
+
+
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_noticias_tab, container, false);
-
-        actionBarTitle = (TextView) v.findViewById(R.id.actionBarNoticias);
-        actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-
-        prefIcon = (ImageView) v.findViewById(R.id.preferencesIcon);
-        prefIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PreferencesActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                //Amplitude
-                Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
-                Amplitude.getInstance().logEvent("ONTAP_SETTINGS");
-            }
-        });
 
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rss_recycler_view);

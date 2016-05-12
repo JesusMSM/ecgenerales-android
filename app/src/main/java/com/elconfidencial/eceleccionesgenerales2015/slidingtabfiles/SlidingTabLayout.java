@@ -225,7 +225,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 tabIconView = (ImageView) tabView;
             }
 
-            tabIconView.setImageDrawable(getResources().getDrawable(adapter.getDrawableId(i)));
+           // tabIconView.setImageDrawable(getResources().getDrawable(adapter.getDrawableId(i)));
             if (mViewPager.getCurrentItem() == i) {
                 tabIconView.setSelected(true);
             }
