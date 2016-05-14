@@ -55,6 +55,8 @@ public class SearchLocalityActivity extends AppCompatActivity {
     public Municipio municipioObj;
     Context context;
 
+    AsyncTask<String, String, JSONObject> task;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,16 +81,16 @@ public class SearchLocalityActivity extends AppCompatActivity {
         });
 
 
-        new JSONParse().execute();
-
-
-
     }
 
 
 
     @Override
     protected void onResume() {
+        if(task==null){
+            task = new JSONParse();
+            task.execute();
+        }
         super.onResume();
 
        /** try{
@@ -103,6 +105,9 @@ public class SearchLocalityActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        if(task!=null){
+            task.cancel(true);
+        }
         super.onPause();
         /**try{
             //comScore
@@ -128,154 +133,154 @@ public class SearchLocalityActivity extends AppCompatActivity {
     }
 
 
+    // region Asyntask
+    //----------------------------------------------------------------------
 
-    private class JSONParse extends AsyncTask<String, String, JSONObject> {
+        private class JSONParse extends AsyncTask<String, String, JSONObject> {
 
 
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                /**  uid = (TextView)findViewById(R.id.uid);
+                 name1 = (TextView)findViewById(R.id.name);
+                 email1 = (TextView)findViewById(R.id.email);
+                 pDialog = new ProgressDialog(MainActivity.this);
+                 pDialog.setMessage("Getting Data ...");
+                 pDialog.setIndeterminate(false);
+                 pDialog.setCancelable(true);
+                 pDialog.show();**/
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            /**  uid = (TextView)findViewById(R.id.uid);
-             name1 = (TextView)findViewById(R.id.name);
-             email1 = (TextView)findViewById(R.id.email);
-             pDialog = new ProgressDialog(MainActivity.this);
-             pDialog.setMessage("Getting Data ...");
-             pDialog.setIndeterminate(false);
-             pDialog.setCancelable(true);
-             pDialog.show();**/
+            }
 
+            @Override
+            protected JSONObject doInBackground(String... args) {
+
+                // Getting JSON from asset
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(loadJSONFromAsset("ccaa_provincia_municipio_ID.json"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return json;
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject json) {
+
+                getListMunicipios(json);
+            }
         }
 
-        @Override
-        protected JSONObject doInBackground(String... args) {
+    //----------------------------------------------------------------------
+    //endregion
 
-            // Getting JSON from asset
-            JSONObject json = null;
+
+    // region JsonParser
+    //----------------------------------------------------------------------
+
+    /**Rellenaremos 3 List:
+     *  - municipiosAutoComplete: Con Strings de cada uno de los municipios encontrados en el json con la forma "Municipio, Provincia"
+     *  - municipiosList: Con Strings de cada uno de los municipios
+     *  - realTagList: Con ints de cada uno de los ids de los municipios, en el mismo orden que en las otras dos listas
+     *
+     * @param json ; json con la lisa de CCAA-Provincias-Municipios y sus tags
+     */
+    private void getListMunicipios (JSONObject json){
+
+        int tag;
+
+        String provinciaNameAutoComplete;
+        String municipioNameAutoComplete;
+
+        Iterator iterIdCCAA = json.keys();
+        while(iterIdCCAA.hasNext()){
+            //Guardamos la ID en la variable tag. Ej: ID = 8 --> tag = 8.000.000
+            String idCCAA = (String)iterIdCCAA.next();
+            tag = Integer.parseInt(idCCAA) * 1000000;
+            JSONObject jsonCCAA = null;
             try {
-                json = new JSONObject(loadJSONFromAsset("ccaa_provincia_municipio_ID.json"));
+                jsonCCAA = json.getJSONObject(idCCAA);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if(json!=null){
-                Log.i("Municipios", "JSON recuperado de assets");
-            } else{
-                Log.i("Municipios", "JSON no recuperado de assets");
-            }
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
 
-            getListMunicipios(json);
+            //Extraemos el jsonObject del campo "Provincia"
+            try {
+                assert jsonCCAA != null;
+                JSONObject jsonIDProvincia = jsonCCAA.getJSONObject("Provincias");
+                String CCAAname = jsonCCAA.getString("Name");
+                Log.i("Municipios", "Entramos en  " + CCAAname);
 
+                Iterator iterIdProvincia = jsonIDProvincia.keys();
+                while(iterIdProvincia.hasNext()){
 
+                    //Guardamos la ID en la variable tag. Ej: ID = 11 --> tag = 110.000
+                    String idProvincia = (String)iterIdProvincia.next();
+                    tag += Integer.parseInt(idProvincia) * 10000;
+                    JSONObject jsonProvincia = null;
+                    try {
+                        jsonProvincia = jsonIDProvincia.getJSONObject(idProvincia);
 
-        }
-
-        /**Rellenaremos 3 List:
-         *  - municipiosAutoComplete: Con Strings de cada uno de los municipios encontrados en el json con la forma "Municipio, Provincia"
-         *  - municipiosList: Con Strings de cada uno de los municipios
-         *  - realTagList: Con ints de cada uno de los ids de los municipios, en el mismo orden que en las otras dos listas
-         *
-         * @param json ; json con la lisa de CCAA-Provincias-Municipios y sus tags
-         */
-        private void getListMunicipios (JSONObject json){
-
-            int tag;
-
-            String provinciaNameAutoComplete;
-            String municipioNameAutoComplete;
-
-            Iterator iterIdCCAA = json.keys();
-            while(iterIdCCAA.hasNext()){
-                //Guardamos la ID en la variable tag. Ej: ID = 8 --> tag = 8.000.000
-                String idCCAA = (String)iterIdCCAA.next();
-                tag = Integer.parseInt(idCCAA) * 1000000;
-                JSONObject jsonCCAA = null;
-                try {
-                    jsonCCAA = json.getJSONObject(idCCAA);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                //Extraemos el jsonObject del campo "Provincia"
-                try {
-                    assert jsonCCAA != null;
-                    JSONObject jsonIDProvincia = jsonCCAA.getJSONObject("Provincias");
-                    String CCAAname = jsonCCAA.getString("Name");
-                    Log.i("Municipios", "Entramos en  " + CCAAname);
-
-                    Iterator iterIdProvincia = jsonIDProvincia.keys();
-                    while(iterIdProvincia.hasNext()){
-
-                        //Guardamos la ID en la variable tag. Ej: ID = 11 --> tag = 110.000
-                        String idProvincia = (String)iterIdProvincia.next();
-                        tag += Integer.parseInt(idProvincia) * 10000;
-                        JSONObject jsonProvincia = null;
-                        try {
-                            jsonProvincia = jsonIDProvincia.getJSONObject(idProvincia);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        //Extraemos el jsonObject del campo "Municipios"
-                        try {
-                            assert jsonProvincia != null;
-                            JSONObject jsonIDMunicipio = jsonProvincia.getJSONObject("Municipios");
-                            provinciaNameAutoComplete = jsonProvincia.getString("Name");
-
-                            Iterator iterIdMunicipio = jsonIDMunicipio.keys();
-                            while(iterIdMunicipio.hasNext()){
-                                //Guardamos la ID en la variable tag. Ej: ID = 1024 --> tag = 1.0024
-                                String idMunicipio = (String)iterIdMunicipio.next();
-                                tag += Integer.parseInt(idMunicipio);
-                                JSONObject jsonMunicipio = null;
-                                try {
-                                    jsonMunicipio = jsonIDMunicipio.getJSONObject(idMunicipio);
-
-                                    //Guardamos el nombre del municipio en la lista del autoComplete
-                                    municipioNameAutoComplete = jsonMunicipio.getString("Name") + ", " + provinciaNameAutoComplete;
-                                    municipiosAutoComplete.add(municipioNameAutoComplete);
-
-                                    //Creamos un objeto municipio y lo rellenamos. Lo añadimos a la lista de municipios
-                                    Municipio municipioObj = new Municipio();
-                                    municipioObj.setMunicipioAutoCompleteText(municipioNameAutoComplete);
-                                    municipioObj.setTag(tag);
-                                    municipioObj.setCcaaaName(CCAAname);
-                                    municipioObj.setCcaaTag(Integer.parseInt(idCCAA));
-                                    municipioObj.setProvinciaName(jsonProvincia.getString("Name"));
-                                    municipioObj.setProvinciaTag(Integer.parseInt(idProvincia));
-                                    municipioObj.setMunicipioName(jsonMunicipio.getString("Name"));
-                                    municipioObj.setMunicipioTag(Integer.parseInt(idMunicipio));
-                                    municipiosList.add(municipioObj);
-
-                                    //Reseteamos los valores para la próxima iteración
-                                    municipioNameAutoComplete = "";
-                                    tag -= Integer.parseInt(idMunicipio);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        //Reseteamos la variable tag para la siguiente iteración
-                        tag -= Integer.parseInt(idProvincia);
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                    //Extraemos el jsonObject del campo "Municipios"
+                    try {
+                        assert jsonProvincia != null;
+                        JSONObject jsonIDMunicipio = jsonProvincia.getJSONObject("Municipios");
+                        provinciaNameAutoComplete = jsonProvincia.getString("Name");
+
+                        Iterator iterIdMunicipio = jsonIDMunicipio.keys();
+                        while(iterIdMunicipio.hasNext()){
+                            //Guardamos la ID en la variable tag. Ej: ID = 1024 --> tag = 1.0024
+                            String idMunicipio = (String)iterIdMunicipio.next();
+                            tag += Integer.parseInt(idMunicipio);
+                            JSONObject jsonMunicipio = null;
+                            try {
+                                jsonMunicipio = jsonIDMunicipio.getJSONObject(idMunicipio);
+
+                                //Guardamos el nombre del municipio en la lista del autoComplete
+                                municipioNameAutoComplete = jsonMunicipio.getString("Name") + ", " + provinciaNameAutoComplete;
+                                municipiosAutoComplete.add(municipioNameAutoComplete);
+
+                                //Creamos un objeto municipio y lo rellenamos. Lo añadimos a la lista de municipios
+                                Municipio municipioObj = new Municipio();
+                                municipioObj.setMunicipioAutoCompleteText(municipioNameAutoComplete);
+                                municipioObj.setTag(tag);
+                                municipioObj.setCcaaaName(CCAAname);
+                                municipioObj.setCcaaTag(Integer.parseInt(idCCAA));
+                                municipioObj.setProvinciaName(jsonProvincia.getString("Name"));
+                                municipioObj.setProvinciaTag(Integer.parseInt(idProvincia));
+                                municipioObj.setMunicipioName(jsonMunicipio.getString("Name"));
+                                municipioObj.setMunicipioTag(Integer.parseInt(idMunicipio));
+                                municipiosList.add(municipioObj);
+
+                                //Reseteamos los valores para la próxima iteración
+                                municipioNameAutoComplete = "";
+                                tag -= Integer.parseInt(idMunicipio);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Reseteamos la variable tag para la siguiente iteración
+                    tag -= Integer.parseInt(idProvincia);
+
                 }
-
-                //Reseteamos la variable tag para la siguiente iteración
-                tag -= Integer.parseInt(idCCAA);
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+            //Reseteamos la variable tag para la siguiente iteración
+            tag -= Integer.parseInt(idCCAA);
 
         }
 
@@ -292,7 +297,6 @@ public class SearchLocalityActivity extends AppCompatActivity {
         }
         return null;
     }
-
 
 
     //Método que lee un fichero json almacenado en assets
@@ -322,33 +326,16 @@ public class SearchLocalityActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search_locality, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+    //----------------------------------------------------------------------
+    //endregion
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
-            case android.R.id.home:
-                super.onBackPressed();
-                break;
-            case R.id.next:
-                readAutoCompleteTextView();
-                break;
-        }
-
-        return true;
-    }
-
-    //// region AutoCompleteTextView
+    // region AutoCompleteTextView
     //----------------------------------------------------------------------
 
     private void setupAutoCompleteTextview(){
 
+        searchMunicipio.setHint("Introduce su municipio");
         searchMunicipio.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
         searchMunicipio.setTypeface((Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf")));
 
@@ -400,7 +387,6 @@ public class SearchLocalityActivity extends AppCompatActivity {
     //----------------------------------------------------------------------
     //endregion
 
-
     // region Toolbar
     //----------------------------------------------------------------------
 
@@ -415,6 +401,33 @@ public class SearchLocalityActivity extends AppCompatActivity {
         }
     }
 
+    //----------------------------------------------------------------------
+    //endregion
+
+    // region Options Menu
+    //----------------------------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search_locality, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+            case R.id.next:
+                readAutoCompleteTextView();
+                break;
+        }
+
+        return true;
+    }
     //----------------------------------------------------------------------
     //endregion
 

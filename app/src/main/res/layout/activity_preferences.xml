@@ -1,404 +1,399 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/ColorBackgroundGrey"
-    android:paddingBottom="@dimen/activity_vertical_margin">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Editar municipio"
-        android:id="@+id/editarText"
-        android:textColor="@color/ColorPrimary"
-        android:textAllCaps="true"
-        android:textSize="8pt"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edita el nombre de tu municipio para recibir notificaciones durante el día de las elecciones"
-        android:id="@+id/editarDescr"
-        android:textSize="7pt"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <AutoCompleteTextView
-            android:id="@+id/searchMunicipioPref"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="3"
-            android:textColorHint="@color/grey"
-            style="@style/AutoCompleteStyle"/>
-        <Button
-            android:id="@+id/reestablecerPref"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="CAMBIAR\nMUNICIPIO"
-            android:textColor="@color/ColorPreferencias"
-            android:background="@android:color/transparent"
-            android:src="@drawable/button_resultados"/>
-    </LinearLayout>
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/notifResultados"
-        android:text="Notificaciones de resultados"
-        android:textColor="@color/ColorPrimary"
-        android:textAllCaps="true"
-        android:textSize="8pt"
-        android:layout_marginTop="15dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/notifResultadosDescr"
-        android:text="Suscríbete si quieres conocer los resultados de las elecciones en tiempo real"
-        android:textSize="7pt"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"/>
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/bgswitch_preferences">
-    <LinearLayout
+        android:layout_height="wrap_content" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize">
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Configuración"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/generalesText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="Generales"/>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/generalesSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
+        android:layout_height="wrap_content">
+
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
+            android:orientation="vertical"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <ImageView
+                android:id="@+id/positionIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_home_grey"/>
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                android:id="@+id/locality_name_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/comunidadText"
-                android:textColor="@color/ColorPrimary"
-                android:textSize="8pt"
-                android:text="Mi comunidad"/>
-            <TextView
-                android:id="@+id/ccaaNombre"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Arnedo"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="7pt"
-                android:layout_marginLeft="6dp"/>
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:text="Municipio escogido"
+                android:textSize="12sp"/>
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                android:id="@+id/edit_locality_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:text="Editar"
+                android:textColor="@color/ColorAccent"
+                android:textSize="16sp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_grey"/>
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="NOTIFICACIONES DE RESULTADOS"
+                android:textAllCaps="true"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/generalesText"
+                    android:textColor="@color/black"
+                    android:textSize="8pt"
+                    android:text="Generales"/>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/generalesSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/comunidadText"
+                        android:textColor="@color/black"
+                        android:textSize="8pt"
+                        android:text="Mi comunidad"/>
+                    <TextView
+                        android:id="@+id/ccaaNombre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="7pt"
+                        android:layout_marginLeft="6dp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/comunidadSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/provinciaText"
+                        android:textColor="@color/black"
+                        android:textSize="8pt"
+                        android:text="Mi provincia"/>
+                    <TextView
+                        android:id="@+id/provinciaNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="7pt"
+                        android:layout_marginLeft="6dp"/>
+                </LinearLayout>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/provinciaSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/municipioText"
+                        android:textColor="@color/black"
+                        android:textSize="8pt"
+                        android:text="Mi municipio"/>
+                    <TextView
+                        android:id="@+id/municipioNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="7pt"
+                        android:layout_marginLeft="6dp"/>
+                </LinearLayout>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/municipioSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="NOTIFICACIONES POR PARTIDO POLÍTICO"
+                android:textAllCaps="true"
+                android:textSize="15sp"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/ppText"
+                    android:textColor="@color/black"
+                    android:textSize="8pt"
+                    android:text="PP"/>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/ppSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/psoeText"
+                    android:textColor="@color/black"
+                    android:textSize="8pt"
+                    android:text="PSOE"/>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/psoeSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/csText"
+                    android:textColor="@color/black"
+                    android:textSize="8pt"
+                    android:text="CIUDADANOS"/>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/csSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/podemosText"
+                    android:textColor="@color/black"
+                    android:textSize="8pt"
+                    android:text="Podemos"/>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/podemosSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/iuText"
+                    android:textColor="@color/black"
+                    android:textSize="8pt"
+                    android:text="IU"/>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/iuSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/upydText"
+                    android:textColor="@color/black"
+                    android:textSize="8pt"
+                    android:text="UPyD"/>
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/upydSwitch"
+                    app:theme="@style/Color1SwitchStyle"/>
+            </LinearLayout>
+
+
+
+
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/comunidadSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/provinciaText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="Mi provincia"/>
-        <TextView
-            android:id="@+id/provinciaNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="7pt"
-            android:layout_marginLeft="6dp"/>
-            </LinearLayout>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/provinciaSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/municipioText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="Mi municipio"/>
-        <TextView
-            android:id="@+id/municipioNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="7pt"
-            android:layout_marginLeft="6dp"/>
-            </LinearLayout>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/municipioSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/ColorBackgroundGrey"/>
-    </LinearLayout>
+    </ScrollView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notificaciones de partido"
-        android:textColor="@color/ColorPrimary"
-        android:id="@+id/notifPartido"
-        android:textSize="8pt"
-        android:textAllCaps="true"
-        android:layout_marginTop="15dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/notifPartidoDescr"
-        android:text="Suscríbete si quieres conocer las noticias de los partidos"
-        android:textSize="7pt"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bgswitch_preferences">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/ppText"
-                android:textColor="@color/ColorPrimary"
-                android:textSize="8pt"
-                android:text="PP"/>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/ppSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/psoeText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="PSOE"/>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/psoeSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/csText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="CIUDADANOS"/>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/csSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/podemosText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="PODEMOS"/>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/podemosSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/iuText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="IU"/>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/iuSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/ColorBackgroundGrey"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/upydText"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="8pt"
-            android:text="UPyD"/>
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/upydSwitch"
-            app:theme="@style/Color1SwitchStyle"/>
-    </LinearLayout>
-    </LinearLayout>
+    <!--  ACERCA DE
     <TextView
         android:id="@+id/acercaDe"
         android:layout_width="wrap_content"
@@ -418,11 +413,11 @@
         android:textColor="@color/ColorPreferencias"
         android:textSize="7pt"
         android:id="@+id/acercaDeButton"
-        style="?android:attr/borderlessButtonStyle"/>
+        style="?android:attr/borderlessButtonStyle"/> -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/version"/>
 
 </LinearLayout>
-</ScrollView>
