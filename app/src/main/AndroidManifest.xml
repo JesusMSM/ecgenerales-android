@@ -83,6 +83,10 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".activities.SearchLocalityActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".activities.ChooseActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
