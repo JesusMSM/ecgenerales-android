@@ -9,6 +9,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,17 +38,16 @@ import org.json.JSONObject;
 
 import com.elconfidencial.eceleccionesgenerales2015.R;
 
-public class NoticiaContentActivity  extends ActionBarActivity {
+public class NoticiaContentActivity  extends AppCompatActivity {
 
     private String url = "";
     private String info = "";
     private String textSize= "";
-    private WebView descripcion1, descripcion2;
-    private TextView textoPrueba;
-    private String head="";
-    private String htmlString1,htmlString2, contenido1, contenido2 ="";
+    private WebView webView;
     private Intent intent;
     SharedPreferences prefs;
+    Toolbar toolbar;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,111 +57,22 @@ public class NoticiaContentActivity  extends ActionBarActivity {
 
         //comScore.setAppContext(this.getApplicationContext());
 
-        //ActionBar
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowCustomEnabled( true );
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        LayoutInflater inflator = LayoutInflater.from(this);
-        View v = inflator.inflate(R.layout.custom_title_noticias, null);
-        ((TextView)v.findViewById(R.id.actionBarTitle)).setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf"));
-        getSupportActionBar().setCustomView(v);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setupToolbar();
 
-        //Extraemos el intent para leer los par�metros y rellenar los campos
         intent = getIntent();
 
         //Datos para compartir
         url = intent.getStringExtra("link");
         info = Html.fromHtml(intent.getStringExtra("titulo")).toString();
 
-        TextView titulo = (TextView) findViewById(R.id.titulo);
-        ImageView imagen = (ImageView) findViewById(R.id.imagen);
-        descripcion1 = (WebView)findViewById(R.id.descripcion1);
-        descripcion2 = (WebView)findViewById(R.id.descripcion2);
-        TextView autor = (TextView) findViewById(R.id.autor);
-        TextView fecha = (TextView) findViewById(R.id.fecha);
-        final ImageView imagenPubli = (ImageView) findViewById(R.id.imageView);
-        final NativeContentAdView adView = (NativeContentAdView) findViewById(R.id.adView);
-
-
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
 
-        titulo.setText(Html.fromHtml(intent.getStringExtra("titulo")));
-        autor.setText(Html.fromHtml(intent.getStringExtra("autor")));
-        fecha.setText(getTimeAgo(intent.getStringExtra("fecha")));
+        url = url.replace("http://www.elconfidencial.com/","http://www.elconfidencial.com/amp/");
 
-        //Obtenemos el tamaño de letra del contenido dependiendo del tamaño de pantalla
-
-        //Comprueba si es la primera vez
-        boolean firstTime = prefs.getBoolean("firstTimeNews", true); //Si no existe, devuelve el segundo parametro
-        if(firstTime) {
-            if (getSizeName().equals("xlarge")) {
-                textSize = "28px";
-            } else if (getSizeName().equals("large")) {
-                textSize = "21px";
-            } else if (getSizeName().equals("normal")) {
-                textSize = "19px";
-            } else {
-                textSize = "17px";
-            }
-            editor.putString("textSize", textSize);
-            editor.putBoolean("firstTimeNews", false);
-            editor.apply();
-            Log.d("Primera vez", "Ha entrado en primera vez");
-            reloadDescription();
-        }else{
-            textSize = prefs.getString("textSize","");
-            reloadDescription();
-        }
-
-        //Estilo
-        titulo.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Milio-Heavy.ttf"));
-        autor.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        fecha.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        Glide.with(getApplicationContext()).load(intent.getStringExtra("imagenUrl")).placeholder(R.mipmap.nopic).into(imagen);
-
-        final String[] empresa = {""};
-        AdLoader builder = new AdLoader.Builder(this, getResources().getString(R.string.ad_unit))
-
-                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
-                    @Override
-                    public void onContentAdLoaded(NativeContentAd contentAd) {
-
-                       imagenPubli.setImageDrawable(
-                                contentAd.getImages().get(0).getDrawable());
-                        adView.setImageView(imagenPubli);
-                        adView.setNativeAd(contentAd);
-                        empresa[0] = (String) contentAd.getHeadline();
-                    }
-                })
-                .withAdListener(new AdListener() {
-                    @Override
-                    public void onAdFailedToLoad(int errorCode) {
-                        /*Toast.makeText(getApplicationContext(), "Failed to load native ad: "
-                                + errorCode, Toast.LENGTH_SHORT).show();*/
-                    }
-
-                    @Override
-                    public void onAdOpened() {
-                        super.onAdOpened();
-                        //Amplitude
-                        Log.i("20D_AMPLITUDE", "ONTAP_CARD: "+ empresa[0]);
-                        JSONObject eventProperties = new JSONObject();
-                        try {
-                            eventProperties.put("CARD", empresa[0]);
-                        } catch (JSONException exception) {
-                        }
-                        Amplitude.getInstance().logEvent("ONTAP_CARD", eventProperties);
-                    }
-                })
-                .withNativeAdOptions(new NativeAdOptions.Builder()
-                        // Methods in the NativeAdOptions.Builder class can be
-                        // used here to specify individual options settings.
-                        .build())
-                .build();
-
-        builder.loadAd(new PublisherAdRequest.Builder().build());
+        webView = (WebView) findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(url);
     }
 
     @Override
@@ -169,7 +81,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void reduceTamaño(){
+    /*public void reduceTamaño(){
         int textSizeInt = Integer.valueOf(textSize.substring(0, textSize.length() - 2));
 
         SharedPreferences.Editor editor = prefs.edit();
@@ -187,7 +99,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         }
         editor.putString("textSize", textSize);
         editor.apply();
-        reloadDescription();
+        //reloadDescription();
 
 
     }
@@ -209,12 +121,12 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         }
         editor.putString("textSize", textSize);
         editor.apply();
-        reloadDescription();
+        //reloadDescription();
 
 
-    }
+    }*/
 
-    public void reloadDescription(){
+    /*public void reloadDescription(){
         //Insertamos la cabecera al html con el estilo
         head = "<head><style>@font-face {font-family: MilioHeavy;src: url(\"file:///android_asset/Milio-Heavy.ttf\")}" +
                 "@font-face {font-family: TitilliumLight;src: url(\"file:///android_asset/Titillium-Light.otf\")}" +
@@ -308,7 +220,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             }
 
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -318,26 +230,11 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         if(item.getItemId() == R.id.share){
            shareAction(url, info);
         }
-        if(item.getItemId() == R.id.aumenta){
-            aumentarTamaño();
-        }
-        if(item.getItemId() == R.id.reduce){
-            reduceTamaño();
-        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        //Amplitude
-        Log.i("20D_AMPLITUDE", "ONTAP_FONT: "+ textSize);
-        JSONObject eventProperties = new JSONObject();
-        try {
-            eventProperties.put("FONT_SIZE", textSize);
-        } catch (JSONException exception) {
-        }
-        Amplitude.getInstance().logEvent("ONTAP_FONT", eventProperties);
-
         System.gc();
         finish();
         super.onBackPressed();
@@ -389,7 +286,7 @@ public class NoticiaContentActivity  extends ActionBarActivity {
         long time = 0;
 
         try{
-            long epoch = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+01:00").parse(timeCTE).getTime();
+            long epoch = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+02:00").parse(timeCTE).getTime();
             time=epoch;
         }catch(Exception e){
             e.printStackTrace();
@@ -466,4 +363,16 @@ public class NoticiaContentActivity  extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+    private void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(null);
+            //actionBar.setHomeAsUpIndicator(R.drawable.elconfidencial_32dp_white);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
 }

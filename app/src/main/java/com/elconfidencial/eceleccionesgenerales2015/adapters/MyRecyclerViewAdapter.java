@@ -4,12 +4,18 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.TextPaint;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -247,18 +253,26 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         final Noticia noticia = (Noticia) items.get(position);
         if (noticia != null) {
             vh.titulo.setText(Html.fromHtml(noticia.getTitulo()));
-            vh.autor.setText(noticia.getAutor());
+
+            Spannable s = (Spannable) Html.fromHtml(noticia.getDescripcion());
+            for (URLSpan u: s.getSpans(0, s.length(), URLSpan.class)) {
+                s.setSpan(new UnderlineSpan() {
+                    public void updateDrawState(TextPaint tp) {
+                        tp.setUnderlineText(false);
+                        tp.setColor(Color.parseColor("#000000"));
+                    }
+                }, s.getSpanStart(u), s.getSpanEnd(u), 0);
+            }
+            vh.descripcion.setText(s);
+            vh.tag.setText(noticia.getTag());
             try {
                 System.gc();
-                //Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh.imagen);
                 Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.mipmap.nopic).into(vh.imagen);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        vh.autor.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Heavy.ttf"));
-
+        vh.timeAgo.setText(NoticiaContentActivity.getTimeAgo(noticia.getFecha()));
         //onClickListenerNoticia
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -363,53 +377,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-       /* final Noticia noticia = (Noticia) items.get(position);
-        if (noticia != null) {
-            vh.titulo.setText(Html.fromHtml(noticia.getTitulo()));
-            vh.autor.setText(noticia.getAutor());
-            try {
-                System.gc();
-                //Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.drawable.nopic).into(vh.imagen);
-                Glide.with(context).load(noticia.getImagenUrl()).placeholder(R.mipmap.nopic).into(vh.imagen);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        vh.autor.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Heavy-Italic.ttf"));
 
-        //onClickListenerNoticia
-        vh.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Creamos un intent para llamar a NoticiasContentActivity con los extras de la noticia correspondiente
-                Intent intent = new Intent(context, NoticiaContentActivity.class);
-                intent.putExtra("titulo", noticia.getTitulo());
-                System.out.print("DESC" + noticia.getDescripcion());
-                intent.putExtra("descripcion", noticia.getDescripcion());
-                intent.putExtra("autor", noticia.getAutor());
-                intent.putExtra("fecha", noticia.getFecha());
-                intent.putExtra("link", noticia.getLink());
-                intent.putExtra("imagenUrl", noticia.getImagenUrl());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
-        vh.botonCompartir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent();
-                String textoCompartir = noticia.getLink() + "\n\n" + noticia.getTitulo();
-
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, textoCompartir);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setType("text/plain");
-
-                v.getContext().startActivity(Intent.createChooser(intent, v.getContext().getResources().getString(R.string.share)));
-            }
-        });*/
 
 
     private void configureContadorViewHolder(ContadorViewHolder vh3, int position) {
@@ -655,7 +623,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
 
-               // MainActivity.switchFragment(3);
+                // MainActivity.switchFragment(3);
                 //Amplitude
                 Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
                 Amplitude.getInstance().logEvent("ONTAP_PRESINDER");
@@ -665,7 +633,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
 
-               // MainActivity.switchFragment(3);
+                // MainActivity.switchFragment(3);
                 //Amplitude
                 Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
                 Amplitude.getInstance().logEvent("ONTAP_PRESINDER");
@@ -723,114 +691,121 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-    private void configureSpinnerViewHolder(final SpinnerViewHolder vh, int position) {
+    private void configureSpinnerViewHolder(final SpinnerViewHolder vh, final int position) {
 
 
-        String[] arrayPartidos = context.getResources().getStringArray(R.array.partidos);
-        List<String> spinnerArray =  new ArrayList<String>();
+        final String[] arrayPartidos = context.getResources().getStringArray(R.array.partidos);
 
 
         //Para que al recargar el recycler view, el valor que salga sea el que ha seleccionado
         switch(NoticiasTab.seleccion){
             case 0:
-                spinnerArray.add(context.getResources().getString(R.string.elige_partido_politico));
+                vh.selected.setText("Todos los partidos");
                 break;
             case 1:
-                spinnerArray.add("Todos los partidos");
+                vh.selected.setText(context.getResources().getString(R.string.pp));
                 break;
             case 2:
-                spinnerArray.add(context.getResources().getString(R.string.pp));
+                vh.selected.setText(context.getResources().getString(R.string.psoe));
                 break;
             case 3:
-                spinnerArray.add(context.getResources().getString(R.string.psoe));
+                vh.selected.setText(context.getResources().getString(R.string.ciudadanos));
                 break;
             case 4:
-                spinnerArray.add(context.getResources().getString(R.string.ciudadanos));
+                vh.selected.setText(context.getResources().getString(R.string.podemos));
                 break;
             case 5:
-                spinnerArray.add(context.getResources().getString(R.string.podemos));
+                vh.selected.setText(context.getResources().getString(R.string.iu));
                 break;
             case 6:
-                spinnerArray.add(context.getResources().getString(R.string.iu));
+                vh.selected.setText(context.getResources().getString(R.string.upyd));
                 break;
-            case 7:
-                spinnerArray.add(context.getResources().getString(R.string.upyd));
+            default:
+                vh.selected.setText("Elige un partido");
                 break;
-
 
         }
-        //Default value
-        //spinnerArray.add(context.getResources().getString(R.string.elige_partido_politico));
 
-        for (int i = 0; i<arrayPartidos.length;i++){
-            spinnerArray.add(arrayPartidos[i]);
-        }
-
-        PartidoSpinnerAdapter adapter = new PartidoSpinnerAdapter(
-                context, R.layout.row_custom_spinner_partido, spinnerArray);
-
-        vh.spinner.setAdapter(adapter);
-
-        vh.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        vh.layoutSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                switch (position) {
-                    case 0:
-                        NoticiasTab.seleccion = 0;
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
-                        break;
-                    case 1:
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/"; //general
-                        NoticiasTab.seleccion = 1;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
-                    case 2:
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
-                        NoticiasTab.seleccion = 2;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
-                    case 3:
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
-                        NoticiasTab.seleccion = 3;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
-                    case 4:
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
-                        NoticiasTab.seleccion = 4;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
-                    case 5:
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
-                        NoticiasTab.seleccion = 5;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
-                    case 6:
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
-                        NoticiasTab.seleccion = 6;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
-                    case 7:
-                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
-                        NoticiasTab.seleccion = 7;
-                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                        break;
-                }
-                //Amplitude
-                Log.i("20D_AMPLITUDE", "ONSELECT_FILTER: " + NoticiasTab.rss_url);
-                JSONObject eventProperties = new JSONObject();
-                try {
-                    eventProperties.put("PARTY", NoticiasTab.rss_url);
-                } catch (JSONException exception) {
-                }
-                Amplitude.getInstance().logEvent("ONSELECT_FILTER", eventProperties);
+            public void onClick(View v) {
+                final int[] selected = {NoticiasTab.seleccion};
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle("Noticias de")
+                        .setSingleChoiceItems(arrayPartidos, NoticiasTab.seleccion, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.i("TAG", "Selected: " + String.valueOf(which));
+                                selected[0] = which;
+                            }
+                        })
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int position) {
+                                switch (selected[0]) {
+                                    case 0:
+                                        NoticiasTab.seleccion = 0;
+                                        vh.selected.setText(arrayPartidos[0]);
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
+                                        break;
+                                    case 1:
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
+                                        NoticiasTab.seleccion = 1;
+                                        vh.selected.setText(arrayPartidos[1]);
+                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        break;
+                                    case 2:
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
+                                        NoticiasTab.seleccion = 2;
+                                        vh.selected.setText(arrayPartidos[2]);
+                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        break;
+                                    case 3:
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
+                                        NoticiasTab.seleccion = 3;
+                                        vh.selected.setText(arrayPartidos[3]);
+                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        break;
+                                    case 4:
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
+                                        NoticiasTab.seleccion = 4;
+                                        vh.selected.setText(arrayPartidos[4]);
+                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        break;
+                                    case 5:
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
+                                        NoticiasTab.seleccion = 5;
+                                        vh.selected.setText(arrayPartidos[5]);
+                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        break;
+                                    case 6:
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
+                                        NoticiasTab.seleccion = 6;
+                                        vh.selected.setText(arrayPartidos[6]);
+                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        break;
+                                }
+                                //Amplitude
+                                //Log.i("20D_AMPLITUDE", "ONSELECT_FILTER: " + NoticiasTab.rss_url);
+                                /*JSONObject eventProperties = new JSONObject();
+                                try {
+                                    eventProperties.put("PARTY", NoticiasTab.rss_url);
+                                } catch (JSONException exception) {
+                                }*/
+                                //Amplitude.getInstance().logEvent("ONSELECT_FILTER", eventProperties);
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
         });
-
     }
     public void configureFooterPersinderViewHolder(FooterPresinderViewHolder vh,int position){
         vh.volverAJugar.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
@@ -916,4 +891,5 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
     }
+
 }

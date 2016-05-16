@@ -73,7 +73,6 @@
         <activity
             android:name=".activities.NoticiaContentActivity"
             android:label="@string/title_activity_noticia_content"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         </activity>
         <activity

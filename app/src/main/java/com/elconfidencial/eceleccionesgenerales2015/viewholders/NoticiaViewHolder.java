@@ -7,21 +7,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.elconfidencial.eceleccionesgenerales2015.R;
+import com.elconfidencial.eceleccionesgenerales2015.text.TitilliumLightTextView;
 
 /**
  * Created by Moonfish on 28/10/15.
  */
 public class NoticiaViewHolder extends RecyclerView.ViewHolder{
 
-    public TextView titulo,autor;
+    public TextView titulo,tag,descripcion,timeAgo;
     public ImageView imagen;
-    public FloatingActionButton botonCompartir;
+    public ImageView botonCompartir;
 
     public NoticiaViewHolder(View v) {
         super(v);
         titulo = (TextView) v.findViewById(R.id.titulo);
-        autor = (TextView) v.findViewById(R.id.autor);
+        tag = (TextView) v.findViewById(R.id.tag);
+        timeAgo = (TextView) v.findViewById(R.id.timeAgo);
+        descripcion = (TextView) v.findViewById(R.id.descripcion);
         imagen = (ImageView) v.findViewById(R.id.imagen);
-        botonCompartir = (FloatingActionButton) v.findViewById(R.id.fab);
+        botonCompartir = (ImageView) v.findViewById(R.id.compartir);
     }
 }

@@ -10,18 +10,20 @@ public class Noticia {
     private String imagenUrl;
     private String link;
     private String fecha;
+    private String tag;
 
     public Noticia(){
         super();
     }
 
-    public Noticia(String titulo, String descripcion, String autor, String imagenUrl, String link, String fecha){
+    public Noticia(String titulo, String descripcion, String autor, String imagenUrl, String link, String fecha, String tag){
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.autor = autor;
         this.imagenUrl = imagenUrl;
         this.link = link;
         this.fecha = fecha;
+        this.tag = tag;
     }
 
     public String getTitulo() {
@@ -70,5 +72,13 @@ public class Noticia {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

@@ -1,5 +1,7 @@
 package com.elconfidencial.eceleccionesgenerales2015.rss;
 
+import android.util.Log;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -17,7 +19,8 @@ public class RssNoticiasHandler extends DefaultHandler {
     private Noticia noticiaActual;
     private StringBuilder sbTexto;
     private boolean firstTime;
-
+    private String global_tag = "";
+    boolean isTag;
     public List<Noticia> getNoticias(){
         return noticias;
     }
@@ -54,7 +57,10 @@ public class RssNoticiasHandler extends DefaultHandler {
             } else if (localName.equals("name")) {
                 noticiaActual.setAutor(sbTexto.toString());
             } else if(localName.equals("entry")){
-                noticias.add(noticiaActual);}
+                noticias.add(noticiaActual);
+            }
+
+            noticiaActual.setTag("TAG");
 
             sbTexto.setLength(0);
         }
@@ -77,6 +83,7 @@ public class RssNoticiasHandler extends DefaultHandler {
 
         if (localName.equals("entry")) {
             firstTime=true;
+            isTag = true;
             noticiaActual = new Noticia();
 
         }
