@@ -382,23 +382,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void configureContadorViewHolder(ContadorViewHolder vh3, int position) {
         vh3.showContador();
-
-        vh3.label.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
-        vh3.barra.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
-        vh3.d_20.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
-
-        vh3.preferences.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PreferencesActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-
-                //Amplitude
-                Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
-                Amplitude.getInstance().logEvent("ONTAP_CARD");
-            }
-        });
     }
 
     private void configureDialogViewHolder(DialogViewHolder vh, int position) {
@@ -739,13 +722,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 selected[0] = which;
                             }
                         })
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Ver noticias", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int position) {
                                 switch (selected[0]) {
                                     case 0:
                                         NoticiasTab.seleccion = 0;
                                         vh.selected.setText(arrayPartidos[0]);
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
+                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
                                         break;
                                     case 1:
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
@@ -795,7 +779,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                             }
                         })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // do nothing
                             }

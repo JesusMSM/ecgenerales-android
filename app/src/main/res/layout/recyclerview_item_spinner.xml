@@ -5,7 +5,9 @@
     android:layout_marginTop="16dp"
     android:layout_marginBottom="10dp"
     android:gravity="center"
-    android:background="@color/material_grey_300"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:background="@color/grey2"
     android:id="@+id/layoutSpinner">
 
     <!--<Spinner
@@ -21,12 +23,15 @@
     <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
         android:textAllCaps="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical"
         android:textColor="@color/black"
         android:id="@+id/selectedPartido"/>
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_share_variant"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/ic_access"/>
 
 </LinearLayout>

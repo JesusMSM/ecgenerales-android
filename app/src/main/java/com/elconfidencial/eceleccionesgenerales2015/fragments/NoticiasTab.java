@@ -115,7 +115,11 @@ public class NoticiasTab extends Fragment {
             }
 
         public void addItems() {
-            
+
+            //if(MainActivity.SHOW_TIMER){
+                items.add("contador");
+            //}
+
             Spinner spinner = new Spinner(getActivity());
             items.add(spinner);
 

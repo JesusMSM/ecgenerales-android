@@ -3,94 +3,21 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/blue1">
 
-    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+    <!--<com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:cropToPadding="true"
         android:adjustViewBounds="true"
         android:src="@drawable/background_portada"
-        />
+        />-->
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="3dp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center">
-                <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                    android:layout_weight="12"
-                android:text="@string/titulo_el_confidencial"
-                    android:gravity="right"
-                android:textSize="12pt"
-                android:id="@+id/label"
-                android:textColor="@color/white"
-                android:paddingRight="2dp"
-                android:paddingLeft="2dp"
-                />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="|"
-                android:gravity="center"
-                android:textSize="11pt"
-                android:id="@+id/barra"
-                android:textColor="@color/white"
-                android:paddingRight="2dp"
-                android:paddingLeft="2dp"
-                />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="left"
-                android:text="20-D"
-                android:textSize="14pt"
-                android:id="@+id/d_20"
-                android:textColor="@color/white"
-                android:paddingRight="2dp"
-                android:paddingLeft="2dp"
-                />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:layout_weight="2"
-                    android:paddingRight="5dp"
-                    android:id="@+id/preferencesIconCont"
-                    android:src="@drawable/settings_icon"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/textViewFaltan"
-                android:textColor="@color/white"
-                android:textSize="6pt"
-                android:gravity="center"
-                android:text="FALTAN"/>
-        </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -108,23 +35,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="DIAS"
-                android:textSize="10sp"
+                android:textSize="25sp"
                 android:id="@+id/textViewDias"
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="bottom|center" />
-
-            <com.elconfidencial.eceleccionesgenerales2015.views.DonutProgress
-
-                android:layout_marginBottom="0dp"
-                android:padding="10dp"
-                android:id="@+id/donut_dias"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                custom:donut_unfinished_stroke_width="5dp"
-                custom:donut_finished_stroke_width="5dp"
-                custom:donut_progress="10"
-                custom:donut_unfinished_color="@color/transparent"
+                android:text="días"
                 android:layout_gravity="center" />
+
         </FrameLayout>
 
 
@@ -135,31 +55,20 @@
             android:id="@+id/layouthoras"
             android:layout_toRightOf="@id/layoutdias">
 
-
-            <com.elconfidencial.eceleccionesgenerales2015.views.DonutProgress
-
-                android:layout_marginBottom="0dp"
-                android:id="@+id/donut_horas"
-                android:padding="10dp"
-                android:layout_toRightOf="@id/layouthoras"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:donut_unfinished_stroke_width="5dp"
-                custom:donut_finished_stroke_width="5dp"
-                custom:donut_progress="10"
-                custom:donut_unfinished_color="@color/transparent"
-                />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="HORAS"
-                android:textSize="10sp"
+                android:textSize="25sp"
                 android:id="@+id/textViewHoras"
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="bottom|center" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="horas"
+                android:layout_gravity="center" />
             </FrameLayout>
 
 
@@ -170,20 +79,6 @@
             android:id="@+id/layoutminutos"
             android:layout_toRightOf="@id/layouthoras">
 
-
-            <com.elconfidencial.eceleccionesgenerales2015.views.DonutProgress
-
-                android:layout_marginBottom="0dp"
-                android:padding="10dp"
-                android:id="@+id/donut_minutos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:donut_unfinished_stroke_width="5dp"
-                custom:donut_finished_stroke_width="5dp"
-                custom:donut_progress="10"
-                custom:donut_unfinished_color="@color/transparent"
-                />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -193,7 +88,11 @@
                 android:id="@+id/textViewMinutos"
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="bottom|center" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="minutos"
+                android:layout_gravity="center" />
             </FrameLayout>
 
     </RelativeLayout>
@@ -210,7 +109,7 @@
                 android:textColor="@color/white"
                 android:textSize="6pt"
                 android:gravity="center"
-                android:text="PARA QUE ABRAN LOS COLEGIOS ELECTORALES"/>
+                android:text="para abrir los colegios electorales"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -3,8 +3,9 @@
     <!--Color gris sliding tab #c7c7c7-->
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
-    <color name="grey">#6F6F6F</color>
+    <color name="grey">#EEEDEB</color>
     <color name="light_grey">#BDBDBD</color>
+    <color name="grey2">#F9F9F9</color>
     <color name="titulos">#333333</color>
     <color name="transparent">#00000000</color>
     <color name="actionBar_color">#000</color>
@@ -14,6 +15,7 @@
     <color name="ColorPreferencias">#165875</color>
     <color name="ColorAccent">#4c84b5</color>
     <color name="ColorBackgroundGrey">#F5F5F5</color>
+    <color name="blue1">#129CE1</color>
 
     <!-- Presinder Tab -->
     <color name="Color_disagree">#ff2600</color>

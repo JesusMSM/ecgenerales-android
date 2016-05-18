@@ -20,7 +20,7 @@ public class RssNoticiasHandler extends DefaultHandler {
     private StringBuilder sbTexto;
     private boolean firstTime;
     private String global_tag = "";
-    boolean isTag;
+    boolean isTag=false;
     public List<Noticia> getNoticias(){
         return noticias;
     }
@@ -31,8 +31,7 @@ public class RssNoticiasHandler extends DefaultHandler {
 
         super.characters(ch, start, length);
 
-        if (this.noticiaActual != null)
-            sbTexto.append(ch, start, length);
+        sbTexto.append(ch, start, length);
     }
 
     @Override
@@ -40,7 +39,13 @@ public class RssNoticiasHandler extends DefaultHandler {
             throws SAXException {
 
         super.endElement(uri, localName, name);
-
+        if (this.noticiaActual == null) {
+            Log.i("Rss null", "is null");
+            if(localName.equals("title")) {
+                Log.i("Rss null", sbTexto.toString().trim());
+                global_tag = sbTexto.toString();
+            }
+        }
         if (this.noticiaActual != null) {
             if (localName.equals("title") && (firstTime)) {
                 noticiaActual.setTitulo(sbTexto.toString());
@@ -60,10 +65,10 @@ public class RssNoticiasHandler extends DefaultHandler {
                 noticias.add(noticiaActual);
             }
 
-            noticiaActual.setTag("TAG");
+            noticiaActual.setTag(global_tag);
 
-            sbTexto.setLength(0);
         }
+        sbTexto.setLength(0);
     }
 
     @Override
@@ -83,9 +88,7 @@ public class RssNoticiasHandler extends DefaultHandler {
 
         if (localName.equals("entry")) {
             firstTime=true;
-            isTag = true;
             noticiaActual = new Noticia();
-
         }
         if (localName.equals("link")) {
             if (attributes.getValue("rel").toString().equals("enclosure")) {
