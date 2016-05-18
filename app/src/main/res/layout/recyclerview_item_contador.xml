@@ -17,17 +17,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
+            android:orientation="vertical"
             android:id="@+id/layoutdias">
 
             <TextView
@@ -35,23 +37,33 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="DIAS"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:id="@+id/textViewDias"
-                android:layout_marginBottom="20dp"
-                android:layout_gravity="bottom|center" />
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:text="días"
                 android:layout_gravity="center" />
 
-        </FrameLayout>
+        </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="·"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:textSize="50sp"/>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
+            android:orientation="vertical"
             android:id="@+id/layouthoras"
             android:layout_toRightOf="@id/layoutdias">
 
@@ -60,22 +72,32 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="HORAS"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:id="@+id/textViewHoras"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="5dp"
                 android:layout_gravity="bottom|center" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="horas"
+                android:textColor="@color/white"
                 android:layout_gravity="center" />
-            </FrameLayout>
+            </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="·"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:textSize="50sp"/>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
+            android:orientation="vertical"
             android:id="@+id/layoutminutos"
             android:layout_toRightOf="@id/layouthoras">
 
@@ -84,18 +106,19 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="MINUTOS"
-                android:textSize="10sp"
+                android:textSize="20sp"
                 android:id="@+id/textViewMinutos"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="5dp"
                 android:layout_gravity="bottom|center" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="minutos"
+                android:textColor="@color/white"
                 android:layout_gravity="center" />
-            </FrameLayout>
+            </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,7 +130,8 @@
                 android:layout_gravity="center"
                 android:id="@+id/textViewColegiosElectorales"
                 android:textColor="@color/white"
-                android:textSize="6pt"
+                android:textSize="15sp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:text="para abrir los colegios electorales"/>
         </LinearLayout>

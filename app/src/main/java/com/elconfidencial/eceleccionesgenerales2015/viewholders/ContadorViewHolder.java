@@ -30,10 +30,10 @@ public class ContadorViewHolder extends RecyclerView.ViewHolder{
         textViewHoras = (TextView) v.findViewById(R.id.textViewHoras);
         textViewMinutos = (TextView) v.findViewById(R.id.textViewMinutos);
 
-        textViewDias.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
-        textViewHoras.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
-        textViewMinutos.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
-        textViewColegiosElectorales.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Regular.otf"));
+        //textViewDias.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
+        //textViewHoras.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
+        //textViewMinutos.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Light.otf"));
+        //textViewColegiosElectorales.setTypeface(Typeface.createFromAsset(v.getContext().getAssets(), "Titillium-Regular.otf"));
     }
 
     public void showContador(){

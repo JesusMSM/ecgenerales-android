@@ -784,7 +784,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 // do nothing
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
 
             }
@@ -853,6 +852,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         public void addItems() {
+
+            //if(MainActivity.SHOW_TIMER){
+            items.add("contador");
+            //}
 
             Spinner spinner = new Spinner(context);
             items.add(spinner);
