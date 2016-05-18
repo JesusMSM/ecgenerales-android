@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +48,25 @@ public class PresinderTab extends Fragment {
     ImageView like,dislike;
     Button verResultados;
     QuoteServer qs = QuoteServer.getInstance();
+
     public PresinderTab(){}
+
+    public static PresinderTab newInstance() {
+
+        Bundle args = new Bundle();
+
+        PresinderTab fragment = new PresinderTab();
+        fragment.setArguments(args);
+
+
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

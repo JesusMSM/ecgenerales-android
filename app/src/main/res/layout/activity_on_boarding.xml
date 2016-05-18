@@ -2,64 +2,120 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:id="@+id/linearOnboarding"
+    android:background="@color/cardview_dark_background"
     tools:context="com.elconfidencial.eceleccionesgenerales2015.activities.OnBoardingActivity">
-    
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize">
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Elecciones 26J"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:id="@+id/positionIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center"
-        android:id="@+id/logoOnboarding"/>
-    <TextView
-        android:id="@+id/introduceMunicipio"
+        android:src="@drawable/ic_home_grey"/>
+
+    <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:gravity="center"
-        android:layout_gravity="center"
-        android:text="Introduzca su municipio"
+        android:text="Escoge tu municipio"
         android:textColor="@color/white"
-        android:textAllCaps="true"
-        android:textSize="7pt"/>
+        android:textSize="16sp"/>
+
+    <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:gravity="center"
+        android:text="Para proporcionarte una experiencia personalizada"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+
+    <RelativeLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:padding="2dp">
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_format_size"/>
+
+        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+            android:id="@+id/search_locality_text"
+            android:layout_toRightOf="@+id/search_icon"
+            android:layout_toEndOf="@+id/search_icon"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Busca tu localidad"
+            android:textColor="@color/grey"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+    <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+        android:id="@+id/skip_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="end"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="Saltar"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+
+    <!--
 
     <AutoCompleteTextView
         android:id="@+id/searchMunicipio"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:backgroundTint="@color/white"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:textColor="@color/white"
-        android:textSize="8pt"
-        android:layout_weight="1"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:textSize="12sp"/> -->
 
-    <Button
-        android:id="@+id/empezar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="40dp"
-        android:gravity="center"
-        android:background="@drawable/button_onboarding"
-        android:text="@string/empezar"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="10pt"
-        android:src="@drawable/button_resultados"/>
+
 
 
 </LinearLayout>

@@ -73,13 +73,16 @@
         <activity
             android:name=".activities.NoticiaContentActivity"
             android:label="@string/title_activity_noticia_content"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activities.ResultadosPresinderActivity"
             android:label="@string/title_activity_resultados_presinder"
             android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activities.SearchLocalityActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -103,8 +106,6 @@
         </activity>
         <activity
             android:name=".activities.PreferencesActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         </activity>
 

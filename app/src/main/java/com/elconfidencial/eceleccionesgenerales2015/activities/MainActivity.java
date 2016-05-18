@@ -2,18 +2,31 @@ package com.elconfidencial.eceleccionesgenerales2015.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.comscore.analytics.comScore;
+import com.elconfidencial.eceleccionesgenerales2015.fragments.EncuestasTab;
+import com.elconfidencial.eceleccionesgenerales2015.fragments.ResultadosTab;
+import com.elconfidencial.eceleccionesgenerales2015.fragments.NoticiasTab;
+import com.elconfidencial.eceleccionesgenerales2015.fragments.PresinderTab;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 
@@ -38,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static Context context;
     public static Resources resources;
-    static ViewPager pager;
+    ViewPager pager;
     ViewPagerAdapter adapter;
-    SlidingTabLayout tabs;
-    int numbOfTabs =4;
-    CharSequence[] Titles = new CharSequence[numbOfTabs];
+    Toolbar toolbar;
+    ActionBar actionBar;
+    public TabLayout tabLayout;
     GlobalMethod globalMethod = new GlobalMethod(this);
 
 
@@ -67,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG_PRESINDER_SHARE_MESSAGE_ANDROID = "PRESINDER_SHARE_MESSAGE_ANDROID";
 
     LinearLayout loadingLayout;
-    RelativeLayout activityLayout;
+    CoordinatorLayout activityLayout;
     public static ProgressDialog pd;
 
     //Quotes
@@ -84,13 +97,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //COMSCORE
+        /**
         try{
             //comScore
             comScore.onUxActive();
         }catch (Exception e){
             Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
-        }
+        }**/
 
 
         // Enable Local Datastore.
@@ -115,36 +132,10 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("firstTime", false);
         editor.apply();
 
-        //Titulos, da igual lo que se ponga pero tienen que existir aunque no se vayan a ver despues
-        Titles[0] = "HOME";
-        Titles[1] = "NEWS";
-        Titles[2] = "POLLS";
-        Titles[3] = "PRESINDER";
+        setupToolbar();
+        setupViewPager();
+        setupTabs();
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, numbOfTabs);
-
-        // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-        pager.setCurrentItem(0);
-        pager.setOffscreenPageLimit(3);
-        // Assiging the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.ColorAccent);
-            }
-        });
-
-        // Setting the ViewPager For the SlidingTabsLayout
-
-        tabs.setCustomTabView(R.layout.custom_actionbar, 0);
-        tabs.setViewPager(pager);
 
         //Download quotes
         qs.getQuotesFromParseOrLocal();
@@ -166,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
-        activityLayout = (RelativeLayout) findViewById(R.id.activityLayout);
+        activityLayout = (CoordinatorLayout) findViewById(R.id.activityLayout);
         if(globalMethod.haveNetworkConnection()) {
             new JSONConfig().execute();
         }
@@ -193,6 +184,104 @@ public class MainActivity extends AppCompatActivity {
         ;*/
         pd = new ProgressDialog(getApplicationContext());
     }
+
+    // region Toolbar
+    //----------------------------------------------------------------------
+
+    private void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(null);
+            //actionBar.setHomeAsUpIndicator(R.drawable.elconfidencial_32dp_white);
+            //actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
+    // region TabLayout
+    //----------------------------------------------------------------------
+
+    private void setupTabs() {
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(pager);
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, android.R.color.black));
+
+        //Configura las tabs
+        setupTabAt(0, "Noticias", true);
+        setupTabAt(1, "Encuestas", false);
+        setupTabAt(2, "Resultados", false);
+        setupTabAt(3, "Test", false);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                int tabPosition = tab.getPosition();
+                pager.setCurrentItem(tabPosition);
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    public void setupTabAt(int position, String title, boolean selected) {
+        TabLayout.Tab tab = tabLayout.getTabAt(position);
+
+        if (tab!=null){
+            tab.setCustomView(R.layout.tab_custom);
+            TextView textView = (TextView) tab.getCustomView();
+            if (textView!= null) {
+                textView.setText(title);
+                textView.setTextColor(ContextCompat.getColorStateList(this, R.color.black));
+                textView.setSelected(selected);
+            }
+        }
+
+    }
+
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
+
+
+    // region VIEWPAGER
+    //----------------------------------------------------------------------
+
+    public void setupViewPager(){
+
+        pager = (ViewPager) findViewById(R.id.pager);
+
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        adapter.addFragment(NoticiasTab.newInstance(), "Portada");
+        adapter.addFragment(EncuestasTab.newInstance(), "Favoritos");
+        adapter.addFragment(ResultadosTab.newInstance(), "Esencial");
+        adapter.addFragment(PresinderTab.newInstance(), "Esencial");
+
+        pager.setAdapter(adapter);
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
 
 
     //Almacena los objetos Partidos dentro de la Lista Global partidosList a partir de un json
@@ -272,10 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Cambia de TAB pasándole el número correspondiente
-    public static void switchFragment(int target){
-        pager.setCurrentItem(target);
-    }
+
 
     @Override
     protected void onResume() {
@@ -315,6 +401,40 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
+    // region Options Menu
+    //----------------------------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+
+                Intent intent = new Intent(this, PreferencesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                //Amplitude
+                /**Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
+                 Amplitude.getInstance().logEvent("ONTAP_SETTINGS");**/
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
+
 
     private class JSONConfig extends AsyncTask<String, String, JSONObject> {
 

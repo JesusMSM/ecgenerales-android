@@ -18,6 +18,7 @@ import com.pushwoosh.BaseRegistrationReceiver;
 import com.pushwoosh.PushManager;
 
 public class ChooseActivity extends AppCompatActivity {
+
     private String apiKeyAmplitude = "47a789399b21bcd069f97c9d6afddd97";
 
     @Override

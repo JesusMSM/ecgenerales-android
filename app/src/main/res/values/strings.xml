@@ -68,5 +68,6 @@
     <string name="title_activity_choose">ChooseActivity</string>
     <string name="title_activity_on_boarding">OnBoardingActivity</string>
     <string name="title_activity_searchable">SearchableActivity</string>
+    <string name="title_activity_search_locality">SearchLocalityActivity</string>
 
 </resources>

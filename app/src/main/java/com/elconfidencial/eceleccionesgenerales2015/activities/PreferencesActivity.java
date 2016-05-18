@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -51,19 +52,20 @@ import com.elconfidencial.eceleccionesgenerales2015.model.Municipio;
 public class PreferencesActivity extends ActionBarActivity {
     public final String PWTAG = "MUNICIPIOS_TAGS";
 
-    TextView generalesText,comunidadText,provinciaText,municipiosText;
-    TextView ccaaNombre, provinciaNombre, municipioNombre,editarText,editarDescr;
-    TextView acercaDe;
-    Button contact;
-    AutoCompleteTextView searchMunicipio;
+    Toolbar toolbar;
+    ActionBar actionBar;
+
+    TextView generalesText,comunidadText,provinciaText,municipiosText, localityName;
+    TextView ccaaNombre, provinciaNombre, municipioNombre,editarText,editarDescr, versionText;
+
     SwitchCompat generalesSwitch,comunidadSwitch,provinciaSwitch,municipioSwitch;
 
     //Partidos
-    TextView notifMunicipio,notifPartidos,notifMunicipioDescr,notifPartidosDescr;
     TextView ppText,psoeText,csText,podemosText,iuText,upydText;
     SwitchCompat ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,upydSwitch;
 
-    Button reestablecer;
+    TextView editButton;
+    Button creditosButton;
 
     SharedPreferences prefs;
     public int realTag;
@@ -74,6 +76,7 @@ public class PreferencesActivity extends ActionBarActivity {
     private List<String> municipiosAutoComplete = new ArrayList<>();
     private List<Municipio> municipiosList = new ArrayList<>();
 
+    Context context;
     Municipio municipioObj;
     //Valores locales nunca cambian. Seleccionados por el usuario en la aplicación.
     String comunidad,provincia,municipio = "";
@@ -84,28 +87,90 @@ public class PreferencesActivity extends ActionBarActivity {
 
     List<String> partidosPW = new ArrayList<>();
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
+        context = this;
 
         //No abrir automaticsmente el teclado
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        //ActionBar
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowCustomEnabled( true );
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        LayoutInflater inflator = LayoutInflater.from(this);
-        View v = inflator.inflate(R.layout.custom_title_noticias, null);
-        ((TextView)v.findViewById(R.id.actionBarTitle)).setText("CONFIGURACIÓN");
-        ((TextView)v.findViewById(R.id.actionBarTitle)).setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf"));
-        getSupportActionBar().setCustomView(v);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        pushManager = PushManager.getInstance(this);
 
-        //CREDITOS
-        Button buttonCreditos = (Button) findViewById(R.id.acercaDeButton);
-        buttonCreditos.setOnClickListener(new View.OnClickListener() {
+        bindViews();
+        setTypefaces();
+
+        setupToolbar();
+
+        //setListenerCreditos();
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SearchLocalityActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ccaaNombre.setText(prefs.getString("CCAAName", "")); //Si no existe, devuelve el segundo parametro
+        provinciaNombre.setText(prefs.getString("ProvinciaName", "")); //Si no existe, devuelve el segundo parametro
+        municipioNombre.setText(prefs.getString("MunicipioName", "")); //Si no existe, devuelve el segundo parametro
+        localityName.setText(prefs.getString("MunicipioName", "Ninguno")); //Si no existe, devuelve el segundo parametro
+
+    }
+
+    public void bindViews(){
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //creditosButton = (Button) findViewById(R.id.acercaDeButton);
+
+        //TextViews
+        localityName = (TextView) findViewById(R.id.locality_name_text);
+        generalesText = (TextView) findViewById(R.id.generalesText);
+        comunidadText = (TextView) findViewById(R.id.comunidadText);
+        provinciaText = (TextView) findViewById(R.id.provinciaText);
+        municipiosText = (TextView) findViewById(R.id.municipioText);
+        editarText = (TextView) findViewById(R.id.editarText);
+        editarDescr = (TextView) findViewById(R.id.editarDescr);
+        ccaaNombre = (TextView) findViewById(R.id.ccaaNombre);
+        provinciaNombre = (TextView) findViewById(R.id.provinciaNombre);
+        municipioNombre = (TextView) findViewById(R.id.municipioNombre);
+        ppText = (TextView) findViewById(R.id.ppText);
+        psoeText = (TextView) findViewById(R.id.psoeText);
+        csText = (TextView) findViewById(R.id.csText);
+        podemosText = (TextView) findViewById(R.id.podemosText);
+        iuText = (TextView) findViewById(R.id.iuText);
+        upydText = (TextView) findViewById(R.id.upydText);
+        //acercaDe = (TextView) findViewById(R.id.acercaDe);
+
+
+        //Buttons
+        editButton = (TextView) findViewById(R.id.edit_locality_button);
+
+        //Switches
+        generalesSwitch = (SwitchCompat) findViewById(R.id.generalesSwitch);
+        comunidadSwitch = (SwitchCompat) findViewById(R.id.comunidadSwitch);
+        provinciaSwitch = (SwitchCompat) findViewById(R.id.provinciaSwitch);
+        municipioSwitch = (SwitchCompat) findViewById(R.id.municipioSwitch);
+
+        //Partidos Switch
+        ppSwitch = (SwitchCompat) findViewById(R.id.ppSwitch);
+        psoeSwitch = (SwitchCompat) findViewById(R.id.psoeSwitch);
+        csSwitch = (SwitchCompat) findViewById(R.id.csSwitch);
+        podemosSwitch = (SwitchCompat) findViewById(R.id.podemosSwitch);
+        iuSwitch = (SwitchCompat) findViewById(R.id.iuSwitch);
+        upydSwitch = (SwitchCompat) findViewById(R.id.upydSwitch);
+
+        //Version
+        versionText = (TextView) findViewById(R.id.version);
+    }
+
+    public void setListenerCreditos(){
+        creditosButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 new MaterialDialog.Builder(v.getContext())
@@ -136,121 +201,24 @@ public class PreferencesActivity extends ActionBarActivity {
 
             }
         });
+    }
 
-        prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        pushManager = PushManager.getInstance(this);
+    public void setVersion(){
+        PackageInfo pInfo = null;
+        try {
+            pInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String versionString = pInfo.versionName;
+        versionText.setText("Versión de la aplicación: " + versionString);
 
-        //AutoCompleteTextView
-        searchMunicipio = (AutoCompleteTextView) findViewById(R.id.searchMunicipioPref);
+        getUserTagValues();
+        initializeSpinnersFromLocal();
+    }
 
-        //Button
-        reestablecer = (Button) findViewById(R.id.reestablecerPref);
+    public void setSwitchListeners(){
 
-        //Adapter del buscador de municipio
-        MyArrayAdapter<String> adapter = new MyArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, municipiosAutoComplete);
-
-        // Numero de caracteres necesarios para que se empiece
-        // a mostrar la lista
-        searchMunicipio.setThreshold(3);
-
-        // Se establece el Adapter
-        searchMunicipio.setAdapter(adapter);
-
-        //Se crea el hint
-        searchMunicipio.setHint(prefs.getString("MunicipioAutoComplete", ""));
-
-        searchMunicipio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                in.hideSoftInputFromWindow(arg1.getApplicationWindowToken(), 0);
-
-            }
-
-        });
-
-        notifMunicipio = (TextView) findViewById(R.id.notifResultados);
-        notifPartidos = (TextView) findViewById(R.id.notifPartido);
-        notifMunicipioDescr = (TextView) findViewById(R.id.notifResultadosDescr);
-        notifPartidosDescr = (TextView) findViewById(R.id.notifPartidoDescr);
-        acercaDe = (TextView) findViewById(R.id.acercaDe);
-        contact = (Button) findViewById(R.id.acercaDeButton);
-        //TextViews
-        generalesText = (TextView) findViewById(R.id.generalesText);
-        comunidadText = (TextView) findViewById(R.id.comunidadText);
-        provinciaText = (TextView) findViewById(R.id.provinciaText);
-        municipiosText = (TextView) findViewById(R.id.municipioText);
-
-        editarText = (TextView) findViewById(R.id.editarText);
-        editarDescr = (TextView) findViewById(R.id.editarDescr);
-        ccaaNombre = (TextView) findViewById(R.id.ccaaNombre);
-        provinciaNombre = (TextView) findViewById(R.id.provinciaNombre);
-        municipioNombre = (TextView) findViewById(R.id.municipioNombre);
-        ppText = (TextView) findViewById(R.id.ppText);
-        psoeText = (TextView) findViewById(R.id.psoeText);
-        csText = (TextView) findViewById(R.id.csText);
-        podemosText = (TextView) findViewById(R.id.podemosText);
-        iuText = (TextView) findViewById(R.id.iuText);
-        upydText = (TextView) findViewById(R.id.upydText);
-
-        ccaaNombre.setText(prefs.getString("CCAAName", "")); //Si no existe, devuelve el segundo parametro
-        provinciaNombre.setText(prefs.getString("ProvinciaName", "")); //Si no existe, devuelve el segundo parametro
-        municipioNombre.setText(prefs.getString("MunicipioName", "")); //Si no existe, devuelve el segundo parametro
-
-        //Button
-        reestablecer.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getMunicipioObject(searchMunicipio.getText().toString()) != null) {
-
-                    municipioObj = getMunicipioObject(searchMunicipio.getText().toString());
-                    Log.i("Municipios", "" + searchMunicipio.getText().toString());
-
-                    //Guardamos en preferences
-                    SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("realTag", municipioObj.getTag());
-                    editor.putString("MunicipioName", municipioObj.getMunicipioName());
-                    editor.putString("ProvinciaName", municipioObj.getProvinciaName());
-                    editor.putString("CCAAName", municipioObj.getCcaaaName());
-                    editor.apply();
-
-                    refreshValuesFromMunicipio(municipioObj);
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.introduce_municipio), Toast.LENGTH_LONG);
-                    toast.show();
-                }
-
-                //Pushwoosh tag reset
-                saveTagInLocal("00000000");
-                sendTagsToPushWoosh(00000000);
-                //Reload view
-                finish();
-                startActivity(getIntent());
-
-            }
-        });
-
-
-        //Switches
-        generalesSwitch = (SwitchCompat) findViewById(R.id.generalesSwitch);
-        comunidadSwitch = (SwitchCompat) findViewById(R.id.comunidadSwitch);
-        provinciaSwitch = (SwitchCompat) findViewById(R.id.provinciaSwitch);
-        municipioSwitch = (SwitchCompat) findViewById(R.id.municipioSwitch);
-        //Partidos Switch
-        ppSwitch = (SwitchCompat) findViewById(R.id.ppSwitch);
-        psoeSwitch = (SwitchCompat) findViewById(R.id.psoeSwitch);
-        csSwitch = (SwitchCompat) findViewById(R.id.csSwitch);
-        podemosSwitch = (SwitchCompat) findViewById(R.id.podemosSwitch);
-        iuSwitch = (SwitchCompat) findViewById(R.id.iuSwitch);
-        upydSwitch = (SwitchCompat) findViewById(R.id.upydSwitch);
-
-        //Set typefaces
-        setTypefaces();
-
-        //Set listeners
         generalesSwitch.setOnCheckedChangeListener(new GeneralesSwitchListener());
         comunidadSwitch.setOnCheckedChangeListener(new ComunidadSwitchListener());
         provinciaSwitch.setOnCheckedChangeListener(new ProvinciaSwitchListener());
@@ -261,54 +229,38 @@ public class PreferencesActivity extends ActionBarActivity {
         podemosSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
         iuSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
         upydSwitch.setOnCheckedChangeListener(new PartidoSwitchListener());
-
-        //VERSION
-        TextView version = (TextView) findViewById(R.id.version);
-        version.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        PackageInfo pInfo = null;
-        try {
-            pInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String versionString = pInfo.versionName;
-        version.setText("Versión de la aplicación: " + versionString);
-
-        getUserTagValues();
-        initializeSpinnersFromLocal();
-
-        new JSONParse().execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        try{
+        /**try{
             //comScore
             Log.i("Comscore", "Dentro de on Resume");
             comScore.onEnterForeground();
         }catch (Exception e){
             Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
-        }
+        }**/
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        try{
+       /** try{
             //comScore
             Log.i("Comscore", "Dentro de on Pause");
             comScore.onExitForeground();
         }catch (Exception e){
             Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
-        }
+        }**/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        /**
         try{
             //comScore
             Log.i("Comscore", "Se sale de la app con onDestroy");
@@ -316,8 +268,12 @@ public class PreferencesActivity extends ActionBarActivity {
         }catch (Exception e){
             Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
-        }
+        }**/
     }
+
+
+    // region Asyntask
+    //----------------------------------------------------------------------
 
     private class JSONParse extends AsyncTask<String, String, JSONObject> {
 
@@ -362,141 +318,141 @@ public class PreferencesActivity extends ActionBarActivity {
 
         }
 
-        /**
-         * En este método por un lado rellenaremos una lista que va a permitir al AutoComplete Text dar las opciones a mostrar
-         * Pero también vamos a crear una lista de objetos municipios para poder acceder despueés a sus propiedades
-         * @param json
-         */
+    }
 
-        private void getListMunicipios (JSONObject json){
+    //----------------------------------------------------------------------
+    //endregion
 
-            int tag;
+    // region JsonParser
+    //----------------------------------------------------------------------
 
-            String provinciaNameAutoComplete;
-            String municipioNameAutoComplete;
+    /**
+     * En este método por un lado rellenaremos una lista que va a permitir al AutoComplete Text dar las opciones a mostrar
+     * Pero también vamos a crear una lista de objetos municipios para poder acceder despueés a sus propiedades
+     * @param json
+     */
 
-            Iterator iterIdCCAA = json.keys();
-            while(iterIdCCAA.hasNext()){
-                //Guardamos la ID en la variable tag. Ej: ID = 8 --> tag = 8.000.000
-                String idCCAA = (String)iterIdCCAA.next();
-                tag = Integer.parseInt(idCCAA) * 1000000;
-                JSONObject jsonCCAA = null;
-                try {
-                    jsonCCAA = json.getJSONObject(idCCAA);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+    private void getListMunicipios (JSONObject json){
 
-                //Extraemos el jsonObject del campo "Provincia"
-                try {
-                    assert jsonCCAA != null;
-                    JSONObject jsonIDProvincia = jsonCCAA.getJSONObject("Provincias");
-                    String CCAAname = jsonCCAA.getString("Name");
-                    Log.i("Municipios", "Entramos en  " + CCAAname);
+        int tag;
 
-                    Iterator iterIdProvincia = jsonIDProvincia.keys();
-                    while(iterIdProvincia.hasNext()){
+        String provinciaNameAutoComplete;
+        String municipioNameAutoComplete;
 
-                        //Guardamos la ID en la variable tag. Ej: ID = 11 --> tag = 110.000
-                        String idProvincia = (String)iterIdProvincia.next();
-                        tag += Integer.parseInt(idProvincia) * 10000;
-                        JSONObject jsonProvincia = null;
-                        try {
-                            jsonProvincia = jsonIDProvincia.getJSONObject(idProvincia);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        //Extraemos el jsonObject del campo "Municipios"
-                        try {
-                            assert jsonProvincia != null;
-                            JSONObject jsonIDMunicipio = jsonProvincia.getJSONObject("Municipios");
-                            provinciaNameAutoComplete = jsonProvincia.getString("Name");
-
-                            Iterator iterIdMunicipio = jsonIDMunicipio.keys();
-                            while(iterIdMunicipio.hasNext()){
-                                //Guardamos la ID en la variable tag. Ej: ID = 1024 --> tag = 1.0024
-                                String idMunicipio = (String)iterIdMunicipio.next();
-                                tag += Integer.parseInt(idMunicipio);
-                                JSONObject jsonMunicipio = null;
-                                try {
-                                    jsonMunicipio = jsonIDMunicipio.getJSONObject(idMunicipio);
-
-                                    //Guardamos el nombre del municipio en la lista del autoComplete
-                                    municipioNameAutoComplete = jsonMunicipio.getString("Name") + ", " + provinciaNameAutoComplete;
-                                    municipiosAutoComplete.add(municipioNameAutoComplete);
-
-                                    //Creamos un objeto municipio y lo rellenamos. Lo añadimos a la lista de municipios
-                                    Municipio municipioObj = new Municipio();
-                                    municipioObj.setMunicipioAutoCompleteText(municipioNameAutoComplete);
-                                    municipioObj.setTag(tag);
-                                    municipioObj.setCcaaaName(CCAAname);
-                                    municipioObj.setCcaaTag(Integer.parseInt(idCCAA));
-                                    municipioObj.setProvinciaName(jsonProvincia.getString("Name"));
-                                    municipioObj.setProvinciaTag(Integer.parseInt(idProvincia));
-                                    municipioObj.setMunicipioName(jsonMunicipio.getString("Name"));
-                                    municipioObj.setMunicipioTag(Integer.parseInt(idMunicipio));
-                                    municipiosList.add(municipioObj);
-
-                                    //Reseteamos los valores para la próxima iteración
-                                    municipioNameAutoComplete = "";
-                                    tag -= Integer.parseInt(idMunicipio);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        //Reseteamos la variable tag para la siguiente iteración
-                        tag -= Integer.parseInt(idProvincia);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                //Reseteamos la variable tag para la siguiente iteración
-                tag -= Integer.parseInt(idCCAA);
-
+        Iterator iterIdCCAA = json.keys();
+        while(iterIdCCAA.hasNext()){
+            //Guardamos la ID en la variable tag. Ej: ID = 8 --> tag = 8.000.000
+            String idCCAA = (String)iterIdCCAA.next();
+            tag = Integer.parseInt(idCCAA) * 1000000;
+            JSONObject jsonCCAA = null;
+            try {
+                jsonCCAA = json.getJSONObject(idCCAA);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
+            //Extraemos el jsonObject del campo "Provincia"
+            try {
+                assert jsonCCAA != null;
+                JSONObject jsonIDProvincia = jsonCCAA.getJSONObject("Provincias");
+                String CCAAname = jsonCCAA.getString("Name");
+                Log.i("Municipios", "Entramos en  " + CCAAname);
+
+                Iterator iterIdProvincia = jsonIDProvincia.keys();
+                while(iterIdProvincia.hasNext()){
+
+                    //Guardamos la ID en la variable tag. Ej: ID = 11 --> tag = 110.000
+                    String idProvincia = (String)iterIdProvincia.next();
+                    tag += Integer.parseInt(idProvincia) * 10000;
+                    JSONObject jsonProvincia = null;
+                    try {
+                        jsonProvincia = jsonIDProvincia.getJSONObject(idProvincia);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Extraemos el jsonObject del campo "Municipios"
+                    try {
+                        assert jsonProvincia != null;
+                        JSONObject jsonIDMunicipio = jsonProvincia.getJSONObject("Municipios");
+                        provinciaNameAutoComplete = jsonProvincia.getString("Name");
+
+                        Iterator iterIdMunicipio = jsonIDMunicipio.keys();
+                        while(iterIdMunicipio.hasNext()){
+                            //Guardamos la ID en la variable tag. Ej: ID = 1024 --> tag = 1.0024
+                            String idMunicipio = (String)iterIdMunicipio.next();
+                            tag += Integer.parseInt(idMunicipio);
+                            JSONObject jsonMunicipio = null;
+                            try {
+                                jsonMunicipio = jsonIDMunicipio.getJSONObject(idMunicipio);
+
+                                //Guardamos el nombre del municipio en la lista del autoComplete
+                                municipioNameAutoComplete = jsonMunicipio.getString("Name") + ", " + provinciaNameAutoComplete;
+                                municipiosAutoComplete.add(municipioNameAutoComplete);
+
+                                //Creamos un objeto municipio y lo rellenamos. Lo añadimos a la lista de municipios
+                                Municipio municipioObj = new Municipio();
+                                municipioObj.setMunicipioAutoCompleteText(municipioNameAutoComplete);
+                                municipioObj.setTag(tag);
+                                municipioObj.setCcaaaName(CCAAname);
+                                municipioObj.setCcaaTag(Integer.parseInt(idCCAA));
+                                municipioObj.setProvinciaName(jsonProvincia.getString("Name"));
+                                municipioObj.setProvinciaTag(Integer.parseInt(idProvincia));
+                                municipioObj.setMunicipioName(jsonMunicipio.getString("Name"));
+                                municipioObj.setMunicipioTag(Integer.parseInt(idMunicipio));
+                                municipiosList.add(municipioObj);
+
+                                //Reseteamos los valores para la próxima iteración
+                                municipioNameAutoComplete = "";
+                                tag -= Integer.parseInt(idMunicipio);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Reseteamos la variable tag para la siguiente iteración
+                    tag -= Integer.parseInt(idProvincia);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            //Reseteamos la variable tag para la siguiente iteración
+            tag -= Integer.parseInt(idCCAA);
+
+        }
+
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+    // region Toolbar
+    //----------------------------------------------------------------------
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(null);
+            //actionBar.setHomeAsUpIndicator(R.drawable.elconfidencial_32dp_white);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    public void setTypefaces(){
-        notifMunicipio.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        notifPartidos.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        notifMunicipioDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        notifPartidosDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        acercaDe.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        contact.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        //Editar
-        searchMunicipio.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        editarText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        editarDescr.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        reestablecer.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        //Nombres
-        ccaaNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        provinciaNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        municipioNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
-        //Municipio
-        generalesText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        comunidadText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        provinciaText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        municipiosText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        //Partidos
-        ppText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        psoeText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        csText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        podemosText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        iuText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-        upydText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
-    }
+    //----------------------------------------------------------------------
+    //endregion
+
+    // region Pushwoosh
+    //----------------------------------------------------------------------
 
     /*********CCAA, PROVINCIA, MUNICIPIO***********/
     public void getUserTagValues(){
@@ -510,6 +466,7 @@ public class PreferencesActivity extends ActionBarActivity {
         provincia = tag.substring(2,4);
         municipio = tag.substring(4,8);
     }
+
     public void initializeSpinnersFromLocal(){
         //General
         String wantPW = prefs.getString("wantPW","ON");
@@ -572,6 +529,7 @@ public class PreferencesActivity extends ActionBarActivity {
         saveTagInLocal(tag);
         sendTagsToPushWoosh(Integer.parseInt(tag));
     }
+
     public void refreshProvinciaTag(boolean isOn){
         String tag = "";
         if(isOn){
@@ -583,6 +541,7 @@ public class PreferencesActivity extends ActionBarActivity {
         saveTagInLocal(tag);
         sendTagsToPushWoosh(Integer.parseInt(tag));
     }
+
     public void refreshMunicipioTag(boolean isOn){
         String tag = "";
         if(isOn){
@@ -663,6 +622,7 @@ public class PreferencesActivity extends ActionBarActivity {
         savePartidosInLocal();
         sendPartidosToPushWoosh();
     }
+
     public void savePartidosInLocal(){
         Log.i("Pref Partidos", "Local saved partidos tags...");
         SharedPreferences.Editor editor = prefs.edit();
@@ -674,71 +634,31 @@ public class PreferencesActivity extends ActionBarActivity {
     private void sendPartidosToPushWoosh(){
         Map<String,Object> tags = new HashMap<>();
         tags.put("PARTIDOS_TAGS", partidosPW.toArray());
-            pushManager.sendTags(getApplicationContext(), tags, new SendPushTagsCallBack() {
-                @Override
-                public void taskStarted() {
-                    //Task Start
-                    Log.i("Pref Partidos", "Sending partidos to PW...");
-                }
+        pushManager.sendTags(getApplicationContext(), tags, new SendPushTagsCallBack() {
+            @Override
+            public void taskStarted() {
+                //Task Start
+                Log.i("Pref Partidos", "Sending partidos to PW...");
+            }
 
-                @Override
-                public void onSentTagsSuccess(Map<String, String> map) {
-                    //Task end
-                }
+            @Override
+            public void onSentTagsSuccess(Map<String, String> map) {
+                //Task end
+            }
 
-                @Override
-                public void onSentTagsError(Exception e) {
+            @Override
+            public void onSentTagsError(Exception e) {
 
-                }
-            });
+            }
+        });
     }
 
+    //----------------------------------------------------------------------
+    //endregion
 
-    //Método que lee un fichero json almacenado en assets
-    public String loadJSONFromAsset(String nameFile) {
-        String json = null;
-        try {
+    // region Listeners
+    //----------------------------------------------------------------------
 
-            InputStream is = getAssets().open(nameFile);
-
-            int size = is.available();
-
-            byte[] buffer = new byte[size];
-
-            is.read(buffer);
-
-            is.close();
-
-            json = new String(buffer, "UTF-8");
-
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        System.gc();
-        finish();
-        super.onBackPressed();
-    }
-
-
-
-
-    //LISTENERS
     public class GeneralesSwitchListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override
@@ -801,5 +721,89 @@ public class PreferencesActivity extends ActionBarActivity {
             }
         }
     }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+    // region OptionsItemSelected
+    //----------------------------------------------------------------------
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        System.gc();
+        super.onBackPressed();
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+    // region Typefaces
+    //----------------------------------------------------------------------
+
+    public void setTypefaces(){
+        //Nombres
+        ccaaNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        provinciaNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        municipioNombre.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+        //Municipio
+        generalesText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        comunidadText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        provinciaText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        municipiosText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        //Partidos
+        ppText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        psoeText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        csText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        podemosText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        iuText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        upydText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Semibold.otf"));
+        //Version
+        versionText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Regular.otf"));
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+    //Método que lee un fichero json almacenado en assets
+    public String loadJSONFromAsset(String nameFile) {
+        String json = null;
+        try {
+
+            InputStream is = getAssets().open(nameFile);
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
+
+
+
+
+
+
+
+
 
 }
