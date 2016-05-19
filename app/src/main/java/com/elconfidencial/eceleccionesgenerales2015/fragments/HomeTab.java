@@ -174,59 +174,8 @@ public class HomeTab extends Fragment {
                         Log.d("Encuestas", "Con el partido " + encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
                     }
                 }
-/*
-            try {
-                for(int i = 0; i< json.length(); i++) {
-                    partidoEncuestas.clear();
-                    JSONObject encuesta = json.getJSONObject(i);
-                    String name = encuesta.getString("Name");
-                    JSONArray datos = encuesta.getJSONArray("Data");
-                    for (int j = 0; j < datos.length(); j++) {
-                        JSONObject partido = datos.getJSONObject(j);
-                        Iterator<String> nombrePartido = partido.keys();
-                        while (nombrePartido.hasNext()) {
-                            String nombre = nombrePartido.next();
-                            double porcentaje = partido.getDouble(nombre);
-                            PartidoEncuesta partidoEncuesta = new PartidoEncuesta(nombre, porcentaje);
-                            partidoEncuestas.add(partidoEncuesta);
-                        }
 
-                    }
-                    Encuesta e = new Encuesta(name,partidoEncuestas);
-                    for(int n=0; n<encuestas.size(); n++){
-                        Log.d("Encuestas", "El contenido de encuestas es: ");
-                        Log.d("Encuestas", encuestas.get(n).getName());
-
-                        for (int m=0; m< encuestas.get(n).getPartidosEncuesta().size(); m++){
-                            Log.d("Encuestas", "Con el partido "+encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
-                        }
-                    }
-                    Log.d("Encuestas", "Se va a añadir la encuesta" + e.getName());
-                    for(int k=0; k<e.getPartidosEncuesta().size(); k++){
-                        Log.d("Encuestas", e.getPartidosEncuesta().get(k).getName());
-                    }
-                    encuestas.add(e);
-                }
-
-               for(int z =0; z<encuestas.size(); z++){
-                    Log.d("Encuestas", "Encuesta: " + encuestas.get(z).getName());
-                    for(int w=0; w<encuestas.get(z).getPartidosEncuesta().size(); w++){
-                        Log.d("Encuestas", encuestas.get(z).getPartidosEncuesta().get(w).getName() +"  "+ encuestas.get(z).getPartidosEncuesta().get(w).getPorcentaje() );
-                    }
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-
-            }*/
-            /*for(int i=0; i<encuestas.size(); i++){
-                Encuesta e = encuestas.get(i);
-                Log.d("Encuestas", "La encuesta " + e.getName());
-                for (int z = 0; z < e.getPartidosEncuesta().size(); z++) {
-                    Log.d("Encuestas", "contiente " + e.getPartidosEncuesta().get(z).getName() + " con porcentaje " + e.getPartidosEncuesta().get(z).getPorcentaje());
-                }
-            }*/
             }
-            new CargarXmlTask().execute(rss_url);
         }
     }
 

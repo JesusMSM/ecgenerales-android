@@ -12,11 +12,11 @@ import com.elconfidencial.eceleccionesgenerales2015.charts.BarChartEC;
  */
 public class EncuestasViewHolder extends RecyclerView.ViewHolder {
     public BarChartEC grafico;
-    public Spinner spinner;
+
 
     public EncuestasViewHolder(View v) {
         super(v);
         grafico = (BarChartEC) v.findViewById(R.id.chartEncuestas);
-        spinner = (Spinner) v.findViewById(R.id.spinnerEncuesta);
+
     }
 }

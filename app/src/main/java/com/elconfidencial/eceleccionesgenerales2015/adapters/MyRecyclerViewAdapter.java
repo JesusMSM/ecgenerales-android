@@ -27,7 +27,9 @@ import android.widget.Spinner;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
+import com.elconfidencial.eceleccionesgenerales2015.model.TituloEncuesta;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.DialogViewHolder;
+import com.elconfidencial.eceleccionesgenerales2015.viewholders.EncuestaTituloViewHolder;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -89,7 +91,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     NativeCustomTemplateAd adCustom;
     QuoteServer qs = QuoteServer.getInstance();
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8, PROGRESS=9;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8, PROGRESS=9, TITULO_ENCUESTA=10;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -121,6 +123,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         if (items.get(position) instanceof Titulo) {
             return TITULO;
+        }
+        if (items.get(position) instanceof TituloEncuesta) {
+            return TITULO_ENCUESTA;
         }
         if (items.get(position).equals("contador")) {
             return CONTADOR;
@@ -179,6 +184,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v8 =  inflater.inflate(R.layout.recyclerview_item_cardpubli, viewGroup, false);
                 viewHolder = new CardPubliViewHolder(v8);
                 break;
+            case TITULO_ENCUESTA:
+                View v =  inflater.inflate(R.layout.recyclerview_item_encuesta_titulo, viewGroup, false);
+                viewHolder = new EncuestaTituloViewHolder(v);
+                break;
             case FOOTER_PRES:
                 View v9 =  inflater.inflate(R.layout.recyclerview_item_footerpresinder, viewGroup, false);
                 viewHolder = new FooterPresinderViewHolder(v9);
@@ -229,6 +238,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case CARDPUBLI:
                 CardPubliViewHolder vh8 = (CardPubliViewHolder) viewHolder;
                 loadAd(vh8);
+                break;
+            case TITULO_ENCUESTA:
+                EncuestaTituloViewHolder vh = (EncuestaTituloViewHolder) viewHolder;
+                configureEncuestaTituloViewHolder(vh, position);
                 break;
             case FOOTER_PRES:
                 FooterPresinderViewHolder vh9 = (FooterPresinderViewHolder) viewHolder;
@@ -395,7 +408,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         this.grafico = vh3.grafico;
-        Spinner spinner = vh3.spinner;
+
 
         grafico.setDrawBarShadow(false);
         grafico.setDrawValueAboveBar(true);
@@ -469,57 +482,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             encuestasTitulo.add(HomeTab.encuestas.get(i).getName());
         }
 
-
-            List<String> spinnerArray =  new ArrayList<String>();
-            spinnerArray.addAll(encuestasTitulo);
-
-
-            //Default value
-            //spinnerArray.add(context.getResources().getString(R.string.elige_partido_politico));
-
-
-
-            EncuestaSpinnerAdapter adapter = new EncuestaSpinnerAdapter(
-                    context, R.layout.row_custom_spinner_encuesta, spinnerArray);
-
-
-
-
-
-
-        // Creating adapter for spinner
-        //ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, R.layout.row_custom_spinner_encuesta, R.id.nombreEncuesta, encuestasTitulo);
-
-            spinner.setAdapter(adapter);
-
-
-
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                    encuestaSeleccionada = position;
-                    Map<String, String> encuestas = new HashMap<>();
-                    encuestas.put("encuesta", HomeTab.encuestas.get(position).getName());
-                    //encuestas.put("persona", this.persona);
-                    setData(grafico, HomeTab.encuestas.get(position));
-
-                    //Amplitude
-                    Log.i("20D_AMPLITUDE", "SELECT_SURVEY: "+ HomeTab.encuestas.get(position).getName());
-                    JSONObject eventProperties = new JSONObject();
-                    try {
-                        eventProperties.put("NAME", HomeTab.encuestas.get(position).getName());
-                    } catch (JSONException exception) {
-                    }
-                    Amplitude.getInstance().logEvent("SELECT_SURVEY",eventProperties);
-                }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
 
         setData(grafico, HomeTab.encuestas.get(encuestaSeleccionada));
@@ -671,6 +633,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         //Fonts
         vh6.title.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
 
+
+    }
+
+    private void configureEncuestaTituloViewHolder(EncuestaTituloViewHolder vh, int position) {
+        final TituloEncuesta title = (TituloEncuesta) items.get(position);
+        if (title != null) {
+            vh.nombre_encuesta.setText(title.getTitle());
+        }
 
     }
 
