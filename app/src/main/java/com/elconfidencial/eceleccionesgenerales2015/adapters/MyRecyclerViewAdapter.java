@@ -263,7 +263,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 }, s.getSpanStart(u), s.getSpanEnd(u), 0);
             }
-            vh.descripcion.setText(s);
+            //vh.descripcion.setText(s);
             vh.tag.setText(noticia.getTag());
             try {
                 System.gc();

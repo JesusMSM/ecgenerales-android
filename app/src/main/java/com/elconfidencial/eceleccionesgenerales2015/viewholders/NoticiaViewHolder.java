@@ -23,7 +23,6 @@ public class NoticiaViewHolder extends RecyclerView.ViewHolder{
         titulo = (TextView) v.findViewById(R.id.titulo);
         tag = (TextView) v.findViewById(R.id.tag);
         timeAgo = (TextView) v.findViewById(R.id.timeAgo);
-        descripcion = (TextView) v.findViewById(R.id.descripcion);
         imagen = (ImageView) v.findViewById(R.id.imagen);
         botonCompartir = (ImageView) v.findViewById(R.id.compartir);
     }
