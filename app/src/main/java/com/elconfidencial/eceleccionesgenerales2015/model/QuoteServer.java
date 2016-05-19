@@ -90,7 +90,7 @@ public class QuoteServer{
         List<ParseObject> parseQuotes = query2.find();
 
 
-        ParseObject.pinAll("QUOTES",parseQuotes);
+        ParseObject.pinAllInBackground("QUOTES",parseQuotes);
 
         parseQuotes = query2.fromLocalDatastore().find();
         //LOCAL
@@ -171,7 +171,7 @@ public class QuoteServer{
             Log.i("Quote", p.personaPObj.getString("name"));
             Log.i("Quote", p.getName());
             p.personaPObj.increment("agree"); //incrementamos la variable de parse local, para siguientes sesiones
-            p.personaPObj.pin();
+            p.personaPObj.pinInBackground();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,8 +193,8 @@ public class QuoteServer{
             Log.i("Quote", p.personaPObj.getString("name"));
             Log.i("Quote", p.getName());
             p.personaPObj.increment("disagree");//incrementamos la variable de parse local, para siguientes sesiones
-            p.personaPObj.pin();
-        } catch (ParseException e) {
+            p.personaPObj.pinInBackground();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -291,8 +291,8 @@ public class QuoteServer{
                 //Reset Parse local
                 p.personaPObj.put("agree",0);
                 p.personaPObj.put("disagree",0);
-                p.personaPObj.pin();
-            } catch (ParseException e) {
+                p.personaPObj.pinInBackground();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -89,7 +89,7 @@ public class HomeTab extends Fragment {
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(MainActivity.context);
+        mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         new JSONParse().execute();
         //new CargarXmlTask().execute(rss_url);
@@ -292,7 +292,7 @@ public class HomeTab extends Fragment {
              }**/
 
 
-            mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
+            mAdapter = new MyRecyclerViewAdapter(getContext(),items);
             mRecyclerView.setAdapter(mAdapter);
         }
 

@@ -58,9 +58,9 @@ public class OnBoardingActivity extends AppCompatActivity {
 
         //binding
         positionIcon = (ImageView) findViewById(R.id.positionIcon);
-        Glide.with(context).load(R.drawable.ic_home_grey).into(positionIcon);
+        Glide.with(context).load(R.drawable.ic_location_selection).into(positionIcon);
         searchIcon = (ImageView) findViewById(R.id.search_icon);
-        Glide.with(context).load(R.drawable.ic_home_grey).into(positionIcon);
+        Glide.with(context).load(R.drawable.ic_search).into(searchIcon);
         saltarButton = (TextView) findViewById(R.id.skip_button);
         searchLayout = (RelativeLayout) findViewById(R.id.search_layout);
 

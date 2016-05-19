@@ -58,7 +58,7 @@ public class ResultadosTab extends Fragment {
 
 
     private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
-    private TextView actionBarTitle, actionBarTitle1, actionBarTitleWebview, headerEncuesta, graciasPorParticipar, mensajeAviso;
+    private TextView headerEncuesta, graciasPorParticipar, mensajeAviso;
     private ImageView refreshIcon;
     HorizontalBarChartEC grafico;
     private WebView webviewResultados;
@@ -147,11 +147,6 @@ public class ResultadosTab extends Fragment {
     public void setWebViewLayout(){
         webviewResultados = (WebView) v.findViewById(R.id.resultadosWebview);
 
-        //actionBar
-        actionBarTitleWebview = (TextView) v.findViewById(R.id.actionBarResultadosWebview);
-        actionBarTitleWebview.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-        refreshIcon = (ImageView) v.findViewById(R.id.refreshIcon);
-
         //Preparamos el Webview
         webviewResultados.getSettings().setJavaScriptEnabled(true);
         webviewResultados.getSettings().setDomStorageEnabled(true);
@@ -220,13 +215,13 @@ public class ResultadosTab extends Fragment {
         }
 
 
-        //Añadimos funcionalidad refresh
+        /**Añadimos funcionalidad refresh
         refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 webviewResultados.reload();
             }
-        });
+        });**/
 
 
         // disable scroll on touch
@@ -248,9 +243,6 @@ public class ResultadosTab extends Fragment {
         headerEncuesta = (TextView) v.findViewById(R.id.headerEncuesta);
         headerEncuesta.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
-        //actionBar
-        actionBarTitle = (TextView) v.findViewById(R.id.actionBarResultados);
-        actionBarTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
         pp = (ImageView) v.findViewById(R.id.ppLogo);
         cs = (ImageView) v.findViewById(R.id.cslogo);
@@ -332,10 +324,6 @@ public class ResultadosTab extends Fragment {
      * - No es el día de las elecciones, por lo que el webview permanece oculto
      */
     public void setGraficoMegaencuesta() {
-
-        //actionBar
-        actionBarTitle1 = (TextView) v.findViewById(R.id.actionBarResultados1);
-        actionBarTitle1.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
         mensajeAviso = (TextView) v.findViewById(R.id.avisoResultados);
         mensajeAviso.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));

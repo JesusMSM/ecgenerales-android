@@ -49,7 +49,7 @@ import com.elconfidencial.eceleccionesgenerales2015.slidingtabfiles.SlidingTabLa
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Context context;
+    Context context;
     public static Resources resources;
     ViewPager pager;
     ViewPagerAdapter adapter;
@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     private String TAG_SHOW_RESULTS = "SHOW_WIDGET_RESULTS";
     private String TAG_PRESINDER_SHARE_MESSAGE_ANDROID = "PRESINDER_SHARE_MESSAGE_ANDROID";
 
-    LinearLayout loadingLayout;
     CoordinatorLayout activityLayout;
     public static ProgressDialog pd;
 
@@ -124,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         resources = getResources();
 
         setContentView(R.layout.activity_main);
-        this.context = getApplicationContext();
+        context = this;
         qs.init(getApplicationContext());
 
         SharedPreferences prefs = context.getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
@@ -132,34 +131,16 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("firstTime", false);
         editor.apply();
 
+        activityLayout = (CoordinatorLayout) findViewById(R.id.activityLayout);
+
         setupToolbar();
         setupViewPager();
         setupTabs();
 
 
-        //Download quotes
-        qs.getQuotesFromParseOrLocal();
-        //Likes dislikes count
-        //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
-        //GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
 
-        //Create Partidos variables
-        // Getting JSON from asset
-        String json = loadJSONFromAsset("PARTIDOS_TAGS.json");
-        if(json!=null){
-            Log.i("PartidosJSON", "JSON recuperado de assets");
-            if(partidosList.isEmpty()) {
-                setPartidosListFromJSON(json);
-            }
-        } else{
-            Log.i("PartidosJSON", "JSON no recuperado de assets");
-        }
-
-
-        loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
-        activityLayout = (CoordinatorLayout) findViewById(R.id.activityLayout);
         if(globalMethod.haveNetworkConnection()) {
-            new JSONConfig().execute();
+            new MainActivityAsyntask().execute();
         }
         /*ParseConfig.getInBackground(new ConfigCallback() {
             @Override
@@ -182,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ;*/
-        pd = new ProgressDialog(getApplicationContext());
     }
 
     // region Toolbar
@@ -284,6 +264,106 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onBackPressed() {
+       /** try{
+            //comScore
+            Log.i("Comscore", "Se sale de Comscore con onBackPressed");
+            comScore.onUxInactive();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }**/
+        System.gc();
+        finish();
+        super.onBackPressed();
+        System.exit(0);
+    }
+
+    public void refreshPresinder(){
+        Log.i("PRESINDER", "Refreshing presinder...");
+        //Set text from here
+        pager.setAdapter(adapter);
+        pager.setCurrentItem(3);
+
+    }
+
+
+/**
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Resume");
+            comScore.onEnterForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            //comScore
+            Log.i("Comscore", "Dentro de on Pause");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            //comScore
+            Log.i("Comscore", "Se sale de la app con onDestroy");
+            comScore.onExitForeground();
+        }catch (Exception e){
+            Log.i("Comscore", "Error Comscore");
+            e.printStackTrace();
+        }
+    }**/
+
+
+
+    // region Options Menu
+    //----------------------------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+
+                Intent intent = new Intent(this, PreferencesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                //Amplitude
+                /**Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
+                 Amplitude.getInstance().logEvent("ONTAP_SETTINGS");**/
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
+    // region JSON Partidos local
+    //----------------------------------------------------------------------
+
     //Almacena los objetos Partidos dentro de la Lista Global partidosList a partir de un json
     public void setPartidosListFromJSON(String json){
         try {
@@ -336,112 +416,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    public void onBackPressed() {
-        try{
-            //comScore
-            Log.i("Comscore", "Se sale de Comscore con onBackPressed");
-            comScore.onUxInactive();
-        }catch (Exception e){
-            Log.i("Comscore", "Error Comscore");
-            e.printStackTrace();
-        }
-        System.gc();
-        finish();
-        super.onBackPressed();
-        System.exit(0);
-    }
-
-    public void refreshPresinder(){
-        Log.i("PRESINDER", "Refreshing presinder...");
-        //Set text from here
-        pager.setAdapter(adapter);
-        pager.setCurrentItem(3);
-
-    }
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        try{
-            //comScore
-            Log.i("Comscore", "Dentro de on Resume");
-            comScore.onEnterForeground();
-        }catch (Exception e){
-            Log.i("Comscore", "Error Comscore");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try{
-            //comScore
-            Log.i("Comscore", "Dentro de on Pause");
-            comScore.onExitForeground();
-        }catch (Exception e){
-            Log.i("Comscore", "Error Comscore");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try{
-            //comScore
-            Log.i("Comscore", "Se sale de la app con onDestroy");
-            comScore.onExitForeground();
-        }catch (Exception e){
-            Log.i("Comscore", "Error Comscore");
-            e.printStackTrace();
-        }
-    }
-
-
-
-    // region Options Menu
-    //----------------------------------------------------------------------
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings:
-
-                Intent intent = new Intent(this, PreferencesActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
-                //Amplitude
-                /**Log.i("20D_AMPLITUDE", "ONTAP_SETTINGS");
-                 Amplitude.getInstance().logEvent("ONTAP_SETTINGS");**/
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     //----------------------------------------------------------------------
     //endregion
 
 
 
 
-    private class JSONConfig extends AsyncTask<String, String, JSONObject> {
+    private class MainActivityAsyntask extends AsyncTask<String, String, JSONObject> {
 
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(context, "Cargando", "Tranquiloooooooooo");
+
+        }
 
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParserObject jParser = new JSONParserObject();
+
+            //Download quotes
+            qs.getQuotesFromParseOrLocal();
+            //Likes dislikes count
+            //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
+            //GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
+
+            //Create Partidos variables
+            // Getting JSON from asset
+            String jsonAsset = loadJSONFromAsset("PARTIDOS_TAGS.json");
+            if(jsonAsset!=null){
+                Log.i("PartidosJSON", "JSON recuperado de assets");
+                if(partidosList.isEmpty()) {
+                    setPartidosListFromJSON(jsonAsset);
+                }
+            } else{
+                Log.i("PartidosJSON", "JSON no recuperado de assets");
+            }
 
             // Getting JSON from URL
             if(globalMethod.haveNetworkConnection()){
@@ -464,15 +476,13 @@ public class MainActivity extends AppCompatActivity {
                     PRESINDER_SHARE_MESSAGE_ANDROID = json.getString(TAG_PRESINDER_SHARE_MESSAGE_ANDROID);
                 }
 
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
-            catch (NullPointerException e){
-                e.printStackTrace();
+            if (progressDialog!=null) {
+                progressDialog.dismiss();
             }
             if(json!= null) {
-                loadingLayout.setVisibility(View.GONE);
-                activityLayout.setVisibility(View.VISIBLE);
                 if (SHOW_WIDGET_RESULTS) {
                     pager.setCurrentItem(2);
                 }

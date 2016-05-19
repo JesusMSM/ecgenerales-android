@@ -1,6 +1,8 @@
 package com.elconfidencial.eceleccionesgenerales2015.fragments;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -40,6 +42,8 @@ public class NoticiasTab extends Fragment {
 
     private TextView actionBarTitle;
 
+    Context context;
+
     //RecyclerView atributtes
     public static RecyclerView mRecyclerView;
     public static RecyclerView.Adapter mAdapter;
@@ -63,6 +67,7 @@ public class NoticiasTab extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getContext();
     }
 
 
@@ -75,7 +80,7 @@ public class NoticiasTab extends Fragment {
         //RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rss_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(MainActivity.context);
+        mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         new CargarXmlTask().execute(rss_url);
@@ -92,7 +97,14 @@ public class NoticiasTab extends Fragment {
         List<Object> items = new ArrayList<>();
         List<Noticia> noticias = new ArrayList<>();
         GlobalMethod globalMethod = new GlobalMethod(getContext());
+        ProgressDialog progressDialog;
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere unos instantes");
+
+        }
 
         protected Boolean doInBackground(String... params) {
             try {
@@ -110,9 +122,17 @@ public class NoticiasTab extends Fragment {
         }
         protected void onPostExecute(Boolean result) {
 
+            dismissProgressDialog();
             addItems();
 
             }
+
+        public void dismissProgressDialog() {
+
+            if (progressDialog!=null) {
+                progressDialog.dismiss();
+            }
+        }
 
         public void addItems() {
 
@@ -120,7 +140,7 @@ public class NoticiasTab extends Fragment {
                 items.add("contador");
             //}
 
-            Spinner spinner = new Spinner(getActivity());
+            Spinner spinner = new Spinner(context);
             items.add(spinner);
 
 //            if(globalMethod.haveNetworkConnection()) {
@@ -136,7 +156,7 @@ public class NoticiasTab extends Fragment {
             }**/
 
 
-            mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
+            mAdapter = new MyRecyclerViewAdapter(getContext(),items);
             mRecyclerView.setAdapter(mAdapter);
         }
 

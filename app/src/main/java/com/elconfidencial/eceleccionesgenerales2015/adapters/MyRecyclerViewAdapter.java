@@ -825,7 +825,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             items.clear();
             items.add("progress");
 
-            NoticiasTab.mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
+            NoticiasTab.mAdapter = new MyRecyclerViewAdapter(context,items);
             NoticiasTab.mRecyclerView.setAdapter(NoticiasTab.mAdapter);
         }
 
@@ -873,7 +873,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
              }**/
 
 
-            NoticiasTab.mAdapter = new MyRecyclerViewAdapter(MainActivity.context,items);
+            NoticiasTab.mAdapter = new MyRecyclerViewAdapter(context,items);
             NoticiasTab.mRecyclerView.setAdapter(NoticiasTab.mAdapter);
         }
 

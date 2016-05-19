@@ -70,7 +70,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         //RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.resultados_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(MainActivity.context);
+        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         //Initiamos la instancia del QuoteServer
@@ -87,7 +87,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         //Add footer
         items.add("footerpresinder");
 
-        mAdapter = new MyRecyclerViewAdapter(MainActivity.context, items);
+        mAdapter = new MyRecyclerViewAdapter(this, items);
         mRecyclerView.setAdapter(mAdapter);
 
 

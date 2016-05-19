@@ -22,10 +22,12 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
 import com.comscore.analytics.comScore;
 import com.pushwoosh.PushManager;
 import com.pushwoosh.SendPushTagsCallBack;
@@ -63,6 +65,8 @@ public class PreferencesActivity extends ActionBarActivity {
     //Partidos
     TextView ppText,psoeText,csText,podemosText,iuText,upydText;
     SwitchCompat ppSwitch,psoeSwitch,csSwitch,podemosSwitch,iuSwitch,upydSwitch;
+
+    ImageView positionIcon;
 
     TextView editButton;
     Button creditosButton;
@@ -125,6 +129,9 @@ public class PreferencesActivity extends ActionBarActivity {
     public void bindViews(){
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+         positionIcon= (ImageView) findViewById(R.id.positionIcon);
+        Glide.with(context).load(R.drawable.ic_location_settings).into(positionIcon);
 
         //creditosButton = (Button) findViewById(R.id.acercaDeButton);
 

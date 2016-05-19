@@ -34,7 +34,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_home_grey"/>
+        android:src="@drawable/ic_location_selection"/>
 
     <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
             android:id="@+id/search_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_format_size"/>
+            android:src="@drawable/ic_search"/>
 
         <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
             android:id="@+id/search_locality_text"
@@ -80,10 +80,10 @@
             android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="Busca tu localidad"
-            android:textColor="@color/grey"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
 
     </RelativeLayout>
