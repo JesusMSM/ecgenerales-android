@@ -130,7 +130,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position).equals("contador")) {
             return CONTADOR;
         }
-        if (items.get(position).equals("encuestas")) {
+        if (items.get(position) instanceof Encuesta) {
             return ENCUESTA;
         }
         if (items.get(position).equals("footerpresinder")) {
@@ -404,10 +404,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void configureEncuestasViewHolder(EncuestasViewHolder vh3, int position) {
         //final BarChart grafico = (BarChart) items.get(position);
 
-        if(HomeTab.encuestas.size()>0){
-
+        final Encuesta e = (Encuesta) items.get(position);
 
         this.grafico = vh3.grafico;
+
+        vh3.estimacion_voto.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Black.ttf"));
+        vh3.fecha.setText("Encuesta realizada el "+ e.getFecha());
+        vh3.fecha.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
+        vh3.descripcion.setText(e.getDescripcion());
+        vh3.descripcion.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
+        vh3.fuente.setText("Fuente: " + e.getName());
+        vh3.fuente.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
 
 
         grafico.setDrawBarShadow(false);
@@ -450,7 +457,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         YAxis leftAxis = grafico.getAxisLeft();
-        leftAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        leftAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         //leftAxis.setLabelCount(8, false);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
@@ -458,7 +465,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         YAxis rightAxis = grafico.getAxisRight();
         rightAxis.setDrawGridLines(false);
-        rightAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        rightAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         //rightAxis.setLabelCount(8, false);
         rightAxis.setSpaceTop(15f);
         rightAxis.setEnabled(false);
@@ -484,9 +491,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
 
-        setData(grafico, HomeTab.encuestas.get(encuestaSeleccionada));
+        final Encuesta encuesta = (Encuesta) items.get(position);
+        setData(grafico, encuesta);
 
-        }
+
 
 
     }
@@ -526,10 +534,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
+
         set1.setBarSpacePercent(15f);
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         set1.setColors(colores);
+        set1.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
         dataSets.add(set1);
 
         BarData data = new BarData(xVals, dataSets);
@@ -542,7 +552,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }else {
             data.setValueTextSize(11f);
         }
-        data.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));;
+        data.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
 
         grafico.setData(data);
 
@@ -641,6 +651,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (title != null) {
             vh.nombre_encuesta.setText(title.getTitle());
         }
+
+        vh.nombre_encuesta.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Black.ttf"));
+        vh.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
 
     }
 

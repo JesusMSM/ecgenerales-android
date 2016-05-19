@@ -8,6 +8,19 @@
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginTop="5dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_estimacion_voto"
+        android:layout_margin="2dp"
+        android:text="Estimación de voto"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_fecha"
+        android:layout_margin="2dp"
+        android:text="Encuesta realizada el "/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,6 +37,20 @@
                  />
 
         </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:id="@+id/textView_descripcion"
+        android:text="Descripcion"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:id="@+id/textView_fuente"
+        android:text="Fuente: "/>
 
 
 </LinearLayout>

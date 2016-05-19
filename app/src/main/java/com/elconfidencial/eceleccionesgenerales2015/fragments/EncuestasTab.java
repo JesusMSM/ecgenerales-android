@@ -91,7 +91,10 @@ public class EncuestasTab extends Fragment {
         for (Encuesta encuesta: encuestas){
 
             items.add(new TituloEncuesta(encuesta.getName()));
-            items.add("encuestas");
+            Encuesta e = new Encuesta(encuesta.getName(),encuesta.getPartidosEncuesta());
+            e.setFecha(encuesta.getFecha());
+            e.setDescripcion(encuesta.getDescripcion());
+            items.add(e);
         }
 
         mAdapter = new MyRecyclerViewAdapter(getContext(),items);
@@ -120,6 +123,9 @@ public class EncuestasTab extends Fragment {
             encuestas.clear();
 
             ArrayList<String> titulos = new ArrayList<>();
+            ArrayList<String> fechas = new ArrayList<>();
+            ArrayList<String> descripciones = new ArrayList<>();
+
             ArrayList<DatosEncuentas> datosEncuestas = new ArrayList<>();
 
             if(json!=null) {
@@ -128,7 +134,9 @@ public class EncuestasTab extends Fragment {
                     try {
                         ArrayList<PartidoEncuesta> partidoEncuestas = new ArrayList<>();
                         JSONObject encuestaGlobal = json.getJSONObject(i);
-                        titulos.add(encuestaGlobal.getString("Name"));
+                        titulos.add(encuestaGlobal.getString("Source"));
+                        fechas.add(encuestaGlobal.getString("Date"));
+                        descripciones.add(encuestaGlobal.getString("Description"));
                         JSONArray datos = encuestaGlobal.getJSONArray("Data");
                         for (int j = 0; j < datos.length(); j++) {
                             JSONObject duplaPartido = datos.getJSONObject(j);
@@ -159,8 +167,11 @@ public class EncuestasTab extends Fragment {
                         e.printStackTrace();
                     }
 
+                    Encuesta e = new Encuesta(titulos.get(i), datosEncuestas.get(i).getDatosEncuesta());
+                    e.setFecha(fechas.get(i));
+                    e.setDescripcion(descripciones.get(i));
 
-                    encuestas.add(new Encuesta(titulos.get(i), datosEncuestas.get(i).getDatosEncuesta()));
+                    encuestas.add(e);
                 }
 
                 for (int n = 0; n < encuestas.size(); n++) {

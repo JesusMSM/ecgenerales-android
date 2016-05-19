@@ -11,11 +11,14 @@ import com.elconfidencial.eceleccionesgenerales2015.R;
  * Created by Jesus on 19/05/2016.
  */
 public class EncuestaTituloViewHolder extends RecyclerView.ViewHolder{
-    public TextView nombre_encuesta;
+    public TextView nombre_encuesta,titulo;
 
     public EncuestaTituloViewHolder(View v) {
         super(v);
         nombre_encuesta = (TextView) v.findViewById(R.id.titulo);
+        titulo = (TextView) v.findViewById(R.id.encuesta_del);
+
+
 
 
     }

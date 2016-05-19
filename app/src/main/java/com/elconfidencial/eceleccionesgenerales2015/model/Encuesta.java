@@ -8,6 +8,24 @@ import java.util.ArrayList;
 public class Encuesta {
     private String name;
     private ArrayList<PartidoEncuesta> partidosEncuesta;
+    private String fecha;
+    private String descripcion;
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public String getName() {
         return name;
