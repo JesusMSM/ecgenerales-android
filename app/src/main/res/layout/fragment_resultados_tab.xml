@@ -184,10 +184,10 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:layout_height="wrap_content">
 
                 <TableLayout
+                    android:id="@+id/tabla_partidos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_image"
@@ -355,7 +355,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="3dp"
-                    android:background="@color/white"
                     android:paddingBottom="3dp"
                     android:visibility="gone">
 
@@ -365,18 +364,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                     <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                        android:id="@+id/cancelButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/image_megaencuesta_big"
-                        android:layout_marginTop="60dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginStart="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
                         android:text="Cancelar"
-                        android:textSize="16sp"
+                        android:textSize="17sp"
                         />
-                    <Button
+                    <FrameLayout
                         android:id="@+id/votaButton"
                         android:layout_below="@+id/image_megaencuesta_big"
                         android:layout_width="wrap_content"
@@ -386,12 +386,21 @@
                         android:layout_marginLeft="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:text="@string/vota"
-                        android:textSize="16sp"
-                        android:textAllCaps="false"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:paddingLeft="40dp"
                         android:paddingRight="40dp"
-                        android:background="@drawable/button_resultados"/>
+                        android:background="@color/blue1">
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+
+                            android:text="@string/vota"
+                            android:textSize="17sp"
+                            android:textColor="@color/white"
+                            />
+                        </FrameLayout>
                 </RelativeLayout>
 
             </FrameLayout>

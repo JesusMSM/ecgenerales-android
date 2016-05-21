@@ -78,10 +78,10 @@ public class ChooseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MultiDex.install(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
         bindView();
+        MultiDex.install(this);
         context = this;
         qs.init(this);
 

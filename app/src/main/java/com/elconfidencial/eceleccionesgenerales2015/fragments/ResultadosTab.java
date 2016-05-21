@@ -18,8 +18,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,13 +66,17 @@ public class ResultadosTab extends Fragment {
     private ImageView refreshIcon;
     HorizontalBarChartEC grafico;
     private WebView webviewResultados;
+    RelativeLayout partySelectedLayout;
+    TableLayout tablaPartidosLayout;
+    TextView cancelButton;
+    FrameLayout voteButton;
     Context context;
     private View v;
     private int partidoMarcado = -1;
     private final int MINIMO_TAMANO_MUESTRA=50;
 
     private ImageView pp, cs, psoe, podemos, iu, pnv, convergencia, upyd, otros;
-    private Button vota;
+    private FrameLayout vota;
 
 
     //Lista de partidos de la megaencuesta
@@ -252,26 +259,13 @@ public class ResultadosTab extends Fragment {
      */
     public void setGridMegaencuestaLayout() {
 
-
-
-        pp = (ImageView) v.findViewById(R.id.ppLogo);
-        cs = (ImageView) v.findViewById(R.id.cslogo);
-        psoe = (ImageView) v.findViewById(R.id.psoelogo);
-        podemos = (ImageView) v.findViewById(R.id.podemosLogo);
-        iu = (ImageView) v.findViewById(R.id.iulogo);
-        pnv = (ImageView) v.findViewById(R.id.pnvlogo);
-        convergencia = (ImageView) v.findViewById(R.id.convergenciaLogo);
-        upyd = (ImageView) v.findViewById(R.id.upydlogo);
-        otros = (ImageView) v.findViewById(R.id.otroslogo);
-
-        vota = (Button) v.findViewById(R.id.votaButton);
-        vota.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        bindViewsMegaencuesta();
 
         //Cargamos todas las imagenes grises (not pressed)
         setNotPressedImages();
 
         //Listener de las imagenes de los partidos
-        setListenersImgPartidos();
+        setupListenersPartidos();
 
 
         //Listener del botón votar
@@ -325,6 +319,59 @@ public class ResultadosTab extends Fragment {
             }
         });
 
+    }
+
+    private void bindViewsMegaencuesta(){
+
+        partySelectedLayout = (RelativeLayout) v.findViewById(R.id.party_selected_layout);
+        tablaPartidosLayout = (TableLayout) v.findViewById(R.id.tabla_partidos);
+
+        cancelButton = (TextView) v.findViewById(R.id.cancelButton);
+        voteButton = (FrameLayout) v.findViewById(R.id.votaButton);
+
+        pp = (ImageView) v.findViewById(R.id.ppLogo);
+        cs = (ImageView) v.findViewById(R.id.cslogo);
+        psoe = (ImageView) v.findViewById(R.id.psoelogo);
+        podemos = (ImageView) v.findViewById(R.id.podemosLogo);
+        iu = (ImageView) v.findViewById(R.id.iulogo);
+        pnv = (ImageView) v.findViewById(R.id.pnvlogo);
+        convergencia = (ImageView) v.findViewById(R.id.convergenciaLogo);
+        upyd = (ImageView) v.findViewById(R.id.upydlogo);
+        otros = (ImageView) v.findViewById(R.id.otroslogo);
+
+        vota = (FrameLayout) v.findViewById(R.id.votaButton);
+    }
+
+    private void setupListenersPartidos(){
+        pp.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                setupListenersPartidoDetail("PP");
+            }
+        });
+
+        //TODO: Para el resto de partidos
+    }
+
+    private void setupListenersPartidoDetail(String nombrePartido){
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                partySelectedLayout.setVisibility(View.GONE);
+                tablaPartidosLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        voteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Acción de votar
+            }
+        });
     }
 
 
@@ -572,7 +619,7 @@ public class ResultadosTab extends Fragment {
         otros.setImageDrawable(getResources().getDrawable(R.drawable.otros_off));
     }
 
-    public void setListenersImgPartidos(){
+    /**public void setListenersImgPartidos(){
 
         pp.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -674,7 +721,7 @@ public class ResultadosTab extends Fragment {
                 }
             }
         });
-    }
+    }**/
 
     public String getNamePartidoMarcado (){
         String partidoMarcadoName = "";

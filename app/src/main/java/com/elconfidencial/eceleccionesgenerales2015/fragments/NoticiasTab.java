@@ -45,6 +45,9 @@ public class NoticiasTab extends Fragment {
 
     Context context;
 
+    List<Object> items = new ArrayList<>();
+    ArrayList<Noticia> noticias = new ArrayList<>();
+
     //RecyclerView atributtes
     public static RecyclerView mRecyclerView;
     public static RecyclerView.Adapter mAdapter;
@@ -84,19 +87,25 @@ public class NoticiasTab extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        new CargarXmlTask().execute(rss_url);
-
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        if(noticias.size()==0){
+            new CargarXmlTask().execute(rss_url);
+        } else {
+            addItems();
+        }
+    }
 
     /*Permite gestionar de forma asincrona el RSS */
     private class CargarXmlTask extends AsyncTask<String,Integer,Boolean> {
 
-        List<Object> items = new ArrayList<>();
-        List<Noticia> noticias = new ArrayList<>();
+
         GlobalMethod globalMethod = new GlobalMethod(getContext());
         ProgressDialog progressDialog;
 
@@ -113,7 +122,7 @@ public class NoticiasTab extends Fragment {
                     RssNoticiasParser saxparser =
                             new RssNoticiasParser(params[0]);
 
-                    noticias = saxparser.parse();
+                    noticias = (ArrayList<Noticia>) saxparser.parse();
 
                 }
             }catch (Exception e){
@@ -135,32 +144,54 @@ public class NoticiasTab extends Fragment {
             }
         }
 
-        public void addItems() {
+        }
 
-            //if(MainActivity.SHOW_TIMER){
-                items.add("contador");
-            //}
+    public void addItems() {
 
-            Spinner spinner = new Spinner(context);
-            items.add(spinner);
+        //if(MainActivity.SHOW_TIMER){
+        items.add("contador");
+        //}
+
+        Spinner spinner = new Spinner(context);
+        items.add(spinner);
 
 //            if(globalMethod.haveNetworkConnection()) {
-            int i =0;
-                for (Noticia noticia : noticias){
-                    if (i% ChooseActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
-                    items.add(noticia);
-                    i++;
-                }
+        int i =0;
+        for (Noticia noticia : noticias){
+            if (i% ChooseActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
+            items.add(noticia);
+            i++;
+        }
         /**    } else{
-                //Mensaje de error
-                Log.i("MyTag", "He pasado por el mensaje de error");
-            }**/
+         //Mensaje de error
+         Log.i("MyTag", "He pasado por el mensaje de error");
+         }**/
 
 
-            mAdapter = new MyRecyclerViewAdapter(getContext(),items);
-            mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new MyRecyclerViewAdapter(getContext(),items);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    // region SAVE INSTANCE STATE
+    //----------------------------------------------------------------------
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList("noticias", noticias);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState!=null){
+            noticias = savedInstanceState.getParcelableArrayList("noticias");
         }
 
-        }
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
 
 }
