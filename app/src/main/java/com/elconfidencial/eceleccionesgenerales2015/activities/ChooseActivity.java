@@ -1,30 +1,101 @@
 package com.elconfidencial.eceleccionesgenerales2015.activities;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.util.Log;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.amplitude.api.Amplitude;
+import com.bumptech.glide.Glide;
 import com.comscore.analytics.comScore;
 import com.elconfidencial.eceleccionesgenerales2015.R;
+import com.elconfidencial.eceleccionesgenerales2015.json.JSONParserObject;
+import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
+import com.elconfidencial.eceleccionesgenerales2015.model.Partido;
+import com.elconfidencial.eceleccionesgenerales2015.model.QuoteServer;
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
 import com.pushwoosh.BasePushMessageReceiver;
 import com.pushwoosh.BaseRegistrationReceiver;
 import com.pushwoosh.PushManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChooseActivity extends AppCompatActivity {
 
     private String apiKeyAmplitude = "47a789399b21bcd069f97c9d6afddd97";
+    GlobalMethod globalMethod = new GlobalMethod(this);
+
+
+    //Parámetros de CONFIG
+    public static int DFP_CARD_EVERY_N;
+    public static int LAST_NEWS_COUNTER;
+    public static String RESULTS_WEBVIEW_URL;
+    public static boolean SHOW_SURVEYS;
+    public static boolean SHOW_TIMER;
+    public static boolean SHOW_WIDGET_RESULTS;
+    public static String PRESINDER_SHARE_MESSAGE_ANDROID;
+
+    public static String config_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/config.json";
+
+    //Parámetros config
+    private String TAG_DFP_CARD_EVERY_N = "DFP_CARD_EVERY_N";
+    private String TAG_LAST_NEWS_COUNTER = "LAST_NEWS_COUNTER";
+    private String TAG_RESULTS_WEBVIEW = "RESULTS_WEBVIEW_URL";
+    private String TAG_SHOW_SURVEYS= "SHOW_SURVEYS";
+    private String TAG_SHOW_TIMER = "SHOW_TIMER";
+    private String TAG_SHOW_RESULTS = "SHOW_WIDGET_RESULTS";
+    private String TAG_PRESINDER_SHARE_MESSAGE_ANDROID = "PRESINDER_SHARE_MESSAGE_ANDROID";
+
+    //PartidosList
+    public static List<Partido> partidosList = new ArrayList<>();
+
+    public List<Partido> getPartidosList(){
+        return partidosList;
+    }
+
+    //Quotes
+    QuoteServer qs = QuoteServer.getInstance();
+    Context context;
+    SharedPreferences prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MultiDex.install(this);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choose);
+        bindView();
+        context = this;
+        qs.init(this);
+
+        // Enable Local Datastore.
+        try {
+            Parse.enableLocalDatastore(this);
+
+            Parse.initialize(this, "fFMHyON2OrC3F161LgiepetpuB3WTktLvS6gq6ZH", "jqiMfz2BVxn4JNFhbsvscaEDg6QPObKn1JvGr0Wa");
+
+            ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         try{
             //Comscore
@@ -57,7 +128,7 @@ public class ChooseActivity extends AppCompatActivity {
         }
 
         //Register for push!
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        prefs = getApplicationContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         if (prefs.getString("wantPW","ON").equals("ON")){
             pushManager.registerForPushNotifications();
         }else{
@@ -67,18 +138,11 @@ public class ChooseActivity extends AppCompatActivity {
         checkMessage(getIntent());
 
 
-        //Comprueba si es la primera vez
-        boolean firstTime = prefs.getBoolean("firstTime", true); //Si no existe, devuelve el segundo parametro
-
-        if(firstTime){
-            Intent intent = new Intent(this, OnBoardingActivity.class);
-            startActivity(intent);
-            finish();
-        }else{
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        if(globalMethod.haveNetworkConnection()) {
+            new LaunchActivityAsyntask().execute();
         }
+
+
 
         //Inicializar Amplitude
         Log.i("20D_AMPLITUDE", "Inicializacion de Amplitude");
@@ -95,6 +159,14 @@ public class ChooseActivity extends AppCompatActivity {
             checkMessage(intent);
         }
     };
+
+    private void bindView(){
+        ImageView launchBackground = (ImageView) findViewById(R.id.loading_screen);
+        ImageView launchLogo = (ImageView) findViewById(R.id.confi_logo);
+        Glide.with(this).load(R.drawable.img_background_launch).into(launchBackground);
+        Glide.with(this).load(R.drawable.img_icon_launch).into(launchLogo);
+        Log.i("Prueba", "bind launch");
+    }
 
     //Push message receiver
     private BroadcastReceiver mReceiver = new BasePushMessageReceiver()
@@ -259,4 +331,131 @@ public class ChooseActivity extends AppCompatActivity {
 
         checkMessage(intent);
     }
+
+
+
+    private class LaunchActivityAsyntask extends AsyncTask<String, String, JSONObject> {
+
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParserObject jParser = new JSONParserObject();
+
+            //Download quotes
+           qs.getQuotesFromParseOrLocal();
+
+            //Likes dislikes count
+            //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
+            //GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
+
+            //Create Partidos variables
+            // Getting JSON from asset
+            String jsonAsset = loadJSONFromAsset("PARTIDOS_TAGS.json");
+            if(jsonAsset!=null){
+                Log.i("PartidosJSON", "JSON recuperado de assets");
+                if(partidosList.isEmpty()) {
+                    setPartidosListFromJSON(jsonAsset);
+                }
+            } else{
+                Log.i("PartidosJSON", "JSON no recuperado de assets");
+            }
+
+            // Getting JSON from URL
+            if(globalMethod.haveNetworkConnection()){
+                JSONObject json = jParser.getJSONFromUrl(config_url);
+                return json;
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                if(json != null && globalMethod.haveNetworkConnection()) {
+                    // Getting JSON Array
+                    DFP_CARD_EVERY_N = json.getInt(TAG_DFP_CARD_EVERY_N);
+                    LAST_NEWS_COUNTER = json.getInt(TAG_LAST_NEWS_COUNTER);
+                    RESULTS_WEBVIEW_URL = json.getString(TAG_RESULTS_WEBVIEW);
+                    SHOW_SURVEYS = json.getBoolean(TAG_SHOW_SURVEYS);
+                    SHOW_TIMER = json.getBoolean(TAG_SHOW_TIMER);
+                    SHOW_WIDGET_RESULTS = json.getBoolean(TAG_SHOW_RESULTS);
+                    PRESINDER_SHARE_MESSAGE_ANDROID = json.getString(TAG_PRESINDER_SHARE_MESSAGE_ANDROID);
+                }
+
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+            }
+
+            //Comprueba si es la primera vez
+            boolean firstTime = prefs.getBoolean("firstTime", true); //Si no existe, devuelve el segundo parametro
+
+            if(firstTime){
+                Intent intent = new Intent(context, OnBoardingActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+
+        }
+    }
+
+    // region JSON Partidos local
+    //----------------------------------------------------------------------
+
+    //Almacena los objetos Partidos dentro de la Lista Global partidosList a partir de un json
+    public void setPartidosListFromJSON(String json){
+        try {
+            JSONArray jArray = new JSONArray(json);
+            for (int i = 0; i < jArray.length(); i++) {
+                try {
+                    JSONObject partidoObject = jArray.getJSONObject(i);
+                    // Creamos un objeto Partido, donde almacenaremos todos sus atributos
+                    Partido partido = new Partido();
+                    partido.setId(partidoObject.getString("ID"));
+                    partido.setNombre(partidoObject.getString("Desc"));
+                    partido.setColor(partidoObject.getString("Color"));
+                    partido.setSiglas(partidoObject.getString("Short"));
+                    partido.setTagNoticias(partidoObject.getString("News_TAG"));
+                    partido.setTagPush(partidoObject.getString("Push_TAG"));
+                    partidosList.add(partido);
+                    Log.i("PartidosJSON", "Almacenado el partido " + partido.getId());
+                    Log.i("PartidosJSON", "Con siglas " + partido.getSiglas());
+                } catch (JSONException e) {
+                    Log.i("PartidosJSON", "Error lectura de JSON");
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    //Método que lee un fichero json almacenado en assets
+    public String loadJSONFromAsset(String nameFile) {
+        String json = null;
+        try {
+
+            InputStream is = getAssets().open(nameFile);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
 }

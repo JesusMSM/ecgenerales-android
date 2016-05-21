@@ -27,6 +27,7 @@ import android.widget.Spinner;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
+import com.elconfidencial.eceleccionesgenerales2015.activities.ChooseActivity;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.DialogViewHolder;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -534,7 +535,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         GlobalMethod globalMethod = new GlobalMethod(context);
         grafico.animateY(2500);
         ArrayList<Integer> colores = new ArrayList<>();
-        List<Partido> partidosJsonDatos = MainActivity.partidosList;
+        List<Partido> partidosJsonDatos = ChooseActivity.partidosList;
         for(int i=0; i<e.getPartidosEncuesta().size(); i++){
             colores.add(Color.parseColor(partidosJsonDatos.get(i).getColor()));
         }
@@ -863,7 +864,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 //            if(globalMethod.haveNetworkConnection()) {
             int i =0;
             for (Noticia noticia : noticias){
-                if (i%MainActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
+                if (i%ChooseActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
                 items.add(noticia);
                 i++;
             }

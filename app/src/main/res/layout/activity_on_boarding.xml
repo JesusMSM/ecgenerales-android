@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/linearOnboarding"
-    android:background="@color/cardview_dark_background"
+    android:background="@drawable/img_background_select_municipio"
     tools:context="com.elconfidencial.eceleccionesgenerales2015.activities.OnBoardingActivity">
 
     <android.support.design.widget.AppBarLayout

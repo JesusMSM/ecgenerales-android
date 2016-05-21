@@ -247,7 +247,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
 
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("image/png");
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, MainActivity.PRESINDER_SHARE_MESSAGE_ANDROID);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(picFile.getAbsolutePath()));
         startActivity(Intent.createChooser(sharingIntent, "Compartir"));
     }catch (Exception e){

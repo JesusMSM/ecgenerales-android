@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
+import com.elconfidencial.eceleccionesgenerales2015.activities.ChooseActivity;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -110,8 +111,8 @@ public class ResultadosTab extends Fragment {
         webviewLayout = (LinearLayout) v.findViewById(R.id.webviewScreen);
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
-        //if(MainActivity.SHOW_WIDGET_RESULTS){
-        if(MainActivity.SHOW_WIDGET_RESULTS){
+        //if(ChooseActivity.SHOW_WIDGET_RESULTS){
+        if(false){
             //Cargamos el WebView
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.GONE);
@@ -141,6 +142,9 @@ public class ResultadosTab extends Fragment {
     }
 
 
+    // region LAYOUT WEBVIEW
+    //----------------------------------------------------------------------
+
     /**
      * Este método carga en pantalla el layout correspondiente al día de las elecciones
      */
@@ -165,7 +169,7 @@ public class ResultadosTab extends Fragment {
                 new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        if (url.equals(MainActivity.RESULTS_WEBVIEW_URL)) {
+                        if (url.equals(ChooseActivity.RESULTS_WEBVIEW_URL)) {
                             view.loadUrl(url);
                             Log.i("Resultados", "dentro del if con " + url);
                             return true;
@@ -185,9 +189,9 @@ public class ResultadosTab extends Fragment {
 
         //Comprobamos si tiene conexi�n a Internet
         //Si tiene conexi�n cargamos la url, si no tiene mostramos el mensaje de alerta
-        if(globalMethod.haveNetworkConnection() && MainActivity.RESULTS_WEBVIEW_URL !=null){
-            webviewResultados.loadUrl(MainActivity.RESULTS_WEBVIEW_URL);
-            Log.i("Resultados", "RESULTS_WEBVIEW_URL = " + MainActivity.RESULTS_WEBVIEW_URL);
+        if(globalMethod.haveNetworkConnection() && ChooseActivity.RESULTS_WEBVIEW_URL !=null){
+            webviewResultados.loadUrl(ChooseActivity.RESULTS_WEBVIEW_URL);
+            Log.i("Resultados", "RESULTS_WEBVIEW_URL = " + ChooseActivity.RESULTS_WEBVIEW_URL);
         } else {
             //Compramos el tipo de dispositivo y calculamos el tama�o de letra.
             String textSize= "";
@@ -216,22 +220,30 @@ public class ResultadosTab extends Fragment {
 
 
         /**Añadimos funcionalidad refresh
-        refreshIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                webviewResultados.reload();
-            }
+         refreshIcon.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+        webviewResultados.reload();
+        }
         });**/
 
 
         // disable scroll on touch
-     /**   webviewResultados.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
+        /**   webviewResultados.setOnTouchListener(new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+        return (event.getAction() == MotionEvent.ACTION_MOVE);
+        }
         });**/
     }
+
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
+    // region GRID MEGAENCUESTA
+    //----------------------------------------------------------------------
 
     /**
      * Este método carga en pantalla el layout correspondiente a:
@@ -240,8 +252,6 @@ public class ResultadosTab extends Fragment {
      */
     public void setGridMegaencuestaLayout() {
 
-        headerEncuesta = (TextView) v.findViewById(R.id.headerEncuesta);
-        headerEncuesta.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
 
         pp = (ImageView) v.findViewById(R.id.ppLogo);
@@ -318,6 +328,13 @@ public class ResultadosTab extends Fragment {
     }
 
 
+
+    //----------------------------------------------------------------------
+    //endregion
+
+    // region ENCUESTA EL CONFIDENCIAL
+    //----------------------------------------------------------------------
+
     /**
      * Este método carga en pantalla el layout correspondiente a:
      * - El usuario SÍ ha votado en la encuesta
@@ -337,7 +354,7 @@ public class ResultadosTab extends Fragment {
             List<ParseObject> pList = query.find();
             for (ParseObject partidoPObj : pList) {
                 Log.i("Megaencuesta", "" + partidoPObj.getString("PARTIDO") + " : " + partidoPObj.getInt("COUNT"));
-                for (Partido partidoObject : MainActivity.partidosList) {
+                for (Partido partidoObject : ChooseActivity.partidosList) {
                     //Si coinciden las ids de los partidos de la lista recibida de Parse y la local global
                     //Rellenamos las 3 necesarias para pintar nuestro gráfico
                     if (partidoObject.getId().equals(partidoPObj.getString("PARTIDO"))) {
@@ -381,7 +398,7 @@ public class ResultadosTab extends Fragment {
         for(PartidoMegaencuesta partidoMegaencuesta : partidoMegaencuestaList) {
             Log.i("Grafico", "" + partidoMegaencuesta.getnVotos()/tamañoMuestra);
             partidoMegaencuesta.setPorcentajeVotos((partidoMegaencuesta.getnVotos() / tamañoMuestra) * 100);
-           // Log.i("Grafico", "" + partidoMegaencuesta.getPorcentajeVotos());
+            // Log.i("Grafico", "" + partidoMegaencuesta.getPorcentajeVotos());
         }
 
     }
@@ -522,6 +539,13 @@ public class ResultadosTab extends Fragment {
         }
 
     }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
+
+
 
 
 

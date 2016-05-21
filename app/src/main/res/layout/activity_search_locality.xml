@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/linearOnboarding"
-    android:background="@color/cardview_dark_background">
+    android:background="@drawable/img_background_select_municipio">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

@@ -26,6 +26,7 @@ import java.util.List;
 
 import com.amplitude.api.Amplitude;
 import com.elconfidencial.eceleccionesgenerales2015.R;
+import com.elconfidencial.eceleccionesgenerales2015.activities.ChooseActivity;
 import com.elconfidencial.eceleccionesgenerales2015.activities.MainActivity;
 import com.elconfidencial.eceleccionesgenerales2015.activities.PreferencesActivity;
 import com.elconfidencial.eceleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
@@ -68,7 +69,7 @@ public class HomeTab extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home_tab, container, false);
 
         //Comprobamos si el contador se está mostrando, en caso negativo, no mostraremos la action bar
-        if(!MainActivity.SHOW_TIMER){
+        if(!ChooseActivity.SHOW_TIMER){
             //Preferences
             actionbar = (LinearLayout) v.findViewById(R.id.actionbar_home);
             titleActionBar = (TextView) v.findViewById(R.id.actionBarHome);
@@ -265,22 +266,22 @@ public class HomeTab extends Fragment {
 
             if (items.size() > 0) items.clear(); //Evitar duplicados
 
-            if(MainActivity.SHOW_TIMER){
+            if(ChooseActivity.SHOW_TIMER){
                 items.add("contador");
             }else{
                 actionbar.setVisibility(View.VISIBLE);
             }
 
-            if(MainActivity.SHOW_SURVEYS){
+            if(ChooseActivity.SHOW_SURVEYS){
                 items.add(new Titulo(getString(R.string.titulo_encuestas)));
                 items.add("encuestas");
             }
 
             items.add(new Titulo(getString(R.string.titulo_ultimas_noticias)));
 
-            int listLength = MainActivity.LAST_NEWS_COUNTER; //número de noticias que deben aparecer
+            int listLength = ChooseActivity.LAST_NEWS_COUNTER; //número de noticias que deben aparecer
             for (int i = 0; i < listLength; i++) {
-                if (i%MainActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
+                if (i%ChooseActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
                 items.add(noticias.get(i));
             }
 

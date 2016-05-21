@@ -24,6 +24,7 @@ import java.util.List;
 
 import com.amplitude.api.Amplitude;
 import com.elconfidencial.eceleccionesgenerales2015.R;
+import com.elconfidencial.eceleccionesgenerales2015.activities.ChooseActivity;
 import com.elconfidencial.eceleccionesgenerales2015.activities.MainActivity;
 import com.elconfidencial.eceleccionesgenerales2015.activities.PreferencesActivity;
 import com.elconfidencial.eceleccionesgenerales2015.adapters.MyRecyclerViewAdapter;
@@ -146,7 +147,7 @@ public class NoticiasTab extends Fragment {
 //            if(globalMethod.haveNetworkConnection()) {
             int i =0;
                 for (Noticia noticia : noticias){
-                    if (i%MainActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
+                    if (i% ChooseActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
                     items.add(noticia);
                     i++;
                 }
