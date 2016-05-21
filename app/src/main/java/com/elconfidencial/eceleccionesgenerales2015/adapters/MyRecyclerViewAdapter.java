@@ -27,8 +27,9 @@ import android.widget.Spinner;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
-import com.elconfidencial.eceleccionesgenerales2015.activities.ChooseActivity;
+import com.elconfidencial.eceleccionesgenerales2015.model.TituloEncuesta;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.DialogViewHolder;
+import com.elconfidencial.eceleccionesgenerales2015.viewholders.EncuestaTituloViewHolder;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -90,7 +91,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     NativeCustomTemplateAd adCustom;
     QuoteServer qs = QuoteServer.getInstance();
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8, PROGRESS=9;
+    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8, PROGRESS=9, TITULO_ENCUESTA=10;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -123,10 +124,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Titulo) {
             return TITULO;
         }
+        if (items.get(position) instanceof TituloEncuesta) {
+            return TITULO_ENCUESTA;
+        }
         if (items.get(position).equals("contador")) {
             return CONTADOR;
         }
-        if (items.get(position).equals("encuestas")) {
+        if (items.get(position) instanceof Encuesta) {
             return ENCUESTA;
         }
         if (items.get(position).equals("footerpresinder")) {
@@ -180,6 +184,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v8 =  inflater.inflate(R.layout.recyclerview_item_cardpubli, viewGroup, false);
                 viewHolder = new CardPubliViewHolder(v8);
                 break;
+            case TITULO_ENCUESTA:
+                View v =  inflater.inflate(R.layout.recyclerview_item_encuesta_titulo, viewGroup, false);
+                viewHolder = new EncuestaTituloViewHolder(v);
+                break;
             case FOOTER_PRES:
                 View v9 =  inflater.inflate(R.layout.recyclerview_item_footerpresinder, viewGroup, false);
                 viewHolder = new FooterPresinderViewHolder(v9);
@@ -231,6 +239,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 CardPubliViewHolder vh8 = (CardPubliViewHolder) viewHolder;
                 loadAd(vh8);
                 break;
+            case TITULO_ENCUESTA:
+                EncuestaTituloViewHolder vh = (EncuestaTituloViewHolder) viewHolder;
+                configureEncuestaTituloViewHolder(vh, position);
+                break;
             case FOOTER_PRES:
                 FooterPresinderViewHolder vh9 = (FooterPresinderViewHolder) viewHolder;
                 configureFooterPersinderViewHolder(vh9, position);
@@ -264,7 +276,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 }, s.getSpanStart(u), s.getSpanEnd(u), 0);
             }
-            vh.descripcion.setText(s);
+            //vh.descripcion.setText(s);
             vh.tag.setText(noticia.getTag());
             try {
                 System.gc();
@@ -392,11 +404,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void configureEncuestasViewHolder(EncuestasViewHolder vh3, int position) {
         //final BarChart grafico = (BarChart) items.get(position);
 
-        if(HomeTab.encuestas.size()>0){
-
+        final Encuesta e = (Encuesta) items.get(position);
 
         this.grafico = vh3.grafico;
-        Spinner spinner = vh3.spinner;
+
+        vh3.estimacion_voto.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Black.ttf"));
+        vh3.fecha.setText("Encuesta realizada el "+ e.getFecha());
+        vh3.fecha.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
+        vh3.descripcion.setText(e.getDescripcion());
+        vh3.descripcion.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
+        vh3.fuente.setText("Fuente: " + e.getName());
+        vh3.fuente.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
+
 
         grafico.setDrawBarShadow(false);
         grafico.setDrawValueAboveBar(true);
@@ -438,7 +457,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         YAxis leftAxis = grafico.getAxisLeft();
-        leftAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        leftAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         //leftAxis.setLabelCount(8, false);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
@@ -446,7 +465,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         YAxis rightAxis = grafico.getAxisRight();
         rightAxis.setDrawGridLines(false);
-        rightAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        rightAxis.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Bold.ttf"));
         //rightAxis.setLabelCount(8, false);
         rightAxis.setSpaceTop(15f);
         rightAxis.setEnabled(false);
@@ -471,61 +490,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
 
-            List<String> spinnerArray =  new ArrayList<String>();
-            spinnerArray.addAll(encuestasTitulo);
+
+        final Encuesta encuesta = (Encuesta) items.get(position);
+        setData(grafico, encuesta);
 
 
-            //Default value
-            //spinnerArray.add(context.getResources().getString(R.string.elige_partido_politico));
-
-
-
-            EncuestaSpinnerAdapter adapter = new EncuestaSpinnerAdapter(
-                    context, R.layout.row_custom_spinner_encuesta, spinnerArray);
-
-
-
-
-
-
-        // Creating adapter for spinner
-        //ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, R.layout.row_custom_spinner_encuesta, R.id.nombreEncuesta, encuestasTitulo);
-
-            spinner.setAdapter(adapter);
-
-
-
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                    encuestaSeleccionada = position;
-                    Map<String, String> encuestas = new HashMap<>();
-                    encuestas.put("encuesta", HomeTab.encuestas.get(position).getName());
-                    //encuestas.put("persona", this.persona);
-                    setData(grafico, HomeTab.encuestas.get(position));
-
-                    //Amplitude
-                    Log.i("20D_AMPLITUDE", "SELECT_SURVEY: "+ HomeTab.encuestas.get(position).getName());
-                    JSONObject eventProperties = new JSONObject();
-                    try {
-                        eventProperties.put("NAME", HomeTab.encuestas.get(position).getName());
-                    } catch (JSONException exception) {
-                    }
-                    Amplitude.getInstance().logEvent("SELECT_SURVEY",eventProperties);
-                }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-
-        setData(grafico, HomeTab.encuestas.get(encuestaSeleccionada));
-
-        }
 
 
     }
@@ -535,7 +504,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         GlobalMethod globalMethod = new GlobalMethod(context);
         grafico.animateY(2500);
         ArrayList<Integer> colores = new ArrayList<>();
-        List<Partido> partidosJsonDatos = ChooseActivity.partidosList;
+        List<Partido> partidosJsonDatos = MainActivity.partidosList;
         for(int i=0; i<e.getPartidosEncuesta().size(); i++){
             colores.add(Color.parseColor(partidosJsonDatos.get(i).getColor()));
         }
@@ -565,10 +534,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
+
         set1.setBarSpacePercent(15f);
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         set1.setColors(colores);
+        set1.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
         dataSets.add(set1);
 
         BarData data = new BarData(xVals, dataSets);
@@ -581,7 +552,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }else {
             data.setValueTextSize(11f);
         }
-        data.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));;
+        data.setValueTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
 
         grafico.setData(data);
 
@@ -672,6 +643,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         //Fonts
         vh6.title.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
 
+
+    }
+
+    private void configureEncuestaTituloViewHolder(EncuestaTituloViewHolder vh, int position) {
+        final TituloEncuesta title = (TituloEncuesta) items.get(position);
+        if (title != null) {
+            vh.nombre_encuesta.setText(title.getTitle());
+        }
+
+        vh.nombre_encuesta.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Black.ttf"));
+        vh.titulo.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
 
     }
 
@@ -864,7 +846,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 //            if(globalMethod.haveNetworkConnection()) {
             int i =0;
             for (Noticia noticia : noticias){
-                if (i%ChooseActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
+                if (i%MainActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
                 items.add(noticia);
                 i++;
             }

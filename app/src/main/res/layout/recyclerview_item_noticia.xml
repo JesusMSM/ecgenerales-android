@@ -48,15 +48,6 @@
                 android:layout_marginRight="8dp"
                 android:textColor="@color/titulos"
                 android:layout_marginBottom="5dp"/>
-            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumLightTextView
-                android:id="@+id/descripcion"
-                android:layout_width="match_parent"
-                android:lines="2"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:layout_marginLeft="8dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
