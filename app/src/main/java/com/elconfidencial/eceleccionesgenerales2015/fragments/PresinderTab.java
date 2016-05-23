@@ -206,10 +206,17 @@ public class PresinderTab extends Fragment {
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
                 if(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName()) != 0) {
-                    Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
+                    //Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
+                    foto.setImageResource(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName()));
+
                 } else {
                     Glide.with(getContext()).load(R.drawable.default_img).into(foto);
                 }
+                ImageView icon = (ImageView) settingsDialog.findViewById(R.id.iconAnswer);
+                icon.setImageResource(R.drawable.ic_agree_big);
+
+                LinearLayout fondoColor = (LinearLayout) settingsDialog.findViewById(R.id.fondoColor);
+                fondoColor.setBackgroundColor(getResources().getColor(R.color.color_agree));
                 //Fonts
             } catch (Exception e) {
                 e.printStackTrace();
@@ -307,10 +314,15 @@ public class PresinderTab extends Fragment {
             try {
                 ImageView foto = (ImageView) settingsDialog.findViewById(R.id.foto);
                 if(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName()) != 0) {
-                    Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
+                    //Glide.with(getContext()).load(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName())).into(foto);
+                    foto.setImageResource(getContext().getResources().getIdentifier(qs.getPersonFromName(currentQuote.getPersona()).getPhotoLink(), "drawable", getContext().getPackageName()));
                 } else {
                     Glide.with(getContext()).load(R.drawable.default_img).into(foto);
                 }
+                ImageView icon = (ImageView) settingsDialog.findViewById(R.id.iconAnswer);
+                icon.setImageResource(R.drawable.ic_disagree_big);
+                LinearLayout fondoColor = (LinearLayout) settingsDialog.findViewById(R.id.fondoColor);
+                fondoColor.setBackgroundColor(getResources().getColor(R.color.color_disagree));
                 //Fonts
             } catch (Exception e) {
                 e.printStackTrace();

@@ -8,48 +8,97 @@
     android:background="#80165875"
     android:theme="@style/myDialogTheme"
     android:gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textColor="@color/white"
-        android:layout_gravity="center_horizontal"
-        android:gravity="bottom"
-        android:textSize="10pt"
-        android:text="Parece que estas de acuerdo con:"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/introText"/>
-    <ImageView
-        android:id="@+id/foto"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:layout_margin="20dp" />
-    <TextView
+        android:orientation="vertical"
+        android:layout_gravity="top"
+        android:id="@+id/fondoColor"
+        android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textColor="@color/white"
-        android:textSize="18pt"
-        android:text="Albert Rivera"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:id="@+id/personaText"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/partyText"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:text="Ciudadanos"
-        android:textColor="@color/white"
-        android:textSize="10pt"
-        android:textAllCaps="true"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_weight="1">
+    </LinearLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textSize="10pt"
+            android:text="Parece que estas de acuerdo con:"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/introText"/>
+
+        <ImageView
+            android:id="@+id/foto"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:src="@drawable/albert_rivera"
+            android:layout_gravity="center" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="Albert Rivera"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:id="@+id/personaText"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/partyText"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:text="Ciudadanos"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textAllCaps="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_agree_big"
+                android:id="@+id/iconAnswer"/>
+        </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

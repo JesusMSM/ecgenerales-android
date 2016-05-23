@@ -145,7 +145,7 @@
                     android:layout_weight="2"
                     android:text="@string/a_favor"
                     android:textSize="5pt"
-                    android:textColor="@color/Color_agree"
+                    android:textColor="@color/color_agree"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textAllCaps="true"/>
@@ -156,7 +156,7 @@
                     android:layout_weight="2"
                     android:text="@string/en_contra"
                     android:textSize="5pt"
-                    android:textColor="@color/Color_disagree"
+                    android:textColor="@color/color_disagree"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textAllCaps="true"/>
