@@ -1,89 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
-        <TextView
+        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/headerPresinder"
             android:text="@string/presinderHeader"
             android:textColor="@color/black"
+            android:gravity="center"/>
+        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/testAfinidad"
+            android:text="Test de afinidad"
+            android:textColor="@color/black"
             android:gravity="center"
-            android:textSize="11pt"/>
+            android:textSize="13sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_weight="2">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reiniciar"
+            android:textColor="@color/blue1"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:id="@+id/reiniciarButton"
+            android:paddingLeft="@dimen/abc_button_padding_horizontal_material"
+            android:paddingRight="@dimen/abc_button_padding_horizontal_material"
+            android:background="@drawable/button_reiniciar"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:text="@string/verResultados"
+            android:textColor="@color/white"
+            android:id="@+id/verResultadosButton"
+            android:paddingLeft="@dimen/abc_button_padding_horizontal_material"
+            android:paddingRight="@dimen/abc_button_padding_horizontal_material"
+            android:background="@drawable/button_resultados"/>
+    </LinearLayout>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_weight="5">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/cards"
-        android:paddingTop="20dp"
-        android:layout_marginTop="-16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="40dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="vertical">
+        android:layout_marginBottom="60dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:layout_gravity="bottom"
                     android:gravity="bottom|center_horizontal"
                     android:layout_marginBottom="3dp"
-                    android:text="GURTEL"
-                    android:textColor="@color/grey"
+                    android:text=""
+                    android:textColor="@color/black"
                     android:id="@+id/groupQuote"
                     android:textAllCaps="true"/>
-                <View
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:id="@+id/separator"
-                    android:background="@color/material_grey_300"
+                    android:background="@color/grey"
                     android:layout_gravity="center"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"/>
-            </LinearLayout>
-            <TextView
+        </LinearLayout>
+         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="7"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:paddingBottom="16dp"
                 android:layout_marginRight="23dp"
                 android:layout_marginLeft="23dp"
-                android:textSize="8pt"
+                android:textSize="18sp"
                 android:textColor="@color/ColorPrimaryDark"
                 android:id="@+id/questionQuote"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2" />
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
     </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="bottom">
             <LinearLayout
@@ -96,24 +127,26 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
                 <ImageView
-                    android:id="@+id/likeButtonTab"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="15dp"
-                    android:adjustViewBounds="true"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/caraok"
-                    android:clickable="true"/>
-                <ImageView
                     android:id="@+id/dislikeButtonTab"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/carano"
+                    android:src="@drawable/ic_disagree_big"
+                    android:clickable="true"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <ImageView
+                    android:id="@+id/likeButtonTab"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_agree_big"
                     android:clickable="true"/>
                 <TextView
                     android:layout_width="0dp"
@@ -130,27 +163,29 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/aFavorTab"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/a_favor"
-                    android:textSize="5pt"
-                    android:textColor="@color/Color_agree"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textAllCaps="true"/>
-                <TextView
                     android:id="@+id/enContraTab"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/en_contra"
-                    android:textSize="5pt"
+                    android:textSize="12sp"
                     android:textColor="@color/Color_disagree"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textAllCaps="true"/>
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/aFavorTab"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/a_favor"
+                    android:textSize="12sp"
+                    android:textColor="@color/Color_agree"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -158,24 +193,9 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:background="@color/tabsScrollColor"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/verResultados"
-                android:id="@+id/verResultadosButton"
-                android:paddingLeft="@dimen/abc_button_padding_horizontal_material"
-                android:paddingRight="@dimen/abc_button_padding_horizontal_material"
-                android:background="@drawable/button_resultados"/>
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </LinearLayout>
 </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>

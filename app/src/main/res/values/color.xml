@@ -18,8 +18,8 @@
     <color name="blue1">#129CE1</color>
 
     <!-- Presinder Tab -->
-    <color name="Color_disagree">#ff2600</color>
-    <color name="Color_agree">#278a20</color>
+    <color name="Color_disagree">#E04646</color>
+    <color name="Color_agree">#B8E130</color>
     <color name="Color_position">#cf2329</color>
 
     <color name="black">#2c2c2c</color>

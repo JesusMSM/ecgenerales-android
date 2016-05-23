@@ -40,15 +40,15 @@
     <p>Para poder seguir los resultados en directo necesita conexión a Internet. Por favor, revise su conexión e intentalo de nuevo.</p>]]></string>
 
     <!-- Strings presinder -->
-    <string name="presinderHeader">Descubre a qué \n candidato te pareces</string>
+    <string name="presinderHeader">Descubre a qué candidato te pareces</string>
     <string name="presinderHeader2">Juega a nuestro test de afinidad</string>
     <string name="agree">Parece que estás de acuerdo con:</string>
     <string name="disagree">Parece que no estás de acuerdo con:</string>
     <string name="verResultados">Ver resultados</string>
     <string name="volverAJugar">Seguir Jugando</string>
     <string name="resultadosTest">Resultados del test</string>
-    <string name="a_favor">Sí, estoy a favor</string>
-    <string name="en_contra">No, estoy en contra</string>
+    <string name="a_favor">Estoy de acuerdo</string>
+    <string name="en_contra">Estoy en contra</string>
 
     <!-- Creditos -->
     <string name="titulo_creditos">Contribuidores</string>

@@ -43,10 +43,10 @@ import com.elconfidencial.eceleccionesgenerales2015.model.QuoteServer;
  */
 public class PresinderTab extends Fragment {
 
-    TextView grupo,header1,likeText,dislikeText, actionBarTitle;
+    TextView grupo,header1,testAfinidad,likeText,dislikeText, actionBarTitle;
     TextView text;
     ImageView like,dislike;
-    Button verResultados;
+    Button verResultados,reiniciar;
     QuoteServer qs = QuoteServer.getInstance();
 
     public PresinderTab(){}
@@ -80,6 +80,7 @@ public class PresinderTab extends Fragment {
         qs.init(getContext());
 
         header1 = (TextView) v.findViewById(R.id.headerPresinder);
+        testAfinidad = (TextView) v.findViewById(R.id.testAfinidad);
         text = (TextView) v.findViewById(R.id.questionQuote);
         grupo = (TextView) v.findViewById(R.id.groupQuote);
         likeText =(TextView) v.findViewById(R.id.aFavorTab);
@@ -88,6 +89,7 @@ public class PresinderTab extends Fragment {
         like = (ImageView) v.findViewById(R.id.likeButtonTab);
         dislike = (ImageView) v.findViewById(R.id.dislikeButtonTab);
         verResultados = (Button) v.findViewById(R.id.verResultadosButton);
+        reiniciar = (Button) v.findViewById(R.id.reiniciarButton);
 
         //Listeners de los botones de agree y disagree
         like.setOnClickListener(new OnPresinderLikeClickListener(getContext()));
@@ -109,12 +111,14 @@ public class PresinderTab extends Fragment {
     }
     public void setFonts(){
         //Fonts
-        header1.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Semibold.otf"));
+        header1.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Roboto-Black.ttf"));
         text.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Milio-Demibold-Italic.ttf"));
-        grupo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-        verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-        likeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-        dislikeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+        grupo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf"));
+        testAfinidad.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf"));
+        verResultados.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf"));
+        reiniciar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf"));
+        likeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf"));
+        dislikeText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf"));
     }
 
     public void setNextQuote(){
