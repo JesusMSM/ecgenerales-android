@@ -620,18 +620,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             } else{
                 Glide.with(context).load(R.drawable.default_img).into(vh.fotoPolitico);
             }
-            Glide.with(context).load(R.drawable.caralittleok).into(vh.likesPolitico);
-            Glide.with(context).load(R.drawable.caralittleno).into(vh.dislikesPolitico);
+
         }catch (Exception e){
             e.printStackTrace();
         }
 
         //Fonts
-        vh.posicion.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
-        vh.nombre.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
-        vh.partido.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.nAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.nDisAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
+        vh.posicion.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
+        vh.nombre.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
+        vh.partido.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf"));
+        vh.nAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
+        vh.nDisAgrees.setTypeface(Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf"));
 
     }
 

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,20 +53,24 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
     //Compartir
     private File picFile;
 
+    Toolbar toolbar;
+    ActionBar actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultados_presinder);
 
+        setupToolbar();
+
         //ActionBar
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        /*getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.custom_title_resultados_presinder, null);
         ((TextView) v.findViewById(R.id.actionBarTitle)).setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "Titillium-Light.otf"));
         getSupportActionBar().setCustomView(v);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
         //RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.resultados_recycler_view);
@@ -85,7 +90,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         }
 
         //Add footer
-        items.add("footerpresinder");
+        //items.add("footerpresinder");
 
         mAdapter = new MyRecyclerViewAdapter(this, items);
         mRecyclerView.setAdapter(mAdapter);
@@ -253,5 +258,18 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
     }catch (Exception e){
 
     }
+    }
+
+    private void setupToolbar() {
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(null);
+            //actionBar.setHomeAsUpIndicator(R.drawable.elconfidencial_32dp_white);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_back_actionbar);
+        }
     }
 }

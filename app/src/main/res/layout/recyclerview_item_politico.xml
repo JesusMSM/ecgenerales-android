@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:id="@+id/rowPolitico">
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,8 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textColor="@color/color_position"
-            android:textSize="10pt"
+            android:textColor="@color/black"
+            android:textSize="12sp"
             android:layout_gravity="center"
             android:gravity="center"/>
 
@@ -43,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Albert Rivera"
-                android:textSize="11pt"
+                android:textSize="15sp"
                 android:textColor="@color/titulos"
                 android:layout_gravity="center"/>
             <TextView
@@ -52,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="15dp"
                 android:text="Ciudadanos"
-                android:textSize="5pt"
+                android:textSize="12sp"
                 android:textAllCaps="true"
                 android:layout_gravity="center"/>
             <LinearLayout
@@ -66,7 +67,7 @@
                     android:layout_weight="2"
                     android:adjustViewBounds="true"
                     android:layout_gravity="clip_vertical"
-                    android:src="@drawable/caralittleok"/>
+                    android:src="@drawable/ic_agree_small"/>
                 <TextView
                     android:id="@+id/nAgrees"
                     android:layout_width="0dp"
@@ -85,7 +86,7 @@
                     android:layout_marginLeft="15dp"
                     android:adjustViewBounds="true"
                     android:layout_gravity="clip_vertical"
-                    android:src="@drawable/caralittleno" />
+                    android:src="@drawable/ic_disagree_small" />
                 <TextView
                     android:id="@+id/nDisAgrees"
                     android:layout_width="0dp"
@@ -108,12 +109,12 @@
         </LinearLayout>
 
     </LinearLayout>
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="1sp"
         android:background="@color/material_grey_300"
         android:layout_gravity="center"
         android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp" />-->
 
 </LinearLayout>

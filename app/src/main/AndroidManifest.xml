@@ -78,7 +78,6 @@
         <activity
             android:name=".activities.ResultadosPresinderActivity"
             android:label="@string/title_activity_resultados_presinder"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         </activity>
         <activity

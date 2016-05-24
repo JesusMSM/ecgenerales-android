@@ -13,12 +13,15 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.elconfidencial.eceleccionesgenerales2015.activities.MainActivity;
 import com.elconfidencial.eceleccionesgenerales2015.activities.ResultadosPresinderActivity;
+import com.parse.SaveCallback;
 
 /**
  * Created by Afll on 01/11/2015.
@@ -55,7 +58,7 @@ public class QuoteServer{
 
     }
 
-    /*Obtengo las quotes desde Parse o en local si hay**/
+    /*Obtengo las quotes desde Parse o en local si hay (SOLO ANSWERED FALSE)**/
     public void getQuotesFromParseOrLocal(){
 
         ParseObject.registerSubclass(Quote.class);
@@ -69,10 +72,19 @@ public class QuoteServer{
                 getFromParse();
             } else {
                 Log.i("PRESINDER", "GET FROM LOCAL");
-                //Obtenemos las quotes de local
+                //Obtenemos las quotes de local no contestadas
                 for (ParseObject q : parseQuotes) {
-                    quotes.add(new Quote(q));
-                    Log.i("PRESINDER","GETTING IN LOCAL... " + q.get("QUOTE"));
+                    if(q.getBoolean("answered") == false) {
+                        quotes.add(new Quote(q));
+                        Log.i("PRESINDER", "GETTING IN LOCAL... " + q.get("QUOTE"));
+                    }
+                    //RANDOM
+                    long seed = System.nanoTime();
+                    Collections.shuffle(quotes, new Random(seed));
+
+                    //Reset index
+                    GlobalMethod.saveIntPreference(context, 0, "quotesIndex");
+
                 }
                 //Obtenemos las personas de local
                 getPersonsFromLocal();            }
@@ -89,8 +101,8 @@ public class QuoteServer{
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("QUOTES");
         List<ParseObject> parseQuotes = query2.find();
 
-
-        ParseObject.pinAllInBackground("QUOTES",parseQuotes);
+        ParseObject.unpinAllInBackground("QUOTES",parseQuotes);
+        ParseObject.pinAllInBackground("QUOTES", parseQuotes);
 
         parseQuotes = query2.fromLocalDatastore().find();
         //LOCAL
@@ -103,6 +115,10 @@ public class QuoteServer{
             quotes.add(new Quote(q));
             Log.i("PRESINDER", "GETTING IN LOCAL... " + q.get("QUOTE"));
         }
+
+        //Random
+        long seed = System.nanoTime();
+        Collections.shuffle(quotes,new Random(seed));
         //Obtenemos las personas de local
         getPersonsFromLocal();
 
@@ -177,6 +193,10 @@ public class QuoteServer{
         }
         Log.i("Quote:", "Agrees:" + p.getAgree() + " Disagrees: " + p.getDisagree());
 
+        //Answered
+        quote.quotePObj.put("answered",true);
+        quote.quotePObj.pinInBackground("QUOTES");
+
         //Parse Analytics - agree
         Map<String, String> agree = new HashMap<String, String>();
         agree.put("quote", quote.getText());
@@ -197,6 +217,10 @@ public class QuoteServer{
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //Answered
+        quote.quotePObj.put("answered", true);
+        quote.quotePObj.pinInBackground("QUOTES");
 
         //Parse Analytics - disagree
         Map<String, String> disagree = new HashMap<String, String>();
