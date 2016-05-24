@@ -108,7 +108,7 @@ public class PresinderTab extends Fragment {
             @Override
             public void onClick(View v) {
                 qs.reset();
-                //setNextQuote();
+                setNextQuote();
             }
         });
 

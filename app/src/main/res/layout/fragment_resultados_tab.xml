@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="5dp"
             android:visibility="visible">
 
             <!-- CONTADOR -->
@@ -165,11 +166,11 @@
                 android:id="@+id/headerEncuesta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:text="@string/header_megaencuesta"
                 android:textColor="@color/titulos"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:gravity="center_horizontal"/>
             <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
                 android:id="@+id/headerEncuesta1"
@@ -177,9 +178,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:text="Participa en la encuesta de El Confidencial"
                 android:textColor="@color/titulos"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:gravity="center_horizontal"/>
 
             <FrameLayout
@@ -190,36 +192,35 @@
                     android:id="@+id/tabla_partidos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_image"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="20dp">
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <ImageView
-                            android:id="@+id/ppLogo"
-                            android:src="@drawable/pp_on"
-                            android:background="@drawable/border_image"
+                            android:id="@+id/podemosLogo"
+                            android:src="@drawable/pp_off"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                         <ImageView
-                            android:id="@+id/cslogo"
-                            android:background="@drawable/border_image"
+                            android:id="@+id/ppLogo"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                         <ImageView
                             android:id="@+id/psoelogo"
-                            android:background="@drawable/border_image"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
                         <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -249,33 +250,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <ImageView
-                            android:id="@+id/podemosLogo"
+                            android:id="@+id/cslogo"
                             android:src="@drawable/pp_on"
-                            android:background="@drawable/border_image"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                         <ImageView
                             android:id="@+id/iulogo"
-                            android:background="@drawable/border_image"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                         <ImageView
                             android:id="@+id/pnvlogo"
-                            android:background="@drawable/border_image"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
                         <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="Ciudadanos"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:gravity="center_horizontal"
                             android:textSize="15sp"
                             />
@@ -302,21 +303,18 @@
                         <ImageView
                             android:id="@+id/convergenciaLogo"
                             android:src="@drawable/pp_on"
-                            android:background="@drawable/border_image"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                         <ImageView
-                            android:id="@+id/upydlogo"
-                            android:background="@drawable/border_image"
+                            android:id="@+id/otroslogo"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1"/>
                         <ImageView
-                            android:id="@+id/otroslogo"
-                            android:background="@drawable/border_image"
+                            android:id="@+id/blancologo"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_weight="1" />
                     </TableRow>
                     <TableRow
@@ -361,8 +359,12 @@
                     <ImageView
                         android:id="@+id/image_megaencuesta_big"
                         android:src="@drawable/pp_on"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginEnd="25dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="150dp" />
                     <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
                         android:id="@+id/cancelButton"
                         android:layout_width="wrap_content"

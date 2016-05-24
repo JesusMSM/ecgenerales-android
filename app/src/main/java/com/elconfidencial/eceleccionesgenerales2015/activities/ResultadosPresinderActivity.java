@@ -144,7 +144,11 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
     private class PersonComparator implements Comparator<Persona> {
 
         public int compare(Persona p1, Persona p2) {
-            if(p1.getAgreeDisagreeDif() - p2.getAgreeDisagreeDif()!=0) {
+            if(p1.getAgree()==0 && p1.getDisagree()==0){
+                return 1;
+            } else if(p2.getAgree()==0 && p2.getDisagree()==0) {
+                return -1;
+            }else if(p1.getAgreeDisagreeDif() - p2.getAgreeDisagreeDif()!=0) {
                 return p1.getAgreeDisagreeDif() - p2.getAgreeDisagreeDif();
             } else {
                 return p2.getAgree() - p1.getAgree();
