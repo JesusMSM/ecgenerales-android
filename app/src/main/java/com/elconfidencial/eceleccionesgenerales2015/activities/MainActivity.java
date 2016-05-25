@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -63,10 +64,17 @@ public class MainActivity extends AppCompatActivity {
     CoordinatorLayout activityLayout;
     public static ProgressDialog pd;
 
+    private int mInterval = 5000; // 5 seconds by default, can be changed later
+    private Handler mHandler;
+
+    boolean test = false;
+    int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         //COMSCORE
@@ -95,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager();
         setupTabs();
 
+        mHandler = new Handler();
+        startRepeatingTask();
 
 
 
@@ -248,17 +258,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    Runnable mStatusChecker = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                if (globalMethod.haveNetworkConnection()){
+                    new RefreshConfigAsyncTask().execute();
+                }
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                mHandler.postDelayed(mStatusChecker, mInterval);
+            }
+        }
+    };
 
-/**
+    void startRepeatingTask() {
+        mStatusChecker.run();
+    }
+
+    void stopRepeatingTask() {
+        mHandler.removeCallbacks(mStatusChecker);
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
         try{
-            //comScore
-            Log.i("Comscore", "Dentro de on Resume");
-            comScore.onEnterForeground();
+            startRepeatingTask();
         }catch (Exception e){
-            Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
         }
     }
@@ -267,15 +296,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         try{
-            //comScore
-            Log.i("Comscore", "Dentro de on Pause");
-            comScore.onExitForeground();
+            stopRepeatingTask();
         }catch (Exception e){
-            Log.i("Comscore", "Error Comscore");
+
             e.printStackTrace();
         }
     }
-
+/**
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -320,5 +347,61 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------
     //endregion
 
+
+    private class RefreshConfigAsyncTask extends AsyncTask<String, String, JSONObject> {
+
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParserObject jParser = new JSONParserObject();
+
+
+            //Likes dislikes count
+            //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
+            //GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
+
+
+            // Getting JSON from URL
+            if(globalMethod.haveNetworkConnection()){
+                JSONObject json = jParser.getJSONFromUrl(ChooseActivity.config_url);
+                return json;
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            boolean changed = false;
+            try {
+                if(json != null && globalMethod.haveNetworkConnection()) {
+                    // Getting JSON Array
+                    if(ChooseActivity.DFP_CARD_EVERY_N != json.getInt(ChooseActivity.TAG_DFP_CARD_EVERY_N)) changed = true;
+                    if(ChooseActivity.LAST_NEWS_COUNTER !=  json.getInt(ChooseActivity.TAG_LAST_NEWS_COUNTER)) changed = true;
+                    if(!ChooseActivity.RESULTS_WEBVIEW_URL.equals(json.getString(ChooseActivity.TAG_RESULTS_WEBVIEW))) changed = true;
+                    if(ChooseActivity.SHOW_SURVEYS != json.getBoolean(ChooseActivity.TAG_SHOW_SURVEYS)) changed = true;
+                    if(ChooseActivity.SHOW_TIMER != json.getBoolean(ChooseActivity.TAG_SHOW_TIMER)) changed = true;
+                    if(ChooseActivity.SHOW_WIDGET_RESULTS != json.getBoolean(ChooseActivity.TAG_SHOW_RESULTS)) changed = true;
+                    if(!ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID.equals(json.getString(ChooseActivity.TAG_PRESINDER_SHARE_MESSAGE_ANDROID))) changed = true;
+
+                    ChooseActivity.DFP_CARD_EVERY_N = json.getInt(ChooseActivity.TAG_DFP_CARD_EVERY_N);
+                    ChooseActivity.LAST_NEWS_COUNTER = json.getInt(ChooseActivity.TAG_LAST_NEWS_COUNTER);
+                    ChooseActivity.RESULTS_WEBVIEW_URL = json.getString(ChooseActivity.TAG_RESULTS_WEBVIEW);
+                    ChooseActivity.SHOW_SURVEYS = json.getBoolean(ChooseActivity.TAG_SHOW_SURVEYS);
+                    ChooseActivity.SHOW_TIMER = json.getBoolean(ChooseActivity.TAG_SHOW_TIMER);
+                    ChooseActivity.SHOW_WIDGET_RESULTS = json.getBoolean(ChooseActivity.TAG_SHOW_RESULTS);
+                    ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID = json.getString(ChooseActivity.TAG_PRESINDER_SHARE_MESSAGE_ANDROID);
+
+                    
+                }
+
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+            }
+            if (changed) {
+                pager.setOffscreenPageLimit(4);
+                pager.getAdapter().notifyDataSetChanged();
+            }
+
+        }
+    }
 
 }

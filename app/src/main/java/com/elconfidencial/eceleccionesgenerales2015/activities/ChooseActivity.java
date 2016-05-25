@@ -62,13 +62,13 @@ public class ChooseActivity extends AppCompatActivity {
     public static String encuestas_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/survey.json";
 
     //Parámetros config
-    private String TAG_DFP_CARD_EVERY_N = "DFP_CARD_EVERY_N";
-    private String TAG_LAST_NEWS_COUNTER = "LAST_NEWS_COUNTER";
-    private String TAG_RESULTS_WEBVIEW = "RESULTS_WEBVIEW_URL";
-    private String TAG_SHOW_SURVEYS= "SHOW_SURVEYS";
-    private String TAG_SHOW_TIMER = "SHOW_TIMER";
-    private String TAG_SHOW_RESULTS = "SHOW_WIDGET_RESULTS";
-    private String TAG_PRESINDER_SHARE_MESSAGE_ANDROID = "PRESINDER_SHARE_MESSAGE_ANDROID";
+    public static String TAG_DFP_CARD_EVERY_N = "DFP_CARD_EVERY_N";
+    public static String TAG_LAST_NEWS_COUNTER = "LAST_NEWS_COUNTER";
+    public static String TAG_RESULTS_WEBVIEW = "RESULTS_WEBVIEW_URL";
+    public static String TAG_SHOW_SURVEYS= "SHOW_SURVEYS";
+    public static String TAG_SHOW_TIMER = "SHOW_TIMER";
+    public static String TAG_SHOW_RESULTS = "SHOW_WIDGET_RESULTS";
+    public static String TAG_PRESINDER_SHARE_MESSAGE_ANDROID = "PRESINDER_SHARE_MESSAGE_ANDROID";
 
     //PartidosList
     public static List<Partido> partidosList = new ArrayList<>();

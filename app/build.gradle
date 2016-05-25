@@ -68,4 +68,6 @@ dependencies {
         transitive = true
     }
 
+    compile 'com.baoyz.pullrefreshlayout:library:1.0.1'
+
 }

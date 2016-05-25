@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.elconfidencial.eceleccionesgenerales2015.R;
 import com.elconfidencial.eceleccionesgenerales2015.activities.ChooseActivity;
 import com.elconfidencial.eceleccionesgenerales2015.activities.MainActivity;
@@ -20,6 +21,7 @@ import com.elconfidencial.eceleccionesgenerales2015.json.JSONParser;
 import com.elconfidencial.eceleccionesgenerales2015.model.CardPubli;
 import com.elconfidencial.eceleccionesgenerales2015.model.DatosEncuentas;
 import com.elconfidencial.eceleccionesgenerales2015.model.Encuesta;
+import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
 import com.elconfidencial.eceleccionesgenerales2015.model.Noticia;
 import com.elconfidencial.eceleccionesgenerales2015.model.PartidoEncuesta;
 import com.elconfidencial.eceleccionesgenerales2015.model.TituloEncuesta;
@@ -45,6 +47,8 @@ public class EncuestasTab extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     List<Object> items = new ArrayList<>();
+
+    PullRefreshLayout layout;
 
 
 
@@ -79,6 +83,21 @@ public class EncuestasTab extends Fragment {
 
         addItems();
 
+        layout = (PullRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+
+        // listen refresh event
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                GlobalMethod globalMethod = new GlobalMethod(getContext());
+                if (globalMethod.haveNetworkConnection()) {
+
+                    new DownloadEncuestas().execute(ChooseActivity.encuestas_url);
+                }
+
+            }
+        });
+
         return v;
     }
 
@@ -86,9 +105,9 @@ public class EncuestasTab extends Fragment {
 
         if (items.size()>0) items.clear();
 
-        //if(MainActivity.SHOW_TIMER){
+        if(ChooseActivity.SHOW_TIMER){
             items.add("contador");
-        //}
+        }
 
         for (Encuesta encuesta: ChooseActivity.encuestas){
 
@@ -101,5 +120,99 @@ public class EncuestasTab extends Fragment {
 
         mAdapter = new MyRecyclerViewAdapter(getContext(),items);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addItems();
+    }
+
+    private class DownloadEncuestas extends AsyncTask<String, String, JSONArray> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            // Getting JSON from URL
+            JSONArray json = jParser.getJSONFromUrl(ChooseActivity.encuestas_url);
+
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONArray json) {
+            ChooseActivity.encuestas.clear();
+
+            ArrayList<String> titulos = new ArrayList<>();
+            ArrayList<String> fechas = new ArrayList<>();
+            ArrayList<String> descripciones = new ArrayList<>();
+
+            ArrayList<DatosEncuentas> datosEncuestas = new ArrayList<>();
+
+            if(json!=null) {
+                for (int i = 0; i < json.length(); i++) {
+
+                    try {
+                        ArrayList<PartidoEncuesta> partidoEncuestas = new ArrayList<>();
+                        JSONObject encuestaGlobal = json.getJSONObject(i);
+                        titulos.add(encuestaGlobal.getString("Source"));
+                        fechas.add(encuestaGlobal.getString("Date"));
+                        descripciones.add(encuestaGlobal.getString("Description"));
+                        JSONArray datos = encuestaGlobal.getJSONArray("Data");
+                        for (int j = 0; j < datos.length(); j++) {
+                            JSONObject duplaPartido = datos.getJSONObject(j);
+                            JSONArray partido = duplaPartido.names();
+                            String nombre = "";
+                            double porcentaje = 0;
+                            for (int k = 0; k < partido.length(); k++) {
+                                nombre = partido.getString(k);
+                                //Log.d("Encuestas", nombre);
+                                porcentaje = duplaPartido.getDouble(nombre);
+                                //Log.d("Encuestas", ""+porcentaje);
+
+
+                            }
+                            PartidoEncuesta partidoEncuesta = new PartidoEncuesta(nombre, porcentaje);
+                            partidoEncuestas.add(partidoEncuesta);
+
+                        }
+                        Collections.sort(partidoEncuestas, new Comparator<PartidoEncuesta>() {
+                            public int compare(PartidoEncuesta partido1, PartidoEncuesta partido2) {
+                                return Double.compare(partido2.getPorcentaje(), partido1.getPorcentaje());
+                            }
+                        });
+                        datosEncuestas.add(new DatosEncuentas(partidoEncuestas));
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Encuesta e = new Encuesta(titulos.get(i), datosEncuestas.get(i).getDatosEncuesta());
+                    e.setFecha(fechas.get(i));
+                    e.setDescripcion(descripciones.get(i));
+
+                    ChooseActivity.encuestas.add(e);
+                }
+
+                for (int n = 0; n < ChooseActivity.encuestas.size(); n++) {
+                    Log.d("Encuestas", "El contenido de encuestas es: ");
+                    Log.d("Encuestas", ChooseActivity.encuestas.get(n).getName());
+
+                    for (int m = 0; m < ChooseActivity.encuestas.get(n).getPartidosEncuesta().size(); m++) {
+                        Log.d("Encuestas", "Con el partido " + ChooseActivity.encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + ChooseActivity.encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
+                    }
+                }
+                addItems();
+                if(layout!=null) layout.setRefreshing(false);
+
+            }
+        }
     }
 }
