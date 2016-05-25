@@ -12,13 +12,15 @@ public class Quote extends ParseObject{
     String persona;
     String grupo;
     ParseObject quotePObj;
+    boolean answered;
 
     public Quote(){
     }
-    public Quote(String text,String persona,String grupo){
+    public Quote(String text,String persona,String grupo, boolean answered){
         this.text = text;
         this.persona = persona;
         this.grupo = grupo;
+        this.answered = answered;
     }
     public Quote (ParseObject quotePObj){
         this.quotePObj = quotePObj;
@@ -26,6 +28,7 @@ public class Quote extends ParseObject{
             this.text = quotePObj.getString("QUOTE");
             this.grupo = quotePObj.getString("LABEL");
             this.persona = quotePObj.getString("PERSONA");
+            this.answered = quotePObj.getBoolean("answered");
         }
     }
     public String getText() {
@@ -66,5 +69,11 @@ public class Quote extends ParseObject{
 
     }
 
+    public boolean isAnswered() {
+        return answered;
+    }
 
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
+    }
 }

@@ -146,6 +146,7 @@ public class NoticiasTab extends Fragment {
 
         }
 
+
     public void addItems() {
 
         //if(MainActivity.SHOW_TIMER){

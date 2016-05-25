@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -43,9 +44,11 @@ import com.parse.ParseQuery;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import com.elconfidencial.eceleccionesgenerales2015.R;
@@ -60,6 +63,17 @@ import com.elconfidencial.eceleccionesgenerales2015.model.PartidoMegaencuesta;
  */
 public class ResultadosTab extends Fragment {
 
+    
+    //Etiquetas partidos Parse megaencuesta
+    private static final String PP_TAG= "PP";
+    private static final String PSOE_TAG= "PP";
+    private static final String CS_TAG= "PP";
+    private static final String PODEMOS_TAG= "PP";
+    private static final String PNV_TAG= "PP";
+    private static final String OTROS_TAG= "PP";
+    private static final String BLANCO_TAG= "PP";
+    private static final String CONVERGENCIA_TAG= "PP";
+    private static final String IU_TAG= "PP";
 
     private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
     private TextView headerEncuesta, graciasPorParticipar, mensajeAviso;
@@ -75,7 +89,9 @@ public class ResultadosTab extends Fragment {
     private int partidoMarcado = -1;
     private final int MINIMO_TAMANO_MUESTRA=50;
 
-    private ImageView pp, cs, psoe, podemos, iu, pnv, convergencia, upyd, otros;
+    private ImageView pp, cs, psoe, podemos, iu, pnv, convergencia, blanco, otros;
+    private ImageView imagenBig;
+    public TextView contador, textViewDias,textViewHoras,textViewMinutos,textViewColegiosElectorales;
     private FrameLayout vota;
 
 
@@ -108,6 +124,7 @@ public class ResultadosTab extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_resultados_tab, container, false);
+        context = getContext();
 
 
 
@@ -259,6 +276,9 @@ public class ResultadosTab extends Fragment {
      */
     public void setGridMegaencuestaLayout() {
 
+        bindContador();
+        showContador();
+
         bindViewsMegaencuesta();
 
         //Cargamos todas las imagenes grises (not pressed)
@@ -269,7 +289,7 @@ public class ResultadosTab extends Fragment {
 
 
         //Listener del botón votar
-        vota.setOnClickListener(new View.OnClickListener() {
+     /**   vota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (partidoMarcado != -1) {
@@ -317,7 +337,7 @@ public class ResultadosTab extends Fragment {
                     toast.show();
                 }
             }
-        });
+        });**/
 
     }
 
@@ -328,6 +348,7 @@ public class ResultadosTab extends Fragment {
 
         cancelButton = (TextView) v.findViewById(R.id.cancelButton);
         voteButton = (FrameLayout) v.findViewById(R.id.votaButton);
+        imagenBig = (ImageView) v.findViewById(R.id.image_megaencuesta_big);
 
         pp = (ImageView) v.findViewById(R.id.ppLogo);
         cs = (ImageView) v.findViewById(R.id.cslogo);
@@ -336,10 +357,9 @@ public class ResultadosTab extends Fragment {
         iu = (ImageView) v.findViewById(R.id.iulogo);
         pnv = (ImageView) v.findViewById(R.id.pnvlogo);
         convergencia = (ImageView) v.findViewById(R.id.convergenciaLogo);
-        upyd = (ImageView) v.findViewById(R.id.upydlogo);
+        blanco = (ImageView) v.findViewById(R.id.blancologo);
         otros = (ImageView) v.findViewById(R.id.otroslogo);
 
-        vota = (FrameLayout) v.findViewById(R.id.votaButton);
     }
 
     private void setupListenersPartidos(){
@@ -350,11 +370,84 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.setX(5000);
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
-                setupListenersPartidoDetail("PP");
+                Glide.with(context).load(R.drawable.pp_color).into(imagenBig);
+                setupListenersPartidoDetail(PP_TAG);
             }
         });
 
-        //TODO: Para el resto de partidos
+        psoe.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.psoe_color).into(imagenBig);
+                setupListenersPartidoDetail(PSOE_TAG);
+            }
+        });
+
+        cs.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.ciudadanos_color).into(imagenBig);
+                setupListenersPartidoDetail(CS_TAG);
+            }
+        });
+
+        podemos.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.podemos_color).into(imagenBig);
+                setupListenersPartidoDetail(PODEMOS_TAG);
+            }
+        });
+
+        pnv.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.pnv_color).into(imagenBig);
+                setupListenersPartidoDetail(PNV_TAG);
+            }
+        });
+
+        otros.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.otros_color).into(imagenBig);
+                setupListenersPartidoDetail(OTROS_TAG);
+            }
+        });
+
+        blanco.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.blanco_color).into(imagenBig);
+                setupListenersPartidoDetail(BLANCO_TAG);
+            }
+        });
+
+        //TODO: Para IU y convergencia
     }
 
     private void setupListenersPartidoDetail(String nombrePartido){
@@ -372,6 +465,19 @@ public class ResultadosTab extends Fragment {
                 //TODO: Acción de votar
             }
         });
+    }
+
+    public void setNotPressedImages(){
+        //Cargamos las imagenes not pressed
+        Glide.with(context).load(R.drawable.pp).into(pp);
+        Glide.with(context).load(R.drawable.ciudadanos).into(cs);
+        Glide.with(context).load(R.drawable.psoe).into(psoe);
+        Glide.with(context).load(R.drawable.podemos).into(podemos);
+        Glide.with(context).load(R.drawable.iu_off).into(iu);
+        Glide.with(context).load(R.drawable.pnv).into(pnv);
+        Glide.with(context).load(R.drawable.convergencia_off).into(convergencia);
+        Glide.with(context).load(R.drawable.otros).into(otros);
+        Glide.with(context).load(R.drawable.blanco).into(blanco);
     }
 
 
@@ -591,33 +697,64 @@ public class ResultadosTab extends Fragment {
     //endregion
 
 
+    // region CONTADOR
+    //----------------------------------------------------------------------
 
-
-
-
-
-
-    public void setNotPressedImages(){
-        //Cargamos las imagenes not pressed
-        /*Glide.with(getContext()).load(R.drawable.pp_off).placeholder(R.drawable.nopicpersona).into(pp);
-        Glide.with(getContext()).load(R.drawable.cs_off).placeholder(R.drawable.nopicpersona).into(cs);
-        Glide.with(getContext()).load(R.drawable.psoe_off).placeholder(R.drawable.nopicpersona).into(psoe);
-        Glide.with(getContext()).load(R.drawable.pdms_off).placeholder(R.drawable.nopicpersona).into(podemos);
-        Glide.with(getContext()).load(R.drawable.iu_off).placeholder(R.drawable.nopicpersona).into(iu);
-        Glide.with(getContext()).load(R.drawable.pnv_off).placeholder(R.drawable.nopicpersona).into(pnv);
-        Glide.with(getContext()).load(R.drawable.convergencia_off).placeholder(R.drawable.nopicpersona).into(convergencia);
-        Glide.with(getContext()).load(R.drawable.upyd_off).placeholder(R.drawable.nopicpersona).into(upyd);
-        Glide.with(getContext()).load(R.drawable.otros_off).placeholder(R.drawable.nopicpersona).into(otros);*/
-        pp.setImageDrawable(getResources().getDrawable(R.drawable.pp_off));
-        psoe.setImageDrawable(getResources().getDrawable(R.drawable.psoe_off));
-        cs.setImageDrawable(getResources().getDrawable(R.drawable.cs_off));
-        podemos.setImageDrawable(getResources().getDrawable(R.drawable.pdms_off));
-        iu.setImageDrawable(getResources().getDrawable(R.drawable.iu_off));
-        pnv.setImageDrawable(getResources().getDrawable(R.drawable.pnv_off));
-        convergencia.setImageDrawable(getResources().getDrawable(R.drawable.convergencia_off));
-        upyd.setImageDrawable(getResources().getDrawable(R.drawable.upyd_off));
-        otros.setImageDrawable(getResources().getDrawable(R.drawable.otros_off));
+    public void bindContador(){
+        textViewColegiosElectorales = (TextView) v.findViewById(R.id.textViewColegiosElectorales);
+        textViewDias = (TextView) v.findViewById(R.id.textViewDias);
+        textViewHoras = (TextView) v.findViewById(R.id.textViewHoras);
+        textViewMinutos = (TextView) v.findViewById(R.id.textViewMinutos);
     }
+    public void showContador(){
+
+        long tiempoRestante = 0;
+
+        //Calculamos el tiempo (milisegundos) que quedan para las elecciones catalanas
+        try {
+            long today = new Date().getTime();
+            String fechaElecciones = "26/06/2016 09:00";
+            Date elecciones = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaElecciones);
+
+            tiempoRestante = elecciones.getTime()- today;
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Iniciamos una cuenta atras, empezando por los milisegundos que quedan (tiempoRestante) hasta alcanzar 1 segundo.
+        //Mostramos los milisegundos en formato: D dias H h M mins S segs.
+        new CountDownTimer(tiempoRestante, 1000) {
+
+            StringBuilder time = new StringBuilder();
+
+            public void onTick(long millisUntilFinished) {
+                //tiempo.setText("seconds remaining: " + millisUntilFinished / 1000);
+                long days = (millisUntilFinished / (1000 * 60 * 60 * 24)); //for counting days
+                long hours = (millisUntilFinished - days*(1000*60*60*24)) / (1000 * 60 * 60); //for counting hours
+                long minutes = (millisUntilFinished - days*(1000*60*60*24) - hours*(1000*60*60))/ (1000 * 60); //for counting minutes
+                long seconds = (millisUntilFinished - days*(1000*60*60*24) - hours*(1000*60*60) - minutes*(1000*60)) / (1000); //for counting seconds
+
+                textViewDias.setText(""+days);
+                textViewHoras.setText("" + hours);
+                textViewMinutos.setText("" + minutes);
+//                contador.setText( days + " " + MainActivity.resources.getString(R.string.dias) + "  " + hours + " h  \n"+ minutes +" mins  " + seconds + " segs ");
+            }
+
+            public void onFinish() {
+                contador.setText("");//Texto al llegar a 0;
+            }
+        }.start();
+    }
+
+    //----------------------------------------------------------------------
+    //endregion
+
+
+
+
+
+
+
 
     /**public void setListenersImgPartidos(){
 
@@ -793,7 +930,7 @@ public class ResultadosTab extends Fragment {
                 break;
             case 7: //UPYD
                 partidoMarcado= 7;
-                Glide.with(getContext()).load(R.drawable.upyd_on).into(upyd);
+                Glide.with(getContext()).load(R.drawable.upyd_on).into(blanco);
                 break;
             case 8: //OTROS
                 partidoMarcado= 8;

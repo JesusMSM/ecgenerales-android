@@ -3,6 +3,7 @@ package com.elconfidencial.eceleccionesgenerales2015.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -103,6 +104,13 @@ public class PresinderTab extends Fragment {
                 startActivity(intent);
             }
         });
+        reiniciar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qs.reset();
+                setNextQuote();
+            }
+        });
 
         setFonts();
         setNextQuote();
@@ -124,6 +132,7 @@ public class PresinderTab extends Fragment {
     public void setNextQuote(){
         Log.i("PRESINDER", "CurrentQuote: " + qs.quotes.get(qs.getQuotesIndex()).getText());
         Log.i("PRESINDER", "CurrentIndex: " + String.valueOf(qs.quotesIndex));
+        Log.i("PRESINDER", "Count Quotes: " + String.valueOf(qs.quotes.size()));
 
         text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
         grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
@@ -368,8 +377,8 @@ public class PresinderTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("PRESINDER","onResume");
-        qs.init(getContext());
-        setNextQuote();
+        Log.i("PRESINDER", "onResume");
+        //qs.init(getContext());
+        //setNextQuote();
     }
 }
