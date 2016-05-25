@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
                     ChooseActivity.SHOW_WIDGET_RESULTS = json.getBoolean(ChooseActivity.TAG_SHOW_RESULTS);
                     ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID = json.getString(ChooseActivity.TAG_PRESINDER_SHARE_MESSAGE_ANDROID);
 
-                    
+
                 }
 
             } catch (JSONException | NullPointerException e) {
