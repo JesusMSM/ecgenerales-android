@@ -26,6 +26,8 @@ import android.widget.TextView;
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 import com.comscore.analytics.comScore;
+import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
+import com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
@@ -61,18 +63,29 @@ public class NoticiaContentActivity  extends AppCompatActivity {
 
         intent = getIntent();
 
-        //Datos para compartir
-        url = intent.getStringExtra("link");
-        info = Html.fromHtml(intent.getStringExtra("titulo")).toString();
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        url = url.replace("http://www.elconfidencial.com/","http://www.elconfidencial.com/amp/");
-
         webView = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(url);
+        GlobalMethod globalMethod = new GlobalMethod(this);
+        TitilliumRegularTextView error = (TitilliumRegularTextView) findViewById(R.id.error);
+        if(!globalMethod.haveNetworkConnection()){
+            webView.setVisibility(View.GONE);
+            error.setVisibility(View.VISIBLE);
+        }else {
+
+            //Datos para compartir
+            url = intent.getStringExtra("link");
+            info = Html.fromHtml(intent.getStringExtra("titulo")).toString();
+
+            prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            url = url.replace("http://www.elconfidencial.com/", "http://www.elconfidencial.com/amp/");
+
+
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.loadUrl(url);
+        }
+
+
     }
 
     @Override

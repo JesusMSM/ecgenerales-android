@@ -93,4 +93,16 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical" />
     </LinearLayout>
+
+    <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="15dp"
+        android:visibility="gone"
+        android:id="@+id/error"
+        android:text="Conéctese a Internet para acceder a este contenido"
+        android:textColor="@color/black"
+        android:textSize="25sp"/>
+
 </ScrollView>

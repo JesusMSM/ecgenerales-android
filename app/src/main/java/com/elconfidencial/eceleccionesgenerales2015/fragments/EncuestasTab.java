@@ -1,5 +1,7 @@
 package com.elconfidencial.eceleccionesgenerales2015.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,10 +27,13 @@ import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
 import com.elconfidencial.eceleccionesgenerales2015.model.Noticia;
 import com.elconfidencial.eceleccionesgenerales2015.model.PartidoEncuesta;
 import com.elconfidencial.eceleccionesgenerales2015.model.TituloEncuesta;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -104,6 +109,14 @@ public class EncuestasTab extends Fragment {
     public void addItems() {
 
         if (items.size()>0) items.clear();
+        GlobalMethod globalMethod = new GlobalMethod(getContext());
+        if (!globalMethod.haveNetworkConnection()){
+            Gson gson = new Gson();
+            SharedPreferences prefs = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            String json = prefs.getString("encuestas", "");
+            Type type = new TypeToken<ArrayList<Encuesta>>() {}.getType();
+            ChooseActivity.encuestas = gson.fromJson(json, type);
+        }
 
         if(ChooseActivity.SHOW_TIMER){
             items.add("contador");
@@ -209,6 +222,14 @@ public class EncuestasTab extends Fragment {
                         Log.d("Encuestas", "Con el partido " + ChooseActivity.encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + ChooseActivity.encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
                     }
                 }
+                //Guardamos las encuestas
+                SharedPreferences prefs = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                SharedPreferences.Editor prefsEditor = prefs.edit();
+                Gson gson = new Gson();
+                String json2 = gson.toJson(ChooseActivity.encuestas);
+                prefsEditor.putString("encuestas", json2);
+                prefsEditor.apply();
+                //--------------------
                 addItems();
                 if(layout!=null) layout.setRefreshing(false);
 

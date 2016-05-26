@@ -4,6 +4,7 @@ package com.elconfidencial.eceleccionesgenerales2015.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,8 @@ import com.elconfidencial.eceleccionesgenerales2015.model.CardPubli;
 import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
 import com.elconfidencial.eceleccionesgenerales2015.model.Noticia;
 import com.elconfidencial.eceleccionesgenerales2015.rss.RssNoticiasParser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,8 +99,18 @@ public class NoticiasTab extends Fragment {
     public void onResume() {
         super.onResume();
 
+        GlobalMethod globalMethod = new GlobalMethod(getContext());
         if(noticias.size()==0){
-            new CargarXmlTask().execute(rss_url);
+            if(globalMethod.haveNetworkConnection()) {
+                new CargarXmlTask().execute(rss_url);
+            }else{ //carga de cache
+                Gson gson = new Gson();
+                SharedPreferences prefs = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                String json = prefs.getString("noticias", "");
+                Type type = new TypeToken<ArrayList<Noticia>>() {}.getType();
+                noticias = gson.fromJson(json, type);
+                addItems();
+            }
         } else {
             addItems();
         }
@@ -122,8 +136,16 @@ public class NoticiasTab extends Fragment {
                     RssNoticiasParser saxparser =
                             new RssNoticiasParser(params[0]);
 
+                    SharedPreferences prefs = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
                     noticias = (ArrayList<Noticia>) saxparser.parse();
 
+                    //Guardamos las noticias
+                    SharedPreferences.Editor prefsEditor = prefs.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(noticias);
+                    prefsEditor.putString("noticias", json);
+                    prefsEditor.apply();
+                    //--------------------
                 }
             }catch (Exception e){
                 e.printStackTrace();

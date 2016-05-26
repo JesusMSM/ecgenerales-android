@@ -26,6 +26,7 @@ import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
 import com.elconfidencial.eceleccionesgenerales2015.model.Partido;
 import com.elconfidencial.eceleccionesgenerales2015.model.PartidoEncuesta;
 import com.elconfidencial.eceleccionesgenerales2015.model.QuoteServer;
+import com.google.gson.Gson;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.pushwoosh.BasePushMessageReceiver;
@@ -50,13 +51,13 @@ public class ChooseActivity extends AppCompatActivity {
 
 
     //Parámetros de CONFIG
-    public static int DFP_CARD_EVERY_N;
-    public static int LAST_NEWS_COUNTER;
-    public static String RESULTS_WEBVIEW_URL;
-    public static boolean SHOW_SURVEYS;
-    public static boolean SHOW_TIMER;
-    public static boolean SHOW_WIDGET_RESULTS;
-    public static String PRESINDER_SHARE_MESSAGE_ANDROID;
+    public static int DFP_CARD_EVERY_N = 3;
+    public static int LAST_NEWS_COUNTER = 3;
+    public static String RESULTS_WEBVIEW_URL = "http://datos.elconfidencial.com/mapa_elecciones20d4/";
+    public static boolean SHOW_SURVEYS = true;
+    public static boolean SHOW_TIMER = false;
+    public static boolean SHOW_WIDGET_RESULTS = false;
+    public static String PRESINDER_SHARE_MESSAGE_ANDROID = "Mira mi afinidad con los candidatos al 26J.";
 
     public static String config_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/config.json";
     public static String encuestas_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/survey.json";
@@ -148,6 +149,18 @@ public class ChooseActivity extends AppCompatActivity {
         checkMessage(getIntent());
 
 
+        //Create Partidos variables
+        // Getting JSON from asset
+        String jsonAsset = loadJSONFromAsset("PARTIDOS_TAGS.json");
+        if(jsonAsset!=null){
+            Log.i("PartidosJSON", "JSON recuperado de assets");
+            if(partidosList.isEmpty()) {
+                setPartidosListFromJSON(jsonAsset);
+            }
+        } else{
+            Log.i("PartidosJSON", "JSON no recuperado de assets");
+        }
+
         if(globalMethod.haveNetworkConnection()) {
             //new LaunchActivityAsyntask().execute();
             new DownloadEncuestas().execute(encuestas_url);
@@ -158,6 +171,21 @@ public class ChooseActivity extends AppCompatActivity {
         //Inicializar Amplitude
         Log.i("20D_AMPLITUDE", "Inicializacion de Amplitude");
         Amplitude.getInstance().initialize(this, apiKeyAmplitude).enableForegroundTracking(getApplication());
+
+        if(!globalMethod.haveNetworkConnection()) {
+            //Comprueba si es la primera vez
+            boolean firstTime = prefs.getBoolean("firstTime", true); //Si no existe, devuelve el segundo parametro
+
+            if (firstTime) {
+                Intent intent = new Intent(context, OnBoardingActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     /**PW**/
@@ -168,6 +196,8 @@ public class ChooseActivity extends AppCompatActivity {
         public void onRegisterActionReceive(Context context, Intent intent)
         {
             checkMessage(intent);
+
+
         }
     };
 
@@ -359,17 +389,7 @@ public class ChooseActivity extends AppCompatActivity {
             //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");
             //GlobalMethod.dislikesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"dislikesCount");
 
-            //Create Partidos variables
-            // Getting JSON from asset
-            String jsonAsset = loadJSONFromAsset("PARTIDOS_TAGS.json");
-            if(jsonAsset!=null){
-                Log.i("PartidosJSON", "JSON recuperado de assets");
-                if(partidosList.isEmpty()) {
-                    setPartidosListFromJSON(jsonAsset);
-                }
-            } else{
-                Log.i("PartidosJSON", "JSON no recuperado de assets");
-            }
+
 
             // Getting JSON from URL
             if(globalMethod.haveNetworkConnection()){
@@ -494,6 +514,15 @@ public class ChooseActivity extends AppCompatActivity {
                         Log.d("Encuestas", "Con el partido " + encuestas.get(n).getPartidosEncuesta().get(m).getName() + " y porcentaje " + encuestas.get(n).getPartidosEncuesta().get(m).getPorcentaje());
                     }
                 }
+
+                //Guardamos las encuestas
+                SharedPreferences prefs = getApplicationContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                SharedPreferences.Editor prefsEditor = prefs.edit();
+                Gson gson = new Gson();
+                String json2 = gson.toJson(encuestas);
+                prefsEditor.putString("encuestas", json2);
+                prefsEditor.apply();
+                //--------------------
                 new LaunchActivityAsyntask().execute();
 
             }
