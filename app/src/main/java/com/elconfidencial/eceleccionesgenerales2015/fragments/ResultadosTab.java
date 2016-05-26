@@ -66,16 +66,17 @@ public class ResultadosTab extends Fragment {
     
     //Etiquetas partidos Parse megaencuesta
     private static final String PP_TAG= "PP";
-    private static final String PSOE_TAG= "PP";
-    private static final String CS_TAG= "PP";
-    private static final String PODEMOS_TAG= "PP";
-    private static final String PNV_TAG= "PP";
-    private static final String OTROS_TAG= "PP";
-    private static final String BLANCO_TAG= "PP";
-    private static final String CONVERGENCIA_TAG= "PP";
-    private static final String IU_TAG= "PP";
+    private static final String PSOE_TAG= "PSOE";
+    private static final String CS_TAG= "CIUDADANOS";
+    private static final String PODEMOS_TAG= "PODEMOS";
+    private static final String PNV_TAG= "PNV";
+    private static final String OTROS_TAG= "OTROS";
+    private static final String BLANCO_TAG= "BLANCO";
+    private static final String CONVERGENCIA_TAG= "CONVERGENCIA";
+    private static final String IU_TAG= "IU";
 
     private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
+    private FrameLayout contadorLayout;
     private TextView headerEncuesta, graciasPorParticipar, mensajeAviso;
     private ImageView refreshIcon;
     HorizontalBarChartEC grafico;
@@ -130,14 +131,16 @@ public class ResultadosTab extends Fragment {
 
         //Inicializamos los Layout correspondientes a cada una de las screens
         gridMegaencuesta = (LinearLayout) v.findViewById(R.id.gridMegaencuestaScreen);
-        gridMegaencuesta.setBackgroundColor(Color.parseColor("#F4F4F4"));
         graficoMegaencuesta = (LinearLayout) v.findViewById(R.id.graficoMegaencuestaScreen);
         webviewLayout = (LinearLayout) v.findViewById(R.id.webviewScreen);
+        contadorLayout = (FrameLayout) v.findViewById(R.id.contador_layout);
+
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
         //if(ChooseActivity.SHOW_WIDGET_RESULTS){
         if(false){
             //Cargamos el WebView
+            contadorLayout.setVisibility(View.GONE);
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.GONE);
             webviewLayout.setVisibility(View.VISIBLE);
@@ -145,14 +148,22 @@ public class ResultadosTab extends Fragment {
         } else{
             SharedPreferences prefs = getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
             boolean hasVoted = prefs.getBoolean("hasVoted", false); //Si no existe, devuelve el segundo parametro
+
+            //Inicializamos el contador
+            bindContador();
+            showContador();
+            contadorLayout.setVisibility(View.VISIBLE);
+
             if (hasVoted) {
                 //Cargamos la vista del gráfico
+                Log.i("Megaencuesta", "Cargamos la vista del gráfico");
                 gridMegaencuesta.setVisibility(View.GONE);
                 graficoMegaencuesta.setVisibility(View.VISIBLE);
                 webviewLayout.setVisibility(View.GONE);
                 setGraficoMegaencuesta();
             } else {
                 //Cargamos la vista del Grid
+                Log.i("Megaencuesta", "Cargamos la vista del gráfico");
                 gridMegaencuesta.setVisibility(View.VISIBLE);
                 graficoMegaencuesta.setVisibility(View.GONE);
                 webviewLayout.setVisibility(View.GONE);
@@ -275,9 +286,6 @@ public class ResultadosTab extends Fragment {
      * - No es el día de las elecciones, por lo que el webview permanece oculto
      */
     public void setGridMegaencuestaLayout() {
-
-        bindContador();
-        showContador();
 
         bindViewsMegaencuesta();
 
@@ -450,7 +458,7 @@ public class ResultadosTab extends Fragment {
         //TODO: Para IU y convergencia
     }
 
-    private void setupListenersPartidoDetail(String nombrePartido){
+    private void setupListenersPartidoDetail(final String nombrePartido){
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -462,7 +470,46 @@ public class ResultadosTab extends Fragment {
         voteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Acción de votar
+                //Marcar como que ha votado
+                //Cargamos las preferencias compartidas, es como la base de datos para guardarlas y que se recuerden mas tarde
+                SharedPreferences prefs = getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("hasVoted", true); //Lo guardamos para recordarlo
+                editor.apply(); //Guardamos las SharedPreferences
+
+                //Comunicacion con Parse.com
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("PARTY_SURVEY");
+                Log.i("Megaencuesta", nombrePartido);
+                query.whereEqualTo("PARTIDO", nombrePartido); //Averiguamos el partido que se encuentra marcado
+                // Retrieve the object by id
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject partyResult, ParseException e) {
+                        if (e == null) {
+                            try {
+                                partyResult.increment("COUNT");
+                                partyResult.save();
+
+                                //Cargamos la vista del gráfico
+                                gridMegaencuesta.setVisibility(View.GONE);
+                                graficoMegaencuesta.setVisibility(View.VISIBLE);
+                                setGraficoMegaencuesta();
+
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+                //Amplitude
+                Log.i("20D_AMPLITUDE", "ONSELECT_PARTY: "+ nombrePartido);
+                JSONObject eventProperties = new JSONObject();
+                try {
+                    eventProperties.put("PARTY", nombrePartido);
+                } catch (JSONException exception) {
+                    exception.printStackTrace();
+                }
+                Amplitude.getInstance().logEvent("ONSELECT_PARTY", eventProperties);
             }
         });
     }
@@ -495,10 +542,6 @@ public class ResultadosTab extends Fragment {
      */
     public void setGraficoMegaencuesta() {
 
-        mensajeAviso = (TextView) v.findViewById(R.id.avisoResultados);
-        mensajeAviso.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
-        graciasPorParticipar = (TextView) v.findViewById(R.id.gracias);
-        graciasPorParticipar.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-BoldItalic.otf"));
         grafico = (HorizontalBarChartEC) v.findViewById(R.id.horizontalBarChart);
 
         //Nos bajamos los resultados de Parse
