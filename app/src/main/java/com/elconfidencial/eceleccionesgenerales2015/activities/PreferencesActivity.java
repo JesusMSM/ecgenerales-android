@@ -141,8 +141,6 @@ public class PreferencesActivity extends ActionBarActivity {
         comunidadText = (TextView) findViewById(R.id.comunidadText);
         provinciaText = (TextView) findViewById(R.id.provinciaText);
         municipiosText = (TextView) findViewById(R.id.municipioText);
-        editarText = (TextView) findViewById(R.id.editarText);
-        editarDescr = (TextView) findViewById(R.id.editarDescr);
         ccaaNombre = (TextView) findViewById(R.id.ccaaNombre);
         provinciaNombre = (TextView) findViewById(R.id.provinciaNombre);
         municipioNombre = (TextView) findViewById(R.id.municipioNombre);

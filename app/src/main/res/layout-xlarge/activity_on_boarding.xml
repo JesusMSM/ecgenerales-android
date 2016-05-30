@@ -22,7 +22,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Elecciones 26J"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="25sp"/>
 
         </android.support.v7.widget.Toolbar>
 
@@ -30,61 +30,61 @@
 
     <ImageView
         android:id="@+id/positionIcon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="45dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_location_selection"/>
 
     <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="Escoge tu municipio"
         android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:textSize="20sp"/>
 
     <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="Para proporcionarte una experiencia personalizada"
         android:textColor="@color/white"
-        android:textSize="12sp"/>
+        android:textSize="16sp"/>
 
 
     <RelativeLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginLeft="45dp"
         android:gravity="center"
         android:background="@color/white"
-        android:padding="2dp">
+        android:padding="3dp">
 
         <ImageView
             android:id="@+id/search_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_search"/>
 
         <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
             android:id="@+id/search_locality_text"
             android:layout_toRightOf="@+id/search_icon"
             android:layout_toEndOf="@+id/search_icon"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:gravity="center"
             android:text="Busca tu localidad"
             android:textColor="@color/black"
-            android:textSize="16sp"/>
+            android:textSize="20sp"/>
 
     </RelativeLayout>
 
@@ -92,13 +92,13 @@
         android:id="@+id/skip_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="90dp"
         android:gravity="end"
-        android:layout_marginRight="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginEnd="45dp"
         android:text="Saltar"
         android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:textSize="24sp"/>
 
 
     <!--

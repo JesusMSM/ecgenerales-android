@@ -180,10 +180,12 @@ public class NoticiasTab extends Fragment {
 
 //            if(globalMethod.haveNetworkConnection()) {
         int i =0;
-        for (Noticia noticia : noticias){
-            if (i% ChooseActivity.DFP_CARD_EVERY_N==0&&i>0) items.add(new CardPubli());
-            items.add(noticia);
-            i++;
+        if (noticias!=null) {
+            for (Noticia noticia : noticias) {
+                if (i % ChooseActivity.DFP_CARD_EVERY_N == 0 && i > 0) items.add(new CardPubli());
+                items.add(noticia);
+                i++;
+            }
         }
         /**    } else{
          //Mensaje de error

@@ -122,13 +122,15 @@ public class EncuestasTab extends Fragment {
             items.add("contador");
         }
 
-        for (Encuesta encuesta: ChooseActivity.encuestas){
+        if(ChooseActivity.encuestas!=null) {
+            for (Encuesta encuesta : ChooseActivity.encuestas) {
 
-            items.add(new TituloEncuesta(encuesta.getName()));
-            Encuesta e = new Encuesta(encuesta.getName(),encuesta.getPartidosEncuesta());
-            e.setFecha(encuesta.getFecha());
-            e.setDescripcion(encuesta.getDescripcion());
-            items.add(e);
+                items.add(new TituloEncuesta(encuesta.getName()));
+                Encuesta e = new Encuesta(encuesta.getName(), encuesta.getPartidosEncuesta());
+                e.setFecha(encuesta.getFecha());
+                e.setDescripcion(encuesta.getDescripcion());
+                items.add(e);
+            }
         }
 
         mAdapter = new MyRecyclerViewAdapter(getContext(),items);
