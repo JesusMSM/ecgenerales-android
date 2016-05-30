@@ -42,7 +42,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class NoticiasTab extends Fragment {
 
-    public static String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
+    public static String rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-26-j-17611/";
     public static int seleccion = 0;
 
     private TextView actionBarTitle;
