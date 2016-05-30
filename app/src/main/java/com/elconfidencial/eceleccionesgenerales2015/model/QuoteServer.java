@@ -69,6 +69,7 @@ public class QuoteServer{
             List<ParseObject> parseQuotes = query.find();
             if(parseQuotes.isEmpty()){
                 //Rellenamos la lista vacia con las de parse
+                Log.i("PRESINDER","GET FROM PARSE");
                 getFromParse();
             } else {
                 Log.i("PRESINDER", "GET FROM LOCAL");

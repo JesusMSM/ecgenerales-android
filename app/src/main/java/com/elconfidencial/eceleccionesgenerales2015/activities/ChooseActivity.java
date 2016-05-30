@@ -164,6 +164,8 @@ public class ChooseActivity extends AppCompatActivity {
         if(globalMethod.haveNetworkConnection()) {
             //new LaunchActivityAsyntask().execute();
             new DownloadEncuestas().execute(encuestas_url);
+        }else{
+            new LaunchActivityAsyntask().execute();
         }
 
 
@@ -172,7 +174,7 @@ public class ChooseActivity extends AppCompatActivity {
         Log.i("20D_AMPLITUDE", "Inicializacion de Amplitude");
         Amplitude.getInstance().initialize(this, apiKeyAmplitude).enableForegroundTracking(getApplication());
 
-        if(!globalMethod.haveNetworkConnection()) {
+        /*if(!globalMethod.haveNetworkConnection()) {
             //Comprueba si es la primera vez
             boolean firstTime = prefs.getBoolean("firstTime", true); //Si no existe, devuelve el segundo parametro
 
@@ -185,7 +187,7 @@ public class ChooseActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }
+        }*/
     }
 
     /**PW**/
@@ -383,7 +385,8 @@ public class ChooseActivity extends AppCompatActivity {
             JSONParserObject jParser = new JSONParserObject();
 
             //Download quotes
-           qs.getQuotesFromParseOrLocal();
+            Log.i("PRESINDER","DOWNLOAD QUOTES");
+            qs.getQuotesFromParseOrLocal();
 
             //Likes dislikes count
             //GlobalMethod.likesCount = GlobalMethod.getMyHashmap(getApplicationContext(),"likesCount");

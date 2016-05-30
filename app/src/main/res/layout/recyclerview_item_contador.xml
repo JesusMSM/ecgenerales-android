@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="6dp"
-    android:background="@color/blue1">
-
+    android:background="@drawable/contador_gradient">
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/background_image_cuentaatras"
+        android:layout_margin="5dp"
+        android:layout_gravity="left|center_vertical"/>
     <!--<com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="DIAS"
+                android:text=""
                 android:textSize="20sp"
                 android:id="@+id/textViewDias"
                 android:layout_marginBottom="5dp"
@@ -72,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="HORAS"
+                android:text=""
                 android:textSize="20sp"
                 android:id="@+id/textViewHoras"
                 android:layout_marginBottom="5dp"
@@ -106,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="MINUTOS"
+                android:text=""
                 android:textSize="20sp"
                 android:id="@+id/textViewMinutos"
                 android:layout_marginBottom="5dp"

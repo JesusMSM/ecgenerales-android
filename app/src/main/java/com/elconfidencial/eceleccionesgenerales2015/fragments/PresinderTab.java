@@ -114,7 +114,7 @@ public class PresinderTab extends Fragment {
 
         setFonts();
         GlobalMethod globalMethod = new GlobalMethod(getContext());
-        if (globalMethod.haveNetworkConnection()) setNextQuote();
+        setNextQuote();
 
 
         return v;

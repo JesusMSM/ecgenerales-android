@@ -68,7 +68,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/cards"
+        android:background="@drawable/card_presinder"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -79,7 +79,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="bottom"
                     android:gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="10dp"
                     android:text=""
                     android:textColor="@color/black"
                     android:id="@+id/groupQuote"
@@ -88,14 +88,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-            <View
+            <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:id="@+id/separator"
                     android:background="@color/grey"
                     android:layout_gravity="center"
                     android:layout_marginRight="30dp"
-                    android:layout_marginLeft="30dp"/>
+                    android:layout_marginLeft="30dp"/>-->
         </LinearLayout>
          <TextView
                 android:layout_width="match_parent"

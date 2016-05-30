@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -47,6 +48,7 @@ import com.google.android.gms.ads.formats.NativeCustomTemplateAd;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +80,8 @@ import com.elconfidencial.eceleccionesgenerales2015.viewholders.PoliticoViewHold
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.PresinderViewHolder;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.SpinnerViewHolder;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.TituloViewHolder;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Created by Moonfish on 28/10/15.
@@ -259,7 +263,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     /**
      * Funciones de configuracion de los ViewHolders **
      */
-    private void configureNoticiaViewHolder(final NoticiaViewHolder vh, int position) {
+    private void configureNoticiaViewHolder(final NoticiaViewHolder vh, final int position) {
 
         String url = "";
         String info = "";
@@ -292,25 +296,28 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
                 //Creamos un intent para llamar a NoticiasContentActivity con los extras de la noticia correspondiente
+                //Lista noticias
+                Gson gson = new Gson();
+                SharedPreferences prefs = context.getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                String json = prefs.getString("noticias", "");
+                Type type = new TypeToken<ArrayList<Noticia>>() {}.getType();
+                ArrayList<Noticia> noticias = gson.fromJson(json, type);
+
                 Intent intent = new Intent(context, NoticiaContentActivity.class);
-                intent.putExtra("titulo", noticia.getTitulo());
-                System.out.print("DESC" + noticia.getDescripcion());
-                intent.putExtra("descripcion", noticia.getDescripcion());
-                intent.putExtra("autor", noticia.getAutor());
-                intent.putExtra("fecha", noticia.getFecha());
-                intent.putExtra("link", noticia.getLink());
-                intent.putExtra("imagenUrl", noticia.getImagenUrl());
+                intent.putParcelableArrayListExtra("noticias",noticias);
+                intent.putExtra("currentNoticia", noticia);
+
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
                 //Amplitude
-                Log.i("20D_AMPLITUDE", "ONTAP_NEW: "+ noticia.getLink());
+                /*Log.i("20D_AMPLITUDE", "ONTAP_NEW: "+ noticia.getLink());
                 JSONObject eventProperties = new JSONObject();
                 try {
                     eventProperties.put("URL", noticia.getLink());
                 } catch (JSONException exception) {
                 }
-                Amplitude.getInstance().logEvent("ONTAP_NEW", eventProperties);
+                Amplitude.getInstance().logEvent("ONTAP_NEW", eventProperties);*/
             }
         });
         vh.botonCompartir.setOnClickListener(new View.OnClickListener() {

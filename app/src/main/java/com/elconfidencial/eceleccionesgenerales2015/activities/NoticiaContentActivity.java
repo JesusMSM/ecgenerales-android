@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -26,7 +28,10 @@ import android.widget.TextView;
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 import com.comscore.analytics.comScore;
+import com.elconfidencial.eceleccionesgenerales2015.adapters.WebViewPagerAdapter;
+import com.elconfidencial.eceleccionesgenerales2015.fragments.WebFragment;
 import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
+import com.elconfidencial.eceleccionesgenerales2015.model.Noticia;
 import com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
@@ -40,16 +45,20 @@ import org.json.JSONObject;
 
 import com.elconfidencial.eceleccionesgenerales2015.R;
 
-public class NoticiaContentActivity  extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class NoticiaContentActivity  extends AppCompatActivity {
     private String url = "";
     private String info = "";
     private String textSize= "";
     private WebView webView;
     private Intent intent;
-    SharedPreferences prefs;
     Toolbar toolbar;
     ActionBar actionBar;
+
+    ViewPager pager;
+    ArrayList<Fragment> fragmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,29 +71,46 @@ public class NoticiaContentActivity  extends AppCompatActivity {
         setupToolbar();
 
         intent = getIntent();
+        //Get lista noticias y la actual
+        final ArrayList<Noticia> noticias = intent.getExtras().getParcelableArrayList("noticias");
+        final Noticia noticia = intent.getExtras().getParcelable("currentNoticia");
+        url=noticia.getLink();
+        info=noticia.getTitulo();
 
-        webView = (WebView) findViewById(R.id.webView);
-        GlobalMethod globalMethod = new GlobalMethod(this);
-        TitilliumRegularTextView error = (TitilliumRegularTextView) findViewById(R.id.error);
-        if(!globalMethod.haveNetworkConnection()){
-            webView.setVisibility(View.GONE);
-            error.setVisibility(View.VISIBLE);
-        }else {
+        //Pager config
+        pager = (ViewPager) findViewById(R.id.webPager);
+        fragmentList = new ArrayList<>();
+        int index = 0;
 
-            //Datos para compartir
-            url = intent.getStringExtra("link");
-            info = Html.fromHtml(intent.getStringExtra("titulo")).toString();
-
-            prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = prefs.edit();
-
-            url = url.replace("http://www.elconfidencial.com/", "http://www.elconfidencial.com/amp/");
-
-
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.loadUrl(url);
+        for(int i = 0; i<noticias.size();i++) {
+            fragmentList.add(WebFragment.newInstance(noticias.get(i)));
+            if(noticias.get(i).getLink().equals(noticia.getLink())){
+                index = i;
+            }
         }
+        WebViewPagerAdapter adapter = new WebViewPagerAdapter(getSupportFragmentManager(),fragmentList);
 
+        //Set adapter
+        pager.setAdapter(adapter);
+        pager.setCurrentItem(index);
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                url=noticias.get(i).getLink();
+                info=noticias.get(i).getTitulo();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
     }
 
@@ -385,6 +411,7 @@ public class NoticiaContentActivity  extends AppCompatActivity {
             actionBar.setTitle(null);
             //actionBar.setHomeAsUpIndicator(R.drawable.elconfidencial_32dp_white);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_back_actionbar);
         }
     }
 
