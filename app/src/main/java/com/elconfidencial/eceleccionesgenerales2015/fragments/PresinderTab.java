@@ -132,16 +132,24 @@ public class PresinderTab extends Fragment {
     }
 
     public void setNextQuote(){
-        Log.i("PRESINDER", "CurrentQuote: " + qs.quotes.get(qs.getQuotesIndex()).getText());
-        Log.i("PRESINDER", "CurrentIndex: " + String.valueOf(qs.quotesIndex));
-        Log.i("PRESINDER", "Count Quotes: " + String.valueOf(qs.quotes.size()));
-
-        text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
-        grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
-        text.setX(5000);
-        grupo.setX(5000);
-        text.animate().translationX(0).setDuration(450).start();
-        grupo.animate().translationX(0).setDuration(450).start();
+        if(qs.quotes.size()>0) {
+            Log.i("PRESINDER", "CurrentQuote: " + qs.quotes.get(qs.getQuotesIndex()).getText());
+            Log.i("PRESINDER", "CurrentIndex: " + String.valueOf(qs.quotesIndex));
+            Log.i("PRESINDER", "Count Quotes: " + String.valueOf(qs.quotes.size()));
+            text.setText(qs.quotes.get(qs.getQuotesIndex()).getText());
+            grupo.setText(qs.quotes.get(qs.getQuotesIndex()).getGrupo());
+            text.setX(5000);
+            grupo.setX(5000);
+            text.animate().translationX(0).setDuration(450).start();
+            grupo.animate().translationX(0).setDuration(450).start();
+            like.setClickable(true);
+            dislike.setClickable(true);
+        }else{
+            text.setText("Reinicia el test para empezarlo de nuevo.");
+            grupo.setText("TEST FINALIZADO");
+            like.setClickable(false);
+            dislike.setClickable(false);
+        }
     }
 
     /***********LISTENERS******************/
@@ -171,10 +179,10 @@ public class PresinderTab extends Fragment {
             //Indentificamos la quote actual
             Quote currentQuote = qs.quotes.get(qs.getQuotesIndex());
             //Agree con la quote actual
-            if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
+            //if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
                 //Si siguen quedando quotes (Evita votar repetitivamente en la ultima quote)
                 qs.agreedWithQuote(currentQuote);
-            }
+            //}
 
             /**LISTENERS**/
             //Contador de 3 segundos
@@ -282,10 +290,10 @@ public class PresinderTab extends Fragment {
             //Indentificamos la quote actual
             Quote currentQuote = qs.quotes.get(qs.getQuotesIndex());
             //Agree con la quote actual
-            if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
+            //if(GlobalMethod.getIntPreference(getContext(),"NoMoreQuotes",0) == 0) {
                 //Si siguen quedando quotes (Evita votar repetitivamente en la ultima quote)
                 qs.disagreedWithQuote(currentQuote);
-            }
+            //}
             /**LISTENERS**/
             //Contador de 3 segundos
             settingsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
