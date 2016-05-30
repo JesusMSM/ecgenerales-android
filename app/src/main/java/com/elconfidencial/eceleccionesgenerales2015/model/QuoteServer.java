@@ -102,7 +102,6 @@ public class QuoteServer{
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("QUOTES");
         List<ParseObject> parseQuotes = query2.find();
 
-        ParseObject.unpinAllInBackground("QUOTES",parseQuotes);
         ParseObject.pinAllInBackground("QUOTES", parseQuotes);
 
         parseQuotes = query2.fromLocalDatastore().find();
@@ -123,6 +122,38 @@ public class QuoteServer{
         //Obtenemos las personas de local
         getPersonsFromLocal();
 
+    }
+
+    public void UpdateQuotes() throws ParseException{
+        Log.i("PRESINDER", "GET FROM PARSE");
+
+        //Nos bajamos la lista de quotes de la nube y lo almacenamos en local
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("QUOTES");
+        List<ParseObject> parseQuotes = query2.find();
+
+        for(ParseObject p :parseQuotes){
+            p.put("answered",false);
+        }
+
+        ParseObject.pinAllInBackground("QUOTES", parseQuotes);
+
+        parseQuotes = query2.fromLocalDatastore().find();
+        //LOCAL
+        Log.i("PRESINDER", "GET FROM LOCAL");
+        //Obtenemos las quotes de local
+        for (ParseObject q : parseQuotes) {
+            //Save persona for this quote
+            savePersonInLocalWithQuote(q);
+
+            quotes.add(new Quote(q));
+            Log.i("PRESINDER", "GETTING IN LOCAL... " + q.get("QUOTE"));
+        }
+
+        //Random
+        long seed = System.nanoTime();
+        Collections.shuffle(quotes,new Random(seed));
+        //Obtenemos las personas de local
+        getPersonsFromLocal();
     }
 
     // Creamos en parse local un objeto persona con los datos que extraemos de la quote pasada por parámetro
@@ -236,37 +267,12 @@ public class QuoteServer{
         if (quotesIndex == quotes.size() - 1) {//Ha llegado al final de las quotes
             final MainActivity act = (MainActivity) context;
             GlobalMethod.saveIntPreference(context,1,"NoMoreQuotes");
-            //Alert
-            AlertDialog mAlert = new AlertDialog.Builder(context)
-                    .setTitle("")
-                    .setMessage("Ha respondido a todas las frases, ¿desea reiniciar el test?. Se eliminarán sus resultados")
-                    .setPositiveButton("REINICIAR", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Borrar Resultados
-                            reset();
-                            //Esto evita que se responda la ultima pregunta
-                            GlobalMethod.saveIntPreference(context, 0, "NoMoreQuotes");
-                            //Redraw
-                            act.refreshPresinder();
-                        }
-                    })
-                    .setNegativeButton("VER RESULTADOS", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            MainActivity act = (MainActivity) context;
-                            Intent intent = new Intent(act.getApplicationContext(), ResultadosPresinderActivity.class);
-                            act.startActivity(intent);
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+            quotes.clear();
         } else {
             GlobalMethod.saveIntPreference(context, quotesIndex + 1, "quotesIndex");
-            quotesIndex= GlobalMethod.getIntPreference(context, "quotesIndex", 0);
-            Log.i("QuoteServer","quoteIndex: " + quotesIndex);
+            quotesIndex = GlobalMethod.getIntPreference(context, "quotesIndex", 0);
+            Log.i("QuoteServer", "quoteIndex: " + quotesIndex);
         }
-    }
-    public Quote nextQuote(){
-        return quotes.get(quotesIndex);
     }
 
     /**GETTERS SETTERS*/
@@ -321,10 +327,12 @@ public class QuoteServer{
                 e.printStackTrace();
             }
         }
+        GlobalMethod.saveIntPreference(context,0,"NoMoreQuotes");
 
         //Descargar de parse
         try {
-            getFromParse();
+            ParseObject.unpinAll("QUOTES");
+            UpdateQuotes();
         } catch (ParseException e) {
             e.printStackTrace();
         }

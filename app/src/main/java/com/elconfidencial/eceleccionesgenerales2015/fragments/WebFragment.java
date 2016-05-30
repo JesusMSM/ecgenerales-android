@@ -5,20 +5,15 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.elconfidencial.eceleccionesgenerales2015.R;
-import com.elconfidencial.eceleccionesgenerales2015.adapters.WebViewPagerAdapter;
 import com.elconfidencial.eceleccionesgenerales2015.model.GlobalMethod;
 import com.elconfidencial.eceleccionesgenerales2015.model.Noticia;
 import com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView;
-
-import java.util.ArrayList;
 
 /**
  * Created by Afll on 30/05/2016.
@@ -49,7 +44,7 @@ public class WebFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.web_fragment, container, false);
+        v = inflater.inflate(R.layout.fragment_web, container, false);
 
 
         WebView webView = (WebView) v.findViewById(R.id.webView);
