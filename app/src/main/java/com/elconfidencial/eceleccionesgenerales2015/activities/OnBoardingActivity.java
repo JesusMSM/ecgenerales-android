@@ -1,5 +1,6 @@
 package com.elconfidencial.eceleccionesgenerales2015.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -79,6 +80,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         saltarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProgressDialog progressDialog = ProgressDialog.show(context, "Cargando", "Espere unos instantes");
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
                 finish();

@@ -4,6 +4,7 @@ package com.elconfidencial.eceleccionesgenerales2015.fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
@@ -107,6 +109,7 @@ public class PresinderTab extends Fragment {
         reiniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getContext(),"Test reiniciado", Toast.LENGTH_LONG).show();
                 qs.reset();
                 setNextQuote();
             }
