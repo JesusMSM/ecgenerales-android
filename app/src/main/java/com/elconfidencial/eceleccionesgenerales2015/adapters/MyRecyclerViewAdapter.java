@@ -1,8 +1,6 @@
 package com.elconfidencial.eceleccionesgenerales2015.adapters;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,9 +19,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.amplitude.api.Amplitude;
@@ -50,16 +45,11 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.elconfidencial.eceleccionesgenerales2015.R;
-import com.elconfidencial.eceleccionesgenerales2015.activities.MainActivity;
 import com.elconfidencial.eceleccionesgenerales2015.activities.NoticiaContentActivity;
-import com.elconfidencial.eceleccionesgenerales2015.activities.PreferencesActivity;
 import com.elconfidencial.eceleccionesgenerales2015.charts.BarChartEC;
-import com.elconfidencial.eceleccionesgenerales2015.fragments.HomeTab;
 import com.elconfidencial.eceleccionesgenerales2015.fragments.NoticiasTab;
 import com.elconfidencial.eceleccionesgenerales2015.model.CardPubli;
 import com.elconfidencial.eceleccionesgenerales2015.model.Encuesta;
@@ -74,12 +64,9 @@ import com.elconfidencial.eceleccionesgenerales2015.rss.RssNoticiasParser;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.CardPubliViewHolder;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.ContadorViewHolder;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.EncuestasViewHolder;
-import com.elconfidencial.eceleccionesgenerales2015.viewholders.FooterPresinderViewHolder;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.NoticiaViewHolder;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.PoliticoViewHolder;
-import com.elconfidencial.eceleccionesgenerales2015.viewholders.PresinderViewHolder;
 import com.elconfidencial.eceleccionesgenerales2015.viewholders.SpinnerViewHolder;
-import com.elconfidencial.eceleccionesgenerales2015.viewholders.TituloViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -96,7 +83,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     NativeCustomTemplateAd adCustom;
     QuoteServer qs = QuoteServer.getInstance();
 
-    private final int NOTICIA = 0,PRESINDER = 1, POLITICO = 2, SPINNER = 3, TITULO = 4, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, FOOTER_PRES=8, PROGRESS=9, TITULO_ENCUESTA=10;
+    private final int NOTICIA = 0, POLITICO = 2, SPINNER = 3, CONTADOR = 5, ENCUESTA=6, CARDPUBLI=7, PROGRESS=9, TITULO_ENCUESTA=10;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -117,17 +104,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof Noticia) {
             return NOTICIA;
         }
-        if (items.get(position) instanceof Quote) {
-            return PRESINDER;
-        }
         if (items.get(position) instanceof Persona) {
             return POLITICO;
         }
         if (items.get(position) instanceof Spinner) {
             return SPINNER;
-        }
-        if (items.get(position) instanceof Titulo) {
-            return TITULO;
         }
         if (items.get(position) instanceof TituloEncuesta) {
             return TITULO_ENCUESTA;
@@ -137,9 +118,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         if (items.get(position) instanceof Encuesta) {
             return ENCUESTA;
-        }
-        if (items.get(position).equals("footerpresinder")) {
-            return FOOTER_PRES;
         }
         if (items.get(position).equals("progress")) {
             return PROGRESS;
@@ -161,10 +139,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 View v1 = inflater.inflate(R.layout.recyclerview_item_noticia, viewGroup, false);
                 viewHolder = new NoticiaViewHolder(v1);
                 break;
-            case PRESINDER:
-                View v2 = inflater.inflate(R.layout.recyclerview_item_presinder, viewGroup, false);
-                viewHolder = new PresinderViewHolder(v2);
-                break;
             case POLITICO:
                 View v3 = inflater.inflate(R.layout.recyclerview_item_politico, viewGroup, false);
                 viewHolder = new PoliticoViewHolder(v3);
@@ -172,10 +146,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case SPINNER:
                 View v4 = inflater.inflate(R.layout.recyclerview_item_spinner, viewGroup, false);
                 viewHolder = new SpinnerViewHolder(v4);
-                break;
-            case TITULO:
-                View v5 = inflater.inflate(R.layout.recyclerview_item_titulo, viewGroup, false);
-                viewHolder = new TituloViewHolder(v5);
                 break;
             case CONTADOR:
                 View v6 = inflater.inflate(R.layout.recyclerview_item_contador, viewGroup, false);
@@ -192,10 +162,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case TITULO_ENCUESTA:
                 View v =  inflater.inflate(R.layout.recyclerview_item_encuesta_titulo, viewGroup, false);
                 viewHolder = new EncuestaTituloViewHolder(v);
-                break;
-            case FOOTER_PRES:
-                View v9 =  inflater.inflate(R.layout.recyclerview_item_footerpresinder, viewGroup, false);
-                viewHolder = new FooterPresinderViewHolder(v9);
                 break;
             case PROGRESS:
                 View v10 =  inflater.inflate(R.layout.recyclerview_item_dialog, viewGroup, false);
@@ -216,10 +182,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 NoticiaViewHolder vh1 = (NoticiaViewHolder) viewHolder;
                 configureNoticiaViewHolder(vh1, position);
                 break;
-            case PRESINDER:
-                PresinderViewHolder vh2 = (PresinderViewHolder) viewHolder;
-                configurePresinderViewHolder(vh2, position);
-                break;
             case POLITICO:
                 PoliticoViewHolder vh3 = (PoliticoViewHolder) viewHolder;
                 configurePoliticoViewHolder(vh3, position);
@@ -227,10 +189,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case SPINNER:
                 SpinnerViewHolder vh4 = (SpinnerViewHolder) viewHolder;
                 configureSpinnerViewHolder(vh4, position);
-                break;
-            case TITULO:
-                TituloViewHolder vh5 = (TituloViewHolder) viewHolder;
-                configureTituloViewHolder(vh5, position);
                 break;
             case CONTADOR:
                 ContadorViewHolder vh6 = (ContadorViewHolder) viewHolder;
@@ -247,10 +205,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case TITULO_ENCUESTA:
                 EncuestaTituloViewHolder vh = (EncuestaTituloViewHolder) viewHolder;
                 configureEncuestaTituloViewHolder(vh, position);
-                break;
-            case FOOTER_PRES:
-                FooterPresinderViewHolder vh9 = (FooterPresinderViewHolder) viewHolder;
-                configureFooterPersinderViewHolder(vh9, position);
                 break;
             case PROGRESS:
                 DialogViewHolder vh10 = (DialogViewHolder) viewHolder;
@@ -491,14 +445,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         // "def", "ghj", "ikl", "mno" });
 
 
-        List<String> encuestasTitulo = new ArrayList<String>();
-        for(int i=0; i<HomeTab.encuestas.size(); i++){
-            Log.d("ENCUESTAS", HomeTab.encuestas.get(i).getName());
-            encuestasTitulo.add(HomeTab.encuestas.get(i).getName());
-        }
-
-
-
         final Encuesta encuesta = (Encuesta) items.get(position);
         setData(grafico, encuesta);
 
@@ -568,50 +514,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-    private void configurePresinderViewHolder(final PresinderViewHolder vh, int position) {
-        final Quote quote = (Quote) items.get(position);
-
-        vh.question.setText(quote.getText());
-        vh.group.setText(quote.getGrupo());
-
-        try{
-            Glide.with(context).load(R.drawable.caraok).into(vh.like);
-            Glide.with(context).load(R.drawable.carano).into(vh.dislike);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        //Like/Dislikes listeners
-        vh.like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // MainActivity.switchFragment(3);
-                //Amplitude
-                Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
-                Amplitude.getInstance().logEvent("ONTAP_PRESINDER");
-            }
-        });
-        vh.dislike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // MainActivity.switchFragment(3);
-                //Amplitude
-                Log.i("20D_AMPLITUDE", "ONTAP_PRESINDER");
-                Amplitude.getInstance().logEvent("ONTAP_PRESINDER");
-            }
-        });
-
-        //Fonts
-        vh.header1.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Semibold.otf"));
-        vh.header2.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.group.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.question.setTypeface(Typeface.createFromAsset(context.getAssets(), "Milio-Demibold-Italic.ttf"));
-        vh.likeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.dislikeText.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-    }
-
 
     private void configurePoliticoViewHolder(final PoliticoViewHolder vh, int position) {
         final Persona persona = (Persona) items.get(position);
@@ -641,17 +543,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-    private void configureTituloViewHolder(TituloViewHolder vh6, int position) {
-        final Titulo title = (Titulo) items.get(position);
-        if (title != null) {
-            vh6.title.setText(title.getTitle());
-        }
-
-        //Fonts
-        vh6.title.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-
-
-    }
 
     private void configureEncuestaTituloViewHolder(EncuestaTituloViewHolder vh, int position) {
         final TituloEncuesta title = (TituloEncuesta) items.get(position);
@@ -778,26 +669,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             }
 
-        });
-    }
-    public void configureFooterPersinderViewHolder(FooterPresinderViewHolder vh,int position){
-        vh.volverAJugar.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-        vh.reset.setTypeface(Typeface.createFromAsset(context.getAssets(), "Titillium-Regular.otf"));
-
-        vh.volverAJugar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Activity act = (Activity) v.getContext();
-                act.onBackPressed();
-            }
-        });
-        vh.reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Mostramos la lista
-                qs.reset();
-                notifyDataSetChanged();
-            }
         });
     }
 

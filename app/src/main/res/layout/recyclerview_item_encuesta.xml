@@ -22,22 +22,22 @@
         android:layout_margin="2dp"
         android:text="Encuesta realizada el "/>
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+
+        <com.elconfidencial.eceleccionesgenerales2015.charts.BarChartEC
+            android:id="@+id/chartEncuestas"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_marginBottom="10dp"
+            android:layout_height="200dp"
+            />
 
-
-            <com.elconfidencial.eceleccionesgenerales2015.charts.BarChartEC
-                android:id="@+id/chartEncuestas"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_height="200dp"
-                 />
-
-        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"

@@ -38,7 +38,7 @@
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:tabMode="fixed"
+                    app:tabMode="scrollable"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:tabGravity="fill"/>
 

@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:minHeight="60dp"
-    android:layout_marginTop="7dp"
-    android:layout_marginBottom="7dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/clickableCardLayout"
     >
 
     <com.google.android.gms.ads.formats.NativeContentAdView
@@ -44,19 +44,18 @@
                         android:id="@+id/textViewEmpresa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="23dp"
+                        android:layout_marginTop="20dp"
                         android:gravity="left"
-                        android:layout_marginLeft="9dp"
+                        android:layout_marginLeft="8dp"
                         android:layout_alignParentLeft="true"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="23dp"
+                        android:layout_marginBottom="20dp"
                         android:layout_marginRight="9dp"
-                        android:layout_marginTop="23dp"
-                        android:textSize="10pt"
+                        android:layout_marginTop="20dp"
                         android:text="Anuncio"
                         android:gravity="right"
                         android:layout_alignParentRight="true"
