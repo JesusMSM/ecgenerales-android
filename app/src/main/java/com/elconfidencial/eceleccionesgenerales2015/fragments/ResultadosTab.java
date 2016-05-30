@@ -784,7 +784,9 @@ public class ResultadosTab extends Fragment {
             }
 
             public void onFinish() {
-                contador.setText("");//Texto al llegar a 0;
+                textViewDias.setText("0");
+                textViewHoras.setText("0");
+                textViewMinutos.setText("0");//Texto al llegar a 0;
             }
         }.start();
     }
