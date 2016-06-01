@@ -2,6 +2,7 @@ package com.elconfidencial.eceleccionesgenerales2015.fragments;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -109,9 +110,22 @@ public class PresinderTab extends Fragment {
         reiniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Test reiniciado", Toast.LENGTH_LONG).show();
-                qs.reset();
-                setNextQuote();
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Reiniciar")
+                        .setMessage("Si reinicia el test se borrarán todos los resultados que tenga acumulados. ¿Está seguro?")
+                        .setPositiveButton("REINICIAR", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                qs.reset();
+                                setNextQuote();
+                            }
+                        })
+                        .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 

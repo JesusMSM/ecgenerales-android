@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
-        android:background="@color/white"
         android:layout_height="match_parent">
 
         <!-- CONTADOR -->
@@ -427,7 +425,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
                 android:id="@+id/headerGrafico"
@@ -463,6 +461,7 @@
             android:id="@+id/webviewScreen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:visibility="gone">
             <WebView
                 android:id="@+id/resultadosWebview"

@@ -139,7 +139,6 @@ public class ResultadosTab extends Fragment {
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
         if(ChooseActivity.SHOW_WIDGET_RESULTS){
             //Cargamos el WebView
-            Log.i("tuputamadre", "entramos en el webview");
             contadorLayout.setVisibility(View.GONE);
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.GONE);
@@ -275,7 +274,6 @@ public class ResultadosTab extends Fragment {
 
     //----------------------------------------------------------------------
     //endregion
-
 
     // region GRID MEGAENCUESTA
     //----------------------------------------------------------------------
@@ -794,117 +792,6 @@ public class ResultadosTab extends Fragment {
 
     //----------------------------------------------------------------------
     //endregion
-
-
-
-
-
-
-
-
-    /**public void setListenersImgPartidos(){
-
-        pp.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=0){
-                    checkPartido(0);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-
-            }
-        });
-        cs.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=1){
-                    checkPartido(1);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-        psoe.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=2){
-                    checkPartido(2);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-        podemos.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=3){
-                    checkPartido(3);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-        iu.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=4){
-                    checkPartido(4);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-        pnv.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=5){
-                    checkPartido(5);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-        convergencia.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=6){
-                    checkPartido(6);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-        upyd.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=7){
-                    checkPartido(7);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-        otros.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(partidoMarcado!=8){
-                    checkPartido(8);
-                } else {
-                    setNotPressedImages();
-                    partidoMarcado = -1;
-                }
-            }
-        });
-    }**/
 
 
 }
