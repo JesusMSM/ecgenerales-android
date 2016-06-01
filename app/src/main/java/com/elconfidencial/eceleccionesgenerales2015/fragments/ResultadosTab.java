@@ -137,9 +137,9 @@ public class ResultadosTab extends Fragment {
 
 
         //Comprobamos que layout debemos mostrar y cuales deben aparecer ocultos
-        //if(ChooseActivity.SHOW_WIDGET_RESULTS){
-        if(false){
+        if(ChooseActivity.SHOW_WIDGET_RESULTS){
             //Cargamos el WebView
+            Log.i("tuputamadre", "entramos en el webview");
             contadorLayout.setVisibility(View.GONE);
             gridMegaencuesta.setVisibility(View.GONE);
             graficoMegaencuesta.setVisibility(View.GONE);
@@ -543,6 +543,7 @@ public class ResultadosTab extends Fragment {
     public void setGraficoMegaencuesta() {
 
         grafico = (HorizontalBarChartEC) v.findViewById(R.id.horizontalBarChart);
+        partidoMegaencuestaList.clear();
 
         //Nos bajamos los resultados de Parse
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PARTY_SURVEY");
@@ -904,86 +905,6 @@ public class ResultadosTab extends Fragment {
             }
         });
     }**/
-
-    public String getNamePartidoMarcado (){
-        String partidoMarcadoName = "";
-        switch (partidoMarcado) {
-            case 0: //PP
-                partidoMarcadoName = "PP";
-                break;
-            case 1: //Ciudadanos
-                partidoMarcadoName = "CIUDADANOS";
-                break;
-            case 2: //PSOE
-                partidoMarcadoName = "PSOE";
-                break;
-            case 3: //PODEMOS
-                partidoMarcadoName = "PODEMOS";
-                break;
-            case 4: //IU
-                partidoMarcadoName = "IU";
-                break;
-            case 5: //PNV
-                partidoMarcadoName = "PNV";
-                break;
-            case 6: //CONVERGENCIA
-                partidoMarcadoName = "CONVERGENCIA";
-                break;
-            case 7: //UPYD
-                partidoMarcadoName = "UPYD";
-                break;
-            case 8: //CONVERGENCIA
-                partidoMarcadoName = "OTROS";
-                break;
-        }
-
-        return partidoMarcadoName;
-    }
-
-    public void checkPartido( int partidoPosition){
-
-        setNotPressedImages();
-
-        switch (partidoPosition){
-            case 0: //PP
-                partidoMarcado= 0;
-                Glide.with(getContext()).load(R.drawable.pp_on).into(pp);
-                break;
-            case 1: //CS
-                partidoMarcado= 1;
-                Glide.with(getContext()).load(R.drawable.cs_on).into(cs);
-                break;
-            case 2: //PSOE
-                partidoMarcado= 2;
-                Glide.with(getContext()).load(R.drawable.psoe_on).into(psoe);
-                break;
-            case 3: //PODEMOS
-                partidoMarcado= 3;
-                Glide.with(getContext()).load(R.drawable.pdms_on).into(podemos);
-                break;
-            case 4: //IU
-                partidoMarcado= 4;
-                Glide.with(getContext()).load(R.drawable.iu_on).into(iu);
-                break;
-            case 5: //PNV
-                partidoMarcado= 5;
-                Glide.with(getContext()).load(R.drawable.pnv_on).into(pnv);
-                break;
-            case 6: //CONVERGENCIA
-                partidoMarcado= 6;
-                Glide.with(getContext()).load(R.drawable.convergencia_on).into(convergencia);
-                break;
-            case 7: //UPYD
-                partidoMarcado= 7;
-                Glide.with(getContext()).load(R.drawable.upyd_on).into(blanco);
-                break;
-            case 8: //OTROS
-                partidoMarcado= 8;
-                Glide.with(getContext()).load(R.drawable.otros_on).into(otros);
-                break;
-            default: partidoMarcado = -1;break;
-        }
-    }
 
 
 }

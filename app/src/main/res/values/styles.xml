@@ -23,4 +23,7 @@
     <style name="AutoCompleteStyle" parent="android:Widget.Holo.Light.AutoCompleteTextView">
         <item name="android:background">@drawable/apptheme_textfield_activated_holo_light</item>
     </style>
+    <style name="TabLayout_Theme" parent="@style/AppTheme">
+        <item name="android:singleLine">true</item>
+    </style>
 </resources>

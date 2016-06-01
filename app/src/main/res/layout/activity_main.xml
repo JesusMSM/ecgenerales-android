@@ -45,8 +45,8 @@
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:tabMode="scrollable"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    android:theme="@style/TabLayout_Theme"
+                    app:tabMode="fixed"
                     app:tabGravity="fill"/>
 
             </android.support.design.widget.AppBarLayout>
