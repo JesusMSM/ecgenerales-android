@@ -179,7 +179,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
             shareit();
             //Amplitude
             Log.i("20D_AMPLITUDE", "ONSHARE_PRESINDER");
-            Amplitude.getInstance().logEvent("ONSHARE_PRESINDER");
+            //Amplitude.getInstance().logEvent("ONSHARE_PRESINDER");
         }
 
         return super.onOptionsItemSelected(item);

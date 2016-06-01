@@ -352,19 +352,19 @@ public class SlidingTabLayout extends HorizontalScrollView {
             switch (position){
                 case 0:
                     Log.i("20D_AMPLITUDE", "TABBAR: ONHOME");
-                    Amplitude.getInstance().logEvent("ONHOME");
+                    //Amplitude.getInstance().logEvent("ONHOME");
                     break;
                 case 1:
                     Log.i("20D_AMPLITUDE", "TABBAR: ONNEW");
-                    Amplitude.getInstance().logEvent("ONNEW");
+                    //Amplitude.getInstance().logEvent("ONNEW");
                     break;
                 case 2:
                     Log.i("20D_AMPLITUDE", "TABBAR: ONGRAPHICS");
-                    Amplitude.getInstance().logEvent("ONGRAPHICS");
+                    //Amplitude.getInstance().logEvent("ONGRAPHICS");
                     break;
                 case 3:
                     Log.i("20D_AMPLITUDE", "TABBAR: ONPRESINDER");
-                    Amplitude.getInstance().logEvent("ONPRESINDER");
+                    //Amplitude.getInstance().logEvent("ONPRESINDER");
                     break;
             }
         }

@@ -295,7 +295,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     eventProperties.put("URL", noticia.getLink());
                 } catch (JSONException exception) {
                 }
-                Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
+                //Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
             }
         });
     }
@@ -338,7 +338,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             eventProperties.put("CARD", vh.empresa.getText());
                         } catch (JSONException exception) {
                         }
-                        Amplitude.getInstance().logEvent("ONTAP_CARD", eventProperties);
+                        //Amplitude.getInstance().logEvent("ONTAP_CARD", eventProperties);
                     }
                 })
                 .withNativeAdOptions(new NativeAdOptions.Builder()

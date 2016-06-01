@@ -34,9 +34,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -118,9 +120,36 @@ public class EncuestasTab extends Fragment {
             ChooseActivity.encuestas = gson.fromJson(json, type);
         }
 
+        // region Contador
+        //----------------------------------------------------------------------
         if(ChooseActivity.SHOW_TIMER){
-            items.add("contador");
+            long tiempoRestanteInicio = 0;
+            long tiempoRestanteFin = 0;
+            long today = new Date().getTime();
+            String fechaElecciones = "26/06/2016 09:00";
+            String fechaFinElecciones = "26/06/2016 20:00";
+            try{
+                Date elecciones = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaElecciones);
+                Date cierre = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaFinElecciones);
+                tiempoRestanteInicio = elecciones.getTime()- today;
+                tiempoRestanteFin = cierre.getTime()- today;
+                if (tiempoRestanteInicio>0){
+                    items.add("contador");
+                }else if(tiempoRestanteFin>0){
+
+                    //TODO: METER EL OTRO CONTADOR
+
+                }else{
+                    //DEJAR VACIO
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
+
+        //----------------------------------------------------------------------
+        //endregion
+
 
         if(ChooseActivity.encuestas!=null) {
             for (Encuesta encuesta : ChooseActivity.encuestas) {

@@ -264,7 +264,7 @@ public class PresinderTab extends Fragment {
                 eventProperties.put("PERSONA", currentQuote.getPersona().toString());
             } catch (JSONException exception) {
             }
-            Amplitude.getInstance().logEvent("ONAGREE", eventProperties);
+            //Amplitude.getInstance().logEvent("ONAGREE", eventProperties);
         }
 
     }
@@ -370,7 +370,7 @@ public class PresinderTab extends Fragment {
                 eventProperties.put("PERSONA", currentQuote.getPersona().toString());
             } catch (JSONException exception) {
             }
-            Amplitude.getInstance().logEvent("ONDISAGREE", eventProperties);
+            //Amplitude.getInstance().logEvent("ONDISAGREE", eventProperties);
         }
 
         public class OnPresinderVerResultadosClickListener extends OnLikeClickListener {

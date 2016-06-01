@@ -316,7 +316,7 @@ public class NoticiaContentActivity  extends AppCompatActivity {
             eventProperties.put("URL", url);
         } catch (JSONException exception) {
         }
-        Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
+        //Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
     }
 
     //Formateadores para la fecha ( hace X minutos)

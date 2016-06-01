@@ -509,7 +509,7 @@ public class ResultadosTab extends Fragment {
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
-                Amplitude.getInstance().logEvent("ONSELECT_PARTY", eventProperties);
+                //Amplitude.getInstance().logEvent("ONSELECT_PARTY", eventProperties);
             }
         });
     }

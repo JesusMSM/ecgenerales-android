@@ -46,7 +46,7 @@ import java.util.List;
 
 public class ChooseActivity extends AppCompatActivity {
 
-    private String apiKeyAmplitude = "47a789399b21bcd069f97c9d6afddd97";
+    private String apiKeyAmplitude = "cde1bcba3b7ad498b1ff7657723a9ce8";
     GlobalMethod globalMethod = new GlobalMethod(this);
 
 
