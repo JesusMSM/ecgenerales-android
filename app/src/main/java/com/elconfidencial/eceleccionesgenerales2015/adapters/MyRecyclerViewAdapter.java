@@ -113,7 +113,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (items.get(position) instanceof TituloEncuesta) {
             return TITULO_ENCUESTA;
         }
-        if (items.get(position).equals("contador")) {
+        if (items.get(position).equals("contador") || items.get(position).equals("contadorCierre")) {
             return CONTADOR;
         }
         if (items.get(position) instanceof Encuesta) {
@@ -250,15 +250,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
                 //Creamos un intent para llamar a NoticiasContentActivity con los extras de la noticia correspondiente
-                //Lista noticias
-                Gson gson = new Gson();
-                SharedPreferences prefs = context.getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-                String json = prefs.getString("noticias", "");
-                Type type = new TypeToken<ArrayList<Noticia>>() {}.getType();
-                ArrayList<Noticia> noticias = gson.fromJson(json, type);
+
 
                 Intent intent = new Intent(context, NoticiaContentActivity.class);
-                intent.putParcelableArrayListExtra("noticias",noticias);
                 intent.putExtra("currentNoticia", noticia);
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -356,7 +350,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
     private void configureContadorViewHolder(ContadorViewHolder vh3, int position) {
-        vh3.showContador();
+        if(items.get(position).equals("contador")) {
+            vh3.showContador();
+        }
+        if (items.get(position).equals("contadorCierre")){
+            vh3.showContadorCierre();
+        }
     }
 
     private void configureDialogViewHolder(DialogViewHolder vh, int position) {
@@ -609,7 +608,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     case 0:
                                         NoticiasTab.seleccion = 0;
                                         vh.selected.setText(arrayPartidos[0]);
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-generales-2015-20-d-15300/";
+                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-26-j-17611/";
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
                                         break;
                                     case 1:
@@ -695,8 +694,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 if(globalMethod.haveNetworkConnection()) {
                     RssNoticiasParser saxparser =
                             new RssNoticiasParser(params[0]);
+                    SharedPreferences prefs = context.getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
 
                     noticias = saxparser.parse();
+
+                    //Guardamos las noticias
+                    SharedPreferences.Editor prefsEditor = prefs.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(noticias);
+                    prefsEditor.putString("noticiasSpinner", json);
+                    prefsEditor.apply();
+                    //--------------------
 
                 }
             }catch (Exception e){

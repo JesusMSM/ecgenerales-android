@@ -150,7 +150,30 @@ public class ResultadosTab extends Fragment {
 
             //Inicializamos el contador
             bindContador();
-            showContador();
+            if(ChooseActivity.SHOW_TIMER){
+                long tiempoRestanteInicio = 0;
+                long tiempoRestanteFin = 0;
+                long today = new Date().getTime();
+                String fechaElecciones = "26/06/2016 09:00";
+                String fechaFinElecciones = "26/06/2016 20:00";
+                try{
+                    Date elecciones = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaElecciones);
+                    Date cierre = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaFinElecciones);
+                    tiempoRestanteInicio = elecciones.getTime()- today;
+                    tiempoRestanteFin = cierre.getTime()- today;
+                    if (tiempoRestanteInicio>0){
+                        showContador();
+                    }else if(tiempoRestanteFin>0){
+                        //METER EL OTRO CONTADOR
+                        showContadorCierre();
+                    }else{
+                        //DEJAR VACIO
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
             contadorLayout.setVisibility(View.VISIBLE);
 
             if (hasVoted) {
@@ -779,6 +802,51 @@ public class ResultadosTab extends Fragment {
                 textViewDias.setText(""+days);
                 textViewHoras.setText("" + hours);
                 textViewMinutos.setText("" + minutes);
+                textViewColegiosElectorales.setText("para abrir los colegios electorales");
+
+//                contador.setText( days + " " + MainActivity.resources.getString(R.string.dias) + "  " + hours + " h  \n"+ minutes +" mins  " + seconds + " segs ");
+            }
+
+            public void onFinish() {
+                textViewDias.setText("0");
+                textViewHoras.setText("0");
+                textViewMinutos.setText("0");//Texto al llegar a 0;
+            }
+        }.start();
+    }
+
+    public void showContadorCierre(){
+
+        long tiempoRestante = 0;
+
+        //Calculamos el tiempo (milisegundos) que quedan para las elecciones catalanas
+        try {
+            long today = new Date().getTime();
+            String fechaElecciones = "26/06/2016 20:00";
+            Date elecciones = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaElecciones);
+
+            tiempoRestante = elecciones.getTime()- today;
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Iniciamos una cuenta atras, empezando por los milisegundos que quedan (tiempoRestante) hasta alcanzar 1 segundo.
+        //Mostramos los milisegundos en formato: D dias H h M mins S segs.
+        new CountDownTimer(tiempoRestante, 1000) {
+
+            StringBuilder time = new StringBuilder();
+
+            public void onTick(long millisUntilFinished) {
+                //tiempo.setText("seconds remaining: " + millisUntilFinished / 1000);
+                long days = (millisUntilFinished / (1000 * 60 * 60 * 24)); //for counting days
+                long hours = (millisUntilFinished - days*(1000*60*60*24)) / (1000 * 60 * 60); //for counting hours
+                long minutes = (millisUntilFinished - days*(1000*60*60*24) - hours*(1000*60*60))/ (1000 * 60); //for counting minutes
+                long seconds = (millisUntilFinished - days*(1000*60*60*24) - hours*(1000*60*60) - minutes*(1000*60)) / (1000); //for counting seconds
+
+                textViewDias.setText(""+days);
+                textViewHoras.setText("" + hours);
+                textViewMinutos.setText("" + minutes);
+                textViewColegiosElectorales.setText("para cerrar los colegios electorales");
 //                contador.setText( days + " " + MainActivity.resources.getString(R.string.dias) + "  " + hours + " h  \n"+ minutes +" mins  " + seconds + " segs ");
             }
 

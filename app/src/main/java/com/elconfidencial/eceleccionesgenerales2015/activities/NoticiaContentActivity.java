@@ -1,5 +1,6 @@
 package com.elconfidencial.eceleccionesgenerales2015.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -44,7 +45,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.elconfidencial.eceleccionesgenerales2015.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +74,15 @@ public class NoticiaContentActivity  extends AppCompatActivity {
 
         setupToolbar();
 
+        //Lista noticias
+        Gson gson = new Gson();
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        String json = prefs.getString("noticiasSpinner", "");
+        Type type = new TypeToken<ArrayList<Noticia>>() {}.getType();
+        final ArrayList<Noticia> noticias = gson.fromJson(json, type);
+
         intent = getIntent();
         //Get lista noticias y la actual
-        final ArrayList<Noticia> noticias = intent.getExtras().getParcelableArrayList("noticias");
         final Noticia noticia = intent.getExtras().getParcelable("currentNoticia");
         url=noticia.getLink();
         info=noticia.getTitulo();

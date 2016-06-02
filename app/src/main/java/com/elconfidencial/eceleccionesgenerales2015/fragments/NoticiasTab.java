@@ -21,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.amplitude.api.Amplitude;
@@ -91,14 +93,6 @@ public class NoticiasTab extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
-        return v;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
         GlobalMethod globalMethod = new GlobalMethod(getContext());
         if(noticias.size()==0){
             if(globalMethod.haveNetworkConnection()) {
@@ -114,6 +108,13 @@ public class NoticiasTab extends Fragment {
         } else {
             addItems();
         }
+
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     /*Permite gestionar de forma asincrona el RSS */
@@ -144,6 +145,7 @@ public class NoticiasTab extends Fragment {
                     Gson gson = new Gson();
                     String json = gson.toJson(noticias);
                     prefsEditor.putString("noticias", json);
+                    prefsEditor.putString("noticiasSpinner", json);
                     prefsEditor.apply();
                     //--------------------
                 }
@@ -171,11 +173,32 @@ public class NoticiasTab extends Fragment {
 
     public void addItems() {
 
-        //if(MainActivity.SHOW_TIMER){
-        items.add("contador");
-        //}
+        if(ChooseActivity.SHOW_TIMER){
+            long tiempoRestanteInicio = 0;
+            long tiempoRestanteFin = 0;
+            long today = new Date().getTime();
+            String fechaElecciones = "26/06/2016 09:00";
+            String fechaFinElecciones = "26/06/2016 20:00";
+            try{
+                Date elecciones = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaElecciones);
+                Date cierre = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(fechaFinElecciones);
+                tiempoRestanteInicio = elecciones.getTime()- today;
+                tiempoRestanteFin = cierre.getTime()- today;
+                if (tiempoRestanteInicio>0){
+                    items.add("contador");
+                }else if(tiempoRestanteFin>0){
+                    //METER EL OTRO CONTADOR
+                    items.add("contadorCierre");
+                }else{
+                    //DEJAR VACIO
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
 
         Spinner spinner = new Spinner(context);
+        seleccion=0;
         items.add(spinner);
 
 //            if(globalMethod.haveNetworkConnection()) {
@@ -195,6 +218,7 @@ public class NoticiasTab extends Fragment {
 
         mAdapter = new MyRecyclerViewAdapter(getContext(),items);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 
     // region SAVE INSTANCE STATE
