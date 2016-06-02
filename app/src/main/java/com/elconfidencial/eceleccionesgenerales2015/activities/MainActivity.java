@@ -397,8 +397,9 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (changed) {
-                pager.setOffscreenPageLimit(4);
-                pager.getAdapter().notifyDataSetChanged();
+                recreate();
+                //pager.setOffscreenPageLimit(4);
+                //pager.getAdapter().notifyDataSetChanged();
             }
 
         }

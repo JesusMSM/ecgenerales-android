@@ -163,18 +163,23 @@ public class ResultadosTab extends Fragment {
                     tiempoRestanteFin = cierre.getTime()- today;
                     if (tiempoRestanteInicio>0){
                         showContador();
+                        contadorLayout.setVisibility(View.VISIBLE);
                     }else if(tiempoRestanteFin>0){
                         //METER EL OTRO CONTADOR
                         showContadorCierre();
+                        contadorLayout.setVisibility(View.VISIBLE);
                     }else{
                         //DEJAR VACIO
+                        contadorLayout.setVisibility(View.GONE);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+            }else{
+                contadorLayout.setVisibility(View.GONE);
             }
 
-            contadorLayout.setVisibility(View.VISIBLE);
+
 
             if (hasVoted) {
                 //Cargamos la vista del gráfico
