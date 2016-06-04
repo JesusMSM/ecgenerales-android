@@ -2,47 +2,47 @@
                        {
                         "ID":"CIUDADANOS",
                         "Desc" : "Ciudadanos",
-                        "Color" : "#f2842c",
-                        "Short" : "C's",
-                         "News_TAG" : "ciudadanos-6359",
+                        "Color" : "#f58723",
+                        "Short" : "C'S",
+                         "News_TAG" : "ciudadanos-6359/",
                          "Push_TAG" : "CIUDADANOS"
                        },
                        {
                         "ID":"PSOE",
                         "Desc" : "PSOE",
-                        "Color" : "#e50000",
+                        "Color" : "#ce1415",
                         "Short" : "PSOE",
-                         "News_TAG" : "psoe-7017",
+                         "News_TAG" : "psoe-7017/",
                          "Push_TAG" : "PSOE"
                        },
                        {
                         "ID":"PP",
                         "Desc" : "Partido Popular",
-                        "Color" : "#1a9ed6",
+                        "Color" : "#1ba1ef",
                         "Short" : "PP",
-                         "News_TAG" : "partido-popular-pp-3113",
+                         "News_TAG" : "partido-popular-pp-3113/",
                          "Push_TAG" : "PP"
                        } ,
                        {
                         "ID":"PODEMOS",
                         "Desc" : "Podemos",
-                        "Color" : "#6e2b60",
-                        "Short" : "Podemos",
-                        "News_TAG" : "podemos-10616",
+                        "Color" : "#672f6c",
+                        "Short" : "PODEMOS",
+                        "News_TAG" : "podemos-10616/",
                          "Push_TAG" : "PODEMOS"
                        },
                        {
                         "ID":"IU",
                         "Desc" : "Izquierda Unida",
-                        "Color" : "#9dda5e",
+                        "Color" : "#18a196",
                         "Short" : "IU",
-                         "News_TAG" : "izquierda-unida-2547",
+                         "News_TAG" : "izquierda-unida-2547/",
                          "Push_TAG" : "IU"
                        } ,
                        {
                         "ID":"PACMA",
                        "Desc" : "PACMA",
-                       "Color" : "#abbd0b",
+                       "Color" : "#3838FF",
                        "Short" : "PACMA",
                         "News_TAG" : "",
                          "Push_TAG" : ""
@@ -50,7 +50,7 @@
                        {
                         "ID":"PNV",
                        "Desc" : "PNV",
-                       "Color" : "#009749",
+                       "Color" : "#118747",
                        "Short" : "PNV",
                         "News_TAG" : "",
                          "Push_TAG" : ""
@@ -59,25 +59,52 @@
                         "ID":"UPYD",
                        "Desc" : "UPYD",
                        "Color" : "#f5407b",
-                       "Short" : "UPyD",
-                        "News_TAG" : "UPYD",
-                         "Push_TAG" : "upyd-2430"
+                       "Short" : "UPYD",
+                        "News_TAG" : "upyd-2430/",
+                         "Push_TAG" : "UPYD"
                        },
                        {
                         "ID":"OTROS",
                        "Desc" : "OTROS",
-                       "Color" : "#f2eca2",
+                       "Color" : "#383838",
                        "Short" : "OTROS",
                         "News_TAG" : "",
                          "Push_TAG" : ""
                        },
                        {
                         "ID":"CONVERGENCIA",
-                       "Desc" : "Convergents",
-                       "Color" : "#0e374b",
-                       "Short" : "CONVERGENCIA",
+                       "Desc" : "Convergencia",
+                       "Color" : "#00447B",
+                       "Short" : "CDC",
                         "News_TAG" : "",
                          "Push_TAG" : ""
+                       }
+                       ,
+                       {
+                        "ID":"ERC",
+                       "Desc" : "Esquerra",
+                       "Color" : "#FFB232",
+                       "Short" : "ERC",
+                        "News_TAG" : "",
+                         "Push_TAG" : ""
+                       }
+                       ,
+                       {
+                        "ID":"BLANCO",
+                       "Desc" : "Blanco",
+                       "Color" : "#DDDDDD",
+                       "Short" : "BLANCO",
+                        "News_TAG" : "",
+                         "Push_TAG" : ""
+                       }
+                       ,
+                       {
+                        "ID":"UNIDOS-PODEMOS",
+                       "Desc" : "Unidos Podemos",
+                       "Color" : "#672f6c",
+                       "Short" : "UP",
+                        "News_TAG" : "unidos-podemos-17822",
+                         "Push_TAG" : "UP"
                        }
 
 ]

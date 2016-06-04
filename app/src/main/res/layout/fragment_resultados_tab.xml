@@ -201,7 +201,6 @@
                         android:background="@color/white">
                         <ImageView
                             android:id="@+id/podemosLogo"
-                            android:src="@drawable/pp_off"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1" />
@@ -225,7 +224,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Podemos"
+                            android:text="Unidos Podemos"
                             android:gravity="center_horizontal"
                             android:textSize="15sp"
                             />
@@ -252,7 +251,6 @@
                         android:background="@color/white">
                         <ImageView
                             android:id="@+id/cslogo"
-                            android:src="@drawable/pp_on"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1" />
@@ -277,8 +275,6 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="Ciudadanos"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginStart="10dp"
                             android:gravity="center_horizontal"
                             android:textSize="15sp"
                             />
@@ -286,7 +282,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Izquierda Unida"
+                            android:text="ERC"
                             android:gravity="center_horizontal"
                             android:textSize="15sp"
                             />
@@ -305,7 +301,6 @@
                         android:background="@color/white">
                         <ImageView
                             android:id="@+id/convergenciaLogo"
-                            android:src="@drawable/pp_on"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1" />
@@ -329,7 +324,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Covergencia"
+                            android:text="CDC"
                             android:gravity="center_horizontal"
                             android:textSize="15sp"
                             />
@@ -362,7 +357,6 @@
 
                     <ImageView
                         android:id="@+id/image_megaencuesta_big"
-                        android:src="@drawable/pp_on"
                         android:layout_marginLeft="25dp"
                         android:layout_marginStart="25dp"
                         android:layout_marginRight="25dp"

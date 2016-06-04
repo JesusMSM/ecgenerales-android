@@ -68,12 +68,12 @@ public class ResultadosTab extends Fragment {
     private static final String PP_TAG= "PP";
     private static final String PSOE_TAG= "PSOE";
     private static final String CS_TAG= "CIUDADANOS";
-    private static final String PODEMOS_TAG= "PODEMOS";
+    private static final String UNIDOS_PODEMOS_TAG= "UNIDOS-PODEMOS";
     private static final String PNV_TAG= "PNV";
     private static final String OTROS_TAG= "OTROS";
     private static final String BLANCO_TAG= "BLANCO";
     private static final String CONVERGENCIA_TAG= "CONVERGENCIA";
-    private static final String IU_TAG= "IU";
+    private static final String ERC_TAG= "ERC";
 
     private LinearLayout gridMegaencuesta, graficoMegaencuesta, webviewLayout;
     private FrameLayout contadorLayout;
@@ -90,7 +90,7 @@ public class ResultadosTab extends Fragment {
     private int partidoMarcado = -1;
     private final int MINIMO_TAMANO_MUESTRA=50;
 
-    private ImageView pp, cs, psoe, podemos, iu, pnv, convergencia, blanco, otros;
+    private ImageView pp, cs, psoe, podemos, erc, pnv, convergencia, blanco, otros;
     private ImageView imagenBig;
     public TextView contador, textViewDias,textViewHoras,textViewMinutos,textViewColegiosElectorales;
     private FrameLayout vota;
@@ -119,6 +119,35 @@ public class ResultadosTab extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Amplitude
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("page", "resultados");
+            if(ChooseActivity.SHOW_WIDGET_RESULTS){
+                eventProperties.put("segment", "resultados España");
+            } else{
+                eventProperties.put("segment", "votos lectores");
+            }
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("page_view", eventProperties);
+
+
+        //Amplitude
+        JSONObject eventProperties1 = new JSONObject();
+        try {
+            eventProperties1.put("segment", "resultados");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("Tap_menu", eventProperties1);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -388,7 +417,7 @@ public class ResultadosTab extends Fragment {
         cs = (ImageView) v.findViewById(R.id.cslogo);
         psoe = (ImageView) v.findViewById(R.id.psoelogo);
         podemos = (ImageView) v.findViewById(R.id.podemosLogo);
-        iu = (ImageView) v.findViewById(R.id.iulogo);
+        erc = (ImageView) v.findViewById(R.id.iulogo);
         pnv = (ImageView) v.findViewById(R.id.pnvlogo);
         convergencia = (ImageView) v.findViewById(R.id.convergenciaLogo);
         blanco = (ImageView) v.findViewById(R.id.blancologo);
@@ -440,8 +469,8 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.setX(5000);
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
-                Glide.with(context).load(R.drawable.podemos_color).into(imagenBig);
-                setupListenersPartidoDetail(PODEMOS_TAG);
+                Glide.with(context).load(R.drawable.unidospodemos_color).into(imagenBig);
+                setupListenersPartidoDetail(UNIDOS_PODEMOS_TAG);
             }
         });
 
@@ -454,6 +483,30 @@ public class ResultadosTab extends Fragment {
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.pnv_color).into(imagenBig);
                 setupListenersPartidoDetail(PNV_TAG);
+            }
+        });
+
+        erc.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.esquerra_color).into(imagenBig);
+                setupListenersPartidoDetail(ERC_TAG);
+            }
+        });
+
+        convergencia.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partySelectedLayout.setVisibility(View.VISIBLE);
+                partySelectedLayout.setX(5000);
+                partySelectedLayout.animate().translationX(0).setDuration(450).start();
+                tablaPartidosLayout.setVisibility(View.GONE);
+                Glide.with(context).load(R.drawable.convergencia_color).into(imagenBig);
+                setupListenersPartidoDetail(ERC_TAG);
             }
         });
 
@@ -528,14 +581,14 @@ public class ResultadosTab extends Fragment {
                 });
 
                 //Amplitude
-                Log.i("20D_AMPLITUDE", "ONSELECT_PARTY: "+ nombrePartido);
-                JSONObject eventProperties = new JSONObject();
+                JSONObject eventProperties1 = new JSONObject();
                 try {
-                    eventProperties.put("PARTY", nombrePartido);
+                    eventProperties1.put("tag", nombrePartido);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
-                //Amplitude.getInstance().logEvent("ONSELECT_PARTY", eventProperties);
+                Amplitude.getInstance().logEvent("Vote", eventProperties1);
+
             }
         });
     }
@@ -545,10 +598,10 @@ public class ResultadosTab extends Fragment {
         Glide.with(context).load(R.drawable.pp).into(pp);
         Glide.with(context).load(R.drawable.ciudadanos).into(cs);
         Glide.with(context).load(R.drawable.psoe).into(psoe);
-        Glide.with(context).load(R.drawable.podemos).into(podemos);
-        Glide.with(context).load(R.drawable.iu_off).into(iu);
+        Glide.with(context).load(R.drawable.unidospodemos).into(podemos);
+        Glide.with(context).load(R.drawable.esquerra_color).into(erc);
         Glide.with(context).load(R.drawable.pnv).into(pnv);
-        Glide.with(context).load(R.drawable.convergencia_off).into(convergencia);
+        Glide.with(context).load(R.drawable.convergencia).into(convergencia);
         Glide.with(context).load(R.drawable.otros).into(otros);
         Glide.with(context).load(R.drawable.blanco).into(blanco);
     }

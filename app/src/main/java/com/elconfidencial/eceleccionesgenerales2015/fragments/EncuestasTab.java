@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
+import com.amplitude.api.Amplitude;
 import com.baoyz.widget.PullRefreshLayout;
 import com.elconfidencial.eceleccionesgenerales2015.R;
 import com.elconfidencial.eceleccionesgenerales2015.activities.ChooseActivity;
@@ -31,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -76,6 +78,7 @@ public class EncuestasTab extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,7 +171,27 @@ public class EncuestasTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         addItems();
+
+        //Amplitude
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("page", "encuestas");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("page_view", eventProperties);
+
+
+        //Amplitude
+        JSONObject eventProperties1 = new JSONObject();
+        try {
+            eventProperties1.put("segment", "encuestas");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("Tap_menu", eventProperties1);
     }
 
     private class DownloadEncuestas extends AsyncTask<String, String, JSONArray> {

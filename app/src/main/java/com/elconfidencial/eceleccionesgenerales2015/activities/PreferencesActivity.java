@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 import com.comscore.analytics.comScore;
 import com.pushwoosh.PushManager;
@@ -98,6 +99,16 @@ public class PreferencesActivity extends ActionBarActivity {
         setContentView(R.layout.activity_preferences);
         context = this;
 
+        //Amplitude
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("page", "configuración");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("page_view", eventProperties);
+
+
         //No abrir automaticsmente el teclado
        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -114,6 +125,10 @@ public class PreferencesActivity extends ActionBarActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Amplitude
+                Amplitude.getInstance().logEvent("Change_location");
+
                 Intent intent = new Intent(context, SearchLocalityActivity.class);
                 startActivity(intent);
             }

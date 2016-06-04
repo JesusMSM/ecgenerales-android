@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
@@ -57,6 +58,16 @@ public class OnBoardingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_on_boarding);
         context = this;
 
+        //Amplitude
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("page", "escoge_municipio");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("page_view", eventProperties);
+
+
         //binding
         positionIcon = (ImageView) findViewById(R.id.positionIcon);
         Glide.with(context).load(R.drawable.ic_location_selection).into(positionIcon);
@@ -81,6 +92,10 @@ public class OnBoardingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ProgressDialog progressDialog = ProgressDialog.show(context, "Cargando", "Espere unos instantes");
+
+                //Amplitude
+                Amplitude.getInstance().logEvent("Skip");
+
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
                 finish();

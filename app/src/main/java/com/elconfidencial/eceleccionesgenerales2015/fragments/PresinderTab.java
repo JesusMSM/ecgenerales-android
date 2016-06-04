@@ -72,6 +72,7 @@ public class PresinderTab extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -270,6 +271,7 @@ public class PresinderTab extends Fragment {
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
             party.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
+            /**
             //Amplitude
             Log.i("20D_AMPLITUDE", "ONAGREE: "+ currentQuote.getText() + " " + currentQuote.getPersona().toString());
             JSONObject eventProperties = new JSONObject();
@@ -278,7 +280,7 @@ public class PresinderTab extends Fragment {
                 eventProperties.put("PERSONA", currentQuote.getPersona().toString());
             } catch (JSONException exception) {
             }
-            //Amplitude.getInstance().logEvent("ONAGREE", eventProperties);
+            //Amplitude.getInstance().logEvent("ONAGREE", eventProperties);**/
         }
 
     }
@@ -376,6 +378,7 @@ public class PresinderTab extends Fragment {
             persona.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
             party.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
+            /**
             //Amplitude
             Log.i("20D_AMPLITUDE", "ONDISAGREE: "+ currentQuote.getText() + " " + currentQuote.getPersona().toString());
             JSONObject eventProperties = new JSONObject();
@@ -384,7 +387,7 @@ public class PresinderTab extends Fragment {
                 eventProperties.put("PERSONA", currentQuote.getPersona().toString());
             } catch (JSONException exception) {
             }
-            //Amplitude.getInstance().logEvent("ONDISAGREE", eventProperties);
+            //Amplitude.getInstance().logEvent("ONDISAGREE", eventProperties);**/
         }
 
         public class OnPresinderVerResultadosClickListener extends OnLikeClickListener {
@@ -404,7 +407,26 @@ public class PresinderTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("PRESINDER", "onResume");
+
+        //Amplitude
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("page", "test");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("page_view", eventProperties);
+
+
+        //Amplitude
+        JSONObject eventProperties1 = new JSONObject();
+        try {
+            eventProperties1.put("segment", "test");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("Tap_menu", eventProperties1);
+
         //qs.init(getContext());
         //setNextQuote();
     }

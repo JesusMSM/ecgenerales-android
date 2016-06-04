@@ -39,6 +39,9 @@ import com.elconfidencial.eceleccionesgenerales2015.rss.RssNoticiasParser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -115,6 +118,25 @@ public class NoticiasTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        //Amplitude
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("page", "noticias");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("page_view", eventProperties);
+
+
+        //Amplitude
+        JSONObject eventProperties1 = new JSONObject();
+        try {
+            eventProperties1.put("segment", "noticias");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("Tap_menu", eventProperties1);
     }
 
     /*Permite gestionar de forma asincrona el RSS */

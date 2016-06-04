@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
 import com.comscore.analytics.comScore;
 import com.elconfidencial.eceleccionesgenerales2015.R;
@@ -93,14 +94,14 @@ public class SearchLocalityActivity extends AppCompatActivity {
         }
         super.onResume();
 
-       /** try{
+       try{
             //comScore
             Log.i("Comscore", "Dentro de on Resume");
             comScore.onEnterForeground();
         }catch (Exception e){
             Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
-        }**/
+        }
     }
 
     @Override
@@ -109,27 +110,27 @@ public class SearchLocalityActivity extends AppCompatActivity {
             task.cancel(true);
         }
         super.onPause();
-        /**try{
+        try{
             //comScore
             Log.i("Comscore", "Dentro de on Pause");
             comScore.onExitForeground();
         }catch (Exception e){
             Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
-        }**/
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /**try{
+        try{
             //comScore
             Log.i("Comscore", "Se sale de la app con onDestroy");
             comScore.onExitForeground();
         }catch (Exception e){
             Log.i("Comscore", "Error Comscore");
             e.printStackTrace();
-        }**/
+        }
     }
 
 
@@ -374,6 +375,17 @@ public class SearchLocalityActivity extends AppCompatActivity {
             Log.i("Municipios", "Guardamos en Preferences la CCAA " + municipioObj.getCcaaaName());
 
             editor.apply();
+
+            //Amplitude
+            JSONObject eventProperties = new JSONObject();
+            try {
+                eventProperties.put("page", "");
+                eventProperties.put("location", municipioObj.getMunicipioName());
+            } catch (JSONException exception) {
+                exception.printStackTrace();
+            }
+            Amplitude.getInstance().logEvent("Search_location", eventProperties);
+
 
             Intent intent = new Intent(context, MainActivity.class);
             startActivity(intent);
