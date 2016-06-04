@@ -182,12 +182,10 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:layout_height="wrap_content">
 
                 <TableLayout
                     android:id="@+id/tabla_partidos"
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -197,8 +195,7 @@
                     android:layout_marginBottom="20dp">
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white">
+                        android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/podemosLogo"
                             android:layout_width="0dp"
@@ -218,7 +215,6 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:layout_marginBottom="20dp">
                         <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
                             android:layout_width="0dp"
@@ -247,8 +243,7 @@
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white">
+                        android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/cslogo"
                             android:layout_width="0dp"
@@ -268,7 +263,6 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:layout_marginBottom="20dp">
                         <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
                             android:layout_width="0dp"
@@ -297,8 +291,7 @@
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white">
+                        android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/convergenciaLogo"
                             android:layout_width="0dp"
@@ -318,7 +311,6 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:layout_weight="1">
                         <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
                             android:layout_width="0dp"
