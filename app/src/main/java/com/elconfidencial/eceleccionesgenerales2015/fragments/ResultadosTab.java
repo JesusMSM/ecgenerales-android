@@ -434,6 +434,7 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.pp_color).into(imagenBig);
+                partySelectedAmplitude(PP_TAG);
                 setupListenersPartidoDetail(PP_TAG);
             }
         });
@@ -446,6 +447,7 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.psoe_color).into(imagenBig);
+                partySelectedAmplitude(PSOE_TAG);
                 setupListenersPartidoDetail(PSOE_TAG);
             }
         });
@@ -458,6 +460,7 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.ciudadanos_color).into(imagenBig);
+                partySelectedAmplitude(CS_TAG);
                 setupListenersPartidoDetail(CS_TAG);
             }
         });
@@ -470,6 +473,7 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.unidospodemos_color).into(imagenBig);
+                partySelectedAmplitude(UNIDOS_PODEMOS_TAG);
                 setupListenersPartidoDetail(UNIDOS_PODEMOS_TAG);
             }
         });
@@ -482,6 +486,7 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.pnv_color).into(imagenBig);
+                partySelectedAmplitude(PNV_TAG);
                 setupListenersPartidoDetail(PNV_TAG);
             }
         });
@@ -494,6 +499,7 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.esquerra_color).into(imagenBig);
+                partySelectedAmplitude(ERC_TAG);
                 setupListenersPartidoDetail(ERC_TAG);
             }
         });
@@ -506,7 +512,8 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.convergencia_color).into(imagenBig);
-                setupListenersPartidoDetail(ERC_TAG);
+                partySelectedAmplitude(CONVERGENCIA_TAG);
+                setupListenersPartidoDetail(CONVERGENCIA_TAG);
             }
         });
 
@@ -518,6 +525,7 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.otros_color).into(imagenBig);
+                partySelectedAmplitude(OTROS_TAG);
                 setupListenersPartidoDetail(OTROS_TAG);
             }
         });
@@ -530,11 +538,21 @@ public class ResultadosTab extends Fragment {
                 partySelectedLayout.animate().translationX(0).setDuration(450).start();
                 tablaPartidosLayout.setVisibility(View.GONE);
                 Glide.with(context).load(R.drawable.blanco_color).into(imagenBig);
+                partySelectedAmplitude(BLANCO_TAG);
                 setupListenersPartidoDetail(BLANCO_TAG);
             }
         });
+    }
 
-        //TODO: Para IU y convergencia
+    private void partySelectedAmplitude(String partido){
+        //Amplitude
+        JSONObject eventProperties = new JSONObject();
+        try {
+            eventProperties.put("tag", partido);
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Amplitude.getInstance().logEvent("Select political party", eventProperties);
     }
 
     private void setupListenersPartidoDetail(final String nombrePartido){
