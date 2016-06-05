@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,6 +107,7 @@ public class PresinderTab extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ResultadosPresinderActivity.class);
                 startActivity(intent);
+                Amplitude.getInstance().logEvent("Tap_view_result");
             }
         });
         reiniciar.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +118,7 @@ public class PresinderTab extends Fragment {
                         .setMessage("Si reinicia el test se borrarán todos los resultados que tenga acumulados. ¿Está seguro?")
                         .setPositiveButton("REINICIAR", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                Amplitude.getInstance().logEvent("Tap_reset");
                                 qs.reset();
                                 setNextQuote();
                             }
@@ -129,6 +132,7 @@ public class PresinderTab extends Fragment {
                         .show();
             }
         });
+        text.setMovementMethod(new ScrollingMovementMethod());
 
         setFonts();
         GlobalMethod globalMethod = new GlobalMethod(getContext());
@@ -181,6 +185,8 @@ public class PresinderTab extends Fragment {
         @Override
         public void onClick(View v) {
             //Abrimos el dialog con la persona correspondiente
+            Amplitude.getInstance().logEvent("Tap_agree");
+
             Activity act = (Activity) v.getContext();
             final Dialog settingsDialog = new Dialog(act);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -293,6 +299,8 @@ public class PresinderTab extends Fragment {
 
         @Override
         public void onClick(View v) {
+            Amplitude.getInstance().logEvent("Tap_disagree");
+
             Activity act = (Activity) v.getContext();
             final Dialog settingsDialog = new Dialog(act);
             settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);

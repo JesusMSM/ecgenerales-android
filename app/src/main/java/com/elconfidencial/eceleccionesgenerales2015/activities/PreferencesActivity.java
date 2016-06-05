@@ -117,10 +117,12 @@ public class PreferencesActivity extends ActionBarActivity {
 
         bindViews();
         setTypefaces();
+        setSwitchListeners();
 
         setupToolbar();
 
-        //setListenerCreditos();
+        getUserTagValues();
+        initializeSpinnersFromLocal();
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -694,7 +696,13 @@ public class PreferencesActivity extends ActionBarActivity {
                 editor.putString("wantPW","OFF");
                 editor.commit();
             }
-
+            //Amplitude
+            JSONObject eventProperties = new JSONObject();
+            try {
+                eventProperties.put("tag", "generales");
+            } catch (JSONException exception) {
+            }
+            Amplitude.getInstance().logEvent("Tap_notification", eventProperties);
         }
     }
     public class ComunidadSwitchListener implements CompoundButton.OnCheckedChangeListener {
@@ -702,6 +710,13 @@ public class PreferencesActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             refreshComunidadTag(isChecked);
+            //Amplitude
+            JSONObject eventProperties = new JSONObject();
+            try {
+                eventProperties.put("tag", "comunidad");
+            } catch (JSONException exception) {
+            }
+            Amplitude.getInstance().logEvent("Tap_notification", eventProperties);
         }
     }
     public class ProvinciaSwitchListener implements CompoundButton.OnCheckedChangeListener {
@@ -709,6 +724,13 @@ public class PreferencesActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             refreshProvinciaTag(isChecked);
+            //Amplitude
+            JSONObject eventProperties = new JSONObject();
+            try {
+                eventProperties.put("tag", "provincia");
+            } catch (JSONException exception) {
+            }
+            Amplitude.getInstance().logEvent("Tap_notification", eventProperties);
         }
     }
     public class MunicipioSwitchListener implements CompoundButton.OnCheckedChangeListener {
@@ -716,6 +738,13 @@ public class PreferencesActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             refreshMunicipioTag(isChecked);
+            //Amplitude
+            JSONObject eventProperties = new JSONObject();
+            try {
+                eventProperties.put("tag", "municipio");
+            } catch (JSONException exception) {
+            }
+            Amplitude.getInstance().logEvent("Tap_notification", eventProperties);
         }
     }
     public class PartidoSwitchListener implements CompoundButton.OnCheckedChangeListener {
@@ -726,17 +755,59 @@ public class PreferencesActivity extends ActionBarActivity {
             String idSwitch = getResources().getResourceEntryName(buttonView.getId());
             switch (idSwitch){
                 case "ppSwitch":
-                    refreshPartidoTag(isChecked,"PP");break;
+                    refreshPartidoTag(isChecked,"PP");
+                    //Amplitude
+                    JSONObject eventProperties = new JSONObject();
+                    try {
+                        eventProperties.put("tag", "pp");
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("Tap_notification", eventProperties);break;
                 case "psoeSwitch":
-                    refreshPartidoTag(isChecked,"PSOE");break;
+                    refreshPartidoTag(isChecked,"PSOE");
+                    //Amplitude
+                    JSONObject eventProperties2 = new JSONObject();
+                    try {
+                        eventProperties2.put("tag", "psoe");
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("Tap_notification", eventProperties2);break;
                 case "csSwitch":
-                    refreshPartidoTag(isChecked,"CIUDADANOS");break;
+                    refreshPartidoTag(isChecked,"CIUDADANOS");
+                    //Amplitude
+                    JSONObject eventProperties3 = new JSONObject();
+                    try {
+                        eventProperties3.put("tag", "ciudadanos");
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("Tap_notification", eventProperties3);break;
                 case "podemosSwitch":
-                    refreshPartidoTag(isChecked,"PODEMOS");break;
+                    refreshPartidoTag(isChecked,"PODEMOS");
+                    //Amplitude
+                    JSONObject eventProperties4 = new JSONObject();
+                    try {
+                        eventProperties4.put("tag", "podemos");
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("Tap_notification", eventProperties4);break;
                 case "iuSwitch":
-                    refreshPartidoTag(isChecked,"IU");break;
+                    refreshPartidoTag(isChecked,"IU");
+                    //Amplitude
+                    JSONObject eventProperties5 = new JSONObject();
+                    try {
+                        eventProperties5.put("tag", "iu");
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("Tap_notification", eventProperties5);break;
                 case "upydSwitch":
-                    refreshPartidoTag(isChecked,"UPYD");break;
+                    refreshPartidoTag(isChecked,"UPYD");
+                    //Amplitude
+                    JSONObject eventProperties6 = new JSONObject();
+                    try {
+                        eventProperties6.put("tag", "upyd");
+                    } catch (JSONException exception) {
+                    }
+                    Amplitude.getInstance().logEvent("Tap_notification", eventProperties6);break;
 
             }
         }

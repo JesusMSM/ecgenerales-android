@@ -60,6 +60,7 @@ public class NoticiaContentActivity  extends AppCompatActivity {
     private Intent intent;
     Toolbar toolbar;
     ActionBar actionBar;
+    Noticia noticia;
 
     ViewPager pager;
     ArrayList<Fragment> fragmentList;
@@ -83,7 +84,7 @@ public class NoticiaContentActivity  extends AppCompatActivity {
 
         intent = getIntent();
         //Get lista noticias y la actual
-        final Noticia noticia = intent.getExtras().getParcelable("currentNoticia");
+        noticia = intent.getExtras().getParcelable("currentNoticia");
         url=noticia.getLink();
         info=noticia.getTitulo();
 
@@ -320,13 +321,17 @@ public class NoticiaContentActivity  extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, getString(R.string.share)));
 
         //Amplitude
-        Log.i("20D_AMPLITUDE", "ONSHARE: "+ url);
         JSONObject eventProperties = new JSONObject();
         try {
-            eventProperties.put("URL", url);
+            eventProperties.put("page", "noticia_content");
+            eventProperties.put("section", noticia.getTag());
+            eventProperties.put("title", noticia.getTitulo());
+            eventProperties.put("author", noticia.getAutor());
+            eventProperties.put("url", noticia.getLink());
+            eventProperties.put("action", "modal_inside");
         } catch (JSONException exception) {
         }
-        //Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
+        Amplitude.getInstance().logEvent("Share", eventProperties);
     }
 
     //Formateadores para la fecha ( hace X minutos)

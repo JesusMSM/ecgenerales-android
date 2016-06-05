@@ -97,6 +97,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"/>-->
         </LinearLayout>
+
          <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -105,8 +106,11 @@
                 android:layout_marginRight="23dp"
                 android:layout_marginLeft="23dp"
                 android:textSize="18sp"
+                android:maxLines="4"
+                android:scrollbars="vertical"
                 android:textColor="@color/ColorPrimaryDark"
                 android:id="@+id/questionQuote"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"

@@ -140,7 +140,7 @@ public class EncuestasTab extends Fragment {
                     items.add("contador");
                 }else if(tiempoRestanteFin>0){
                     //METER EL OTRO CONTADOR
-                    items.add("contadorFin");
+                    items.add("contadorCierre");
                 }else{
                     //DEJAR VACIO
                 }

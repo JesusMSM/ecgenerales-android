@@ -259,13 +259,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 context.startActivity(intent);
 
                 //Amplitude
-                /*Log.i("20D_AMPLITUDE", "ONTAP_NEW: "+ noticia.getLink());
                 JSONObject eventProperties = new JSONObject();
                 try {
-                    eventProperties.put("URL", noticia.getLink());
+                    eventProperties.put("page", "noticias");
+                    eventProperties.put("section", noticia.getTag());
+                    eventProperties.put("title", noticia.getTitulo());
+                    eventProperties.put("author", noticia.getAutor());
+                    eventProperties.put("url", noticia.getLink());
+
                 } catch (JSONException exception) {
                 }
-                Amplitude.getInstance().logEvent("ONTAP_NEW", eventProperties);*/
+                Amplitude.getInstance().logEvent("Tap_new", eventProperties);
             }
         });
         vh.botonCompartir.setOnClickListener(new View.OnClickListener() {
@@ -283,13 +287,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 v.getContext().startActivity(Intent.createChooser(intent, v.getContext().getResources().getString(R.string.share)));
 
                 //Amplitude
-                Log.i("20D_AMPLITUDE", "ONSHARE: " + noticia.getLink());
                 JSONObject eventProperties = new JSONObject();
                 try {
-                    eventProperties.put("URL", noticia.getLink());
+                    eventProperties.put("page", "noticias");
+                    eventProperties.put("section", noticia.getTag());
+                    eventProperties.put("title", noticia.getTitulo());
+                    eventProperties.put("author", noticia.getAutor());
+                    eventProperties.put("url", noticia.getLink());
+                    eventProperties.put("action", "modal_card");
                 } catch (JSONException exception) {
                 }
-                //Amplitude.getInstance().logEvent("ONSHARE", eventProperties);
+                Amplitude.getInstance().logEvent("Share", eventProperties);
             }
         });
     }
@@ -610,42 +618,84 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                         vh.selected.setText(arrayPartidos[0]);
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-26-j-17611/";
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        //Amplitude
+                                        JSONObject eventProperties = new JSONObject();
+                                        try {
+                                            eventProperties.put("tag", "todos los partidos");
+                                        } catch (JSONException exception) {}
+                                        Amplitude.getInstance().logEvent("Tick", eventProperties);
                                         break;
                                     case 1:
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
                                         NoticiasTab.seleccion = 1;
                                         vh.selected.setText(arrayPartidos[1]);
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        //Amplitude
+                                        JSONObject eventProperties2 = new JSONObject();
+                                        try {
+                                            eventProperties2.put("tag", "partido popular");
+                                        } catch (JSONException exception) {}
+                                        Amplitude.getInstance().logEvent("Tick", eventProperties2);
                                         break;
                                     case 2:
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
                                         NoticiasTab.seleccion = 2;
                                         vh.selected.setText(arrayPartidos[2]);
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        //Amplitude
+                                        JSONObject eventProperties3 = new JSONObject();
+                                        try {
+                                            eventProperties3.put("tag", "psoe");
+                                        } catch (JSONException exception) {}
+                                        Amplitude.getInstance().logEvent("Tick", eventProperties3);
                                         break;
                                     case 3:
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
                                         NoticiasTab.seleccion = 3;
                                         vh.selected.setText(arrayPartidos[3]);
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        //Amplitude
+                                        JSONObject eventProperties4 = new JSONObject();
+                                        try {
+                                            eventProperties4.put("tag", "ciudadanos");
+                                        } catch (JSONException exception) {}
+                                        Amplitude.getInstance().logEvent("Tick", eventProperties4);
                                         break;
                                     case 4:
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
                                         NoticiasTab.seleccion = 4;
                                         vh.selected.setText(arrayPartidos[4]);
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        //Amplitude
+                                        JSONObject eventProperties5 = new JSONObject();
+                                        try {
+                                            eventProperties5.put("tag", "podemos");
+                                        } catch (JSONException exception) {}
+                                        Amplitude.getInstance().logEvent("Tick", eventProperties5);
                                         break;
                                     case 5:
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
                                         NoticiasTab.seleccion = 5;
                                         vh.selected.setText(arrayPartidos[5]);
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        //Amplitude
+                                        JSONObject eventProperties6 = new JSONObject();
+                                        try {
+                                            eventProperties6.put("tag", "izquierda unida");
+                                        } catch (JSONException exception) {}
+                                        Amplitude.getInstance().logEvent("Tick", eventProperties6);
                                         break;
                                     case 6:
                                         NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
                                         NoticiasTab.seleccion = 6;
                                         vh.selected.setText(arrayPartidos[6]);
                                         new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                        //Amplitude
+                                        JSONObject eventProperties7 = new JSONObject();
+                                        try {
+                                            eventProperties7.put("tag", "upyd");
+                                        } catch (JSONException exception) {}
+                                        Amplitude.getInstance().logEvent("Tick", eventProperties7);
                                         break;
                                 }
                                 //Amplitude
@@ -662,9 +712,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // do nothing
+                                Amplitude.getInstance().logEvent("Cancel");
                             }
                         })
                         .show();
+                //Amplitude
+                Amplitude.getInstance().logEvent("Tap_filter");
 
             }
 
