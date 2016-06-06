@@ -30,6 +30,8 @@ import com.comscore.analytics.comScore;
 import com.elconfidencial.eceleccionesgenerales2015.R;
 import com.elconfidencial.eceleccionesgenerales2015.adapters.MyArrayAdapter;
 import com.elconfidencial.eceleccionesgenerales2015.model.Municipio;
+import com.pushwoosh.PushManager;
+import com.pushwoosh.SendPushTagsCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,18 +39,22 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jorge_cmata on 14/5/16.
  */
 public class SearchLocalityActivity extends AppCompatActivity {
 
+    public final String PWTAG = "MUNICIPIOS_TAGS";
 
     private AutoCompleteTextView searchMunicipio;
     private Toolbar toolbar;
     private ActionBar actionBar;
+    private PushManager pushManager ;
 
     private List<String> municipiosAutoComplete = new ArrayList<>();
     private List<Municipio> municipiosList = new ArrayList<>();
@@ -66,6 +72,7 @@ public class SearchLocalityActivity extends AppCompatActivity {
 
         searchMunicipio = (AutoCompleteTextView) findViewById(R.id.searchMunicipio);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        pushManager = PushManager.getInstance(this);
 
         setupToolbar();
         setupAutoCompleteTextview();
@@ -386,6 +393,10 @@ public class SearchLocalityActivity extends AppCompatActivity {
             }
             Amplitude.getInstance().logEvent("Search_location", eventProperties);
 
+            //Update PushWoosh
+            saveTagInLocal(String.valueOf(municipioObj.getTag()));
+            sendTagsToPushWoosh(municipioObj.getTag());
+
             Intent intent = new Intent(context, MainActivity.class);
             startActivity(intent);
             finish();
@@ -442,4 +453,33 @@ public class SearchLocalityActivity extends AppCompatActivity {
     //----------------------------------------------------------------------
     //endregion
 
+    public void sendTagsToPushWoosh(final int number){
+        Map<String,Object> tags = new HashMap<>();
+        tags.put(PWTAG, number);
+        pushManager.sendTags(getApplicationContext(), tags, new SendPushTagsCallBack() {
+            @Override
+            public void taskStarted() {
+                //Task Start
+                Log.i("PushWoosh: ", "Sending tags to PW...  " + String.valueOf(number));
+            }
+
+            @Override
+            public void onSentTagsSuccess(Map<String, String> map) {
+                //Task end
+                Log.i("PushWoosh: ", "Sent Success");
+            }
+
+            @Override
+            public void onSentTagsError(Exception e) {
+                Log.i("PushWoosh: ", "Sent Error");
+            }
+        });
+    }
+    public void saveTagInLocal(String tag){
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("pushwooshTag", tag);
+        editor.commit();
+        Log.i(PWTAG, "PW tag saved in local: " + tag);
+    }
 }

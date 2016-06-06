@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.amplitude.api.Amplitude;
 import com.bumptech.glide.Glide;
@@ -600,124 +601,136 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.layoutSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final int[] selected = {NoticiasTab.seleccion};
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle("Noticias de")
-                        .setSingleChoiceItems(arrayPartidos, NoticiasTab.seleccion, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.i("TAG", "Selected: " + String.valueOf(which));
-                                selected[0] = which;
-                            }
-                        })
-                        .setPositiveButton("Ver noticias", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int position) {
-                                switch (selected[0]) {
-                                    case 0:
-                                        NoticiasTab.seleccion = 0;
-                                        vh.selected.setText(arrayPartidos[0]);
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-26-j-17611/";
-                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                        //Amplitude
-                                        JSONObject eventProperties = new JSONObject();
-                                        try {
-                                            eventProperties.put("tag", "todos los partidos");
-                                        } catch (JSONException exception) {}
-                                        Amplitude.getInstance().logEvent("Tick", eventProperties);
-                                        break;
-                                    case 1:
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
-                                        NoticiasTab.seleccion = 1;
-                                        vh.selected.setText(arrayPartidos[1]);
-                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                        //Amplitude
-                                        JSONObject eventProperties2 = new JSONObject();
-                                        try {
-                                            eventProperties2.put("tag", "partido popular");
-                                        } catch (JSONException exception) {}
-                                        Amplitude.getInstance().logEvent("Tick", eventProperties2);
-                                        break;
-                                    case 2:
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
-                                        NoticiasTab.seleccion = 2;
-                                        vh.selected.setText(arrayPartidos[2]);
-                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                        //Amplitude
-                                        JSONObject eventProperties3 = new JSONObject();
-                                        try {
-                                            eventProperties3.put("tag", "psoe");
-                                        } catch (JSONException exception) {}
-                                        Amplitude.getInstance().logEvent("Tick", eventProperties3);
-                                        break;
-                                    case 3:
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
-                                        NoticiasTab.seleccion = 3;
-                                        vh.selected.setText(arrayPartidos[3]);
-                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                        //Amplitude
-                                        JSONObject eventProperties4 = new JSONObject();
-                                        try {
-                                            eventProperties4.put("tag", "ciudadanos");
-                                        } catch (JSONException exception) {}
-                                        Amplitude.getInstance().logEvent("Tick", eventProperties4);
-                                        break;
-                                    case 4:
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
-                                        NoticiasTab.seleccion = 4;
-                                        vh.selected.setText(arrayPartidos[4]);
-                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                        //Amplitude
-                                        JSONObject eventProperties5 = new JSONObject();
-                                        try {
-                                            eventProperties5.put("tag", "podemos");
-                                        } catch (JSONException exception) {}
-                                        Amplitude.getInstance().logEvent("Tick", eventProperties5);
-                                        break;
-                                    case 5:
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
-                                        NoticiasTab.seleccion = 5;
-                                        vh.selected.setText(arrayPartidos[5]);
-                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                        //Amplitude
-                                        JSONObject eventProperties6 = new JSONObject();
-                                        try {
-                                            eventProperties6.put("tag", "izquierda unida");
-                                        } catch (JSONException exception) {}
-                                        Amplitude.getInstance().logEvent("Tick", eventProperties6);
-                                        break;
-                                    case 6:
-                                        NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
-                                        NoticiasTab.seleccion = 6;
-                                        vh.selected.setText(arrayPartidos[6]);
-                                        new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                        //Amplitude
-                                        JSONObject eventProperties7 = new JSONObject();
-                                        try {
-                                            eventProperties7.put("tag", "upyd");
-                                        } catch (JSONException exception) {}
-                                        Amplitude.getInstance().logEvent("Tick", eventProperties7);
-                                        break;
+                GlobalMethod globalMethod = new GlobalMethod(v.getContext());
+                if(globalMethod.haveNetworkConnection()) {
+                    final int[] selected = {NoticiasTab.seleccion};
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("Noticias de")
+                            .setSingleChoiceItems(arrayPartidos, NoticiasTab.seleccion, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Log.i("TAG", "Selected: " + String.valueOf(which));
+                                    selected[0] = which;
                                 }
-                                //Amplitude
-                                //Log.i("20D_AMPLITUDE", "ONSELECT_FILTER: " + NoticiasTab.rss_url);
+                            })
+                            .setPositiveButton("Ver noticias", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int position) {
+                                    switch (selected[0]) {
+                                        case 0:
+                                            NoticiasTab.seleccion = 0;
+                                            vh.selected.setText(arrayPartidos[0]);
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/temas/elecciones-26-j-17611/";
+                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                            //Amplitude
+                                            JSONObject eventProperties = new JSONObject();
+                                            try {
+                                                eventProperties.put("tag", "todos los partidos");
+                                            } catch (JSONException exception) {
+                                            }
+                                            Amplitude.getInstance().logEvent("Tick", eventProperties);
+                                            break;
+                                        case 1:
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/partido-popular-pp-3113/"; //PP
+                                            NoticiasTab.seleccion = 1;
+                                            vh.selected.setText(arrayPartidos[1]);
+                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                            //Amplitude
+                                            JSONObject eventProperties2 = new JSONObject();
+                                            try {
+                                                eventProperties2.put("tag", "partido popular");
+                                            } catch (JSONException exception) {
+                                            }
+                                            Amplitude.getInstance().logEvent("Tick", eventProperties2);
+                                            break;
+                                        case 2:
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/psoe-7017/"; //PSOE
+                                            NoticiasTab.seleccion = 2;
+                                            vh.selected.setText(arrayPartidos[2]);
+                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                            //Amplitude
+                                            JSONObject eventProperties3 = new JSONObject();
+                                            try {
+                                                eventProperties3.put("tag", "psoe");
+                                            } catch (JSONException exception) {
+                                            }
+                                            Amplitude.getInstance().logEvent("Tick", eventProperties3);
+                                            break;
+                                        case 3:
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/ciudadanos-6359/";  //Ciudadanos
+                                            NoticiasTab.seleccion = 3;
+                                            vh.selected.setText(arrayPartidos[3]);
+                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                            //Amplitude
+                                            JSONObject eventProperties4 = new JSONObject();
+                                            try {
+                                                eventProperties4.put("tag", "ciudadanos");
+                                            } catch (JSONException exception) {
+                                            }
+                                            Amplitude.getInstance().logEvent("Tick", eventProperties4);
+                                            break;
+                                        case 4:
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
+                                            NoticiasTab.seleccion = 4;
+                                            vh.selected.setText(arrayPartidos[4]);
+                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                            //Amplitude
+                                            JSONObject eventProperties5 = new JSONObject();
+                                            try {
+                                                eventProperties5.put("tag", "podemos");
+                                            } catch (JSONException exception) {
+                                            }
+                                            Amplitude.getInstance().logEvent("Tick", eventProperties5);
+                                            break;
+                                        case 5:
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
+                                            NoticiasTab.seleccion = 5;
+                                            vh.selected.setText(arrayPartidos[5]);
+                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                            //Amplitude
+                                            JSONObject eventProperties6 = new JSONObject();
+                                            try {
+                                                eventProperties6.put("tag", "izquierda unida");
+                                            } catch (JSONException exception) {
+                                            }
+                                            Amplitude.getInstance().logEvent("Tick", eventProperties6);
+                                            break;
+                                        case 6:
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
+                                            NoticiasTab.seleccion = 6;
+                                            vh.selected.setText(arrayPartidos[6]);
+                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
+                                            //Amplitude
+                                            JSONObject eventProperties7 = new JSONObject();
+                                            try {
+                                                eventProperties7.put("tag", "upyd");
+                                            } catch (JSONException exception) {
+                                            }
+                                            Amplitude.getInstance().logEvent("Tick", eventProperties7);
+                                            break;
+                                    }
+                                    //Amplitude
+                                    //Log.i("20D_AMPLITUDE", "ONSELECT_FILTER: " + NoticiasTab.rss_url);
                                 /*JSONObject eventProperties = new JSONObject();
                                 try {
                                     eventProperties.put("PARTY", NoticiasTab.rss_url);
                                 } catch (JSONException exception) {
                                 }*/
-                                //Amplitude.getInstance().logEvent("ONSELECT_FILTER", eventProperties);
+                                    //Amplitude.getInstance().logEvent("ONSELECT_FILTER", eventProperties);
 
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                                Amplitude.getInstance().logEvent("Cancel");
-                            }
-                        })
-                        .show();
-                //Amplitude
-                Amplitude.getInstance().logEvent("Tap_filter");
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                    Amplitude.getInstance().logEvent("Cancel");
+                                }
+                            })
+                            .show();
+                    //Amplitude
+                    Amplitude.getInstance().logEvent("Tap_filter");
+                }else{
+                    Toast.makeText(v.getContext(),"Para cambiar el filtro de noticias debe tener conexión a Internet.",Toast.LENGTH_LONG).show();
+                }
 
             }
 

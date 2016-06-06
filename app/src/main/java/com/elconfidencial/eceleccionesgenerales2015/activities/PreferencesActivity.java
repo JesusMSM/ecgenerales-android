@@ -607,7 +607,7 @@ public class PreferencesActivity extends ActionBarActivity {
         Log.i(PWTAG, "PW tag saved in local: " + tag);
     }
 
-    /*** Envia un numero al tasg de PW *****/
+    /*** Envia un numero al tag de PW *****/
     public void sendTagsToPushWoosh(final int number){
         Map<String,Object> tags = new HashMap<>();
         tags.put(PWTAG, number);

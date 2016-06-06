@@ -106,6 +106,8 @@
                 android:layout_marginRight="27dp"
                 android:layout_marginLeft="27dp"
                 android:textSize="24sp"
+                android:maxLines="5"
+                android:scrollbars="vertical"
                 android:textColor="@color/ColorPrimaryDark"
                 android:id="@+id/questionQuote"/>
             <TextView

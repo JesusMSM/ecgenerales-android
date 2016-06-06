@@ -57,7 +57,7 @@ public class ChooseActivity extends AppCompatActivity {
     public static boolean SHOW_SURVEYS = true;
     public static boolean SHOW_TIMER = false;
     public static boolean SHOW_WIDGET_RESULTS = false;
-    public static String PRESINDER_SHARE_MESSAGE_ANDROID = "Mira mi afinidad con los candidatos al 26J.";
+    public static String PRESINDER_SHARE_MESSAGE_ANDROID = "Este es el candidato con el que más tengo en común. ¿Cuál es el tuyo? https://play.google.com/store/apps/details?id=com.elconfidencial.ECEleccionesGenerales2015";
 
     public static String config_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/config.json";
     public static String encuestas_url = "http://datos.elconfidencial.com/app-elecciones-generales-2015-survey/survey.json";
