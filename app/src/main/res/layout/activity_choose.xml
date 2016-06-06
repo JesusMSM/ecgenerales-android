@@ -7,9 +7,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
-        <ImageView
-            android:id="@+id/confi_logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="100dp"
+            android:gravity="center">
+                <ImageView
+                    android:id="@+id/confi_logo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="30dp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                            android:id="@+id/text_elecciones"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Elecciones "
+                            android:textColor="@color/white"
+                            android:textSize="24sp"/>
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumBoldTextView
+                            android:id="@+id/text_20d"
+                            android:layout_toRightOf="@+id/text_elecciones"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="26J"
+                            android:textColor="@color/white"
+                            android:textSize="25sp"/>
+                </RelativeLayout>
+        </LinearLayout>
+
+        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+            android:id="@+id/text_copyright"
+            android:layout_below="@+id/text_elecciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="50dp"
+            android:text="2016 - Elecciones 26J es un producto de ElConfidencial.LAB"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+
 </FrameLayout>

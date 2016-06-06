@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- CONTADOR -->
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/contador_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/contador_gradient"
+            >
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/background_image_cuentaatras"
+                android:layout_margin="5dp"
+                android:layout_gravity="left|center_vertical"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:orientation="vertical"
+                        android:id="@+id/layoutdias">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text=""
+                            android:textSize="25sp"
+                            android:id="@+id/textViewDias"
+                            android:layout_marginBottom="7dp"
+                            android:layout_gravity="center" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="días"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="·"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:textColor="@color/white"
+                        android:textSize="70sp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:orientation="vertical"
+                        android:id="@+id/layouthoras"
+                        android:layout_toRightOf="@id/layoutdias">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text=""
+                            android:textSize="25sp"
+                            android:id="@+id/textViewHoras"
+                            android:layout_marginBottom="7dp"
+                            android:layout_gravity="bottom|center" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="horas"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="·"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:textColor="@color/white"
+                        android:textSize="75sp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:orientation="vertical"
+                        android:id="@+id/layoutminutos"
+                        android:layout_toRightOf="@id/layouthoras">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text=""
+                            android:textSize="25sp"
+                            android:id="@+id/textViewMinutos"
+                            android:layout_marginBottom="7dp"
+                            android:layout_gravity="bottom|center" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="minutos"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/textViewColegiosElectorales"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:text="para abrir los colegios electorales"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+
+        <!-- LAYOUT SI LA ENCUESTA AÚN NO SE HA REALIZADO Y NO ES EL DÍA DE LAS ELECCIONES -->
+
+        <!-- CONTENIDO -->
+        <LinearLayout
+            android:id="@+id/gridMegaencuestaScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                android:id="@+id/headerEncuesta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:text="@string/header_megaencuesta"
+                android:textColor="@color/titulos"
+                android:textSize="22sp"
+                android:gravity="center_horizontal"/>
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                android:id="@+id/headerEncuesta1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="Participa en la encuesta de El Confidencial"
+                android:textColor="@color/titulos"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:id="@+id/tabla_partidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="20dp">
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/podemosLogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                        <ImageView
+                            android:id="@+id/ppLogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                        <ImageView
+                            android:id="@+id/psoelogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Unidos Podemos"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Partido Popular"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="PSOE"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/cslogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                        <ImageView
+                            android:id="@+id/iulogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                        <ImageView
+                            android:id="@+id/pnvlogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Ciudadanos"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="ERC"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="PNV"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/convergenciaLogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                        <ImageView
+                            android:id="@+id/otroslogo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1"/>
+                        <ImageView
+                            android:id="@+id/blancologo"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="CDC"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Otros"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="En blanco"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            />
+                    </TableRow>
+                </TableLayout>
+
+                <RelativeLayout
+                    android:id="@+id/party_selected_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/image_megaencuesta_big"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="225dp" />
+                    <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                        android:id="@+id/cancelButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/image_megaencuesta_big"
+                        android:layout_marginTop="75dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:text="Cancelar"
+                        android:textSize="23sp"
+                        />
+                    <FrameLayout
+                        android:id="@+id/votaButton"
+                        android:layout_below="@+id/image_megaencuesta_big"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="60dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="60dp"
+                        android:paddingRight="60dp"
+                        android:background="@color/blue1">
+                        <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+
+                            android:text="@string/vota"
+                            android:textSize="23sp"
+                            android:textColor="@color/white"
+                            />
+                    </FrameLayout>
+                </RelativeLayout>
+
+            </FrameLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+        <!-- LAYOUT CON LA ENCUESTA HECHA Y NO ES EL DÍA DE LAS ELECCIONES -->
+
+
+        <LinearLayout
+            android:id="@+id/graficoMegaencuestaScreen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumSemiBoldTextView
+                android:id="@+id/headerGrafico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="Así votan los lectores"
+                android:textColor="@color/titulos"
+                android:textSize="22sp"
+                android:gravity="center_horizontal"/>
+            <com.elconfidencial.eceleccionesgenerales2015.text.TitilliumRegularTextView
+                android:id="@+id/headerGrafico1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Encuesta de El Confidencial"
+                android:textColor="@color/titulos"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"/>
+
+
+            <com.elconfidencial.eceleccionesgenerales2015.charts.HorizontalBarChartEC
+                android:id="@+id/horizontalBarChart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+
+        </LinearLayout>
+
+        <!-- LAYOUT SI ES EL DÍA DE LAS ELECCIONES -->
+
+        <LinearLayout
+            android:id="@+id/webviewScreen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <WebView
+                android:id="@+id/resultadosWebview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
+
