@@ -386,7 +386,6 @@ public class SearchLocalityActivity extends AppCompatActivity {
             }
             Amplitude.getInstance().logEvent("Search_location", eventProperties);
 
-
             Intent intent = new Intent(context, MainActivity.class);
             startActivity(intent);
             finish();

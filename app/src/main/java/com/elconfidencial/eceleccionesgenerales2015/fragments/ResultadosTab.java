@@ -617,7 +617,7 @@ public class ResultadosTab extends Fragment {
         Glide.with(context).load(R.drawable.ciudadanos).into(cs);
         Glide.with(context).load(R.drawable.psoe).into(psoe);
         Glide.with(context).load(R.drawable.unidospodemos).into(podemos);
-        Glide.with(context).load(R.drawable.esquerra_color).into(erc);
+        Glide.with(context).load(R.drawable.esquerra).into(erc);
         Glide.with(context).load(R.drawable.pnv).into(pnv);
         Glide.with(context).load(R.drawable.convergencia).into(convergencia);
         Glide.with(context).load(R.drawable.otros).into(otros);
