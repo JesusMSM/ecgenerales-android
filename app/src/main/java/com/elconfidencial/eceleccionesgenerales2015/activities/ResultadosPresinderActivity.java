@@ -1,6 +1,9 @@
 package com.elconfidencial.eceleccionesgenerales2015.activities;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -10,6 +13,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -178,7 +182,7 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
         if(id == R.id.share_result){
             shareit();
             //Amplitude
-            Log.i("20D_AMPLITUDE", "ONSHARE_PRESINDER");
+            //Log.i("20D_AMPLITUDE", "ONSHARE_PRESINDER");
             //Amplitude.getInstance().logEvent("ONSHARE_PRESINDER");
         }
 
@@ -254,14 +258,124 @@ public class ResultadosPresinderActivity extends AppCompatActivity {
 
         }
 
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        /*Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("image/png");
         sharingIntent.putExtra(Intent.EXTRA_TEXT, ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(picFile.getAbsolutePath()));
-        startActivity(Intent.createChooser(sharingIntent, "Compartir"));
+        startActivity(Intent.createChooser(sharingIntent, "Compartir"));*/
+
+
+        // get available share intents
+        /*Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/png");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(picFile.getAbsolutePath()));
+        Intent chooser = Intent.createChooser(sharingIntent, "Compartir");
+
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType("text/plain");
+
+        List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
+        List<ResolveInfo> candidates = this.getPackageManager().queryIntentActivities(sendIntent, 0);
+
+        // remove facebook which has a broken share intent
+        for (ResolveInfo candidate : candidates) {
+            String packageName = candidate.activityInfo.name;
+            if (!packageName.contains("facebook")) {
+                Log.i("SHARE",packageName);
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName(packageName, candidate.activityInfo.name));
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("image/png");
+                intent.putExtra(Intent.EXTRA_TEXT, ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID);
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(picFile.getAbsolutePath()));
+                intentList.add(new LabeledIntent(intent, packageName, candidate.loadLabel(this.getPackageManager()), candidate.icon));
+            }else{//Para FB solo el link
+                Log.i("SHARE",packageName);
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName(packageName, candidate.activityInfo.name));
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID);
+                intentList.add(new LabeledIntent(intent, packageName, candidate.loadLabel(this.getPackageManager()), candidate.icon));
+            }
+        }
+        // convert intentList to array
+        LabeledIntent[] extraIntents = intentList.toArray( new LabeledIntent[ intentList.size() ]);
+
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+        startActivity(chooser);*/
+
+        List<Intent> targetedShareIntents = new ArrayList<Intent>();
+
+        Intent facebookIntent = getShareIntent("facebook", ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID,picFile.getAbsolutePath());
+        if(facebookIntent != null)
+            targetedShareIntents.add(facebookIntent);
+
+        Intent twitterIntent = getShareIntent("twitter",  ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID,picFile.getAbsolutePath());
+        if(twitterIntent != null)
+            targetedShareIntents.add(twitterIntent);
+
+        Intent gmailIntent = getShareIntent("gmail", ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID,picFile.getAbsolutePath());
+        if(gmailIntent != null)
+            targetedShareIntents.add(gmailIntent);
+
+        Intent whatsAppIntent = getShareIntent("whatsapp", ChooseActivity.PRESINDER_SHARE_MESSAGE_ANDROID,picFile.getAbsolutePath());
+        if(gmailIntent != null)
+            targetedShareIntents.add(whatsAppIntent);
+
+        Intent chooser = Intent.createChooser(targetedShareIntents.remove(0), "Compartir");
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareIntents.toArray(new Parcelable[]{}));
+
+        startActivity(chooser);
+
     }catch (Exception e){
 
     }
+    }
+
+    private Intent getShareIntent(String type, String text, String path)
+    {
+        boolean found = false;
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+
+        // gets the list of intents that can be loaded.
+        List<ResolveInfo> resInfo = this.getPackageManager().queryIntentActivities(share, 0);
+        System.out.println("resinfo: " + resInfo);
+        if (!resInfo.isEmpty()){
+            for (ResolveInfo info : resInfo) {
+                if (info.activityInfo.packageName.toLowerCase().contains(type) ||
+                        info.activityInfo.name.toLowerCase().contains(type) ) {
+                    if(type=="facebook"){
+                        share.setType("text/plain");
+                    }
+                    if(type=="twitter"){
+                        share.setType("text/plain");
+                        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                    }
+                    if(type=="whatsapp"){
+                        share.setType("image/png");
+                        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                    }
+                    if(type=="gmail"){
+                        share.setType("image/png");
+                        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                    }
+
+                    share.putExtra(Intent.EXTRA_TEXT,text);
+                    share.setPackage(info.activityInfo.packageName);
+                    found = true;
+                    break;
+
+                }
+            }
+            if (!found)
+                return null;
+
+            return share;
+        }
+        return null;
     }
 
     private void setupToolbar() {

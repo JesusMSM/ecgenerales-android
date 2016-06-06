@@ -106,6 +106,8 @@ public class NoticiasTab extends Fragment {
                 String json = prefs.getString("noticias", "");
                 Type type = new TypeToken<ArrayList<Noticia>>() {}.getType();
                 noticias = gson.fromJson(json, type);
+
+                //Add items
                 addItems();
             }
         } else {
@@ -258,6 +260,14 @@ public class NoticiasTab extends Fragment {
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState!=null){
             noticias = savedInstanceState.getParcelableArrayList("noticias");
+
+            //Sincroniza con las que se muestran en el viewpager
+            SharedPreferences prefs = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+            String json = gson.toJson(noticias);
+            SharedPreferences.Editor prefsEditor = prefs.edit();
+            prefsEditor.putString("noticiasSpinner", json);
+            prefsEditor.apply();
         }
 
     }

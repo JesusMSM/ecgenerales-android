@@ -9,4 +9,12 @@
         <item>@string/iu</item>
         <item>@string/upyd</item>
     </string-array>
+    <string-array name="partidos26j">
+        <item>Todos los partidos</item>
+        <item>@string/pp</item>
+        <item>@string/psoe</item>
+        <item>@string/ciudadanos</item>
+        <item>@string/unidos_podemos</item>
+        <item>@string/upyd</item>
+    </string-array>
 </resources>

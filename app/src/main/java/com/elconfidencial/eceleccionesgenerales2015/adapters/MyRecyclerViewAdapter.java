@@ -566,7 +566,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void configureSpinnerViewHolder(final SpinnerViewHolder vh, final int position) {
 
 
-        final String[] arrayPartidos = context.getResources().getStringArray(R.array.partidos);
+        final String[] arrayPartidos = context.getResources().getStringArray(R.array.partidos26j);
 
 
         //Para que al recargar el recycler view, el valor que salga sea el que ha seleccionado
@@ -584,12 +584,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 vh.selected.setText(context.getResources().getString(R.string.ciudadanos));
                 break;
             case 4:
-                vh.selected.setText(context.getResources().getString(R.string.podemos));
+                vh.selected.setText(context.getResources().getString(R.string.unidos_podemos));
                 break;
             case 5:
-                vh.selected.setText(context.getResources().getString(R.string.iu));
-                break;
-            case 6:
                 vh.selected.setText(context.getResources().getString(R.string.upyd));
                 break;
             default:
@@ -669,35 +666,23 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                             Amplitude.getInstance().logEvent("Tick", eventProperties4);
                                             break;
                                         case 4:
-                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/podemos-10616/";  //Podemos
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/unidos-podemos-17822/";  //UnidosPodemos
                                             NoticiasTab.seleccion = 4;
                                             vh.selected.setText(arrayPartidos[4]);
                                             new CargarXmlTask().execute(NoticiasTab.rss_url);
                                             //Amplitude
                                             JSONObject eventProperties5 = new JSONObject();
                                             try {
-                                                eventProperties5.put("tag", "podemos");
+                                                eventProperties5.put("tag", "unidos podemos");
                                             } catch (JSONException exception) {
                                             }
                                             Amplitude.getInstance().logEvent("Tick", eventProperties5);
                                             break;
+
                                         case 5:
-                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/izquierda-unida-2547/";   //IU
+                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
                                             NoticiasTab.seleccion = 5;
                                             vh.selected.setText(arrayPartidos[5]);
-                                            new CargarXmlTask().execute(NoticiasTab.rss_url);
-                                            //Amplitude
-                                            JSONObject eventProperties6 = new JSONObject();
-                                            try {
-                                                eventProperties6.put("tag", "izquierda unida");
-                                            } catch (JSONException exception) {
-                                            }
-                                            Amplitude.getInstance().logEvent("Tick", eventProperties6);
-                                            break;
-                                        case 6:
-                                            NoticiasTab.rss_url = "http://rss.elconfidencial.com/tags/organismos/upyd-2430/";  //UPYD
-                                            NoticiasTab.seleccion = 6;
-                                            vh.selected.setText(arrayPartidos[6]);
                                             new CargarXmlTask().execute(NoticiasTab.rss_url);
                                             //Amplitude
                                             JSONObject eventProperties7 = new JSONObject();
