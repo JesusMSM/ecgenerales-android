@@ -757,19 +757,17 @@ public class ResultadosTab extends Fragment {
             grafico.setBackgroundColor(Color.TRANSPARENT);
             grafico.setGridBackgroundColor(Color.TRANSPARENT);
             //Si el tamaño de la muestra es mayor de MINIMO_TAMAÑO_MUESTRA se muestra la descripción
-            if(getTamañoMuestra(partidoMegaencuestaList)>=MINIMO_TAMANO_MUESTRA){
-                grafico.setDescription(getTamañoMuestra(partidoMegaencuestaList) + " votos");
-                if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
-                    grafico.setDescriptionTextSize(25f);
-                } else if (GlobalMethod.getSizeName(getContext()).equals("large")) {
-                    grafico.setDescriptionTextSize(17f);
-                } else if (GlobalMethod.getSizeName(getContext()).equals("normal")) {
-                    grafico.setDescriptionTextSize(13f);
-                }else {
-                    grafico.setDescriptionTextSize(13f);
-                }
-                grafico.setDescriptionTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
+            grafico.setDescription(getTamañoMuestra(partidoMegaencuestaList) + " votos");
+            if (GlobalMethod.getSizeName(getContext()).equals("xlarge")) {
+                grafico.setDescriptionTextSize(25f);
+            } else if (GlobalMethod.getSizeName(getContext()).equals("large")) {
+                grafico.setDescriptionTextSize(17f);
+            } else if (GlobalMethod.getSizeName(getContext()).equals("normal")) {
+                grafico.setDescriptionTextSize(13f);
+            }else {
+                grafico.setDescriptionTextSize(13f);
             }
+            grafico.setDescriptionTypeface(Typeface.createFromAsset(getContext().getAssets(), "Titillium-Regular.otf"));
 
             // if more than 60 entries are displayed in the chart, no values will be
             // drawn
